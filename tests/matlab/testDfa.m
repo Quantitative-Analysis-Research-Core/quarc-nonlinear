@@ -78,9 +78,9 @@ tc.verifyEqual(s.figures, 0, sprintf( ...
 end
 
 function testPlotFlagDefaultsToNoPlot(tc)
-% Calling with three arguments must not open a window. The docstring says the
-% plot flag "default = true", which is the wrong default for a library
-% function: a batch job that omits the argument gets a figure it cannot close.
+% Calling with three arguments must work and must not open a window. A batch
+% or cluster run that omits the flag would otherwise get a figure it cannot
+% close.
 x = nonantest.signals('white', 1024);
 sc = localScales(1024);
 s = nonantest.sideEffects(@() dfa(x, sc, 1));

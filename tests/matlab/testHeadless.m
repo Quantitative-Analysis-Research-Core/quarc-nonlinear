@@ -19,6 +19,58 @@ tc.TestData.repo = fileparts(fileparts(here));
 tc.TestData.mfiles = localShippedMFiles(tc.TestData.repo);
 end
 
+function testNoShadowedFunctionNames(tc)
+% A function must resolve to exactly one file when the repository is added
+% with genpath. archive/dfa.m used to shadow matlab/dfa.m, because 'archive'
+% sorts before 'matlab' and genpath adds directories in that order, so a user
+% who added the whole tree silently got the archived implementation.
+here = fileparts(mfilename('fullpath'));
+repo = fileparts(fileparts(here));
+
+names = cell(1, numel(tc.TestData.mfiles));
+for i = 1:numel(tc.TestData.mfiles)
+    [~, names{i}] = fileparts(tc.TestData.mfiles{i});
+end
+
+oldPath = path;
+restore = onCleanup(@() path(oldPath));
+addpath(genpath(repo));
+
+bad = {};
+for i = 1:numel(names)
+    hits = which(names{i}, '-all');
+    % Only collisions WITHIN this repository matter. MATLAB's own toolboxes
+    % may define the same name -- 'embed' also exists as @dlarray/embed --
+    % but a class method only dispatches for its own type, and a toolbox
+    % function is shadowed predictably by path order.
+    hits = hits(startsWith(hits, repo));
+    hits = hits(~contains(hits, 'deprecated'));
+    if numel(hits) > 1
+        bad{end+1} = sprintf('  %s resolves to %d files:\n    %s', ...
+            names{i}, numel(hits), strjoin(hits, sprintf('\n    '))); %#ok<AGROW>
+    end
+end
+tc.verifyEmpty(bad, sprintf( ...
+    'Shadowed function names under genpath:\n%s', strjoin(bad, newline)));
+end
+
+function testDeprecatedShimsAreOptIn(tc)
+% The shims live outside matlab/ so that genpath('matlab') does not load
+% them. They should only appear on the path when added deliberately.
+here = fileparts(mfilename('fullpath'));
+repo = fileparts(fileparts(here));
+
+oldPath = path;
+restore = onCleanup(@() path(oldPath));
+restoredefaultpath;
+addpath(genpath(fullfile(repo, 'matlab')));
+
+onPath = any(contains(strsplit(path, pathsep), 'deprecated'));
+tc.verifyFalse(onPath, ...
+    ['genpath(''matlab'') put the deprecation shims on the path. They must ' ...
+     'be opt-in, so they belong outside matlab/.']);
+end
+
 function testGrepItselfWorks(tc)
 % A source-scanning test that matches nothing passes silently and looks like
 % good news. This one asserts the scanner can find something that is

@@ -1,10 +1,11 @@
-function [scales, fluctuation, alpha] = dfa(data, scales, order, plot)
+function [scales, fluctuation, alpha] = dfa(data, scales, order, showPlot)
     % Perform Detrended Fluctuation Analysis on data
     % Parameters:
     %   data (column vector): 1D numeric array containing time series data
     %   scales (numeric array): Array of scales to calculate fluctuations
     %   order (integer): Order of polynomial fit (1 = linear fit)
-    %   plot (logical): Flag to enable or disable plotting (default = true)
+    %   showPlot (logical): draw the log-log fit. Default false, so that
+    %       batch and cluster runs do not create a figure they cannot close.
     %
     % Returns:
     %   scales: The scales that were entered as input
@@ -40,6 +41,10 @@ function [scales, fluctuation, alpha] = dfa(data, scales, order, plot)
 
 % Check if the data is a column vector and if not, transpose to make it
 % one.
+if nargin < 4 || isempty(showPlot)
+    showPlot = false;
+end
+
 if size(data, 2) > size(data, 1) % data should be column vector
     data = data';
 end
@@ -95,7 +100,7 @@ end
     rsquared = 1 - ssr / sst;
 
 
-    if plot
+    if showPlot
         % Plot scales vs. fluctuation values
         loglog(scales, fluctuation, 'o-k', MarkerFaceColor='red', MarkerSize = 8, LineWidth= 1.5);
         hold on;
