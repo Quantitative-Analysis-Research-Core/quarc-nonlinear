@@ -1,4 +1,4 @@
-function rqa_plot(x, rp, RESULTS, delay, dim, DIM, Zscore, Norm, radius, wrp, type)
+function rqa_plot(x, rp, RESULTS, delay, dim, DIM, zscore, norm, radius, wrp, type)
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.

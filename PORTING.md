@@ -56,10 +56,20 @@ Some divergence is legitimate and should be stated rather than hidden:
   reproduce the exact order of a batch `mean`. Differences at 1e-15 are
   expected; differences at 1e-4 are a defect.
 - **Library primitives.** `std` in MATLAB uses the N-1 denominator; NumPy's
-  `np.std` defaults to N. This is a real source of divergence and has already
-  bitten `Ent_Samp`, where it combined with a template-count difference to
-  produce a 1.9e-4 disagreement that partly cancelled — correcting either one
-  alone made it worse.
+  `np.std` defaults to N. This is a real source of divergence and did bite
+  `ent_samp`, where it combined with a template-count difference to produce a
+  1.9e-4 disagreement in which the two errors partly cancelled — correcting
+  either one alone made the gap wider.
+
+  Both are now resolved. `ent_samp` follows Richman & Moorman, counting A and
+  B over the same N-dim templates, and a port matches the MATLAB reference
+  exactly once it passes `ddof=1` to `np.std`. Measured on the shared fixture:
+
+  | | SampEn |
+  |---|---|
+  | MATLAB reference | 1.7961940663 |
+  | port with `ddof=1` | 1.7961940663 (exact) |
+  | port with `ddof=0` | 1.7957514905 (4.4e-4 out) |
 - **Performance.** Comparable, not equal. An order of magnitude apart on the
   same input is worth investigating.
 

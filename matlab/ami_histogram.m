@@ -10,10 +10,10 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 %   [TAU,CURVE,INFO] = AMI_HISTOGRAM(X,maxlag) also returns a struct with fields
 %   allMinima, usedFallback, fractionLag, bins, samplesPerLag and estimator.
 %
-%   ___ = AMI_HISTOGRAM(X,maxlag,Bins=B) sets the number of bins per axis.
+%   ___ = AMI_HISTOGRAM(X,maxlag,bins=B) sets the number of bins per axis.
 %   Default selects B by Scott's rule.
 %
-%   ___ = AMI_HISTOGRAM(X,maxlag,Fraction=F) sets the fallback threshold, as a
+%   ___ = AMI_HISTOGRAM(X,maxlag,fraction=F) sets the fallback threshold, as a
 %   fraction of AMI at lag 0, used when the curve has no local minimum.
 %   Default 0.2.
 %
@@ -36,7 +36,7 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 %
 %   Examples
 %      tau = ami_histogram(x, 50);
-%      [tau, curve, info] = ami_histogram(x, 50, Bins=32);
+%      [tau, curve, info] = ami_histogram(x, 50, bins=32);
 %
 %   References
 %      Fraser, A. M. and Swinney, H. maxlag. (1986). Independent coordinates for
@@ -55,8 +55,8 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 arguments
     x  (:,1) double {mustBeNonempty}
     maxlag  (1,1) double {mustBePositive, mustBeInteger}
-    opts.Bins     double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
-    opts.Fraction (1,1) double {mustBePositive} = 0.2
+    opts.bins     double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
+    opts.fraction (1,1) double {mustBePositive} = 0.2
 end
 
 if anynan(x)
@@ -69,7 +69,7 @@ if maxlag >= N
           'L (%d) must be smaller than the number of samples (%d).', maxlag, N);
 end
 
-nBins = opts.Bins;
+nBins = opts.bins;
 if isempty(nBins)
     nBins = scottBins(x);
 end
@@ -85,7 +85,7 @@ for lag = 0:maxlag
     curve(lag + 1, :) = [lag, mutualInformationBits(a, b, edges)];
 end
 
-[tau, info] = firstMinimum(curve, opts.Fraction);
+[tau, info] = firstMinimum(curve, opts.fraction);
 info.bins = nBins;
 info.samplesPerLag = m;
 info.estimator = "histogram";

@@ -10,10 +10,10 @@ function [tau, curve, info] = ami_kde(x, maxlag, opts)
 %   [TAU,CURVE,INFO] = AMI_KDE(X,maxlag) also returns a struct with fields
 %   allMinima, usedFallback, fractionLag and estimator.
 %
-%   ___ = AMI_KDE(X,maxlag,Fraction=F) sets the fallback threshold, as a fraction
+%   ___ = AMI_KDE(X,maxlag,fraction=F) sets the fallback threshold, as a fraction
 %   of AMI at lag 0, used when the curve has no local minimum. Default 0.2.
 %
-%   ___ = AMI_KDE(X,maxlag,ChunkSize=C) sets how many rows of the pairwise kernel
+%   ___ = AMI_KDE(X,maxlag,chunk=C) sets how many rows of the pairwise kernel
 %   are evaluated at once. Default 512. Lower it to reduce peak memory; it
 %   does not change the result.
 %
@@ -34,7 +34,7 @@ function [tau, curve, info] = ami_kde(x, maxlag, opts)
 %
 %   Examples
 %      tau = ami_kde(x, 50);
-%      tau = ami_kde(x, 50, ChunkSize=128);   % lower peak memory
+%      tau = ami_kde(x, 50, chunk=128);   % lower peak memory
 %
 %   References
 %      Thomas, R. D., Moses, N. C., Semple, E. A. and Strang, A. J. (2014).
@@ -54,8 +54,8 @@ function [tau, curve, info] = ami_kde(x, maxlag, opts)
 arguments
     x  (:,1) double {mustBeNonempty}
     maxlag  (1,1) double {mustBePositive, mustBeInteger}
-    opts.Fraction  (1,1) double {mustBePositive} = 0.2
-    opts.ChunkSize (1,1) double {mustBePositive, mustBeInteger} = 512
+    opts.fraction  (1,1) double {mustBePositive} = 0.2
+    opts.chunk (1,1) double {mustBePositive, mustBeInteger} = 512
 end
 
 if anynan(x)
@@ -68,14 +68,14 @@ if maxlag >= numel(x)
 end
 
 curve = zeros(maxlag + 1, 2);
-curve(1, :) = [0, mutualInformationBits(x, x, opts.ChunkSize)];
+curve(1, :) = [0, mutualInformationBits(x, x, opts.chunk)];
 for lag = 1:maxlag
     a = x(1:end-lag);
     b = x(lag+1:end);
-    curve(lag + 1, :) = [lag, mutualInformationBits(a, b, opts.ChunkSize)];
+    curve(lag + 1, :) = [lag, mutualInformationBits(a, b, opts.chunk)];
 end
 
-[tau, info] = firstMinimum(curve, opts.Fraction);
+[tau, info] = firstMinimum(curve, opts.fraction);
 info.estimator = "kde";
 end
 

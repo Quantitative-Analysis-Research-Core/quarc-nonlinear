@@ -128,7 +128,7 @@ tc.verifyEqual(size(rp,1), res.Size);
 end
 
 function testRqaRawWideDataStillRejectedWithoutPhaseSpace(tc)
-% A raw call is still required to be a single column; only PhaseSpace=true
+% A raw call is still required to be a single column; only phasespace=true
 % relaxes that shape requirement.
 Y = randn(50, 3);
 tc.verifyError(@() rqa(Y, 2, 3), '');
@@ -141,12 +141,12 @@ end
 
 function testJrqaRawDataStillDoubleNotCell(tc)
 x = tc.TestData.x; y = tc.TestData.y;
-% Without PhaseSpace, a cell array is not an accepted raw input.
+% Without phasespace, a cell array is not an accepted raw input.
 tc.verifyError(@() jrqa({x, y}, [1 1], [1 1]), 'jrqa:rawDataMustBeDouble');
 end
 
 % ------------------------------------------------------------------
-% Norm="euc" cannot verify DIM against a supplied phase space -- warn
+% norm="euc" cannot verify DIM against a supplied phase space -- warn
 % rather than silently trust it (the pattern from lyapunov's Theiler
 % window).
 % ------------------------------------------------------------------
@@ -180,7 +180,7 @@ Y1 = psr(zscore(tc.TestData.x), tc.TestData.tau, tc.TestData.dim);
 Y2 = psr(zscore(tc.TestData.y), tc.TestData.tau, tc.TestData.dim);
 tau2 = [tc.TestData.tau tc.TestData.tau];
 dim2 = [tc.TestData.dim tc.TestData.dim];
-% jrqa's Norm="euc" formula itself errors on a (1,2) DIM vector regardless
+% jrqa's norm="euc" formula itself errors on a (1,2) DIM vector regardless
 % of PhaseSpace (a pre-existing, unrelated defect); the warning must still
 % fire before that error is reached.
 tc.verifyWarning(@() ...

@@ -4,8 +4,8 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %   sampled at FS, in NATS per unit time.
 %
 %   X may be either a column vector, in which case a phase space is
-%   reconstructed using Tau and Dim, or an N-by-D matrix that is already a
-%   phase space, in which case Tau and Dim are ignored. Passing a phase
+%   reconstructed using delay and dim, or an N-by-D matrix that is already a
+%   phase space, in which case delay and Dim are ignored. Passing a phase
 %   space directly lets the reconstruction be chosen, inspected or shared
 %   between estimators rather than being redone inside each one.
 %
@@ -14,26 +14,26 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %   "rosenstein", the per-iteration table for "wolf", plus the phase space
 %   used, the algorithm, and the units.
 %
-%   ___ = LYAPUNOV(X,FS,Algorithm=ALG) selects the method:
+%   ___ = LYAPUNOV(X,FS,algorithm=ALG) selects the method:
 %      "rosenstein"  (default) mean log divergence of nearest neighbours,
 %                    slope fitted over an automatically selected scaling
 %                    region. Aliases: "r".
 %      "wolf"        renormalising nearest-neighbour tracking. Aliases: "w".
 %
-%   ___ = LYAPUNOV(X,FS,Tau=T,Dim=D) sets the delay and embedding dimension
-%   used when X is a column vector. Defaults are Tau = 1 and Dim = 3. Choose
-%   Tau with AMI and Dim with FNN.
+%   ___ = LYAPUNOV(X,FS,delay=T,dim=D) sets the delay and embedding dimension
+%   used when X is a column vector. Defaults are delay = 1 and dim = 3. Choose
+%   delay with AMI and Dim with FNN.
 %
-%   ___ = LYAPUNOV(X,FS,TheilerWindow=W) excludes candidate neighbours within
-%   +/-W samples in time ("rosenstein" only). Default round(Tau*0.8).
+%   ___ = LYAPUNOV(X,FS,theiler=W) excludes candidate neighbours within
+%   +/-W samples in time ("rosenstein" only). Default round(delay*0.8).
 %
 %   When X is already a phase space it carries no record of the delay that
 %   built it, so the default cannot be derived and LYAPUNOV warns if neither
-%   TheilerWindow nor Tau is given. The choice matters: on one Lorenz
-%   reconstruction at Tau=10, the exponent is 0.8022 with a window of 8 and
+%   TheilerWindow nor delay is given. The choice matters: on one Lorenz
+%   reconstruction at delay=10, the exponent is 0.8022 with a window of 8 and
 %   0.7833 with the default window of 1.
 %
-%   ___ = LYAPUNOV(X,FS,Evolve=E) sets the propagation length in samples
+%   ___ = LYAPUNOV(X,FS,evolve=E) sets the propagation length in samples
 %   ("wolf" only). Default 10.
 %
 %   Input Arguments
@@ -61,15 +61,15 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %   Examples
 %      % From a time series, delay from AMI and dimension from FNN
 %      tau = ami(x, 50);
-%      lam = lyapunov(x, 100, Tau=tau, Dim=5);
+%      lam = lyapunov(x, 100, delay=tau, dim=5);
 %
 %      % Same reconstruction, both methods, no repeated embedding
 %      Y  = psr(x, tau, 5);
-%      lr = lyapunov(Y, 100, Algorithm="rosenstein");
-%      lw = lyapunov(Y, 100, Algorithm="wolf");
+%      lr = lyapunov(Y, 100, algorithm="rosenstein");
+%      lw = lyapunov(Y, 100, algorithm="wolf");
 %
 %      % Inspect the fitted scaling region
-%      [lam, extra] = lyapunov(x, 100, Tau=tau, Dim=5);
+%      [lam, extra] = lyapunov(x, 100, delay=tau, dim=5);
 %      plot(extra.divergence); hold on
 %      plot(extra.scalingRegion, extra.divergence(extra.scalingRegion), 'r')
 %
@@ -94,11 +94,11 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 arguments
     x  double {mustBeNonempty}
     fs (1,1) double {mustBePositive}
-    opts.Algorithm     (1,1) string = "rosenstein"
-    opts.Tau           (1,1) double {mustBePositive, mustBeInteger} = 1
-    opts.Dim           (1,1) double {mustBePositive, mustBeInteger} = 3
-    opts.TheilerWindow double {mustBeScalarOrEmpty} = []
-    opts.Evolve        (1,1) double {mustBePositive, mustBeInteger} = 10
+    opts.algorithm     (1,1) string = "rosenstein"
+    opts.delay           (1,1) double {mustBePositive, mustBeInteger} = 1
+    opts.dim           (1,1) double {mustBePositive, mustBeInteger} = 3
+    opts.theiler double {mustBeScalarOrEmpty} = []
+    opts.evolve        (1,1) double {mustBePositive, mustBeInteger} = 10
 end
 
 if anynan(x)
@@ -110,48 +110,48 @@ end
 % taken to be a phase space already.
 if isvector(x)
     x = x(:);
-    if numel(x) <= (opts.Dim-1)*opts.Tau + 2
+    if numel(x) <= (opts.dim-1)*opts.delay + 2
         error('lyapunov:tooShort', ...
-            ['Series of %d samples is too short for Dim=%d at Tau=%d; ' ...
+            ['Series of %d samples is too short for Dim=%d at delay=%d; ' ...
              'the reconstruction would have %d points.'], ...
-            numel(x), opts.Dim, opts.Tau, numel(x)-(opts.Dim-1)*opts.Tau);
+            numel(x), opts.dim, opts.delay, numel(x)-(opts.dim-1)*opts.delay);
     end
-    Y = psr(x, opts.Tau, opts.Dim);
-    tau = opts.Tau;
+    Y = psr(x, opts.delay, opts.dim);
+    tau = opts.delay;
 else
     Y = x;
-    tau = opts.Tau;
+    tau = opts.delay;
     % A supplied phase space carries no record of the delay that built it, so
-    % the Theiler window cannot be defaulted from Tau the way it can for a
+    % the Theiler window cannot be defaulted from delay the way it can for a
     % raw series. Guessing changes the answer: on a Lorenz reconstruction at
-    % Tau=10 the exponent is 0.8022 with the matching window of 8 and 0.7833
-    % with the Tau=1 default. Say so rather than pick silently.
-    if isempty(opts.TheilerWindow)
-        if opts.Tau == 1
+    % delay=10 the exponent is 0.8022 with the matching window of 8 and 0.7833
+    % with the delay=1 default. Say so rather than pick silently.
+    if isempty(opts.theiler)
+        if opts.delay == 1
             warning('lyapunov:theilerFromDefaultTau', ...
-                ['A phase space was supplied without TheilerWindow or Tau, so ' ...
+                ['A phase space was supplied without TheilerWindow or delay, so ' ...
                  'the temporal exclusion defaults to 1 sample. That is almost ' ...
                  'certainly too small for an embedded series and will bias the ' ...
-                 'exponent. Pass TheilerWindow (or Tau) to match the delay used ' ...
+                 'exponent. Pass TheilerWindow (or delay) to match the delay used ' ...
                  'to build the phase space.']);
         end
     end
 end
 
-theiler = opts.TheilerWindow;
+theiler = opts.theiler;
 if isempty(theiler)
     theiler = round(tau*0.8);
 end
 extraTheiler = theiler;
 
-extra = struct('phaseSpace', Y, 'algorithm', lower(opts.Algorithm), ...
+extra = struct('phaseSpace', Y, 'algorithm', lower(opts.algorithm), ...
                'units', "nats per unit time", 'fs', fs, ...
                'theilerWindow', extraTheiler, 'tau', tau, 'dim', size(Y,2));
 
-switch lower(opts.Algorithm)
+switch lower(opts.algorithm)
 
     case {"rosenstein", "r"}
-        out = lye_r(Y, fs, tau, size(Y,2), 'TheilerWindow', theiler);
+        out = lye_r(Y, fs, tau, size(Y,2), 'theiler', theiler);
         d = out(:,3);
         [lambda, idx, info] = local_scaling_region(d, fs);
         extra.divergence    = d;
@@ -161,7 +161,7 @@ switch lower(opts.Algorithm)
         extra.estimator     = "rosenstein";
 
     case {"wolf", "w"}
-        [out, L] = lye_w(Y, fs, tau, size(Y,2), opts.Evolve);
+        [out, L] = lye_w(Y, fs, tau, size(Y,2), opts.evolve);
         lambda = L * log(2);                  % bits -> nats
         extra.iterations = out;
         extra.bits       = L;
@@ -170,7 +170,7 @@ switch lower(opts.Algorithm)
     otherwise
         error('lyapunov:unknownAlgorithm', ...
             ['Unknown Algorithm "%s". Supported: "rosenstein" (alias "r"), ' ...
-             '"wolf" (alias "w").'], opts.Algorithm);
+             '"wolf" (alias "w").'], opts.algorithm);
 end
 end
 

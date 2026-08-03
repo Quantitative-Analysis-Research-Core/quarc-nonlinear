@@ -6,7 +6,7 @@ function [RP, RESULTS]=rqa(x,delay,dim,param,threshold,options)
 %   variables (percent recurrence, determinism, laminarity, entropies, ...).
 %
 %   DATA may instead already be a phase space (an N-by-D matrix, D>1) when
-%   options.PhaseSpace is true: see below.
+%   options.phasespace is true: see below.
 %
 %   ___ = RQA(DATA,TAU,DIM,PARAM,THRESHOLD) selects what THRESHOLD means:
 %      PARAM = "rad"  THRESHOLD is the recurrence radius directly.
@@ -17,7 +17,7 @@ function [RP, RESULTS]=rqa(x,delay,dim,param,threshold,options)
 %      Zscore       (1,1) 0 or 1. Z-score DATA before use. Default 1.
 %      Norm         "euc", "max", "min" or "none". Distance-matrix
 %                   normalization. Default "none".
-%      Dmin, Vmin   Minimum diagonal/vertical line length counted as
+%      dmin, Vmin   Minimum diagonal/vertical line length counted as
 %                   deterministic/laminar. Default 2.
 %      Plot         (1,1) 0 or 1. Show the recurrence plot. Default 0.
 %      Iter         Bisection iterations used to search for the radius
@@ -29,7 +29,7 @@ function [RP, RESULTS]=rqa(x,delay,dim,param,threshold,options)
 %
 %   Notes
 %   A supplied phase space carries no record of the delay or dimension used
-%   to build it, so Norm="euc" -- whose scaling depends on DIM matching the
+%   to build it, so norm="euc" -- whose scaling depends on DIM matching the
 %   phase space's actual width -- cannot verify that assumption and RQA
 %   warns rather than silently trusting a possibly stale DIM.
 %
@@ -39,7 +39,7 @@ function [RP, RESULTS]=rqa(x,delay,dim,param,threshold,options)
 %
 %      % Reconstruct once, share it, skip re-embedding
 %      Y = psr(x, delay, dim);
-%      [rp, r] = rqa(Y, delay, dim, PhaseSpace=true);
+%      [rp, r] = rqa(Y, delay, dim, phasespace=true);
 %
 %   See also PSR, CRQA, JRQA, MDRQA.
 
@@ -53,39 +53,39 @@ arguments
     dim (1,1) {mustBeInteger, mustBePositive} = 1
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
-    options.Zscore (1,1) {mustBeMember(options.Zscore,[0,1])} = 1
-    options.Norm (1,1) {mustBeMember(options.Norm,["euc", "max", "min", "none"])} = "none"
-    options.Dmin (1,1) {mustBeInteger, mustBePositive} = 2
-    options.Vmin (1,1) {mustBeInteger, mustBePositive} = 2
-    options.Plot (1,1) {mustBeMember(options.Plot,[0,1])} = 0
-    options.Orient (1,1) {mustBeMember(options.Orient,["col", "row"])} = "col"
-    options.Iter (1,1) {mustBeInteger, mustBePositive} = 20
-    options.PhaseSpace (1,1) logical = false
+    options.zscore (1,1) {mustBeMember(options.zscore,[0,1])} = 1
+    options.norm (1,1) {mustBeMember(options.norm,["euc", "max", "min", "none"])} = "none"
+    options.dmin (1,1) {mustBeInteger, mustBePositive} = 2
+    options.vmin (1,1) {mustBeInteger, mustBePositive} = 2
+    options.plot (1,1) {mustBeMember(options.plot,[0,1])} = 0
+    options.orient (1,1) {mustBeMember(options.orient,["col", "row"])} = "col"
+    options.iter (1,1) {mustBeInteger, mustBePositive} = 20
+    options.phasespace (1,1) logical = false
 end
 
 % mustBeSingleColumn only applies to a raw series: a supplied phase space is
 % legitimately wider than one column. options is not visible yet when the
 % arguments block validates x, so the shape is checked here instead.
-if ~options.PhaseSpace
+if ~options.phasespace
     mustBeSingleColumn(x)
 end
 
 %% Begin code
 
 %% Change variable names for readability
-dmin = options.Dmin;
-vmin = options.Vmin;
+dmin = options.dmin;
+vmin = options.vmin;
 
 %% Standardize x if zscore is true
 % If zscore is selected then zscore the x
-if options.Zscore
+if options.zscore
     x = zscore(x);
 end
 
 % A supplied phase space is used verbatim; otherwise embed the x onto
 % phase space as before.
-if options.PhaseSpace
-    if options.Norm == "euc"
+if options.phasespace
+    if options.norm == "euc"
         warning('rqa:eucNormAssumesDim', ...
             ['PhaseSpace is true, so DATA was not rebuilt from TAU and DIM ' ...
              'and DIM cannot be confirmed to match its width. Norm="euc" ' ...
@@ -101,14 +101,14 @@ a = pdist2(x,x);
 a = abs(a)*-1;
 
 % Normalize distance matrix
-if contains(options.Norm, 'euc')
+if contains(options.norm, 'euc')
         b = mean(a(a<0));
         b = -sqrt(abs(((b^2)+2*(1*dim))));
         a = a/abs(b);
-elseif contains(options.Norm, 'min')
+elseif contains(options.norm, 'min')
         b = max(a(a<0));
         a = a/abs(b);
-elseif contains(options.Norm, 'max')
+elseif contains(options.norm, 'max')
         b = min(a(a<0));
         a = a/abs(b);
 end
@@ -135,7 +135,7 @@ switch param
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'rqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'rqa',options.iter);
 end
 
 %% Calculate RQA variabes
@@ -143,8 +143,8 @@ RESULTS.DIM = 1;
 RESULTS.EMB = dim;
 RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
-RESULTS.NORM = options.Norm;
-RESULTS.ZSCORE = options.Zscore;
+RESULTS.NORM = options.norm;
+RESULTS.ZSCORE = options.zscore;
 RESULTS.Size=length(A);
 RESULTS.REC = recurrence;
 if RESULTS.REC > 0
@@ -179,8 +179,8 @@ end
 RP=imrotate(1-A,90);
 
 %% Plot
-if options.Plot
-    rqa_plot(x, RP, RESULTS, delay, dim, 1, options.Zscore, options.Norm, radius, a, 'rqa');
+if options.plot
+    rqa_plot(x, RP, RESULTS, delay, dim, 1, options.zscore, options.norm, radius, a, 'rqa');
 end
 
 end

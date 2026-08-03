@@ -58,8 +58,12 @@ end
 
 %% Create embedding vectors of length dim
 % Each row of X is a vector of dim consecutive x points.
-X = zeros(N - dim + 1, dim);
-for i = 1:(N - dim + 1)
+% Richman & Moorman count both A and B over the same N-dim templates, so the
+% two index the same set and -log(A/B) is a conditional probability. Using the
+% N-dim+1 templates that exist for length dim would use one more template for
+% B than for A and bias the ratio by (N-dim)/(N-dim+1).
+X = zeros(N - dim, dim);
+for i = 1:(N - dim)
     X(i, :) = x(i:i+dim-1);
 end
 
@@ -90,11 +94,8 @@ for i = 1:size(X1, 1)
     end
 end
 
-% Normalize counts by the number of comparisons (excluding self-matches)
-A = A/(N - dim - 1);
-B = B/(N - dim);
-
-fprintf("ratio is %f\n", A/B);
+% Both counts run over the same N-dim templates, so any common normalisation
+% cancels in the ratio below and is omitted.
 
 %% Calculate sample entropy
 if B == 0

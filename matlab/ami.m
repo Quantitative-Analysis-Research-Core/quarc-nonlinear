@@ -16,16 +16,16 @@ function [tau, curve, info] = ami(x, maxlag, opts)
 %      estimator     estimator that ran
 %      algorithm     value of Algorithm as supplied
 %
-%   ___ = AMI(X,maxlag,Algorithm=ALG) selects the estimator:
+%   ___ = AMI(X,maxlag,algorithm=ALG) selects the estimator:
 %      "histogram"  (default) equal-width joint histogram. Fast.
 %                   Aliases: "stergiou".
 %      "kde"        bivariate Gaussian kernel density estimate. Slower,
 %                   O(maxlag*N^2), but less biased. Aliases: "thomas".
 %
-%   ___ = AMI(X,maxlag,Bins=B) sets the number of histogram bins per axis.
+%   ___ = AMI(X,maxlag,bins=B) sets the number of histogram bins per axis.
 %   Default selects B by Scott's rule. Ignored by "kde".
 %
-%   ___ = AMI(X,maxlag,Fraction=F) sets the fallback threshold, as a fraction of
+%   ___ = AMI(X,maxlag,fraction=F) sets the fallback threshold, as a fraction of
 %   AMI at lag 0, used when the curve has no local minimum. Default 0.2.
 %
 %   Input Arguments
@@ -45,10 +45,10 @@ function [tau, curve, info] = ami(x, maxlag, opts)
 %      tau = ami(x, 50);
 %
 %      % Same series, kernel density estimator
-%      tau = ami(x, 50, Algorithm="kde");
+%      tau = ami(x, 50, algorithm="kde");
 %
 %      % Fixed bin count, and inspect the curve
-%      [tau, curve] = ami(x, 50, Bins=64);
+%      [tau, curve] = ami(x, 50, bins=64);
 %      plot(curve(:,1), curve(:,2))
 %
 %   References
@@ -66,7 +66,7 @@ function [tau, curve, info] = ami(x, maxlag, opts)
 %
 %   See also AMI_HISTOGRAM, AMI_KDE, LYE_R, LYE_W.
 
-% TODO: add Algorithm="adaptive" (Fraser-Swinney recursive partition),
+% TODO: add algorithm="adaptive" (Fraser-Swinney recursive partition),
 % "knn" (Kraskov-Stogbauer-Grassberger 2004), "copula", "kde-adaptive".
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
@@ -76,32 +76,32 @@ function [tau, curve, info] = ami(x, maxlag, opts)
 arguments
     x  (:,1) double {mustBeNonempty}
     maxlag  (1,1) double {mustBePositive, mustBeInteger}
-    opts.Algorithm (1,1) string = "histogram"
-    opts.Bins      double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
-    opts.Fraction  (1,1) double {mustBePositive} = 0.2
+    opts.algorithm (1,1) string = "histogram"
+    opts.bins      double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
+    opts.fraction  (1,1) double {mustBePositive} = 0.2
 end
 
-switch lower(opts.Algorithm)
+switch lower(opts.algorithm)
 
     case {"histogram", "stergiou"}
-        args = {"Fraction", opts.Fraction};
-        if ~isempty(opts.Bins)
-            args = [args, {"Bins", opts.Bins}];
+        args = {"Fraction", opts.fraction};
+        if ~isempty(opts.bins)
+            args = [args, {"Bins", opts.bins}];
         end
         [tau, curve, info] = ami_histogram(x, maxlag, args{:});
 
     case {"kde", "thomas"}
-        if ~isempty(opts.Bins)
+        if ~isempty(opts.bins)
             warning('ami:binsIgnored', ...
                     'Bins applies to Algorithm="histogram" and is ignored for "kde".');
         end
-        [tau, curve, info] = ami_kde(x, maxlag, "Fraction", opts.Fraction);
+        [tau, curve, info] = ami_kde(x, maxlag, "Fraction", opts.fraction);
 
     otherwise
         error('ami:unknownAlgorithm', ...
               ['Unknown Algorithm "%s". Supported: "histogram" (alias "stergiou"), ' ...
-               '"kde" (alias "thomas").'], opts.Algorithm);
+               '"kde" (alias "thomas").'], opts.algorithm);
 end
 
-info.algorithm = lower(opts.Algorithm);
+info.algorithm = lower(opts.algorithm);
 end
