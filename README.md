@@ -174,5 +174,4 @@ MIT grant; its original notice is retained in the file. See
 
 ## CONTACT
 
-Please contact bmchnonan@unomaha.edu regarding any questions or
-troubleshooting.
+Please contact quarc@unomaha.edu regarding any questions or troubleshooting.
