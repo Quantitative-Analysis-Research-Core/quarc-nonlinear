@@ -6,7 +6,7 @@ function [RP, RESULTS]=jrqa(x,delay,dim,param,threshold,options)
 %   struct RESULTS of recurrence variables.
 %
 %   DATA may instead already be a cell array of per-channel phase spaces,
-%   {Y1, Y2, ...}, when options.PhaseSpace is true: see below. Joint
+%   {Y1, Y2, ...}, when options.phasespace is true: see below. Joint
 %   recurrence is inherently per-channel, so unlike RQA, CRQA and MDRQA a
 %   single N-by-D matrix cannot unambiguously stand in for a phase space:
 %   the channel boundaries would be lost.
@@ -20,7 +20,7 @@ function [RP, RESULTS]=jrqa(x,delay,dim,param,threshold,options)
 %      Zscore       (1,1) 0 or 1. Z-score each channel before use. Default 1.
 %      Norm         "euc", "max", "min" or "none". Distance-matrix
 %                   normalization. Default "none".
-%      Dmin, Vmin   Minimum diagonal/vertical line length counted as
+%      dmin, Vmin   Minimum diagonal/vertical line length counted as
 %                   deterministic/laminar. Default 2.
 %      Plot         (1,1) 0 or 1. Show the recurrence plot. Default 0.
 %      Iter         Bisection iterations used to search for the radius
@@ -32,7 +32,7 @@ function [RP, RESULTS]=jrqa(x,delay,dim,param,threshold,options)
 %
 %   Notes
 %   A supplied phase space carries no record of the delay or dimension used
-%   to build it, so Norm="euc" -- whose scaling depends on DIM matching each
+%   to build it, so norm="euc" -- whose scaling depends on DIM matching each
 %   phase space's actual width -- cannot verify that assumption and JRQA
 %   warns rather than silently trusting a possibly stale DIM.
 %
@@ -43,7 +43,7 @@ function [RP, RESULTS]=jrqa(x,delay,dim,param,threshold,options)
 %      % Reconstruct once per channel, share it, skip re-embedding
 %      Y1 = psr(x, delay(1), dim(1));
 %      Y2 = psr(y, delay(2), dim(2));
-%      [rp, r] = jrqa({Y1, Y2}, delay, dim, PhaseSpace=true);
+%      [rp, r] = jrqa({Y1, Y2}, delay, dim, phasespace=true);
 %
 %   See also PSR, RQA, CRQA, MDRQA.
 
@@ -57,19 +57,19 @@ arguments
     dim (1,2) {mustBeInteger, mustBePositive} = [1 1]
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
-    options.Zscore (1,1) {mustBeMember(options.Zscore,[0,1])} = 1
-    options.Norm (1,1) {mustBeMember(options.Norm,["euc", "max", "min", "none"])} = "none"
-    options.Dmin (1,1) {mustBeInteger, mustBePositive} = 2
-    options.Vmin (1,1) {mustBeInteger, mustBePositive} = 2
-    options.Plot (1,1) {mustBeMember(options.Plot,[0,1])} = 0
-    options.Orient (1,1) {mustBeMember(options.Orient,["col", "row"])} = "col"
-    options.Iter (1,1) {mustBeInteger, mustBePositive} = 20
-    options.PhaseSpace (1,1) logical = false
+    options.zscore (1,1) {mustBeMember(options.zscore,[0,1])} = 1
+    options.norm (1,1) {mustBeMember(options.norm,["euc", "max", "min", "none"])} = "none"
+    options.dmin (1,1) {mustBeInteger, mustBePositive} = 2
+    options.vmin (1,1) {mustBeInteger, mustBePositive} = 2
+    options.plot (1,1) {mustBeMember(options.plot,[0,1])} = 0
+    options.orient (1,1) {mustBeMember(options.orient,["col", "row"])} = "col"
+    options.iter (1,1) {mustBeInteger, mustBePositive} = 20
+    options.phasespace (1,1) logical = false
 end
 
 % options is not visible yet when the arguments block validates x, so
 % the type/shape checks that depend on it live here instead.
-if options.PhaseSpace
+if options.phasespace
     if ~iscell(x)
         error('jrqa:phaseSpaceMustBeCell', ...
             ['PhaseSpace is true, so DATA must be a cell array with one ' ...
@@ -89,26 +89,26 @@ end
 %% Begin code
 
 %% Change variable names for readability
-dmin = options.Dmin;
-vmin = options.Vmin;
+dmin = options.dmin;
+vmin = options.vmin;
 
 %% Standardize x if zscore is true
 % If zscore is selected then zscore the x (each channel independently
 % when a cell array of phase spaces was supplied)
-if options.Zscore
-    if options.PhaseSpace
+if options.zscore
+    if options.phasespace
         x = cellfun(@zscore, x, 'UniformOutput', false);
     else
         x = zscore(x);
     end
 end
 
-if options.PhaseSpace
+if options.phasespace
     % A supplied phase space is used verbatim; TAU and DIM cannot be
     % confirmed to match it.
     data2 = x;
     DIM = numel(data2);
-    if options.Norm == "euc"
+    if options.norm == "euc"
         warning('jrqa:eucNormAssumesDim', ...
             ['PhaseSpace is true, so DATA was not rebuilt from TAU and DIM ' ...
              'and DIM cannot be confirmed to match its width. Norm="euc" ' ...
@@ -134,18 +134,18 @@ for i = 1:DIM
 end
 
 % Normalize distance matrix
-if contains(options.Norm, 'euc')
+if contains(options.norm, 'euc')
     for i = 1:length(a)
         b = mean(a{i}(a{i}<0));
         b = -sqrt(abs(((b^2)+2*(DIM*dim))));
         a{i} = a{i}/abs(b);
     end
-elseif contains(options.Norm, 'min')
+elseif contains(options.norm, 'min')
     for i = 1:length(a)
         b = max(a{i}(a{i}<0));
         a{i} = a{i}/abs(b);
     end
-elseif contains(options.Norm, 'max')
+elseif contains(options.norm, 'max')
     for i = 1:length(a)
         b = min(a{i}(a{i}<0));
         a{i} = a{i}/abs(b);
@@ -173,7 +173,7 @@ switch param
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'jrqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'jrqa',options.iter);
 end
 
 %% Calculate RQA variabes
@@ -181,8 +181,8 @@ RESULTS.DIM = 1;
 RESULTS.EMB = dim;
 RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
-RESULTS.NORM = options.Norm;
-RESULTS.ZSCORE = options.Zscore;
+RESULTS.NORM = options.norm;
+RESULTS.ZSCORE = options.zscore;
 RESULTS.Size=length(A);
 RESULTS.REC = recurrence;
 if RESULTS.REC > 0
@@ -217,8 +217,8 @@ end
 RP=imrotate(1-A,90);
 
 %% Plot
-if options.Plot
-    rqa_plot(x, RP, RESULTS, delay, dim, DIM, options.Zscore, options.Norm, radius, wrp, 'jrqa');
+if options.plot
+    rqa_plot(x, RP, RESULTS, delay, dim, DIM, options.zscore, options.norm, radius, wrp, 'jrqa');
 end
 
 end

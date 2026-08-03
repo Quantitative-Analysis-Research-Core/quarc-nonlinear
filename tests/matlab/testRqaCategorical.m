@@ -27,7 +27,7 @@ function testUnreachableTargetFailsInsteadOfHanging(tc)
 % 0 to ~50 as the radius crosses zero. The search previously halved the radius
 % without bound and never terminated -- measured still running after 90 s,
 % with the radius down to 6e-38 and %REC stuck at 49.7.
-s = nonantest.sideEffects(@() rqa(tc.TestData.binary, 1, 1, "rec", 2.5, Norm="none"));
+s = nonantest.sideEffects(@() rqa(tc.TestData.binary, 1, 1, "rec", 2.5, norm="none"));
 tc.verifyTrue(s.errored, ...
     'An unreachable recurrence target must raise, not search forever.');
 tc.verifyEqual(s.err.identifier, 'set_radius:targetUnreachable', ...
@@ -41,7 +41,7 @@ function testExplicitRadiusWorksOnSymbolicData(tc)
 % since the error message above tells the caller to use it.
 for name = ["binary", "categorical"]
     y = tc.TestData.(name);
-    [rp, r] = rqa(y, 1, 1, "rad", 0.5, Norm="none");
+    [rp, r] = rqa(y, 1, 1, "rad", 0.5, norm="none");
     tc.verifyNotEmpty(rp, sprintf('%s: empty recurrence plot', name));
     tc.verifyGreaterThan(r.REC, 0, sprintf('%s: zero recurrence', name));
     tc.verifyEqual(r.RADIUS, 0.5, sprintf( ...
@@ -57,10 +57,10 @@ function testRadiusBranchAssignsRadius(tc)
 x = tc.TestData.continuous;
 y = [x nonantest.signals('rossler', 200)];
 calls = { ...
-    'rqa',   @() rqa(x, 3, 3, "rad", 1, Norm="none"); ...
-    'crqa',  @() crqa(y, 3, 3, "rad", 1, Norm="none"); ...
-    'mdrqa', @() mdrqa(y, 3, 3, "rad", 1, Norm="none"); ...
-    'jrqa',  @() jrqa(y, [3 3], [3 3], "rad", 1, Norm="none")};
+    'rqa',   @() rqa(x, 3, 3, "rad", 1, norm="none"); ...
+    'crqa',  @() crqa(y, 3, 3, "rad", 1, norm="none"); ...
+    'mdrqa', @() mdrqa(y, 3, 3, "rad", 1, norm="none"); ...
+    'jrqa',  @() jrqa(y, [3 3], [3 3], "rad", 1, norm="none")};
 for k = 1:size(calls,1)
     s = nonantest.sideEffects(calls{k,2});
     tc.verifyFalse(s.errored, sprintf('%s with param="rad" errored: %s', ...
@@ -93,7 +93,7 @@ end
 % ------------------------------------------------------------------
 function testContinuousDataUnaffected(tc)
 x = tc.TestData.continuous;
-[~, r] = rqa(x, 5, 3, "rec", 2.5, Norm="none");
+[~, r] = rqa(x, 5, 3, "rec", 2.5, norm="none");
 tc.verifyEqual(r.REC, 2.5, 'AbsTol', 0.05, sprintf( ...
     'target recurrence search returned %%REC = %.4f', r.REC));
 tc.verifyGreaterThan(r.EntrW, 0, 'weighted entropy should be positive here');

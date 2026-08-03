@@ -19,8 +19,12 @@ when things changed.
 | maximum lag | `maxlag` | upper bound of a lag sweep |
 | phase space | `Y` | an N-by-D matrix, already embedded |
 
-Name-value options are `PascalCase`: `PhaseSpace`, `TheilerWindow`,
-`Algorithm`, `Bins`, `ChunkSize`, `Norm`, `Zscore`.
+Name-value options are `lowercase`, one word where possible: `algorithm`,
+`phasespace`, `theiler`, `bins`, `chunk`, `norm`, `zscore`, `delay`, `dim`.
+
+This departs from MATLAB's own house style, which capitalises name-value
+options (`MarkerSize`, `LineWidth`). The library is internally consistent
+instead: one spelling rule for every identifier a caller types.
 
 ## Relation to the literature
 

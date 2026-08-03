@@ -35,7 +35,7 @@ end
 % ------------------------------------------------------------------
 function testMutualInformationIsNonNegative(tc)
 for algo = ["histogram", "kde"]
-    [~, curve] = ami(tc.TestData.lorenz, 20, Algorithm=algo);
+    [~, curve] = ami(tc.TestData.lorenz, 20, algorithm=algo);
     tc.verifyGreaterThanOrEqual(min(curve(:,2)), -1e-9, sprintf( ...
         '%s produced a negative mutual information (%.4g).', algo, min(curve(:,2))));
 end
@@ -163,8 +163,8 @@ end
 
 function testChunkSizeDoesNotChangeTheAnswer(tc)
 x = nonantest.signals('lorenz', 600);
-[~, a] = ami_kde(x, 10, ChunkSize=64);
-[~, b] = ami_kde(x, 10, ChunkSize=4096);
+[~, a] = ami_kde(x, 10, chunk=64);
+[~, b] = ami_kde(x, 10, chunk=4096);
 tc.verifyEqual(a, b, 'AbsTol', 1e-12, ...
     'ChunkSize is a memory control and must not affect the result.');
 end
@@ -175,15 +175,15 @@ end
 function testWrapperDispatchesAndAliases(tc)
 x = tc.TestData.lorenz;
 [~, ~, i1] = ami(x, 20);
-[~, ~, i2] = ami(x, 20, Algorithm="stergiou");
-[~, ~, i3] = ami(x, 20, Algorithm="thomas");
+[~, ~, i2] = ami(x, 20, algorithm="stergiou");
+[~, ~, i3] = ami(x, 20, algorithm="thomas");
 tc.verifyEqual(i1.estimator, "histogram");
 tc.verifyEqual(i2.estimator, "histogram", '"stergiou" must alias "histogram"');
 tc.verifyEqual(i3.estimator, "kde",       '"thomas" must alias "kde"');
 end
 
 function testUnknownAlgorithmIsRejected(tc)
-tc.verifyError(@() ami(tc.TestData.lorenz, 10, Algorithm="wavelet"), ...
+tc.verifyError(@() ami(tc.TestData.lorenz, 10, algorithm="wavelet"), ...
     'ami:unknownAlgorithm');
 end
 
@@ -193,7 +193,7 @@ function testBinsArgumentIsAccepted(tc)
 % call must work.
 x = tc.TestData.lorenz;
 for b = [8 32 128]
-    [~, ~, info] = ami(x, 20, Bins=b);
+    [~, ~, info] = ami(x, 20, bins=b);
     tc.verifyEqual(info.bins, b, sprintf('Bins=%d was not honoured', b));
 end
 end

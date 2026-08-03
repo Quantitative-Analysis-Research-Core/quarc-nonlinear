@@ -87,7 +87,7 @@ theilerWindow=[];
 k=1;
 while k < numel(varargin)
     if (ischar(varargin{k}) || isstring(varargin{k})) && ...
-            strcmpi(varargin{k},'TheilerWindow')
+            strcmpi(varargin{k},'theiler')
         theilerWindow=varargin{k+1};
         varargin([k k+1])=[];
     else
