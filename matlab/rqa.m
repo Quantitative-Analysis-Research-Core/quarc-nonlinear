@@ -1,10 +1,54 @@
 function [RP, RESULTS]=rqa(data,tau,dim,param,threshold,options)
+%RQA Recurrence quantification analysis of a single time series.
+%   [RP,RESULTS] = RQA(DATA,TAU,DIM) reconstructs a phase space from the
+%   column vector DATA using delay TAU and embedding dimension DIM, then
+%   returns the recurrence plot RP and a struct RESULTS of recurrence
+%   variables (percent recurrence, determinism, laminarity, entropies, ...).
+%
+%   DATA may instead already be a phase space (an N-by-D matrix, D>1) when
+%   options.PhaseSpace is true: see below.
+%
+%   ___ = RQA(DATA,TAU,DIM,PARAM,THRESHOLD) selects what THRESHOLD means:
+%      PARAM = "rad"  THRESHOLD is the recurrence radius directly.
+%      PARAM = "rec"  (default) THRESHOLD is a target percent recurrence;
+%                      the radius is searched for iteratively.
+%
+%   ___ = RQA(...,Name=Value) sets additional options:
+%      Zscore       (1,1) 0 or 1. Z-score DATA before use. Default 1.
+%      Norm         "euc", "max", "min" or "none". Distance-matrix
+%                   normalization. Default "none".
+%      Dmin, Vmin   Minimum diagonal/vertical line length counted as
+%                   deterministic/laminar. Default 2.
+%      Plot         (1,1) 0 or 1. Show the recurrence plot. Default 0.
+%      Iter         Bisection iterations used to search for the radius
+%                   under PARAM="rec". Default 20.
+%      PhaseSpace   (1,1) logical. If true, DATA is already a
+%                   reconstructed phase space and is used verbatim: TAU
+%                   and DIM are recorded in RESULTS but no reconstruction
+%                   is performed. Default false.
+%
+%   Notes
+%   A supplied phase space carries no record of the delay or dimension used
+%   to build it, so Norm="euc" -- whose scaling depends on DIM matching the
+%   phase space's actual width -- cannot verify that assumption and RQA
+%   warns rather than silently trusting a possibly stale DIM.
+%
+%   Examples
+%      % Reconstruct internally
+%      [rp, r] = rqa(x, tau, dim);
+%
+%      % Reconstruct once, share it, skip re-embedding
+%      Y = psr(x, tau, dim);
+%      [rp, r] = rqa(Y, tau, dim, PhaseSpace=true);
+%
+%   See also PSR, CRQA, JRQA, MDRQA.
+
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data double {mustBeSingleColumn}
+    data double {mustBeNonempty}
     tau (1,1) {mustBeInteger, mustBePositive} = 1
     dim (1,1) {mustBeInteger, mustBePositive} = 1
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
@@ -16,6 +60,14 @@ arguments
     options.Plot (1,1) {mustBeMember(options.Plot,[0,1])} = 0
     options.Orient (1,1) {mustBeMember(options.Orient,["col", "row"])} = "col"
     options.Iter (1,1) {mustBeInteger, mustBePositive} = 20
+    options.PhaseSpace (1,1) logical = false
+end
+
+% mustBeSingleColumn only applies to a raw series: a supplied phase space is
+% legitimately wider than one column. options is not visible yet when the
+% arguments block validates data, so the shape is checked here instead.
+if ~options.PhaseSpace
+    mustBeSingleColumn(data)
 end
 
 %% Begin code
@@ -30,9 +82,18 @@ if options.Zscore
     data = zscore(data);
 end
 
-% Embed the data onto phase space
-if dim > 1
-    data = psr(data, dim, tau);
+% A supplied phase space is used verbatim; otherwise embed the data onto
+% phase space as before.
+if options.PhaseSpace
+    if options.Norm == "euc"
+        warning('rqa:eucNormAssumesDim', ...
+            ['PhaseSpace is true, so DATA was not rebuilt from TAU and DIM ' ...
+             'and DIM cannot be confirmed to match its width. Norm="euc" ' ...
+             'scales by DIM regardless; pass DIM equal to size(data,2) or ' ...
+             'use Norm="none", "min" or "max".']);
+    end
+elseif dim > 1
+    data = psr(data, tau, dim);
 end
 
 % Calculate distance matrix based on the type of RQA
@@ -68,6 +129,8 @@ end
 % Calculate recurrence plot
 switch param
     case 'rad'
+        % THRESHOLD is the radius itself in this branch.
+        radius = threshold;
         [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'rqa');
     case 'rec'
         radius_start = 0.01;

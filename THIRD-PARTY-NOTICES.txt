@@ -27,3 +27,11 @@ anyone auditing provenance:
     matlab/mdrqa.m, matlab/rqa_legacy.m
         Derive from the MdRQA implementation of Wallot, Roepstorff and
         Monster (2016), cited in the file headers.
+
+    matlab/lye_w.m (removed component)
+        Contained a local helper psr_deneme attributed to "Merve Kizilkaya".
+        It was deleted as a duplicate of matlab/psr.m, which computes the
+        same delay embedding and was verified to produce bit-identical
+        output. The attribution is recorded here because removing the
+        function removed its notice. psr.m is not derived from it; a delay
+        embedding admits essentially one implementation.

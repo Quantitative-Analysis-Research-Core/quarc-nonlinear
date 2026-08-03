@@ -11,6 +11,16 @@ end
 % Compute distribution of vertical weights sums
 si_min = min(si);
 si_max = max(si);
+
+% All columns carrying equal weight gives a zero bin size, and si_min:0:si_max
+% is an empty range in MATLAB, so the histogram loop below would not execute
+% and p1 would never be created. A single occupied bin carries no information,
+% so the entropy is zero. This arises on binary and categorical data.
+if si_max == si_min
+    w_ent = 0;
+    return
+end
+
 bin_size = (si_max - si_min)/49; % compute bin size
 count = 1;
 S = sum(si);

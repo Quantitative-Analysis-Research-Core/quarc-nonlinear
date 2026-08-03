@@ -25,8 +25,11 @@ addpath(genpath('path/to/quarc-nonlinear/matlab'))
 To keep pre-rename function names working, also add the shim folder:
 
 ```matlab
-addpath('path/to/quarc-nonlinear/matlab/deprecated')
+addpath('path/to/quarc-nonlinear/deprecated')
 ```
+
+It sits outside `matlab/` so that `genpath` does not pull it in by accident.
+The shims are opt-in.
 
 Each shim forwards its arguments unchanged and warns once per session.
 

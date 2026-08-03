@@ -40,11 +40,7 @@ function [ys,yi]=surr_pseudo_periodic(y,tau,dim,rho)
 %% Begin Code
 
 %% Phase space reconstruction
-N=length(y);
-Y=zeros(N-(dim-1)*tau,dim);
-for i=1:dim
-    Y(:,i)=y(1+(i-1)*tau:N-(dim-i)*tau);
-end
+Y=psr(y,tau,dim);
 
 %% Seeding and initial points
 xi=floor(rand(1)*length(Y))+1;
