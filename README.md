@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/quarc-logo-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/quarc-logo-light.png">
+  <img alt="QUARC - Quantitative Analysis Research Core" src="assets/quarc-logo-light.png" width="520">
+</picture>
+
 # QUARC Nonlinear
 
 Nonlinear time series analysis for MATLAB, from the Quantitative Analysis
