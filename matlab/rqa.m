@@ -1,4 +1,4 @@
-function [RP, RESULTS]=rqa(data,tau,dim,param,threshold,options)
+function [RP, RESULTS]=rqa(x,delay,dim,param,threshold,options)
 %RQA Recurrence quantification analysis of a single time series.
 %   [RP,RESULTS] = RQA(DATA,TAU,DIM) reconstructs a phase space from the
 %   column vector DATA using delay TAU and embedding dimension DIM, then
@@ -35,11 +35,11 @@ function [RP, RESULTS]=rqa(data,tau,dim,param,threshold,options)
 %
 %   Examples
 %      % Reconstruct internally
-%      [rp, r] = rqa(x, tau, dim);
+%      [rp, r] = rqa(x, delay, dim);
 %
 %      % Reconstruct once, share it, skip re-embedding
-%      Y = psr(x, tau, dim);
-%      [rp, r] = rqa(Y, tau, dim, PhaseSpace=true);
+%      Y = psr(x, delay, dim);
+%      [rp, r] = rqa(Y, delay, dim, PhaseSpace=true);
 %
 %   See also PSR, CRQA, JRQA, MDRQA.
 
@@ -48,8 +48,8 @@ function [RP, RESULTS]=rqa(data,tau,dim,param,threshold,options)
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data double {mustBeNonempty}
-    tau (1,1) {mustBeInteger, mustBePositive} = 1
+    x double {mustBeNonempty}
+    delay (1,1) {mustBeInteger, mustBePositive} = 1
     dim (1,1) {mustBeInteger, mustBePositive} = 1
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
@@ -65,9 +65,9 @@ end
 
 % mustBeSingleColumn only applies to a raw series: a supplied phase space is
 % legitimately wider than one column. options is not visible yet when the
-% arguments block validates data, so the shape is checked here instead.
+% arguments block validates x, so the shape is checked here instead.
 if ~options.PhaseSpace
-    mustBeSingleColumn(data)
+    mustBeSingleColumn(x)
 end
 
 %% Begin code
@@ -76,13 +76,13 @@ end
 dmin = options.Dmin;
 vmin = options.Vmin;
 
-%% Standardize data if zscore is true
-% If zscore is selected then zscore the data
+%% Standardize x if zscore is true
+% If zscore is selected then zscore the x
 if options.Zscore
-    data = zscore(data);
+    x = zscore(x);
 end
 
-% A supplied phase space is used verbatim; otherwise embed the data onto
+% A supplied phase space is used verbatim; otherwise embed the x onto
 % phase space as before.
 if options.PhaseSpace
     if options.Norm == "euc"
@@ -93,11 +93,11 @@ if options.PhaseSpace
              'use Norm="none", "min" or "max".']);
     end
 elseif dim > 1
-    data = psr(data, tau, dim);
+    x = psr(x, delay, dim);
 end
 
 % Calculate distance matrix based on the type of RQA
-a = pdist2(data,data);
+a = pdist2(x,x);
 a = abs(a)*-1;
 
 % Normalize distance matrix
@@ -131,17 +131,17 @@ switch param
     case 'rad'
         % THRESHOLD is the radius itself in this branch.
         radius = threshold;
-        [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'rqa');
+        [recurrence, diag_hist, vertical_hist,A] = line_hist(x,a,threshold,'rqa');
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(data,a,radius_start,radius_end,threshold,'rqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'rqa',options.Iter);
 end
 
 %% Calculate RQA variabes
 RESULTS.DIM = 1;
 RESULTS.EMB = dim;
-RESULTS.DEL = tau;
+RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
 RESULTS.NORM = options.Norm;
 RESULTS.ZSCORE = options.Zscore;
@@ -180,7 +180,7 @@ RP=imrotate(1-A,90);
 
 %% Plot
 if options.Plot
-    rqa_plot(data, RP, RESULTS, tau, dim, 1, options.Zscore, options.Norm, radius, a, 'rqa');
+    rqa_plot(x, RP, RESULTS, delay, dim, 1, options.Zscore, options.Norm, radius, a, 'rqa');
 end
 
 end

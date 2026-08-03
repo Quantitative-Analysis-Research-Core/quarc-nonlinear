@@ -1,8 +1,8 @@
-function [AE] = ent_ap( data, dim, r )
+function [AE] = ent_ap( x, dim, radius )
 %ent_ap
-%   data : time-series data
+%   x : time-series x
 %   dim : embedded dimension
-%   r : tolerance (typically 0.2)
+%   radius : tolerance (typically 0.2)
 %
 %   Changes in version 1
 %       Ver 0 had a minor error in the final step of calculating ApEn
@@ -14,7 +14,7 @@ function [AE] = ent_ap( data, dim, r )
 %       can be zero and logarithm can fail.
 %
 %   *NOTE: This code is faster and gives the same result as ApEn = 
-%          ApEnt(data,m,R) created by John McCamley in June of 2015.
+%          ApEnt(x,m,R) created by John McCamley in June of 2015.
 %          -Will Denton
 %
 %---------------------------------------------------------------------
@@ -27,19 +27,19 @@ function [AE] = ent_ap( data, dim, r )
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
-r = r*std(data);
-N = length(data);
+radius = radius*std(x);
+N = length(x);
 phim = zeros(1,2);
 for j = 1:2
     m = dim+j-1;
     phi = zeros(1,N-m+1);
     dataMat = zeros(m,N-m+1);
     for i = 1:m
-        dataMat(i,:) = data(i:N-m+i);
+        dataMat(i,:) = x(i:N-m+i);
     end
     for i = 1:N-m+1
         tempMat = abs(dataMat - repmat(dataMat(:,i),1,N-m+1));
-        AorB = any( (tempMat > r),1);
+        AorB = any( (tempMat > radius),1);
         phi(i) = sum(~AorB)/(N-m+1);
     end
     phim(j) = sum(log(phi))/(N-m+1);

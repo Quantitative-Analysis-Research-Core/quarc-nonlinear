@@ -1,11 +1,11 @@
-function [dim, dE] = fnn(data,tau,MaxDim,Rtol,Atol,speed)
-% [FN,dim] = fnn(data,tau,MaxDim,Rtol,Atol)
-%   data - column oriented time series
-%   tau - time delay
-%   MaxDim - maximum embedding dimension
+function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed)
+% [FN,dim] = fnn(x,delay,maxdim,Rtol,Atol)
+%   x - column oriented time series
+%   delay - time delay
+%   maxdim - maximum embedding dimension
 %   Rtol - threshold for the first criterion
 %   Atol - threshold for teh second criterion
-%   speed - a 0 for the code to calculate to the MaxDim or a 1 for the code
+%   speed - a 0 for the code to calculate to the maxdim or a 1 for the code
 %           to finish once a minimum is found
 % Remarks
 % - This code determines the embedding dimension for a time series using
@@ -41,9 +41,9 @@ function [dim, dE] = fnn(data,tau,MaxDim,Rtol,Atol,speed)
 %            improved performance. Checked that the calculated percentages
 %            of nearest neighbors are the same as the previous version.
 % May 2020 - Modified by Ben Senderling, bmchnonan@unomaha.edu
-%          - Added if statement checkeding data orientation.
+%          - Added if statement checkeding x orientation.
 % Jul 2020 - Modified by Ben Senderling, bmchnonan@unomaha.edu
-%          - Changed indexing throughout so the input data array doesn't
+%          - Changed indexing throughout so the input x array doesn't
 %            need to be reoriented. Changing this sped the code up an
 %            average 11% on 10 test signals.
 %          - Removed a couple small for loops and replaced with indexed
@@ -56,10 +56,10 @@ function [dim, dE] = fnn(data,tau,MaxDim,Rtol,Atol,speed)
 % MIT licence. See LICENSE.txt.
 %% Begin algorithm
 
-n=length(data)-tau*MaxDim;  % # of data points to be used
-RA=std(data); % the nominal "radius" of the attractor
+n=length(x)-delay*maxdim;  % # of x points to be used
+RA=std(x); % the nominal "radius" of the attractor
 
-z = data(1:n);
+z = x(1:n);
 y = [];
 
 % search for the nearest point, closest will be equal to itself and its
@@ -69,15 +69,15 @@ m_search = 2;
 indx=(1:n)';
 dim=[];
 
-dE=zeros(MaxDim,1);
+dE=zeros(maxdim,1);
 
-for j = 1:MaxDim
+for j = 1:maxdim
     
     y = [y,z]; % Adds additional dimension.
-    z = data(1+tau*j:n+tau*j);
+    z = x(1+delay*j:n+delay*j);
     L = zeros(n,1);
     
-    [y_model,z_model,sort_list,node_list]=kd_part(y, z, 512); % put the data into 512-point
+    [y_model,z_model,sort_list,node_list]=kd_part(y, z, 512); % put the x into 512-point
     
     for i = 1:length(indx)
         
@@ -147,7 +147,7 @@ if speed==0
 end
 
 if isempty(dim)
-    dim=MaxDim;
+    dim=maxdim;
     fprintf('no dimension found, dim set to MaxDim\n')
 end
 

@@ -1,8 +1,8 @@
-function [out,LyE] = lye_w(X,Fs,tau,dim,evolve,varargin)
-%% [out,LyE] = LyE_W(X,Fs,tau,dim,evolve)
-% inputs  - X, time series
-%         - Fs, sampling frequency (Hz)
-%         - tau, time lag
+function [out,LyE] = lye_w(x,fs,delay,dim,evolve,varargin)
+%% [out,LyE] = LyE_W(x,fs,delay,dim,evolve)
+% inputs  - x, time series
+%         - fs, sampling frequency (Hz)
+%         - delay, time lag
 %         - dim, embedding dimension
 %         - evolve, parameter of the same name from Wolf's 1985 paper. This
 %           code expects a number of frames as an input.
@@ -14,7 +14,7 @@ function [out,LyE] = lye_w(X,Fs,tau,dim,evolve,varargin)
 %           (2003) Appendix A. Multiply by log(2) to convert to nats.
 %           For example the logistic map at r = 4 has lambda = ln 2 nats per
 %           iteration, which this function returns as 1.0 bits.
-%% [out,LyE] = LyE_W(X,Fs,tau,dim,evolve,SCALEMX,ANGLMX,ZMULT)
+%% [out,LyE] = LyE_W(x,fs,delay,dim,evolve,SCALEMX,ANGLMX,ZMULT)
 %         - SCALEMX, length of which the local structure of the attractor
 %           is no longer being probed
 %         - ANGLMX, maximum angle used to constrain replacements
@@ -66,7 +66,7 @@ function [out,LyE] = lye_w(X,Fs,tau,dim,evolve,varargin)
 % MIT licence. See LICENSE.txt.
 
 if isempty(varargin)
-    SCALEMX = (max(max(X))-min(min(X)))/10;
+    SCALEMX = (max(max(x))-min(min(x)))/10;
     ANGLMX = 30*pi/180;
     ZMULT = 1;
 elseif nargin==8
@@ -77,21 +77,21 @@ else
     error('not enough input arguements')
 end
 
-DT=1/Fs;
+DT=1/fs;
 
 %% Set up data
 
 ITS=0;
 distSUM=0;
 
-if size(X,2)==1
+if size(x,2)==1
     
-    Y=psr(X,tau,dim);
-    NPT=length(X)-(dim-1)*tau-evolve; % Size of useable data % NPT=length(X)-(dim)*tau-evolve; (BS)
+    Y=psr(x,delay,dim);
+    NPT=length(x)-(dim-1)*delay-evolve; % Size of useable data % NPT=length(x)-(dim)*delay-evolve; (BS)
     Y=Y(1:NPT+evolve,:);
     
 else
-    Y=X;
+    Y=x;
     NPT=length(Y)-evolve;
 end
 %% Start analysis

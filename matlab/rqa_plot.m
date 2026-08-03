@@ -1,4 +1,4 @@
-function rqa_plot(data, rp, RESULTS, tau, dim, DIM, Zscore, Norm, radius, wrp, type)
+function rqa_plot(x, rp, RESULTS, delay, dim, DIM, Zscore, Norm, radius, wrp, type)
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
@@ -12,7 +12,7 @@ heatmap = uitab(tabgp,'Title','Heatmap');
 a1 = axes('Parent',binary,'Position', [0 0 1 1], 'Visible', 'off');
 ax(1) = axes('Parent',binary,'Position',[.375 .35 .58 .6], 'FontSize', 8);
 imagesc(ax(1),rp); colormap(gray);
-title(['DIM = ', num2str(DIM), '; EMB = ',num2str(dim), '; DEL = ', num2str(tau), '; RAD = ', num2str(radius), '; NORM = ',num2str(Norm), '; ZSCORE = ',num2str(Zscore)],'FontSize',8)
+title(['DIM = ', num2str(DIM), '; EMB = ',num2str(dim), '; DEL = ', num2str(delay), '; RAD = ', num2str(radius), '; NORM = ',num2str(Norm), '; ZSCORE = ',num2str(Zscore)],'FontSize',8)
 xlabel('X(i)','Interpreter','none', 'FontSize', 10);
 ylabel('Y(j)','Interpreter','none', 'FontSize', 10);
 set(gca,'XTick',[ ]);
@@ -21,28 +21,28 @@ set(gca,'YTick',[ ]);
 switch type
     case {'rqa','mdrqa'}
         ax(2) = axes('Parent',binary,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-        plot(1:length(data(:,1)), data(:,1), 'k-');
-        xlim([1 length(data(:,1))]);
+        plot(1:length(x(:,1)), x(:,1), 'k-');
+        xlim([1 length(x(:,1))]);
         ax(3) = axes('Parent',binary,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-        plot(flip(data(:,1)), 1:length(data(:,1)), 'k-');
-        ylim([1 length(data(:,1))]);
+        plot(flip(x(:,1)), 1:length(x(:,1)), 'k-');
+        ylim([1 length(x(:,1))]);
         set (ax(3),'Ydir','reverse');
     case 'crqa'
         ax(2) = axes('Parent',binary,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-        plot(1:length(data(:,1)), data(:,1), 'k-');
-        xlim([1 length(data(:,1))]);
+        plot(1:length(x(:,1)), x(:,1), 'k-');
+        xlim([1 length(x(:,1))]);
         ax(3) = axes('Parent',binary,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-        plot(flip(data(:,2)), 1:length(data(:,2)), 'k-');
-        ylim([1 length(data(:,2))]);
+        plot(flip(x(:,2)), 1:length(x(:,2)), 'k-');
+        ylim([1 length(x(:,2))]);
         set (ax(3),'Ydir','reverse');
     case 'jrqa'
         for i = 1:DIM
             ax(2) = axes('Parent',binary,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-            plot(1:length(data(:,1)), data(:,i),'k-');
-            xlim([1 length(data(:,1))]);
+            plot(1:length(x(:,1)), x(:,i),'k-');
+            xlim([1 length(x(:,1))]);
             ax(3) = axes('Parent',binary,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-            plot(flip(data(:,1)), 1:length(data(:,i)),'k-');
-            ylim([1 length(data(:,1))]);
+            plot(flip(x(:,1)), 1:length(x(:,i)),'k-');
+            ylim([1 length(x(:,1))]);
             set (ax(3),'Ydir','reverse');
         end
 end
@@ -71,7 +71,7 @@ text(.1, .03, str, 'FontSize', 8, 'Color', 'k');
 a2 = axes('Parent',heatmap,'Position', [0 0 1 1], 'Visible', 'off');
 ax(4) = axes('Parent',heatmap,'Position',[.375 .35 .58 .6], 'FontSize', 8);
 imagesc(ax(4),imrotate(-1*wrp,90));
-title(['DIM = ', num2str(DIM), '; EMB = ',num2str(dim), '; DEL = ', num2str(tau), '; RAD = ', num2str(radius), '; NORM = ',num2str(Norm), '; ZSCORE = ',num2str(Zscore)],'FontSize',8)
+title(['DIM = ', num2str(DIM), '; EMB = ',num2str(dim), '; DEL = ', num2str(delay), '; RAD = ', num2str(radius), '; NORM = ',num2str(Norm), '; ZSCORE = ',num2str(Zscore)],'FontSize',8)
 xlabel('X(i)','Interpreter','none', 'FontSize', 10);
 ylabel('Y(j)','Interpreter','none', 'FontSize', 10);
 set(gca,'XTick',[ ]);
@@ -80,28 +80,28 @@ set(gca,'YTick',[ ]);
 switch type
     case {'rqa','mdrqa'}
         ax(5) = axes('Parent',heatmap,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-        plot(1:length(data(:,1)), data(:,1), 'k-');
-        xlim([1 length(data(:,1))]);
+        plot(1:length(x(:,1)), x(:,1), 'k-');
+        xlim([1 length(x(:,1))]);
         ax(6) = axes('Parent',heatmap,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-        plot(flip(data(:,1)), 1:length(data(:,1)), 'k-');
-        ylim([1 length(data(:,1))]);
+        plot(flip(x(:,1)), 1:length(x(:,1)), 'k-');
+        ylim([1 length(x(:,1))]);
         set (ax(6),'Ydir','reverse');
     case 'crqa'
         ax(5) = axes('Parent',heatmap,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-        plot(1:length(data(:,1)), data(:,1), 'k-');
-        xlim([1 length(data(:,1))]);
+        plot(1:length(x(:,1)), x(:,1), 'k-');
+        xlim([1 length(x(:,1))]);
         ax(6) = axes('Parent',heatmap,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-        plot(flip(data(:,2)), 1:length(data(:,2)), 'k-');
-        ylim([1 length(data(:,2))]);
+        plot(flip(x(:,2)), 1:length(x(:,2)), 'k-');
+        ylim([1 length(x(:,2))]);
         set (ax(6),'Ydir','reverse');
     case 'jrqa'
         for i = 1:DIM
             ax(5) = axes('Parent',binary,'Position',[.375 .1 .58 .15], 'FontSize', 8);
-            plot(1:length(data(:,1)), data(:,i),'k-');
-            xlim([1 length(data(:,1))]);
+            plot(1:length(x(:,1)), x(:,i),'k-');
+            xlim([1 length(x(:,1))]);
             ax(6) = axes('Parent',binary,'Position',[.09 .35 .15 .6], 'FontSize', 8);
-            plot(flip(data(:,1)), 1:length(data(:,i)),'k-');
-            ylim([1 length(data(:,1))]);
+            plot(flip(x(:,1)), 1:length(x(:,i)),'k-');
+            ylim([1 length(x(:,1))]);
             set (ax(6),'Ydir','reverse');
         end
 end

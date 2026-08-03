@@ -1,28 +1,28 @@
-function [tau, curve, info] = ami_histogram(x, L, opts)
+function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 %AMI_HISTOGRAM Average mutual information versus lag, histogram estimator.
-%   TAU = AMI_HISTOGRAM(X,L) returns the lag of the first local minimum of
-%   the average mutual information of X with itself over lags 0:L, using an
+%   TAU = AMI_HISTOGRAM(X,maxlag) returns the lag of the first local minimum of
+%   the average mutual information of X with itself over lags 0:maxlag, using an
 %   equal-width joint histogram.
 %
-%   [TAU,CURVE] = AMI_HISTOGRAM(X,L) also returns the AMI curve as an
-%   (L+1)-by-2 array of [lag, ami], in bits.
+%   [TAU,CURVE] = AMI_HISTOGRAM(X,maxlag) also returns the AMI curve as an
+%   (maxlag+1)-by-2 array of [lag, ami], in bits.
 %
-%   [TAU,CURVE,INFO] = AMI_HISTOGRAM(X,L) also returns a struct with fields
+%   [TAU,CURVE,INFO] = AMI_HISTOGRAM(X,maxlag) also returns a struct with fields
 %   allMinima, usedFallback, fractionLag, bins, samplesPerLag and estimator.
 %
-%   ___ = AMI_HISTOGRAM(X,L,Bins=B) sets the number of bins per axis.
+%   ___ = AMI_HISTOGRAM(X,maxlag,Bins=B) sets the number of bins per axis.
 %   Default selects B by Scott's rule.
 %
-%   ___ = AMI_HISTOGRAM(X,L,Fraction=F) sets the fallback threshold, as a
+%   ___ = AMI_HISTOGRAM(X,maxlag,Fraction=F) sets the fallback threshold, as a
 %   fraction of AMI at lag 0, used when the curve has no local minimum.
 %   Default 0.2.
 %
 %   Input Arguments
 %      X  time series, real column vector, no NaN
-%      L  maximum lag, positive integer, less than numel(X)
+%      maxlag  maximum lag, positive integer, less than numel(X)
 %
 %   Notes
-%   Every lag uses the same number of pairs, N-L rather than N-lag, so the
+%   Every lag uses the same number of pairs, N-maxlag rather than N-lag, so the
 %   curve is not confounded by a changing sample size.
 %
 %   The plug-in histogram estimate is biased upward. For independent data the
@@ -39,7 +39,7 @@ function [tau, curve, info] = ami_histogram(x, L, opts)
 %      [tau, curve, info] = ami_histogram(x, 50, Bins=32);
 %
 %   References
-%      Fraser, A. M. and Swinney, H. L. (1986). Independent coordinates for
+%      Fraser, A. M. and Swinney, H. maxlag. (1986). Independent coordinates for
 %      strange attractors from mutual information. Physical Review A, 33(2),
 %      1134-1140.
 %
@@ -54,7 +54,7 @@ function [tau, curve, info] = ami_histogram(x, L, opts)
 
 arguments
     x  (:,1) double {mustBeNonempty}
-    L  (1,1) double {mustBePositive, mustBeInteger}
+    maxlag  (1,1) double {mustBePositive, mustBeInteger}
     opts.Bins     double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
     opts.Fraction (1,1) double {mustBePositive} = 0.2
 end
@@ -64,9 +64,9 @@ if anynan(x)
           'x contains NaN. Mutual information is undefined for missing data; remove or impute first.');
 end
 N = numel(x);
-if L >= N
+if maxlag >= N
     error('ami_histogram:lagTooLarge', ...
-          'L (%d) must be smaller than the number of samples (%d).', L, N);
+          'L (%d) must be smaller than the number of samples (%d).', maxlag, N);
 end
 
 nBins = opts.Bins;
@@ -75,11 +75,11 @@ if isempty(nBins)
 end
 
 % Constant overlap across lags -- see note above.
-m = N - L;
+m = N - maxlag;
 
 edges = binEdges(x, nBins);
-curve = zeros(L + 1, 2);
-for lag = 0:L
+curve = zeros(maxlag + 1, 2);
+for lag = 0:maxlag
     a = x(1:m);
     b = x((1 + lag):(m + lag));
     curve(lag + 1, :) = [lag, mutualInformationBits(a, b, edges)];

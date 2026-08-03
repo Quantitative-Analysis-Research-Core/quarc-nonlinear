@@ -1,6 +1,6 @@
-function z =surr_theiler(y,algorithm)
-% z=surr_theiler(y,algorithm)
-% inputs  - y, time series to be surrogated
+function z =surr_theiler(x,algorithm)
+% z=surr_theiler(x,algorithm)
+% inputs  - x, time series to be surrogated
 %              algorithm - the type of algorithm to be completed
 % outputs - z, surrogated time series
 % Remarks
@@ -27,13 +27,13 @@ function z =surr_theiler(y,algorithm)
 %% Begin code
 switch (algorithm)
     case 0
-        z=randn(size(y));
+        z=randn(size(x));
         [~,idx]=sort(z);
-        z=y(idx);
+        z=x(idx);
     case 1
-        z=surr1(y,1);
+        z=surr1(x,1);
     case 2
-        z=surr1(y,2);
+        z=surr1(x,2);
 end
 
 end

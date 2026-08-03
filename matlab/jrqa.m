@@ -1,4 +1,4 @@
-function [RP, RESULTS]=jrqa(data,tau,dim,param,threshold,options)
+function [RP, RESULTS]=jrqa(x,delay,dim,param,threshold,options)
 %JRQA Joint recurrence quantification analysis of several time series.
 %   [RP,RESULTS] = JRQA(DATA,TAU,DIM) reconstructs a phase space from each
 %   column of DATA using that channel's own delay TAU(i) and embedding
@@ -38,12 +38,12 @@ function [RP, RESULTS]=jrqa(data,tau,dim,param,threshold,options)
 %
 %   Examples
 %      % Reconstruct internally
-%      [rp, r] = jrqa([x y], tau, dim);
+%      [rp, r] = jrqa([x y], delay, dim);
 %
 %      % Reconstruct once per channel, share it, skip re-embedding
-%      Y1 = psr(x, tau(1), dim(1));
-%      Y2 = psr(y, tau(2), dim(2));
-%      [rp, r] = jrqa({Y1, Y2}, tau, dim, PhaseSpace=true);
+%      Y1 = psr(x, delay(1), dim(1));
+%      Y2 = psr(y, delay(2), dim(2));
+%      [rp, r] = jrqa({Y1, Y2}, delay, dim, PhaseSpace=true);
 %
 %   See also PSR, RQA, CRQA, MDRQA.
 
@@ -52,8 +52,8 @@ function [RP, RESULTS]=jrqa(data,tau,dim,param,threshold,options)
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data {mustBeA(data, ["double","cell"])}
-    tau (1,2) {mustBeInteger, mustBePositive} = [1 1]
+    x {mustBeA(x, ["double","cell"])}
+    delay (1,2) {mustBeInteger, mustBePositive} = [1 1]
     dim (1,2) {mustBeInteger, mustBePositive} = [1 1]
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
@@ -67,23 +67,23 @@ arguments
     options.PhaseSpace (1,1) logical = false
 end
 
-% options is not visible yet when the arguments block validates data, so
+% options is not visible yet when the arguments block validates x, so
 % the type/shape checks that depend on it live here instead.
 if options.PhaseSpace
-    if ~iscell(data)
+    if ~iscell(x)
         error('jrqa:phaseSpaceMustBeCell', ...
             ['PhaseSpace is true, so DATA must be a cell array with one ' ...
              'already-reconstructed phase space per channel, e.g. ' ...
              '{Y1, Y2}, rather than a raw multi-column series.']);
-    elseif numel(data) < 2
+    elseif numel(x) < 2
         error('jrqa:tooFewChannels', ...
             'DATA must contain at least two channels.');
     end
-elseif ~isa(data, 'double')
+elseif ~isa(x, 'double')
     error('jrqa:rawDataMustBeDouble', ...
         'DATA must be a double matrix unless PhaseSpace is true.');
 else
-    mustbeAtLeastTwoColumns(data)
+    mustbeAtLeastTwoColumns(x)
 end
 
 %% Begin code
@@ -92,21 +92,21 @@ end
 dmin = options.Dmin;
 vmin = options.Vmin;
 
-%% Standardize data if zscore is true
-% If zscore is selected then zscore the data (each channel independently
+%% Standardize x if zscore is true
+% If zscore is selected then zscore the x (each channel independently
 % when a cell array of phase spaces was supplied)
 if options.Zscore
     if options.PhaseSpace
-        data = cellfun(@zscore, data, 'UniformOutput', false);
+        x = cellfun(@zscore, x, 'UniformOutput', false);
     else
-        data = zscore(data);
+        x = zscore(x);
     end
 end
 
 if options.PhaseSpace
     % A supplied phase space is used verbatim; TAU and DIM cannot be
     % confirmed to match it.
-    data2 = data;
+    data2 = x;
     DIM = numel(data2);
     if options.Norm == "euc"
         warning('jrqa:eucNormAssumesDim', ...
@@ -117,12 +117,12 @@ if options.PhaseSpace
     end
 else
     % Get number of time series
-    DIM = size(data, 2);
+    DIM = size(x, 2);
 
-    % Embed the data onto phase space
+    % Embed the x onto phase space
     for i = 1:DIM
         if dim(i) > 1
-            data2{i} = psr(data(:,i), tau(i), dim(i));
+            data2{i} = psr(x(:,i), delay(i), dim(i));
         end
     end
 end
@@ -169,17 +169,17 @@ switch param
     case 'rad'
         % THRESHOLD is the radius itself in this branch.
         radius = threshold;
-        [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'jrqa');
+        [recurrence, diag_hist, vertical_hist,A] = line_hist(x,a,threshold,'jrqa');
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(data,a,radius_start,radius_end,threshold,'jrqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'jrqa',options.Iter);
 end
 
 %% Calculate RQA variabes
 RESULTS.DIM = 1;
 RESULTS.EMB = dim;
-RESULTS.DEL = tau;
+RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
 RESULTS.NORM = options.Norm;
 RESULTS.ZSCORE = options.Zscore;
@@ -218,7 +218,7 @@ RP=imrotate(1-A,90);
 
 %% Plot
 if options.Plot
-    rqa_plot(data, RP, RESULTS, tau, dim, DIM, options.Zscore, options.Norm, radius, wrp, 'jrqa');
+    rqa_plot(x, RP, RESULTS, delay, dim, DIM, options.Zscore, options.Norm, radius, wrp, 'jrqa');
 end
 
 end

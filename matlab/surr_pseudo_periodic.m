@@ -1,7 +1,7 @@
-function [ys,yi]=surr_pseudo_periodic(y,tau,dim,rho)
-% [ys,yi]=surr_pseudo_periodic(y,tau,dim,rho)
-% inputs  - y, time series
-%         - tau, time lag for phase space reconstruction
+function [ys,yi]=surr_pseudo_periodic(x,delay,dim,rho)
+% [ys,yi]=surr_pseudo_periodic(x,delay,dim,rho)
+% inputs  - x, time series
+%         - delay, time lag for phase space reconstruction
 %         - dim, embedding dimension for phase space reconstruction
 %         - rho, noise radius
 % outputs - ys, surrogate time series
@@ -40,12 +40,12 @@ function [ys,yi]=surr_pseudo_periodic(y,tau,dim,rho)
 %% Begin Code
 
 %% Phase space reconstruction
-Y=psr(y,tau,dim);
+Y=psr(x,delay,dim);
 
 %% Seeding and initial points
 xi=floor(rand(1)*length(Y))+1;
 ys=zeros(length(Y),1);
-ys(1)=y(xi);
+ys(1)=x(xi);
 yi=zeros(length(Y),1);
 yi(1)=xi;
 
@@ -84,7 +84,7 @@ for i=2:1:length(Y)
     xi=xi_n;
     
     % Add the new point to the surrogate time series.
-    ys(i) = y(xi);
+    ys(i) = x(xi);
     yi(i) = xi;
 end
 

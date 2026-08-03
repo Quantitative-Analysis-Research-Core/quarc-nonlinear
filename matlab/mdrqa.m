@@ -1,4 +1,4 @@
-function [RP, RESULTS]=mdrqa(data,tau,dim,param,threshold,options)
+function [RP, RESULTS]=mdrqa(x,delay,dim,param,threshold,options)
 %MDRQA Multidimensional recurrence quantification analysis.
 %   [RP,RESULTS] = MDRQA(DATA,TAU,DIM) reconstructs a phase space from the
 %   (possibly multi-column) matrix DATA using delay TAU and embedding
@@ -44,14 +44,14 @@ function [RP, RESULTS]=mdrqa(data,tau,dim,param,threshold,options)
 %      [rp, r] = mdrqa([x y z]);
 %
 %      % Reconstruct once, share it, skip re-embedding
-%      Y = psr([x y z], tau, dim);
-%      [rp, r] = mdrqa(Y, tau, dim, PhaseSpace=true);
+%      Y = psr([x y z], delay, dim);
+%      [rp, r] = mdrqa(Y, delay, dim, PhaseSpace=true);
 %
 %   References
 %      Wallot, S., Roepstorff, A. and Monster, D. (2016). Multidimensional
 %      recurrence quantification analysis (MdRQA) for the analysis of
 %      multidimensional time-series: A software implementation in MATLAB
-%      and its application to group-level data in joint action. Frontiers
+%      and its application to group-level x in joint action. Frontiers
 %      in Psychology, 7, 1835.
 %
 %   See also PSR, RQA, CRQA, JRQA.
@@ -61,8 +61,8 @@ function [RP, RESULTS]=mdrqa(data,tau,dim,param,threshold,options)
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data double
-    tau (1,1) {mustBeInteger, mustBePositive} = 1
+    x double
+    delay (1,1) {mustBeInteger, mustBePositive} = 1
     dim (1,1) {mustBeInteger, mustBePositive} = 1
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
@@ -82,13 +82,13 @@ end
 dmin = options.Dmin;
 vmin = options.Vmin;
 
-%% Standardize data if zscore is true
-% If zscore is selected then zscore the data
+%% Standardize x if zscore is true
+% If zscore is selected then zscore the x
 if options.Zscore
-    data = zscore(data);
+    x = zscore(x);
 end
 
-% A supplied phase space is used verbatim; otherwise embed the data onto
+% A supplied phase space is used verbatim; otherwise embed the x onto
 % phase space as before. DATA can legitimately be multi-column either way
 % (several raw channels, or an already-built phase space), so PhaseSpace,
 % not width, is what decides whether DIM>1 triggers reconstruction.
@@ -101,11 +101,11 @@ if options.PhaseSpace
              'use Norm="none", "min" or "max".']);
     end
 elseif dim > 1
-    data = psr(data, tau, dim);
+    x = psr(x, delay, dim);
 end
 
 % Calculate distance matrix based on the type of RQA
-a = pdist2(data,data);
+a = pdist2(x,x);
 a = abs(a)*-1;
 
 % Normalize distance matrix
@@ -139,17 +139,17 @@ switch param
     case 'rad'
         % THRESHOLD is the radius itself in this branch.
         radius = threshold;
-        [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'mdrqa');
+        [recurrence, diag_hist, vertical_hist,A] = line_hist(x,a,threshold,'mdrqa');
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(data,a,radius_start,radius_end,threshold,'mdrqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'mdrqa',options.Iter);
 end
 
 %% Calculate RQA variabes
 RESULTS.DIM = 1;
 RESULTS.EMB = dim;
-RESULTS.DEL = tau;
+RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
 RESULTS.NORM = options.Norm;
 RESULTS.ZSCORE = options.Zscore;
@@ -188,7 +188,7 @@ RP=imrotate(1-A,90);
 
 %% Plot
 if options.Plot
-    rqa_plot(data, RP, RESULTS, tau, dim, 1, options.Zscore, options.Norm, radius, a, 'mdrqa');
+    rqa_plot(x, RP, RESULTS, delay, dim, 1, options.Zscore, options.Norm, radius, a, 'mdrqa');
 end
 
 end

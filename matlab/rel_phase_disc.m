@@ -1,12 +1,12 @@
-function [ FR,PC,DRP ] = rel_phase_disc( S1, S2, varargin )
-% [ FR,PC,DRP ] = rel_phase_disc( S1, S2, S1_events, S2_events )
-% inputs    - S1, Signal 1 must be the lower frequency signal.
-%           - S2, Signal 2 must be the higher frequency signal.
+function [ FR,PC,DRP ] = rel_phase_disc( x, y, varargin )
+% [ FR,PC,DRP ] = rel_phase_disc( x, y, S1_events, S2_events )
+% inputs    - x, Signal 1 must be the lower frequency signal.
+%           - y, Signal 2 must be the higher frequency signal.
 % optional inputs
 %           - S1_events, Cyclical event occuring within Signal 1. Will be
-%           calculated as the peaks of S1 if not input.
+%           calculated as the peaks of x if not input.
 %           - S2_events, Cyclical event occuring within Signal 2. Will be
-%           calculated as the peaks of S2 if not input.
+%           calculated as the peaks of y if not input.
 % output    - FR, Frequency Ratios is a table containing Ratios,
 %           Occurences, and Percentages.
 %           - PC, Phase Couping is a table containing the heel strike
@@ -27,8 +27,8 @@ function [ FR,PC,DRP ] = rel_phase_disc( S1, S2, varargin )
 % MIT licence. See LICENSE.txt.
 %% Variable input length;
 if isempty(varargin)
-    [~,S1_events] = findpeaks(S1);
-    [~,S2_events] = findpeaks(S2);
+    [~,S1_events] = findpeaks(x);
+    [~,S2_events] = findpeaks(y);
 else
     S1_events = varargin{1};
     S2_events = varargin{2};
@@ -40,13 +40,13 @@ tab1 = uitab('Parent', tgroup, 'Title', 'DRP');
 tab2 = uitab('Parent', tgroup, 'Title', 'Return Map');
 %% DRP Plot
 axes('parent', tab1);
-subplot(3,2,1); plot(S1,'k'); hold on;
+subplot(3,2,1); plot(x,'k'); hold on;
 for i = 1:length(S2_events)
-    plot([S2_events(i),S2_events(i)],[min(S1),max(S1)],'k');
+    plot([S2_events(i),S2_events(i)],[min(x),max(x)],'k');
 end
-set(gca,'XLim',[0 length(S1)]);
-set(gca,'YLim',[mean(S1)-0.5*std(S1) max(S1)]);
-scatter(S1_events,S1(S1_events),'k','filled');
+set(gca,'XLim',[0 length(x)]);
+set(gca,'YLim',[mean(x)-0.5*std(x) max(x)]);
+scatter(S1_events,x(S1_events),'k','filled');
 %% DRP start:
 %Compute tiR(p)
 clc; i = 2; back = 0;

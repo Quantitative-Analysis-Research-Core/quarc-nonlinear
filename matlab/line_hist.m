@@ -1,4 +1,4 @@
-function [recurrence, diag_hist, vertical_hist, a] = line_hist(data, a, radius, type)
+function [recurrence, diag_hist, vertical_hist, a] = line_hist(x, a, radius, type)
 
 % Check if a is cell
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
@@ -19,7 +19,7 @@ end
 % If a contains multiple recurrence matrices, compute dot product of all
 % matrices...?
 if length(a) > 1
-    min_size = min(cellfun(@(x) size(x,2), a));
+    min_size = min(cellfun(@(c) size(c,2), a));
     for i3 = 1:length(a)-1
         a{i3+1} = a{i3}(1:min_size,1:min_size).*a{i3+1}(1:min_size,1:min_size);
     end
