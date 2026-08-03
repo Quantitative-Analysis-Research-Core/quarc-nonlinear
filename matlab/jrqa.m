@@ -1,10 +1,58 @@
 function [RP, RESULTS]=jrqa(data,tau,dim,param,threshold,options)
+%JRQA Joint recurrence quantification analysis of several time series.
+%   [RP,RESULTS] = JRQA(DATA,TAU,DIM) reconstructs a phase space from each
+%   column of DATA using that channel's own delay TAU(i) and embedding
+%   dimension DIM(i), then returns the joint recurrence plot RP and a
+%   struct RESULTS of recurrence variables.
+%
+%   DATA may instead already be a cell array of per-channel phase spaces,
+%   {Y1, Y2, ...}, when options.PhaseSpace is true: see below. Joint
+%   recurrence is inherently per-channel, so unlike RQA, CRQA and MDRQA a
+%   single N-by-D matrix cannot unambiguously stand in for a phase space:
+%   the channel boundaries would be lost.
+%
+%   ___ = JRQA(DATA,TAU,DIM,PARAM,THRESHOLD) selects what THRESHOLD means:
+%      PARAM = "rad"  THRESHOLD is the recurrence radius directly.
+%      PARAM = "rec"  (default) THRESHOLD is a target percent recurrence;
+%                      the radius is searched for iteratively.
+%
+%   ___ = JRQA(...,Name=Value) sets additional options:
+%      Zscore       (1,1) 0 or 1. Z-score each channel before use. Default 1.
+%      Norm         "euc", "max", "min" or "none". Distance-matrix
+%                   normalization. Default "none".
+%      Dmin, Vmin   Minimum diagonal/vertical line length counted as
+%                   deterministic/laminar. Default 2.
+%      Plot         (1,1) 0 or 1. Show the recurrence plot. Default 0.
+%      Iter         Bisection iterations used to search for the radius
+%                   under PARAM="rec". Default 20.
+%      PhaseSpace   (1,1) logical. If true, DATA is a cell array with one
+%                   already-reconstructed phase space per channel and is
+%                   used verbatim: TAU and DIM are recorded in RESULTS but
+%                   no reconstruction is performed. Default false.
+%
+%   Notes
+%   A supplied phase space carries no record of the delay or dimension used
+%   to build it, so Norm="euc" -- whose scaling depends on DIM matching each
+%   phase space's actual width -- cannot verify that assumption and JRQA
+%   warns rather than silently trusting a possibly stale DIM.
+%
+%   Examples
+%      % Reconstruct internally
+%      [rp, r] = jrqa([x y], tau, dim);
+%
+%      % Reconstruct once per channel, share it, skip re-embedding
+%      Y1 = psr(x, tau(1), dim(1));
+%      Y2 = psr(y, tau(2), dim(2));
+%      [rp, r] = jrqa({Y1, Y2}, tau, dim, PhaseSpace=true);
+%
+%   See also PSR, RQA, CRQA, MDRQA.
+
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data double {mustbeAtLeastTwoColumns}
+    data {mustBeA(data, ["double","cell"])}
     tau (1,2) {mustBeInteger, mustBePositive} = [1 1]
     dim (1,2) {mustBeInteger, mustBePositive} = [1 1]
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
@@ -16,6 +64,26 @@ arguments
     options.Plot (1,1) {mustBeMember(options.Plot,[0,1])} = 0
     options.Orient (1,1) {mustBeMember(options.Orient,["col", "row"])} = "col"
     options.Iter (1,1) {mustBeInteger, mustBePositive} = 20
+    options.PhaseSpace (1,1) logical = false
+end
+
+% options is not visible yet when the arguments block validates data, so
+% the type/shape checks that depend on it live here instead.
+if options.PhaseSpace
+    if ~iscell(data)
+        error('jrqa:phaseSpaceMustBeCell', ...
+            ['PhaseSpace is true, so DATA must be a cell array with one ' ...
+             'already-reconstructed phase space per channel, e.g. ' ...
+             '{Y1, Y2}, rather than a raw multi-column series.']);
+    elseif numel(data) < 2
+        error('jrqa:tooFewChannels', ...
+            'DATA must contain at least two channels.');
+    end
+elseif ~isa(data, 'double')
+    error('jrqa:rawDataMustBeDouble', ...
+        'DATA must be a double matrix unless PhaseSpace is true.');
+else
+    mustbeAtLeastTwoColumns(data)
 end
 
 %% Begin code
@@ -25,18 +93,37 @@ dmin = options.Dmin;
 vmin = options.Vmin;
 
 %% Standardize data if zscore is true
-% If zscore is selected then zscore the data
+% If zscore is selected then zscore the data (each channel independently
+% when a cell array of phase spaces was supplied)
 if options.Zscore
-    data = zscore(data);
+    if options.PhaseSpace
+        data = cellfun(@zscore, data, 'UniformOutput', false);
+    else
+        data = zscore(data);
+    end
 end
 
-% Get number of time series
-DIM = size(data, 2);
+if options.PhaseSpace
+    % A supplied phase space is used verbatim; TAU and DIM cannot be
+    % confirmed to match it.
+    data2 = data;
+    DIM = numel(data2);
+    if options.Norm == "euc"
+        warning('jrqa:eucNormAssumesDim', ...
+            ['PhaseSpace is true, so DATA was not rebuilt from TAU and DIM ' ...
+             'and DIM cannot be confirmed to match its width. Norm="euc" ' ...
+             'scales by DIM regardless; pass DIM to match each phase ' ...
+             'space''s width or use Norm="none", "min" or "max".']);
+    end
+else
+    % Get number of time series
+    DIM = size(data, 2);
 
-% Embed the data onto phase space
-for i = 1:DIM
-    if dim(i) > 1
-        data2{i} = psr(data(:,i), tau(i), dim(i));
+    % Embed the data onto phase space
+    for i = 1:DIM
+        if dim(i) > 1
+            data2{i} = psr(data(:,i), tau(i), dim(i));
+        end
     end
 end
 
