@@ -253,14 +253,96 @@ function s = mk(name, pretty, section, category, f, x0, lambda, tier)
 s = struct('name', string(name), 'pretty', string(pretty), ...
     'section', string(section), 'category', string(category), ...
     'kind', "map", 'f', f, 'x0', x0(:), 'lambda', lambda, ...
-    'tier', string(tier), 'obs', 1, 'dt', NaN, 'usable', true, 'note', "");
+    'tier', string(tier), 'obs', 1, 'dt', NaN, 'usable', true, 'note', "", ...
+    'd2', NaN, 'd2_err', NaN);
+[s.d2, s.d2_err] = localD2(name);
 end
 
 function s = mkf(name, pretty, section, category, f, x0, lambda, tier, dt)
 s = struct('name', string(name), 'pretty', string(pretty), ...
     'section', string(section), 'category', string(category), ...
     'kind', "flow", 'f', f, 'x0', x0(:), 'lambda', lambda, ...
-    'tier', string(tier), 'obs', 1, 'dt', dt, 'usable', true, 'note', "");
+    'tier', string(tier), 'obs', 1, 'dt', dt, 'usable', true, 'note', "", ...
+    'd2', NaN, 'd2_err', NaN);
+[s.d2, s.d2_err] = localD2(name);
+end
+
+function [d2, err] = localD2(name)
+%LOCALD2 Correlation dimension from Sprott (2003) Appendix A.
+%   Zero uncertainty marks a value the appendix gives as exact. The appendix
+%   states D2 was computed from at least 2e12 pairs and extrapolated to zero
+%   scale, so these carry real uncertainty and are not tight targets.
+T = { ...
+    "logistic", 1.0, 0;
+    "sine_map", 1.0, 0;
+    "tent", 1.0, 0;
+    "lcg", 1.0, 0;
+    "cubic_map", 1.0, 0;
+    "ricker", 1.0, 0;
+    "gauss_map", 1.0, 0;
+    "cusp", 1.0, 0;
+    "gauss_white", 1.0, 0;
+    "pinchers", 1.0, 0;
+    "spence", 1.0, 0;
+    "sine_circle", 1.0, 0;
+    "henon", 1.22, 0.036;
+    "lozi", 1.384, 0.053;
+    "delayed_logistic", 1.144, 0.034;
+    "tinkerbell", 1.329, 0.036;
+    "burgers", 1.462, 0.054;
+    "holmes_cubic", 1.26, 0.039;
+    "kaplan_yorke", 1.432, 0.044;
+    "dissipative_standard", 1.356, 0.047;
+    "ikeda", 1.69, 0.073;
+    "sinai", 1.779, 0.063;
+    "predator_prey", 1.903, 0.079;
+    "chirikov", 1.954, 0.077;
+    "henon_area", 2.2, 0.063;
+    "arnold_cat", 2.0, 0;
+    "gingerbreadman", 2.171, 0.078;
+    "chaotic_web", 1.779, 0.059;
+    "lorenz3d_map", 1.745, 0.057;
+    "damped_pendulum", 2.764, 0.158;
+    "driven_vdp", 2.19, 0.08;
+    "shaw_vdp", 2.007, 0.091;
+    "brusselator", 2.224, 0.095;
+    "ueda", 2.675, 0.132;
+    "duffing_two_well", 2.334, 0.114;
+    "duffing_vdp", 2.333, 0.115;
+    "rayleigh_duffing", 2.194, 0.12;
+    "lorenz", 2.068, 0.086;
+    "rossler", 1.991, 0.065;
+    "diffusionless_lorenz", 2.169, 0.128;
+    "complex_butterfly", 2.491, 0.131;
+    "chen", 2.147, 0.117;
+    "hadley", 2.162, 0.114;
+    "act", 2.039, 0.106;
+    "rabinovich_fabrikant", 2.191, 0.113;
+    "rigid_body", 2.069, 0.121;
+    "chua", 2.125, 0.098;
+    "moore_spiegel", 2.309, 0.107;
+    "thomas", 1.843, 0.075;
+    "halvorsen", 2.11, 0.095;
+    "burke_shaw", 2.211, 0.132;
+    "rucklidge", 2.108, 0.095;
+    "windmi", 2.035, 0.095;
+    "simplest_quadratic", 2.187, 0.075;
+    "simplest_cubic", 2.174, 0.083;
+    "simplest_piecewise", 2.131, 0.072;
+    "double_scroll", 2.184, 0.107;
+    "driven_pendulum", 2.756, 0.149;
+    "simplest_driven", 2.634, 0.16;
+    "nose_hoover", 2.521, 0.146;
+    "labyrinth", 2.837, 0.173;
+    "henon_heiles", 2.706, 0.126;
+};
+hit = strcmp([T{:,1}], name);
+if any(hit)
+    d2 = T{hit,2};
+    err = T{hit,3};
+else
+    d2 = NaN; err = NaN;
+end
 end
 
 % ------------------------------------------------- systems needing helpers
