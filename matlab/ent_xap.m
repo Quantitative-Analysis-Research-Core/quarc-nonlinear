@@ -6,7 +6,10 @@ function [xAP]=ent_xap(x,y,dim,radius,k)
 %            y - second time series
 %            dim - something vector length
 %            radius - R tolerance to find matches, proportion of the stdev
-%            k - something lag
+%            k - increment between the two template lengths compared. The
+%                function evaluates lengths dim and dim+k, so k = 1 gives the
+%                standard cross approximate entropy. Other values compare
+%                non-adjacent lengths and are rarely wanted.
 % outputs:   xAP - cross approximate entropy
 %
 % Remarks

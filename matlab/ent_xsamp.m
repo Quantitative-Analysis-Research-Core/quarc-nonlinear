@@ -37,7 +37,13 @@ elseif norm == 2 % normalize data to have a SD = 1, and mean = 0
     xn = (x - mean(x))/std(x);
     yn = (y - mean(y))/std(y);
     r = radius;
-else disp('These data will not be normalized')
+else
+    % No normalisation. xn, yn and r must still be assigned; the branch
+    % previously only printed a message, leaving the loop below to fail on
+    % an undefined variable.
+    xn = x;
+    yn = y;
+    r = radius * ((std(x) + std(y))/2);
 end
 
 for i = 1:N-dim
