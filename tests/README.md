@@ -3,13 +3,8 @@
 Headless. No GUI, no toolboxes beyond base MATLAB, no pytest.
 
 ```bash
-# MATLAB  (exit 0 = all passed)
 matlab -batch "addpath('tests/matlab'); run_tests"
 matlab -batch "addpath('tests/matlab'); run_tests('Surr')"   # name filter
-
-# Python
-python3 tests/python/run_tests.py
-python3 tests/python/run_tests.py emd                        # name filter
 ```
 
 JUnit XML lands in `tests/artifacts/results.xml`.
@@ -36,12 +31,11 @@ the library unusable in batch — `dbstop`, `waitbar`, file/function name
 mismatches, CR-only line endings. These are invisible to any test that calls
 the function inside `try/catch`, which is why they need their own pass.
 
-**Cross-language.** Both languages read the *same samples* from
-`tests/fixtures/*.csv`, and MATLAB's answers are frozen in
-`matlab_reference.json`. MATLAB and NumPy cannot draw the same random numbers,
-so a test that generates its own series in each language can only check loose
-statistical agreement and would miss a real divergence. Identical input makes
-1e-10 a meaningful assertion.
+**Cross-language.** Not active here: the Python port was not moved into this
+repository. `tests/fixtures/*.csv` and `matlab_reference.json` are retained
+because they are the shared reference data, so the equivalence tests can be
+restored when the port is reworked. Regenerate the reference with
+`matlab -batch "addpath('tests/matlab'); make_reference"`.
 
 ## Rules the harness follows
 
@@ -83,5 +77,5 @@ suite with no warning. Helpers here are named `local*` and never `*Test`.
    assertion. If you cannot state what the function promises, that is the
    finding.
 3. Add a `nonantest.sideEffects` check — errors, figures, `dbstop`, runtime.
-4. If the function exists in both languages, add a fixture and a line to
-   `make_reference.m`.
+4. If the function will also exist in the Python port, add a fixture and a
+   line to `make_reference.m`.

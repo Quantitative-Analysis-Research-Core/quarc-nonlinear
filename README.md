@@ -1,44 +1,82 @@
-# NONANToolbox
+# QUARC Nonlinear
+
+Nonlinear time series analysis for MATLAB, from the Quantitative Analysis
+Research Core (QUARC) at the Center for Human Movement Variability,
+University of Nebraska at Omaha.
+
+This supersedes the NONAN Library. QUARC is the Core's current name, and this
+repository is where ongoing development happens, including changes that break
+compatibility with the NONAN releases.
 
 ## INSTALLATION
 
-To download this library, click on the green dropdown box that says "Code" and click on "Download ZIP". Once the ZIP file has downloaded, you will have to extract the files from that ZIP folder. Once the files are extracted, they will be available for your use.
+Clone the repository and add `matlab/` to your MATLAB path:
 
-### MATLAB VERSION
-
-There are no known incompatibilities using MATLAB version R2019a.
-
-MATLAB Toolboxes Required:
-
-  Statistics and Machine Learning Toolbox
-  
-  Signal Processing Toolbox
-  
-  Image Processing Toolbox
-
-  Parallel Computing Toolbox
-
-  Application Compiler Toolbox 
-
-### PYTHON VERSION  
-
-To install from the requirements.txt file, make sure you have the package installer for Python (pip) on your PATH, and use the following command:
-
-```
-pip install -r requirements.txt
+```matlab
+addpath(genpath('path/to/quarc-nonlinear/matlab'))
 ```
 
-If you are installing using pip3, then simply use the command:
+To keep pre-rename function names working, also add the shim folder:
 
+```matlab
+addpath('path/to/quarc-nonlinear/matlab/deprecated')
 ```
-pip3 install -r requirements.txt
+
+Each shim forwards its arguments unchanged and warns once per session.
+
+## REQUIREMENTS
+
+MATLAB R2019b or later. The `arguments` block and name-value syntax used by
+the newer functions need R2019b; `ami`, `lyapunov` and the RQA family use it.
+
+Most functions run on **base MATLAB with no toolboxes**. The exceptions are
+noted per function in their help text. Functions rewritten during the audit
+(`ami`, `ami_histogram`, `ami_kde`) had their Statistics Toolbox dependencies
+removed and now run on base MATLAB.
+
+## TESTS
+
+```bash
+matlab -batch "addpath('tests/matlab'); run_tests"
 ```
 
-After installing these libraries, the Python scripts are available for use.
+Headless, base MATLAB only, exits nonzero on failure and writes JUnit XML to
+`tests/artifacts/`. Filter by name with `run_tests('Surr')`. See
+`tests/README.md` for how the suite is organised.
 
-### DOCUMENTATION
+The suite includes a benchmark of both Lyapunov estimators against the 62
+systems of Sprott (2003) Appendix A; see `tests/fixtures/`.
 
-For documentation related to this library, we have a GitHub page hosted [here](https://nonlinear-analysis-core.github.io/NONANLibrary/index.html).
+## CHANGES FROM NONAN
+
+Function and file names are now `lower_snake_case` with no date suffixes.
+Old names remain available through `matlab/deprecated/`.
+
+Corrected during the audit that preceded this repository:
+
+- `surr_theiler` algorithm 1 now preserves the power spectrum exactly.
+  Spectral error fell from ~0.59 to 3e-16 and the standard deviation ratio
+  from 0.71 to 1.0000.
+- `lye_r` is now scale invariant. A hard-coded exclusion marker of 1e5 meant
+  the exponent collapsed to 8% of its correct value once distances exceeded
+  that, silently.
+- `lye_r` memory is now O(N) rather than O(N^2): 287 MB to 0.10 MB at
+  N = 6000.
+- `surr_find_rho` always returns a value. It previously failed to assign its
+  output on 18-30% of calls depending on the series.
+- `dbstop if error` removed from ten functions. It is global session state
+  and made batch runs hang rather than fail.
+- `waitbar` removed. It required a display and contributed nothing to the
+  result.
+- `ami` replaces `AMI_Stergiou` and `AMI_Thomas` with one entry point and an
+  `Algorithm` argument. The histogram estimator's inverted `Bins` guard, bin
+  off-by-one, and non-strict minimum test are fixed; the kernel estimator is
+  7-10x faster and numerically identical.
+- `lyapunov` provides the same wrapper pattern for the Lyapunov estimators
+  and accepts a pre-built phase space.
+
+The Python port has not been moved here. It has known defects and needs its
+own rework; it remains in the NONAN repository for now.
 
 ### FILES
 
@@ -95,7 +133,8 @@ Headless, base MATLAB only, exits nonzero on failure. See `tests/README.md`.
 
 COPYRIGHT
 
-Copyright 2021 Nonlinear Analysis Core, Center for Human Movement Variability, University of Nebraska at Omaha
+Copyright 2021-2026 Quantitative Analysis Research Core (formerly the Nonlinear Analysis Core),
+Center for Human Movement Variability, University of Nebraska at Omaha
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
