@@ -122,12 +122,9 @@ else
     % Calculate useful size of data
     N=length(X);
     M=N-(dim-1)*tau;
-    
-    Y=zeros(M,dim);
-    for j=1:dim
-        Y(:,j)=X((1:M)+(j-1)*tau)';
-    end
-    
+
+    Y=psr(X,tau,dim);
+
 end
 
 %% Find nearest neighbors

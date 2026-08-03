@@ -86,7 +86,7 @@ distSUM=0;
 
 if size(X,2)==1
     
-    Y=psr_deneme(X,dim,tau);
+    Y=psr(X,tau,dim);
     NPT=length(X)-(dim-1)*tau-evolve; % Size of useable data % NPT=length(X)-(dim)*tau-evolve; (BS)
     Y=Y(1:NPT+evolve,:);
     
@@ -213,27 +213,5 @@ if flag==1
     PotenDisti(Ydisti<=0) = NaN;
     [~,next_point]=min(PotenDisti);
     thbest=ANGLMX;
-    
-end
 
-function Y=psr_deneme(x,m,tau,npoint)
-
-%Phase space reconstruction
-%x : time series
-%m : embedding dimension
-%tao : time delay
-%npoint : total number of reconstructed vectors
-%Y : M x m matrix
-% author:"Merve Kizilkaya"
-N=length(x);
-if nargin == 4
-    M=npoint;
-else
-    M=N-(m-1)*tau;
-end
-
-Y=zeros(M,m);
-
-for i=1:m
-    Y(:,i)=x((1:M)+(i-1)*tau)';
 end
