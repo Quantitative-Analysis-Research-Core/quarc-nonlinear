@@ -167,6 +167,8 @@ wrp = a{1};
 % Calculate recurrence plot
 switch param
     case 'rad'
+        % THRESHOLD is the radius itself in this branch.
+        radius = threshold;
         [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'jrqa');
     case 'rec'
         radius_start = 0.01;

@@ -93,7 +93,7 @@ if options.PhaseSpace
              'use Norm="none", "min" or "max".']);
     end
 elseif dim > 1
-    data = psr(data, dim, tau);
+    data = psr(data, tau, dim);
 end
 
 % Calculate distance matrix based on the type of RQA
@@ -129,6 +129,8 @@ end
 % Calculate recurrence plot
 switch param
     case 'rad'
+        % THRESHOLD is the radius itself in this branch.
+        radius = threshold;
         [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'rqa');
     case 'rec'
         radius_start = 0.01;

@@ -5,9 +5,25 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(data,a,radius
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
+        % Bracket the target from below. Bounded, because %REC is a step
+        % function of radius for data taking few distinct values -- binary or
+        % categorical series, for instance -- so a target between two steps is
+        % unreachable and the search would otherwise never terminate.
+        maxAdjust = 200;
         [rec, ~, ~, ~] = line_hist(data,a,radius_start,type);
+        k = 0;
         while rec == 0 || rec > threshold
-            disp('Minimum radius has been adjusted...');
+            k = k + 1;
+            if k > maxAdjust
+                error('set_radius:targetUnreachable', ...
+                    ['Could not bracket %%REC = %g from below after %d ' ...
+                     'adjustments (radius %g gives %%REC = %g). The distance ' ...
+                     'matrix takes too few distinct values for this target to ' ...
+                     'be reachable, which is usual for binary or categorical ' ...
+                     'data. Set the radius directly with param="rad", or pick ' ...
+                     'a target that lies on an achievable step.'], ...
+                    threshold, maxAdjust, radius_start, rec);
+            end
             if rec == 0
                 radius_start = radius_start*2;
             elseif rec > threshold
@@ -18,8 +34,15 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(data,a,radius
 
         % if radius_end is too large
         [rec, ~, ~, ~] = line_hist(data,a,radius_end,type);
+        k = 0;
         while rec < threshold
-            disp('Maximum radius has been increased...');
+            k = k + 1;
+            if k > maxAdjust
+                error('set_radius:targetUnreachable', ...
+                    ['Could not bracket %%REC = %g from above after %d ' ...
+                     'adjustments (radius %g gives %%REC = %g).'], ...
+                    threshold, maxAdjust, radius_end, rec);
+            end
             radius_end = radius_end*2;
             [rec, ~, ~, ~] = line_hist(data,a,radius_end,type);
         end

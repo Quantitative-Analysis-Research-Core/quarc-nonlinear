@@ -29,9 +29,7 @@ end
 function testRqaPhaseSpaceMatchesSeriesInput(tc)
 x = tc.TestData.x; tau = tc.TestData.tau; dim = tc.TestData.dim;
 [rpSeries, resSeries] = rqa(x, tau, dim, "Zscore", 1);
-% rqa embeds with psr(data, dim, tau) -- reproduce that exactly so the
-% phase space handed in is bit-identical to what rqa would have built.
-Y = psr(zscore(x), dim, tau);
+Y = psr(zscore(x), tau, dim);
 [rpSpace, resSpace] = rqa(Y, tau, dim, "Zscore", 0, "PhaseSpace", true);
 
 tc.verifyEqual(rpSpace, rpSeries, 'the recurrence plot must be unchanged');
@@ -69,8 +67,8 @@ function testMdrqaPhaseSpaceMatchesSeriesInput(tc)
 x = tc.TestData.x; y = tc.TestData.y; z = tc.TestData.z;
 tau = tc.TestData.tau; dim = tc.TestData.dim;
 [rpSeries, resSeries] = mdrqa([x y z], tau, dim, "Zscore", 1);
-% mdrqa embeds with psr(data, dim, tau), same call order as rqa.
-Y = psr(zscore([x y z]), dim, tau);
+% mdrqa embeds with psr(data, tau, dim), same call order as rqa.
+Y = psr(zscore([x y z]), tau, dim);
 [rpSpace, resSpace] = mdrqa(Y, tau, dim, "Zscore", 0, "PhaseSpace", true);
 
 tc.verifyEqual(rpSpace, rpSeries, 'the recurrence plot must be unchanged');
@@ -82,7 +80,7 @@ end
 % A supplied phase space is used verbatim, not silently re-embedded.
 % ------------------------------------------------------------------
 function testRqaPhaseSpaceIsNotReembedded(tc)
-% If PhaseSpace were ignored and DATA re-embedded via psr(data,dim,tau),
+% If PhaseSpace were ignored and DATA re-embedded via psr(data, tau, dim),
 % the M = N-(dim-1)*tau row-trimming formula would shrink the row count.
 % A verbatim pass-through must keep every row.
 n = 80;
@@ -208,4 +206,26 @@ function testJrqaPhaseSpaceRequiresCellArray(tc)
 Y = randn(50, 4);
 tc.verifyError(@() jrqa(Y, [1 1], [1 1], "PhaseSpace", true), ...
     'jrqa:phaseSpaceMustBeCell');
+end
+
+function testEmbeddingUsesTauThenDim(tc)
+% rqa and mdrqa called psr(data, dim, tau) against a signature of
+% psr(x, tau, dim), so tau and the embedding dimension were transposed
+% whenever they differed: asking for dim=3 at tau=1 produced a single column.
+% crqa and jrqa had it right, which is why two of the four disagreed.
+x = tc.TestData.x;
+tau = 5; dim = 3;
+expected = psr(zscore(x), tau, dim);
+
+[rpSeries, ~] = rqa(x, tau, dim, "Zscore", 1);
+[rpSpace,  ~] = rqa(expected, tau, dim, "Zscore", 0, "PhaseSpace", true);
+tc.verifyEqual(rpSpace, rpSeries, sprintf( ...
+    ['rqa embedded differently from psr(x, tau, dim) at tau=%d dim=%d. ' ...
+     'Check the argument order of the internal psr call.'], tau, dim));
+
+[rpSeriesM, ~] = mdrqa([x tc.TestData.y], tau, dim, "Zscore", 1);
+expectedM = psr(zscore([x tc.TestData.y]), tau, dim);
+[rpSpaceM, ~] = mdrqa(expectedM, tau, dim, "Zscore", 0, "PhaseSpace", true);
+tc.verifyEqual(rpSpaceM, rpSeriesM, ...
+    'mdrqa embedded differently from psr(x, tau, dim)');
 end
