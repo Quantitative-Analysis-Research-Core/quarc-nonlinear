@@ -1,10 +1,11 @@
-function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, delay, dim, radius )
-% [ RCMSE, CMSE, MSE, MSFE ] = RCMS_Ent( x, delay, dim, radius )
+function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, scale, dim, radius )
+% [ RCMSE, CMSE, MSE, MSFE ] = RCMS_Ent( x, scale, dim, radius )
 % inputs - x, single column time seres
-%        - delay, greatest scale factor
+%        - scale, greatest coarse-graining scale factor (not an embedding
+%                 delay; the series is averaged over 1:scale block sizes)
 %        - dim, length of vectors to be compared
-%        - R, radius for accepting matches (as a proportion of the
-%             standard deviation)
+%        - radius, tolerance for accepting matches, as a proportion of the
+%                  standard deviation
 % output - RCMSE, Refined Composite Multiscale Entropy
 %        - CMSE, Composite Multiscale Entropy
 %        - MSE, Multiscale Entropy
@@ -18,7 +19,7 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, delay, dim, radius )
 %   time series using refined composite multiscale entropy." Physics
 %   Letters A. 378, 1369-1374.
 % - Each of these methods calculates entropy at different scales. These
-%   scales range from 1 to delay in increments of 1.
+%   scales range from 1 to scale in increments of 1.
 % - The Complexity Index (CI) is not calculated by this code. Because the scales
 %   are incremented by 1 the C is the summation of all the elements in each
 %   array. For example the CI of MSE would be sum(MSE).
@@ -36,7 +37,7 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, delay, dim, radius )
 R = radius*std(x);
 N = length(x);
 
-for i=1:delay
+for i=1:scale
     
     %Coarse-graining for GMSE
     o2 = zeros(length(1:i),length(1:N/i));

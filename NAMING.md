@@ -18,6 +18,7 @@ when things changed.
 | tolerance | `radius` | entropy tolerance; see the note below |
 | maximum lag | `maxlag` | upper bound of a lag sweep |
 | phase space | `Y` | an N-by-D matrix, already embedded |
+| coarse-graining scale | `scale` | multiscale entropy; **not** a delay |
 
 Name-value options are `lowercase`, one word where possible: `algorithm`,
 `phasespace`, `theiler`, `bins`, `chunk`, `norm`, `zscore`, `delay`, `dim`.
