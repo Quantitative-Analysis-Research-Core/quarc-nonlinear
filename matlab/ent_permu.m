@@ -28,6 +28,7 @@ function [permEnt, hist] = ent_permu(x, dim, delay)
 % MIT licence. See LICENSE.txt.
 %%
 
+x = x(:).';     % row, so the ordinal pattern below compares shape to shape
 N = length(x);  % length of time series
 perm = perms(1:dim);  % create all possible permutation vectors
 hist(1:length(perm)) = 0;   % designate variable to store values
@@ -35,7 +36,7 @@ hist(1:length(perm)) = 0;   % designate variable to store values
 for cnt1=1:N-delay*(dim-1)  % steps from 1 through length of x minus time delay multiplied by order minus 1
     [~, permVal] = sort(x(cnt1:delay:cnt1+delay*(dim-1))); % creates permutation of selected x range
     for cnt2=1:length(perm) % steps through length of possible permutation vectors
-        if perm(cnt2,:) - permVal == 0  % compares current permutation of selected x to possible permutation vectors
+        if all(perm(cnt2,:) == permVal)  % compares current permutation of selected x to possible permutation vectors
             hist(cnt2) = hist(cnt2) + 1;    % if above comparison is equal, then adds one to bin for appropriate permutation vector
         end
     end

@@ -19,6 +19,16 @@ function [ NCSE ] = ent_symbolic( x, dim )
 if r > c
     x = x';
 end
+%% Validate. bin2dec below accepts only 0 and 1, and its own error names
+% neither the argument nor the requirement.
+u = unique(x(:));
+if ~all(ismember(u, [0 1]))
+    error('ent_symbolic:notBinary', ...
+        ['x must be a binary series of 0s and 1s; found %d distinct values ' ...
+         'in [%g, %g]. Threshold or symbolise the series first, for example ' ...
+         'x = double(x > median(x)).'], numel(u), min(u), max(u));
+end
+
 %% Convert binary values to decimal.
 words = zeros(length(x)-dim+1,1);
 for i = 1:length(x)-dim+1
@@ -38,5 +48,4 @@ CSE = H+(So-1) / (2*Sm*log(2));
 CSEm = -log2(1/Sm) + (Sm-1) / (2*Sm*log(2));
 NCSE = CSE/CSEm;
 %% Print out Symbolic Entropy Value.
-fprintf('Normalized Corrected Shannon Entropy = %2.3f bits\r',NCSE);
 end
