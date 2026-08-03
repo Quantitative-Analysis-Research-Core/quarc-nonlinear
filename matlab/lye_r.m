@@ -1,17 +1,17 @@
-function [varargout]=lye_r(X,Fs,tau,dim,varargin)
-% [out]=lye_r(X,Fs,tau,dim)
-% inputs  - X, If this is a single dimentional array the code will use tau
+function [varargout]=lye_r(x,fs,delay,dim,varargin)
+% [out]=lye_r(x,fs,delay,dim)
+% inputs  - x, If this is a single dimentional array the code will use delay
 %              and dim to perform a phase space reconstruction. If this is
 %              a multidimentional array the phase space reconstruction will
 %              not be used.
-%         - Fs, sampling frequency in units s^-1
-%         - tau, time lag
+%         - fs, sampling frequency in units s^-1
+%         - delay, time lag
 %         - dim, embedding dimension
 % outputs - out, contains the starting matched pairs and the average line
 %                divergence from which the slope is calculated. The matched
 %                paris are columns 1 and 2. The average line divergence is
 %                column 3.
-% [LyES,LyEL,out]=LyE_Rosenstein_FC(X,Fs,tau,dim,slope,MeanPeriod,file)
+% [LyES,LyEL,out]=LyE_Rosenstein_FC(x,fs,delay,dim,slope,MeanPeriod,file)
 % inputs  - slope, a four element array with the number of periods to find
 %                  the regression lines for the short and long LyE. This is
 %                  converted to indexes in the code.
@@ -25,8 +25,8 @@ function [varargout]=lye_r(X,Fs,tau,dim,varargin)
 %              searching for each point's nearest neighbour. Candidates
 %              within +/-w are excluded so the match is a return to the
 %              neighbourhood rather than an adjacent sample on the same
-%              trajectory. Default round(tau*0.8). Set it from the dominant
-%              period when tau is small relative to the orbit. Accepted in
+%              trajectory. Default round(delay*0.8). Set it from the dominant
+%              period when delay is small relative to the orbit. Accepted in
 %              both call forms.
 % outputs - LyES, short/local lyapunov exponent
 %         - LyEL, long/orbital lyapunov exponent
@@ -69,12 +69,12 @@ function [varargout]=lye_r(X,Fs,tau,dim,varargin)
 %            reviewed, or used to finf the slope. Removed the progress
 %            output to the command window since it was sped up
 %            conciderably. Edited the figure output. Added code that allows
-%            a multivariable input to be entered as X.
+%            a multivariable input to be entered as x.
 % Aug 2020 - Revised by Ben Senderling
 %          - Removed mean period calculation and turned it into an input.
 %            This varies too widely between time series to have it
 %            automatically calculated in the script. It was replaced with
-%            tau to find paired points.
+%            delay to find paired points.
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
@@ -95,7 +95,7 @@ while k < numel(varargin)
     end
 end
 if isempty(theilerWindow)
-    theilerWindow=round(tau*0.8);
+    theilerWindow=round(delay*0.8);
 end
 if ~isscalar(theilerWindow) || ~isfinite(theilerWindow) || theilerWindow < 0
     error('LyE_R:theilerWindow', ...
@@ -103,27 +103,27 @@ if ~isscalar(theilerWindow) || ~isfinite(theilerWindow) || theilerWindow < 0
 end
 theilerWindow=round(theilerWindow);
 
-% Checked that X is vertically oriented. If X is a single or multiple
+% Checked that x is vertically oriented. If x is a single or multiple
 % dimentional array the length is assumed to be longer than the width. It
 % is re-oriented if found to be different.
-[r,c]=size(X);
+[r,c]=size(x);
 if c > r
-    X=X';
+    x=x';
 end
 
-%% Checks if a multidimentional array was entered as X.
-if size(X,2)>1
+%% Checks if a multidimentional array was entered as x.
+if size(x,2)>1
     
-    M=length(X);
-    Y=X;
+    M=length(x);
+    Y=x;
     
 else
     
     % Calculate useful size of data
-    N=length(X);
-    M=N-(dim-1)*tau;
+    N=length(x);
+    M=N-(dim-1)*delay;
 
-    Y=psr(X,tau,dim);
+    Y=psr(x,delay,dim);
 
 end
 
@@ -197,19 +197,19 @@ else
     file=varargin{3};
     
     
-    time=(0:length(AveLnDiv)-1)/Fs/MeanPeriod;
+    time=(0:length(AveLnDiv)-1)/fs/MeanPeriod;
     
     % The values in slope are assumed to be the number of periods. These
     % are converted into indexes.
     if slope(1)==0
         short(1)=1; % A value of 0 periods cannot be used.
     else
-        short(1)=round(slope(1)*MeanPeriod*Fs);
+        short(1)=round(slope(1)*MeanPeriod*fs);
     end
-    short(2)=round(slope(2)*MeanPeriod*Fs);
+    short(2)=round(slope(2)*MeanPeriod*fs);
     
-    long(1)=round(slope(3)*MeanPeriod*Fs);
-    long(2)=round(slope(4)*MeanPeriod*Fs);
+    long(1)=round(slope(3)*MeanPeriod*fs);
+    long(2)=round(slope(4)*MeanPeriod*fs);
     
     % If the index chosen exceeds the length of AveLnDiv then that exponent
     % is made a NaN.

@@ -1,25 +1,25 @@
-function [tau, curve, info] = ami_kde(x, L, opts)
+function [tau, curve, info] = ami_kde(x, maxlag, opts)
 %AMI_KDE Average mutual information versus lag, kernel density estimator.
-%   TAU = AMI_KDE(X,L) returns the lag of the first local minimum of the
-%   average mutual information of X with itself over lags 0:L, using Gaussian
+%   TAU = AMI_KDE(X,maxlag) returns the lag of the first local minimum of the
+%   average mutual information of X with itself over lags 0:maxlag, using Gaussian
 %   kernel density estimates of the marginal and joint densities.
 %
-%   [TAU,CURVE] = AMI_KDE(X,L) also returns the AMI curve as an (L+1)-by-2
+%   [TAU,CURVE] = AMI_KDE(X,maxlag) also returns the AMI curve as an (maxlag+1)-by-2
 %   array of [lag, ami], in bits.
 %
-%   [TAU,CURVE,INFO] = AMI_KDE(X,L) also returns a struct with fields
+%   [TAU,CURVE,INFO] = AMI_KDE(X,maxlag) also returns a struct with fields
 %   allMinima, usedFallback, fractionLag and estimator.
 %
-%   ___ = AMI_KDE(X,L,Fraction=F) sets the fallback threshold, as a fraction
+%   ___ = AMI_KDE(X,maxlag,Fraction=F) sets the fallback threshold, as a fraction
 %   of AMI at lag 0, used when the curve has no local minimum. Default 0.2.
 %
-%   ___ = AMI_KDE(X,L,ChunkSize=C) sets how many rows of the pairwise kernel
+%   ___ = AMI_KDE(X,maxlag,ChunkSize=C) sets how many rows of the pairwise kernel
 %   are evaluated at once. Default 512. Lower it to reduce peak memory; it
 %   does not change the result.
 %
 %   Input Arguments
 %      X  time series, real column vector, no NaN
-%      L  maximum lag, positive integer, less than numel(X)
+%      maxlag  maximum lag, positive integer, less than numel(X)
 %
 %   Notes
 %   Marginals use a univariate Gaussian kernel with bandwidth std(X)/N^(1/6).
@@ -27,7 +27,7 @@ function [tau, curve, info] = ami_kde(x, L, opts)
 %   carries the sample correlation. Densities are evaluated at the data
 %   points and AMI is the mean log2 ratio.
 %
-%   Cost is O(L*N^2) kernel evaluations, substantially slower than
+%   Cost is O(maxlag*N^2) kernel evaluations, substantially slower than
 %   AMI_HISTOGRAM, in exchange for lower bias. Peak memory is O(ChunkSize*N).
 %
 %   Runs on base MATLAB. No toolbox required.
@@ -41,7 +41,7 @@ function [tau, curve, info] = ami_kde(x, L, opts)
 %      An efficient algorithm for the computation of average mutual
 %      information. Behavior Research Methods.
 %
-%      Fraser, A. M. and Swinney, H. L. (1986). Independent coordinates for
+%      Fraser, A. M. and Swinney, H. maxlag. (1986). Independent coordinates for
 %      strange attractors from mutual information. Physical Review A, 33(2),
 %      1134-1140.
 %
@@ -53,7 +53,7 @@ function [tau, curve, info] = ami_kde(x, L, opts)
 
 arguments
     x  (:,1) double {mustBeNonempty}
-    L  (1,1) double {mustBePositive, mustBeInteger}
+    maxlag  (1,1) double {mustBePositive, mustBeInteger}
     opts.Fraction  (1,1) double {mustBePositive} = 0.2
     opts.ChunkSize (1,1) double {mustBePositive, mustBeInteger} = 512
 end
@@ -62,14 +62,14 @@ if anynan(x)
     error('ami_kde:nanInput', ...
           'x contains NaN. Mutual information is undefined for missing data.');
 end
-if L >= numel(x)
+if maxlag >= numel(x)
     error('ami_kde:lagTooLarge', ...
-          'L (%d) must be smaller than the number of samples (%d).', L, numel(x));
+          'L (%d) must be smaller than the number of samples (%d).', maxlag, numel(x));
 end
 
-curve = zeros(L + 1, 2);
+curve = zeros(maxlag + 1, 2);
 curve(1, :) = [0, mutualInformationBits(x, x, opts.ChunkSize)];
-for lag = 1:L
+for lag = 1:maxlag
     a = x(1:end-lag);
     b = x(lag+1:end);
     curve(lag + 1, :) = [lag, mutualInformationBits(a, b, opts.ChunkSize)];

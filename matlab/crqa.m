@@ -1,4 +1,4 @@
-function [RP, RESULTS]=crqa(data,tau,dim,param,threshold,options)
+function [RP, RESULTS]=crqa(x,delay,dim,param,threshold,options)
 %CRQA Cross recurrence quantification analysis of two time series.
 %   [RP,RESULTS] = CRQA(DATA,TAU,DIM) reconstructs a phase space from each
 %   column of the two-column matrix DATA using delay TAU and embedding
@@ -36,11 +36,11 @@ function [RP, RESULTS]=crqa(data,tau,dim,param,threshold,options)
 %
 %   Examples
 %      % Reconstruct internally
-%      [rp, r] = crqa([x y], tau, dim);
+%      [rp, r] = crqa([x y], delay, dim);
 %
 %      % Reconstruct once, share it, skip re-embedding
-%      Y = psr([x y], tau, dim);
-%      [rp, r] = crqa(Y, tau, dim, PhaseSpace=true);
+%      Y = psr([x y], delay, dim);
+%      [rp, r] = crqa(Y, delay, dim, PhaseSpace=true);
 %
 %   See also PSR, RQA, JRQA, MDRQA.
 
@@ -49,8 +49,8 @@ function [RP, RESULTS]=crqa(data,tau,dim,param,threshold,options)
 % MIT licence. See LICENSE.txt.
 
 arguments
-    data double {mustBeNonempty}
-    tau (1,1) {mustBeInteger, mustBePositive} = 1
+    x double {mustBeNonempty}
+    delay (1,1) {mustBeInteger, mustBePositive} = 1
     dim (1,1) {mustBeInteger, mustBePositive} = 1
     param (1,1) string {mustBeMember(param,["rad", "rec"])} = "rec"
     threshold (1,1) double {mustBePositive} = 2.5
@@ -66,9 +66,9 @@ end
 
 % mustBeTwoColumns only applies to a raw pair of series: a supplied phase
 % space is legitimately wider. options is not visible yet when the
-% arguments block validates data, so the shape is checked here instead.
+% arguments block validates x, so the shape is checked here instead.
 if ~options.PhaseSpace
-    mustBeTwoColumns(data)
+    mustBeTwoColumns(x)
 end
 
 %% Begin code
@@ -77,13 +77,13 @@ end
 dmin = options.Dmin;
 vmin = options.Vmin;
 
-%% Standardize data if zscore is true
-% If zscore is selected then zscore the data
+%% Standardize x if zscore is true
+% If zscore is selected then zscore the x
 if options.Zscore
-    data = zscore(data);
+    x = zscore(x);
 end
 
-% A supplied phase space is used verbatim; otherwise embed the data onto
+% A supplied phase space is used verbatim; otherwise embed the x onto
 % phase space as before.
 if options.PhaseSpace
     if options.Norm == "euc"
@@ -94,11 +94,11 @@ if options.PhaseSpace
              'use Norm="none", "min" or "max".']);
     end
 elseif dim > 1
-    data = psr(data, tau, dim);
+    x = psr(x, delay, dim);
 end
 
 % Calculate distance matrix based on the type of RQA
-a = pdist2(data(:,1:2:end),data(:,2:2:end));
+a = pdist2(x(:,1:2:end),x(:,2:2:end));
 a = abs(a)*-1;
 
 % Normalize distance matrix
@@ -132,17 +132,17 @@ switch param
     case 'rad'
         % THRESHOLD is the radius itself in this branch.
         radius = threshold;
-        [recurrence, diag_hist, vertical_hist,A] = line_hist(data,a,threshold,'crqa');
+        [recurrence, diag_hist, vertical_hist,A] = line_hist(x,a,threshold,'crqa');
     case 'rec'
         radius_start = 0.01;
         radius_end = 0.5;
-        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(data,a,radius_start,radius_end,threshold,'crqa',options.Iter);
+        [recurrence, diag_hist, vertical_hist, radius, A] = set_radius(x,a,radius_start,radius_end,threshold,'crqa',options.Iter);
 end
 
 %% Calculate RQA variabes
 RESULTS.DIM = 1;
 RESULTS.EMB = dim;
-RESULTS.DEL = tau;
+RESULTS.DEL = delay;
 RESULTS.RADIUS = radius;
 RESULTS.NORM = options.Norm;
 RESULTS.ZSCORE = options.Zscore;
@@ -181,7 +181,7 @@ RP=imrotate(1-A,90);
 
 %% Plot
 if options.Plot
-    rqa_plot(data, RP, RESULTS, tau, dim, 2, options.Zscore, options.Norm, radius, a, 'crqa');
+    rqa_plot(x, RP, RESULTS, delay, dim, 2, options.Zscore, options.Norm, radius, a, 'crqa');
 end
 
 end

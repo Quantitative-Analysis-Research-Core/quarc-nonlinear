@@ -1,8 +1,8 @@
-function [ NCSE ] = ent_symbolic( X, L )
-% [ SymEnt ] = ent_symbolic( X, L )
+function [ NCSE ] = ent_symbolic( x, dim )
+% [ SymEnt ] = ent_symbolic( x, dim )
 % symbolicEnt Calculates the Symbolic Entropy for given data.
-% Input -   X: 1-Dimensional binary array of data
-%           L: Word length
+% Input -   x: 1-Dimensional binary array of data
+%           dim: Word length
 % Output -  NCSE: Normalized Corrected Shannon Entropy
 % Remarks
 % - This code calculates the Symbbolic Entropy value for the provided data
@@ -15,17 +15,17 @@ function [ NCSE ] = ent_symbolic( X, L )
 % MIT licence. See LICENSE.txt.
 %% Begin code: (Do NOT Edit)
 %% Correct orientation of array.
-[r,c] = size(X);
+[r,c] = size(x);
 if r > c
-    X = X';
+    x = x';
 end
 %% Convert binary values to decimal.
-words = zeros(length(X)-L+1,1);
-for i = 1:length(X)-L+1
-    words(i,1) = bin2dec(num2str(X(i:i+L-1)));
+words = zeros(length(x)-dim+1,1);
+for i = 1:length(x)-dim+1
+    words(i,1) = bin2dec(num2str(x(i:i+dim-1)));
 end
 %% Calculate probability.
-max_words = 2^L;
+max_words = 2^dim;
 for i = 1:max_words
     P(i) = sum(words == i-1)/length(words);
     H(i) = P(i)*log2(P(i));

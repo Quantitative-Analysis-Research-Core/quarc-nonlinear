@@ -1,9 +1,9 @@
-function xSE = ent_xsamp(x,y,m,R,norm)
-% xSE = ent_xsamp(x,y,m,R,norm)
+function xSE = ent_xsamp(x,y,dim,radius,norm)
+% xSE = ent_xsamp(x,y,dim,radius,norm)
 % Inputs - x, first data series
 %        - y, second data series
-%        - m, vector length for matching (usually 2 or 3)
-%        - R, R tolerance to find matches (as a proportion of the average 
+%        - dim, vector length for matching (usually 2 or 3)
+%        - radius, radius tolerance to find matches (as a proportion of the average 
 %             of the SDs of the data sets, usually between 0.15 and 0.25)
 %        - norm, normalization to perform
 %          - 1 = max rescale/unit interval (data ranges in value from 0 - 1
@@ -32,30 +32,30 @@ N = length(x);
 if norm == 1 %normalize data to have a range 0 - 1
     xn = (x - min(x))/(max(x) - min(x));
     yn = (y - min(y))/(max(y) - min(y));
-    r = R * ((std(xn)+std(yn))/2);
+    r = radius * ((std(xn)+std(yn))/2);
 elseif norm == 2 % normalize data to have a SD = 1, and mean = 0
     xn = (x - mean(x))/std(x);
     yn = (y - mean(y))/std(y);
-    r = R;
+    r = radius;
 else disp('These data will not be normalized')
 end
 
-for i = 1:N-m
-    for k = 1:m+1
-        dij(:,k) = abs(xn(1+k-1:N-m+k-1)-yn(i+k-1));
+for i = 1:N-dim
+    for k = 1:dim+1
+        dij(:,k) = abs(xn(1+k-1:N-dim+k-1)-yn(i+k-1));
     end
-    dj = max(dij(:,1:m),[],2);
+    dj = max(dij(:,1:dim),[],2);
     dj1 = max(dij,[],2);
     d = find(dj<=r);
     d1 = find(dj1<=r);
     nm = length(d);
-    Bm(i) = nm/(N-m);
+    Bm(i) = nm/(N-dim);
     nm1 = length(d1);
-    Am(i) = nm1/(N-m);
+    Am(i) = nm1/(N-dim);
 end
 
-Bmr = sum(Bm)/(N-m);
-Amr = sum(Am)/(N-m);
+Bmr = sum(Bm)/(N-dim);
+Amr = sum(Am)/(N-dim);
 
 xSE = -log(Amr/Bmr);
 end

@@ -1,7 +1,7 @@
-function [scales, fluctuation, alpha] = dfa(data, scales, order, showPlot)
-    % Perform Detrended Fluctuation Analysis on data
+function [scales, fluctuation, alpha] = dfa(x, scales, order, showPlot)
+    % Perform Detrended Fluctuation Analysis on x
     % Parameters:
-    %   data (column vector): 1D numeric array containing time series data
+    %   x (column vector): 1D numeric array containing time series x
     %   scales (numeric array): Array of scales to calculate fluctuations
     %   order (integer): Order of polynomial fit (1 = linear fit)
     %   showPlot (logical): draw the log-log fit. Default false, so that
@@ -25,8 +25,8 @@ function [scales, fluctuation, alpha] = dfa(data, scales, order, showPlot)
 %% ========================================================================
 %                          ------ EXAMPLE ------
 
-%      - Generate random data
-%      data = randn(5000,1); 
+%      - Generate random x
+%      x = randn(5000,1); 
       
 %      - Create a vector of the scales you want to use
 %      scales = [10, 20, 40, 80, 160, 320, 640, 1280, 2560];
@@ -35,31 +35,31 @@ function [scales, fluctuation, alpha] = dfa(data, scales, order, showPlot)
 %      order = 1;
       
 %      - run dfa function
-%      [s, f, a] = dfa(data, scales, order, 1)
+%      [s, f, a] = dfa(x, scales, order, 1)
 
 %% ========================================================================
 
-% Check if the data is a column vector and if not, transpose to make it
+% Check if the x is a column vector and if not, transpose to make it
 % one.
 if nargin < 4 || isempty(showPlot)
     showPlot = false;
 end
 
-if size(data, 2) > size(data, 1) % data should be column vector
-    data = data';
+if size(x, 2) > size(x, 1) % x should be column vector
+    x = x';
 end
 
 
-    % Integrate the data
-    integrated_data = cumsum(data - mean(data));
+    % Integrate the x
+    integrated_data = cumsum(x - mean(x));
 
     fluctuation = zeros(size(scales));
 
     for idx = 1:length(scales)
         scale = scales(idx);
 
-        % Divide data into non-overlapping chunks of size 'scale'
-        chunks = floor(length(data) / scale);
+        % Divide x into non-overlapping chunks of size 'scale'
+        chunks = floor(length(x) / scale);
         %disp(chunks)
         ms = 0;
 
@@ -67,11 +67,11 @@ end
             chunk_start = (i - 1) * scale + 1;
             chunk_end = i * scale;
             this_chunk = integrated_data(chunk_start:chunk_end);
-            x = 1:length(this_chunk);
+            chunk_idx = 1:length(this_chunk);
 
             % Fit polynomial (default is linear, i.e., order=1)
-            coeffs = polyfit(x, this_chunk, order);
-            fit = polyval(coeffs, x);
+            coeffs = polyfit(chunk_idx, this_chunk, order);
+            fit = polyval(coeffs, chunk_idx);
 
             % Detrend and calculate RMS for this chunk
             ms = ms + mean((this_chunk' - fit).^2);
@@ -81,7 +81,7 @@ end
         fluctuation(idx) = sqrt(ms./chunks);
     end
 
-    % Perform linear regression on the log-log data
+    % Perform linear regression on the log-log x
     log_scales = log(scales);
     log_fluctuation = log(fluctuation);
 

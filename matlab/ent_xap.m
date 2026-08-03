@@ -1,11 +1,11 @@
-function [xAP]=ent_xap(X,Y,M,r,k)
+function [xAP]=ent_xap(x,y,dim,radius,k)
 
-%[xAP]=ent_xap(X,Y,M,r,k)
+%[xAP]=ent_xap(x,y,dim,radius,k)
 %
-% inputs:    X - first time series
-%            Y - second time series
-%            M - something vector length
-%            r - R tolerance to find matches, proportion of the stdev
+% inputs:    x - first time series
+%            y - second time series
+%            dim - something vector length
+%            radius - R tolerance to find matches, proportion of the stdev
 %            k - something lag
 % outputs:   xAP - cross approximate entropy
 %
@@ -17,12 +17,12 @@ function [xAP]=ent_xap(X,Y,M,r,k)
 % - This code should be looked over.
 % - The scaling of the radius to the standard deviation may need to be
 %   calculated from the average stdev of both signals and not just one.
-% - The first for loop with m=M:k:M+k looks suspicious.
+% - The first for loop with m=dim:k:dim+k looks suspicious.
 %
 % Mar 2016 - Modified by Ben Senderling, email: bensenderling@gmail.com
 %          - Moved the data normalization from the code that called this
 %            one into this code.
-%          - Changed the input r value from a percentage to a decimal for
+%          - Changed the input radius value from a percentage to a decimal for
 %            consistency with other entropy code.
 %
 %% Begin Code
@@ -31,29 +31,29 @@ function [xAP]=ent_xap(X,Y,M,r,k)
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
-X=(X-mean(X))/std(X);
-Y=(Y-mean(Y))/std(Y);
+x=(x-mean(x))/std(x);
+y=(y-mean(y))/std(y);
 
-N=length(X);
+N=length(x);
 Cm=[];
-r=std(X)*r;
-for m=M:k:M+k 
+radius=std(x)*radius;
+for m=dim:k:dim+k 
 	C=[];
 	for i=1:(N-m+1)
-		V=[X(i:m+i-1)];
+		V=[x(i:m+i-1)];
 		count=0;
 		for j=1:(N-m+1)
-			Z=[Y(j:m+j-1)];
-			dif=(abs(V-Z)<r);	%two subsequences are similar if the difference between any pair 
-                 				%of corrisponding measurements in the pattern is less than r
+			Z=[y(j:m+j-1)];
+			dif=(abs(V-Z)<radius);	%two subsequences are similar if the difference between any pair 
+                 				%of corrisponding measurements in the pattern is less than radius
 			A=all(dif);
 			count=count+A;
 		end
 	C=[C count/(N-m+1)];	%vector containing the 
                     		%Cim=(number of patterns similar to the one beginning at interval i)/total number  
-                   		%of pattern with the same length M
+                   		%of pattern with the same length dim
                         %display(num2str(i))
 	end
-	Cm=[Cm sum(C)/(N-m+1)];%vector containing the means of the Cim for subsequences of length M and of length M+k%
+	Cm=[Cm sum(C)/(N-m+1)];%vector containing the means of the Cim for subsequences of length dim and of length dim+k%
 end
 xAP=log(Cm(1)/Cm(2));

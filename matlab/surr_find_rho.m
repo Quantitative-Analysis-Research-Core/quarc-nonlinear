@@ -1,7 +1,7 @@
-function [rho,out]=surr_find_rho(y,tau,dim,varargin)
-% rho=surr_find_rho(y,tau,dim)
-% inputs  - y, time series
-%         - tau, time lag for phase space reconstruction
+function [rho,out]=surr_find_rho(x,delay,dim,varargin)
+% rho=surr_find_rho(x,delay,dim)
+% inputs  - x, time series
+%         - delay, time lag for phase space reconstruction
 %         - dim, embedding dimension for phase space reconstruction
 % inputs  - rhoL, optional lower search bound. Default 0.1.
 %         - rhoH, optional upper search bound. Default 1.
@@ -64,13 +64,13 @@ end
 
 %% Find upper bound for binary search
 
-[~,yi]=surr_pseudo_periodic(y,tau,dim,rhoH);
+[~,yi]=surr_pseudo_periodic(x,delay,dim,rhoH);
 diH=findrho_di(yi,2);
 out(1,1:3)=[1,rhoH,diH];
 
 %% Find lower bound for the binary search
 
-[~,yi]=surr_pseudo_periodic(y,tau,dim,rhoL);
+[~,yi]=surr_pseudo_periodic(x,delay,dim,rhoL);
 diL=findrho_di(yi,2);
 out(2,1:3)=[2,rhoL,diL];
 
@@ -99,7 +99,7 @@ ind=3;
 
 while abs(rhoH-rhoL)/rhoL>precision
     rhoi=(rhoH+rhoL)/2;
-    [~,yi]=surr_pseudo_periodic(y,tau,dim,rhoi);
+    [~,yi]=surr_pseudo_periodic(x,delay,dim,rhoi);
     di=findrho_di(yi,2);
     out(ind,1:3)=[ind,rhoi,di];
     ind=ind+1;

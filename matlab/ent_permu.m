@@ -1,8 +1,8 @@
-function [permEnt, hist] = ent_permu(data, m, tau)
-% [permEnt, hist] = ent_permu(data, m, tau)
-% inputs -  data: 1-D array of data being analyzed
-%           m: embedding dimension (order of permutation entropy) 
-%           tau: time delay
+function [permEnt, hist] = ent_permu(x, dim, delay)
+% [permEnt, hist] = ent_permu(x, dim, delay)
+% inputs -  x: 1-D array of x being analyzed
+%           dim: embedding dimension (order of permutation entropy) 
+%           delay: time delay
 % outputs - permuEnt: value calculated using a log base of 2
 %           hist: number of occurences for each permutation order
 % Remarks
@@ -28,14 +28,14 @@ function [permEnt, hist] = ent_permu(data, m, tau)
 % MIT licence. See LICENSE.txt.
 %%
 
-N = length(data);  % length of time series
-perm = perms(1:m);  % create all possible permutation vectors
+N = length(x);  % length of time series
+perm = perms(1:dim);  % create all possible permutation vectors
 hist(1:length(perm)) = 0;   % designate variable to store values
 
-for cnt1=1:N-tau*(m-1)  % steps from 1 through length of data minus time delay multiplied by order minus 1
-    [~, permVal] = sort(data(cnt1:tau:cnt1+tau*(m-1))); % creates permutation of selected data range
+for cnt1=1:N-delay*(dim-1)  % steps from 1 through length of x minus time delay multiplied by order minus 1
+    [~, permVal] = sort(x(cnt1:delay:cnt1+delay*(dim-1))); % creates permutation of selected x range
     for cnt2=1:length(perm) % steps through length of possible permutation vectors
-        if perm(cnt2,:) - permVal == 0  % compares current permutation of selected data to possible permutation vectors
+        if perm(cnt2,:) - permVal == 0  % compares current permutation of selected x to possible permutation vectors
             hist(cnt2) = hist(cnt2) + 1;    % if above comparison is equal, then adds one to bin for appropriate permutation vector
         end
     end

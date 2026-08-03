@@ -131,6 +131,27 @@ you need them, and they will warn once per session.
 | `surr_pseudo_periodic` | Pseudo-periodic surrogate, using the radius from `surr_find_rho`. |
 | `surr_theiler` | Theiler surrogates: shuffle, Fourier transform, and amplitude-adjusted Fourier transform. |
 
+### ARGUMENT NAMES
+
+One name per concept across the library. See `NAMING.md`.
+
+| concept | name | was |
+|---|---|---|
+| time series | `x` (second series `y`) | `data`, `X`, `DATA`, `y`, `z`, `S1`/`S2`, `data1`/`data2` |
+| embedding delay | `delay` | `tau` |
+| embedding dimension | `dim` | `m`, `M`, `de`, `MaxDim` |
+| sampling frequency | `fs` | `Fs`, `samprate` |
+| tolerance / radius | `radius` | `r`, `R` |
+| maximum lag | `maxlag` | `L` |
+
+These are positional arguments, so **existing calls keep working** — only the
+names in the documentation and in `arguments` blocks changed. The exception is
+`lyapunov`, where the name-value option `Tau=` became `Delay=`.
+
+`dim` and `radius` correspond to `m` and `r` in Richman & Moorman (2000); each
+function header states the mapping so the code can be read alongside the
+papers.
+
 ### TESTS
 
 ```

@@ -1,12 +1,12 @@
-function CoD=corr_dim(x,tau,de,plotOption)
+function CoD=corr_dim(x,delay,dim,showPlot)
 %Correlation Dimension
 %Scaling region mid-one quarter of vertical axis -- mid + OneQuarter
 %2/5/2008
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %x: a time series
-%tau: time delay
-%de: embedding diemnsion
-%plotOption: set plotOption=1 to see plots
+%delay: time delay
+%dim: embedding diemnsion
+%showPlot: set showPlot=1 to see plots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
@@ -14,9 +14,9 @@ function CoD=corr_dim(x,tau,de,plotOption)
 % MIT licence. See LICENSE.txt.
 
 bins=200;
-n = length(x)-(de-1)*tau; % total number of reconstructed vectors
+n = length(x)-(dim-1)*delay; % total number of reconstructed vectors
 %Use embedding to calculate the distances between vectors
-y = embed(x,de,tau);
+y = embed(x,dim,delay);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Find the interval (epsilon2 < epsilon < epsilon1), where epsilon1 is the
@@ -29,7 +29,7 @@ y = embed(x,de,tau);
 epsilon1 = 0;
 epsilon2 = Inf;
 
-k=de*tau;  % removing temporal correlations
+k=dim*delay;  % removing temporal correlations
 for i = 1:n-k-1
     distance = sqrt(sum((y(:,i+k+1:n)-y(:,i)*ones(size(i+k+1:n))).^2));
     epsilon1 = max(max(distance),epsilon1);
@@ -96,7 +96,7 @@ slope1 = num2str(CoD(1));
 fittedline = polyval(CoD,epsilon(MidOneQuarter));
 
 %plots
-if plotOption==1
+if showPlot==1
     subplot(2,1,1)
     fsize=14;
     plot(epsilon,CI,'.','MarkerSize',6)

@@ -1,13 +1,13 @@
-function [tau, curve, info] = ami(x, L, opts)
+function [tau, curve, info] = ami(x, maxlag, opts)
 %AMI Average mutual information versus lag.
-%   TAU = AMI(X,L) returns the lag of the first local minimum of the average
-%   mutual information of X with itself, computed over lags 0:L. TAU is the
+%   TAU = AMI(X,maxlag) returns the lag of the first local minimum of the average
+%   mutual information of X with itself, computed over lags 0:maxlag. TAU is the
 %   embedding delay for phase space reconstruction.
 %
-%   [TAU,CURVE] = AMI(X,L) also returns the AMI curve as an (L+1)-by-2 array
+%   [TAU,CURVE] = AMI(X,maxlag) also returns the AMI curve as an (maxlag+1)-by-2 array
 %   whose columns are [lag, ami]. AMI is in bits.
 %
-%   [TAU,CURVE,INFO] = AMI(X,L) also returns a struct with fields:
+%   [TAU,CURVE,INFO] = AMI(X,maxlag) also returns a struct with fields:
 %      allMinima     all local minima found, as [lag, ami] rows
 %      usedFallback  true if no local minimum existed and the fraction
 %                    threshold was used instead
@@ -16,21 +16,21 @@ function [tau, curve, info] = ami(x, L, opts)
 %      estimator     estimator that ran
 %      algorithm     value of Algorithm as supplied
 %
-%   ___ = AMI(X,L,Algorithm=ALG) selects the estimator:
+%   ___ = AMI(X,maxlag,Algorithm=ALG) selects the estimator:
 %      "histogram"  (default) equal-width joint histogram. Fast.
 %                   Aliases: "stergiou".
 %      "kde"        bivariate Gaussian kernel density estimate. Slower,
-%                   O(L*N^2), but less biased. Aliases: "thomas".
+%                   O(maxlag*N^2), but less biased. Aliases: "thomas".
 %
-%   ___ = AMI(X,L,Bins=B) sets the number of histogram bins per axis.
+%   ___ = AMI(X,maxlag,Bins=B) sets the number of histogram bins per axis.
 %   Default selects B by Scott's rule. Ignored by "kde".
 %
-%   ___ = AMI(X,L,Fraction=F) sets the fallback threshold, as a fraction of
+%   ___ = AMI(X,maxlag,Fraction=F) sets the fallback threshold, as a fraction of
 %   AMI at lag 0, used when the curve has no local minimum. Default 0.2.
 %
 %   Input Arguments
 %      X  time series, real column vector, no NaN
-%      L  maximum lag, positive integer, less than numel(X)
+%      maxlag  maximum lag, positive integer, less than numel(X)
 %
 %   Notes
 %   The two estimators disagree in absolute value; the histogram is biased
@@ -52,7 +52,7 @@ function [tau, curve, info] = ami(x, L, opts)
 %      plot(curve(:,1), curve(:,2))
 %
 %   References
-%      Fraser, A. M. and Swinney, H. L. (1986). Independent coordinates for
+%      Fraser, A. M. and Swinney, H. maxlag. (1986). Independent coordinates for
 %      strange attractors from mutual information. Physical Review A, 33(2),
 %      1134-1140.
 %
@@ -60,7 +60,7 @@ function [tau, curve, info] = ami(x, L, opts)
 %      An efficient algorithm for the computation of average mutual
 %      information. Behavior Research Methods.
 %
-%      Abarbanel, H. D. I., Brown, R., Sidorowich, J. J. and Tsimring, L. S.
+%      Abarbanel, H. D. I., Brown, R., Sidorowich, J. J. and Tsimring, maxlag. S.
 %      (1993). The analysis of observed chaotic data in physical systems.
 %      Reviews of Modern Physics, 65(4), 1331-1392.
 %
@@ -75,7 +75,7 @@ function [tau, curve, info] = ami(x, L, opts)
 
 arguments
     x  (:,1) double {mustBeNonempty}
-    L  (1,1) double {mustBePositive, mustBeInteger}
+    maxlag  (1,1) double {mustBePositive, mustBeInteger}
     opts.Algorithm (1,1) string = "histogram"
     opts.Bins      double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
     opts.Fraction  (1,1) double {mustBePositive} = 0.2
@@ -88,14 +88,14 @@ switch lower(opts.Algorithm)
         if ~isempty(opts.Bins)
             args = [args, {"Bins", opts.Bins}];
         end
-        [tau, curve, info] = ami_histogram(x, L, args{:});
+        [tau, curve, info] = ami_histogram(x, maxlag, args{:});
 
     case {"kde", "thomas"}
         if ~isempty(opts.Bins)
             warning('ami:binsIgnored', ...
                     'Bins applies to Algorithm="histogram" and is ignored for "kde".');
         end
-        [tau, curve, info] = ami_kde(x, L, "Fraction", opts.Fraction);
+        [tau, curve, info] = ami_kde(x, maxlag, "Fraction", opts.Fraction);
 
     otherwise
         error('ami:unknownAlgorithm', ...

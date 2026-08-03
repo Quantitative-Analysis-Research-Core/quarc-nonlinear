@@ -1,8 +1,8 @@
-function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, tau, m, r )
-% [ RCMSE, CMSE, MSE, MSFE ] = RCMS_Ent( x, tau, m, r )
+function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, delay, dim, radius )
+% [ RCMSE, CMSE, MSE, MSFE ] = RCMS_Ent( x, delay, dim, radius )
 % inputs - x, single column time seres
-%        - tau, greatest scale factor
-%        - m, length of vectors to be compared
+%        - delay, greatest scale factor
+%        - dim, length of vectors to be compared
 %        - R, radius for accepting matches (as a proportion of the
 %             standard deviation)
 % output - RCMSE, Refined Composite Multiscale Entropy
@@ -18,7 +18,7 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, tau, m, r )
 %   time series using refined composite multiscale entropy." Physics
 %   Letters A. 378, 1369-1374.
 % - Each of these methods calculates entropy at different scales. These
-%   scales range from 1 to tau in increments of 1.
+%   scales range from 1 to delay in increments of 1.
 % - The Complexity Index (CI) is not calculated by this code. Because the scales
 %   are incremented by 1 the C is the summation of all the elements in each
 %   array. For example the CI of MSE would be sum(MSE).
@@ -33,10 +33,10 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, tau, m, r )
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 
-R = r*std(x);
+R = radius*std(x);
 N = length(x);
 
-for i=1:tau
+for i=1:delay
     
     %Coarse-graining for GMSE
     o2 = zeros(length(1:i),length(1:N/i));
@@ -49,7 +49,7 @@ for i=1:tau
             end
         end
     end
-    GMSE(i,1) = Samp_Ent(o2(1,:),m,r);
+    GMSE(i,1) = Samp_Ent(o2(1,:),dim,radius);
     
     %Coarse-graining for MSE and derivatives
     y_tau_kj = zeros(length(1:i),length(1:N/i));
@@ -64,15 +64,15 @@ for i=1:tau
     end
     
     %Multiscale Entropy (MSE)
-    MSE(i,1) = Samp_Ent(y_tau_kj(1,~isnan(y_tau_kj(1,:))),m,R);
+    MSE(i,1) = Samp_Ent(y_tau_kj(1,~isnan(y_tau_kj(1,:))),dim,R);
     
     %Multiscale Fuzzy Entropy (MFE)
-    MSFE(i,1) = Fuzzy_Ent(y_tau_kj(1,~isnan(y_tau_kj(1,:))),m,R,2);
+    MSFE(i,1) = Fuzzy_Ent(y_tau_kj(1,~isnan(y_tau_kj(1,:))),dim,R,2);
     
     %Composite Multiscale Entropy (CMSE)
     CMSE(i,1) = 0;
     for k = 1:i
-        [~,nm(k,1),nm1(k,1)] = Samp_Ent(y_tau_kj(k,~isnan(y_tau_kj(k,:))),m,R);
+        [~,nm(k,1),nm1(k,1)] = Samp_Ent(y_tau_kj(k,~isnan(y_tau_kj(k,:))),dim,R);
         CMSE(i,1) = CMSE(i,1)+1/i*-log(nm1(k,1)/nm(k,1));
     end
     
