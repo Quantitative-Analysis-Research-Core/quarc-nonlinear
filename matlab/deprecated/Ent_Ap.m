@@ -8,6 +8,10 @@ function varargout = Ent_Ap(varargin)
 %
 %   See also ENT_AP.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Ent_Ap:deprecated', ...
     'Ent_Ap has been renamed to ent_ap. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = ent_ap(varargin{:});

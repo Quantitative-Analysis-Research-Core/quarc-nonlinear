@@ -8,6 +8,10 @@ function varargout = RelPhase_Disc(varargin)
 %
 %   See also REL_PHASE_DISC.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('RelPhase_Disc:deprecated', ...
     'RelPhase_Disc has been renamed to rel_phase_disc. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = rel_phase_disc(varargin{:});

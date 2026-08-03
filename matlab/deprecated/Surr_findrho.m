@@ -8,6 +8,10 @@ function varargout = Surr_findrho(varargin)
 %
 %   See also SURR_FIND_RHO.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Surr_findrho:deprecated', ...
     'Surr_findrho has been renamed to surr_find_rho. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = surr_find_rho(varargin{:});

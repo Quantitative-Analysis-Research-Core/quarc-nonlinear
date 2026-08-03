@@ -8,6 +8,10 @@ function varargout = Surr_PseudoPeriodic(varargin)
 %
 %   See also SURR_PSEUDO_PERIODIC.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Surr_PseudoPeriodic:deprecated', ...
     'Surr_PseudoPeriodic has been renamed to surr_pseudo_periodic. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = surr_pseudo_periodic(varargin{:});

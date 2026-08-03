@@ -23,6 +23,10 @@ function [AE] = ent_ap( data, dim, r )
 % Ver 1 : Mar 21st, 2012
 %---------------------------------------------------------------------
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 r = r*std(data);
 N = length(data);
 phim = zeros(1,2);

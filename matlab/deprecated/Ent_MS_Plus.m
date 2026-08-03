@@ -8,6 +8,10 @@ function varargout = Ent_MS_Plus(varargin)
 %
 %   See also ENT_MS_PLUS.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Ent_MS_Plus:deprecated', ...
     'Ent_MS_Plus has been renamed to ent_ms_plus. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = ent_ms_plus(varargin{:});

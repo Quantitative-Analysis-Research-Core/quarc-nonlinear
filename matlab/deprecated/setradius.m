@@ -8,6 +8,10 @@ function varargout = setradius(varargin)
 %
 %   See also SET_RADIUS.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('setradius:deprecated', ...
     'setradius has been renamed to set_radius. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = set_radius(varargin{:});

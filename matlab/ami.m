@@ -69,6 +69,10 @@ function [tau, curve, info] = ami(x, L, opts)
 % TODO: add Algorithm="adaptive" (Fraser-Swinney recursive partition),
 % "knn" (Kraskov-Stogbauer-Grassberger 2004), "copula", "kde-adaptive".
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 arguments
     x  (:,1) double {mustBeNonempty}
     L  (1,1) double {mustBePositive, mustBeInteger}

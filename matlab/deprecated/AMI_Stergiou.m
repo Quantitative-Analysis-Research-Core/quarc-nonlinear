@@ -8,6 +8,10 @@ function varargout = AMI_Stergiou(varargin)
 %
 %   See also AMI_STERGIOU.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('AMI_Stergiou:deprecated', ...
     'AMI_Stergiou has been renamed to ami_stergiou. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = ami_stergiou(varargin{:});

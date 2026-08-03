@@ -61,6 +61,10 @@ function [out,LyE] = lye_w(X,Fs,tau,dim,evolve,varargin)
 %          - Removed print commands to update command window.
 %% Begin Code
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 if isempty(varargin)
     SCALEMX = (max(max(X))-min(min(X)))/10;
     ANGLMX = 30*pi/180;

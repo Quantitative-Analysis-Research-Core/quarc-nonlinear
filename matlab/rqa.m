@@ -1,4 +1,8 @@
 function [RP, RESULTS]=rqa(data,tau,dim,param,threshold,options)
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 arguments
     data double {mustBeSingleColumn}
     tau (1,1) {mustBeInteger, mustBePositive} = 1

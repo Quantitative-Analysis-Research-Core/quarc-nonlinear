@@ -1,5 +1,9 @@
 function rqa_plot(data, rp, RESULTS, tau, dim, DIM, Zscore, Norm, radius, wrp, type)
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 scrsz = get(0,'ScreenSize');
 f = figure('Position',[scrsz(3)/4 scrsz(4)/4 scrsz(3)/3 scrsz(4)/2]);tabgp = uitabgroup(f);
 binary = uitab(tabgp,'Title','Binary');

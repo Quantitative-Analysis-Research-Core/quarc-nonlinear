@@ -8,6 +8,10 @@ function varargout = RQA_plot(varargin)
 %
 %   See also RQA_PLOT.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('RQA_plot:deprecated', ...
     'RQA_plot has been renamed to rqa_plot. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = rqa_plot(varargin{:});

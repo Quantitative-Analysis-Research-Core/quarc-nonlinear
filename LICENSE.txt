@@ -1,25 +1,49 @@
-Copyright (c) 2021, UNO Biomechanics
-All rights reserved.
+MIT License
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+Center for Human Movement Variability, University of Nebraska at Omaha
 
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution
-* Neither the name of University of Nebraska at Omaha Division of Biomechanics and Research Development nor the names of its
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+THIRD-PARTY COMPONENTS
+----------------------
+
+matlab/embed.m carries its own copyright notice:
+
+    Copyright (c) 1994 by Kevin Judd.
+
+That file is not covered by the MIT grant above. It is included on the terms
+under which it was originally distributed, and its notice is retained in the
+file. Anyone redistributing this library should confirm those terms
+independently.
+
+Two further items record an origin outside the Core and are noted here for
+anyone auditing provenance:
+
+    matlab/surr_find_rho.m, matlab/surr_pseudo_periodic.m
+        Both record "May 2001 - Created by Michael Small", with the caveat in
+        the file that the original source could not be confirmed. They are
+        released under the MIT grant on the understanding that the Core holds
+        copyright in the version distributed here. If that attribution is
+        confirmed to the contrary, these notices should be revisited.
+
+    matlab/mdrqa.m, matlab/rqa_legacy.m
+        Derive from the MdRQA implementation of Wallot, Roepstorff and
+        Monster (2016), cited in the file headers.

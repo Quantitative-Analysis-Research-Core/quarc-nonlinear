@@ -9,6 +9,10 @@ function CoD=corr_dim(x,tau,de,plotOption)
 %plotOption: set plotOption=1 to see plots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 bins=200;
 n = length(x)-(de-1)*tau; % total number of reconstructed vectors
 %Use embedding to calculate the distances between vectors

@@ -1,4 +1,8 @@
 function [w_ent] = ent_weighted(wrp)
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 N = length(wrp); % get size of the weighted recurrence plot
 for j = 1:N
     si(j) = sum(wrp(:,j)); % compute vertical weights sums

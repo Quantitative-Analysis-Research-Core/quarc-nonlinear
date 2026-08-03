@@ -1,6 +1,10 @@
 function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(data,a,radius_start,radius_end,threshold,type,iter)
         % Find the radius to provide target percent recurrence
         % If radius_start is too small
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
         [rec, ~, ~, ~] = line_hist(data,a,radius_start,type);
         while rec == 0 || rec > threshold
             disp('Minimum radius has been adjusted...');

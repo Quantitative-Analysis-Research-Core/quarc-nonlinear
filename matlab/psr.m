@@ -8,6 +8,10 @@ function xpsr = psr(x,tau,dim)
 %      xpsr : M x dim*DIM matrix
 
 % Get time series size
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 N = height(x);
 DIM = width(x);
 

@@ -27,6 +27,10 @@ function [xAP]=ent_xap(X,Y,M,r,k)
 %
 %% Begin Code
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 X=(X-mean(X))/std(X);
 Y=(Y-mean(Y))/std(Y);
 

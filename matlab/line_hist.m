@@ -1,6 +1,10 @@
 function [recurrence, diag_hist, vertical_hist, a] = line_hist(data, a, radius, type)
 
 % Check if a is cell
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 if ~iscell(a)
     a = {a};
 end

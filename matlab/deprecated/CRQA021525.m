@@ -8,6 +8,10 @@ function varargout = CRQA021525(varargin)
 %
 %   See also CRQA.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('CRQA021525:deprecated', ...
     'CRQA021525 has been renamed to crqa. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = crqa(varargin{:});

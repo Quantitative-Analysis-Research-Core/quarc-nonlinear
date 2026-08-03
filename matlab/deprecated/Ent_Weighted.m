@@ -8,6 +8,10 @@ function varargout = Ent_Weighted(varargin)
 %
 %   See also ENT_WEIGHTED.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Ent_Weighted:deprecated', ...
     'Ent_Weighted has been renamed to ent_weighted. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = ent_weighted(varargin{:});

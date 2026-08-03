@@ -31,6 +31,10 @@ function [ent_samp_value] = ent_samp(data, m, r, flag)
 
 
 % Ensure that the data is a column vector
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 data = data(:);
 N = length(data);
 

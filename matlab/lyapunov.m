@@ -87,6 +87,10 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %
 %   See also LYE_R, LYE_W, PSR, AMI, FNN.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 arguments
     x  double {mustBeNonempty}
     fs (1,1) double {mustBePositive}

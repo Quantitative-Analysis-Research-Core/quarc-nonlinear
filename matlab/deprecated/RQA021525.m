@@ -8,6 +8,10 @@ function varargout = RQA021525(varargin)
 %
 %   See also RQA.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('RQA021525:deprecated', ...
     'RQA021525 has been renamed to rqa. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = rqa(varargin{:});

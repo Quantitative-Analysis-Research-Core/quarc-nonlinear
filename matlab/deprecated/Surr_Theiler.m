@@ -8,6 +8,10 @@ function varargout = Surr_Theiler(varargin)
 %
 %   See also SURR_THEILER.
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 warning('Surr_Theiler:deprecated', ...
     'Surr_Theiler has been renamed to surr_theiler. Update your code; this shim will be removed.');
 [varargout{1:nargout}] = surr_theiler(varargin{:});

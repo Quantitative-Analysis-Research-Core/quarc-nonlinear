@@ -29,6 +29,10 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, tau, m, r )
 %% Begin Code
 
 
+% Copyright (c) 2021-2026 Quantitative Analysis Research Core,
+% Center for Human Movement Variability, University of Nebraska at Omaha.
+% MIT licence. See LICENSE.txt.
+
 R = r*std(x);
 N = length(x);
 
