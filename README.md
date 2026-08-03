@@ -124,7 +124,6 @@ you need them, and they will warn once per session.
 | `rel_phase_cont` | Continuous relative phase between two cyclic series. |
 | `rel_phase_disc` | Discrete relative phase between two series. |
 | `rqa` | Recurrence quantification analysis. |
-| `rqa_legacy` | Previous combined RQA/cRQA/jRQA/mdRQA entry point, kept for reproducibility. |
 | `rqa_plot` | Plot a recurrence plot and its statistics. |
 | `set_radius` | Find the radius giving a target percent recurrence. |
 | `surr_find_rho` | Optimal noise radius for a pseudo-periodic surrogate. |
