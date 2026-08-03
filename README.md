@@ -145,8 +145,8 @@ Copyright (c) 2021-2026 Quantitative Analysis Research Core, Center for Human
 Movement Variability, University of Nebraska at Omaha.
 
 `matlab/embed.m` is Copyright (c) 1994 Kevin Judd and is not covered by the
-MIT grant; its original notice is retained in the file. See the third-party
-section of `LICENSE.txt`.
+MIT grant; its original notice is retained in the file. See
+`THIRD-PARTY-NOTICES.txt`.
 
 ## CONTACT
 

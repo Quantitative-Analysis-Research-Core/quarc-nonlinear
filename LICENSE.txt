@@ -20,30 +20,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-
-THIRD-PARTY COMPONENTS
-----------------------
-
-matlab/embed.m carries its own copyright notice:
-
-    Copyright (c) 1994 by Kevin Judd.
-
-That file is not covered by the MIT grant above. It is included on the terms
-under which it was originally distributed, and its notice is retained in the
-file. Anyone redistributing this library should confirm those terms
-independently.
-
-Two further items record an origin outside the Core and are noted here for
-anyone auditing provenance:
-
-    matlab/surr_find_rho.m, matlab/surr_pseudo_periodic.m
-        Both record "May 2001 - Created by Michael Small", with the caveat in
-        the file that the original source could not be confirmed. They are
-        released under the MIT grant on the understanding that the Core holds
-        copyright in the version distributed here. If that attribution is
-        confirmed to the contrary, these notices should be revisited.
-
-    matlab/mdrqa.m, matlab/rqa_legacy.m
-        Derive from the MdRQA implementation of Wallot, Roepstorff and
-        Monster (2016), cited in the file headers.
