@@ -62,13 +62,19 @@ so that two runs can be diffed and read.
 
 Three design points worth knowing before extending it:
 
-- **The spread comes from initial conditions.** A deterministic system from a
-  fixed `x0` has zero variance — the existing benchmark reproduces to 5e-15. For
-  a dissipative system the realizations are finite windows of one attractor
-  started at different phases, so the spread is the estimator's sampling
-  variability. For a conservative system there is no attractor and the
-  realizations are distinct orbits, so it is a different quantity; the category
-  column carries the distinction.
+- **The spread comes from initial conditions drawn on the attractor.** A
+  deterministic system from a fixed `x0` has zero variance — the existing
+  benchmark reproduces to 5e-15. The ensemble runs the transient from Sprott's
+  `x0`, perturbs the resulting on-attractor point by a fraction of the
+  attractor's own extent, and relaxes it back. Perturbing `x0` directly was the
+  first design and it was wrong: a published `x0` is chosen to be convenient,
+  not central, so a symmetric perturbation threw realizations out of the basin
+  entirely — 47% of them on the delayed logistic map, 42% on the simplest
+  quadratic flow, 30% on the simplest cubic. The survivors would have been a
+  sample conditioned on not escaping. For a conservative system there is no
+  attractor to relax onto and the realizations are neighbouring orbits, so it is
+  a different quantity; `info.hasAttractor` and the category column carry the
+  distinction.
 - **Sampling is fixed per system.** `sprott_series` normally derives a flow's
   decimation from a pilot run, so a perturbed `x0` could shift the period
   estimate and change `fs` between realizations. `characterize` computes decim
