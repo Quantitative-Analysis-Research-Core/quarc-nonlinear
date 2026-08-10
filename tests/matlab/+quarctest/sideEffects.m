@@ -4,13 +4,13 @@ function s = sideEffects(fn)
 %   s = quarctest.sideEffects(@() SomeFunction(args))
 %
 %   A numerically correct function can still be unusable on a cluster. This
-%   records the three ways NONAN functions currently break headless execution:
+%   records the three ways QUARC functions currently break headless execution:
 %
 %     s.figures    number of figures left open (each one is a resource leak,
 %                  and on a display-less node a hard error)
 %     s.dbstop     true if the call armed the debugger. `dbstop if error` is
 %                  GLOBAL SESSION STATE, not local to the function: once any
-%                  NONAN function has run, every later uncaught error in that
+%                  QUARC function has run, every later uncaught error in that
 %                  session -- including in the caller's own code -- drops into
 %                  the debugger. Under `matlab -batch` there is no terminal to
 %                  drop into and the process hangs until it is killed.

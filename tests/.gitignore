@@ -1,3 +1,11 @@
 artifacts/
 __pycache__/
 *.pyc
+
+# Per-realization characterization output. The summary tables in
+# reports/*.csv and reports/*.md are committed on purpose -- diffing two of
+# them is how a change in estimator behaviour is noticed. The per-realization
+# files are not: a full run at R=1000 across the catalogue is well over a
+# million rows, which is a working file, not a record worth keeping in
+# history. Regenerate with quarctest.characterize.
+reports/*_per_realization.csv

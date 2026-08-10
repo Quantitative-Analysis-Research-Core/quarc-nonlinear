@@ -4,10 +4,10 @@ function y = signals(kind, n, varargin)
 %   y = quarctest.signals(kind, n, ...) returns an n-by-1 column vector.
 %
 %   Every generator here is implemented from scratch in base MATLAB and is
-%   deliberately INDEPENDENT of the NONAN library. Known-answer tests are
+%   deliberately INDEPENDENT of the QUARC library. Known-answer tests are
 %   worthless if the signal and the estimator share an implementation: if
 %   fgn_sim were used to test dfa, a matched pair of errors would cancel and
-%   the test would pass. These generators are the reference; NONAN's own
+%   the test would pass. These generators are the reference; QUARC's own
 %   generators (fgn_sim) are themselves things under test.
 %
 %   kind                     known answer

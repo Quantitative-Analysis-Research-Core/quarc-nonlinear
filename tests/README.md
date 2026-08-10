@@ -1,4 +1,4 @@
-# NONAN test suite
+# QUARC test suite
 
 Headless. No GUI, no toolboxes beyond base MATLAB, no pytest.
 
