@@ -37,26 +37,26 @@ function varargout=ami_stergiou(varargin)
 %   (1993). The analysis of observed chaotic datain physical systems.
 %   Reviews of Modern Physics, 65(4), 1331–1392.
 %   https://doi.org/10.1103/RevModPhys.65.1331
-% Mar 2015 - Modified by Ben Senderling, email unonbcf@unomaha.edu
+% Mar 2015 - Modified by Ben Senderling, email quarc@unomaha.edu
 %          - Modified code to output a plot and notify the user if a value
 %            of tau could not be found.
-% Sep 2015 - Modified by Ben Senderling, email unonbcf@unomaha.edu
+% Sep 2015 - Modified by Ben Senderling, email quarc@unomaha.edu
 %          - Previously the number of bins was hard coded at 128. This
 %            created a large amount of error in calculated AMI value and
 %            vastly decreased the sensitivity of the calculation to changes
 %            in lag. The number of bins was replaced with an adaptive
 %            formula well known in statistics. (Scott 1979
 %          - The previous plot output was removed.
-% Oct 2017 - Modified by Ben Senderling, email unonbcf@unomaha.edu
+% Oct 2017 - Modified by Ben Senderling, email quarc@unomaha.edu
 %          - Added print commands to display progress.
-% May 2019 - Modified by Ben Senderling, email unonbcf@unomaha.edu
+% May 2019 - Modified by Ben Senderling, email quarc@unomaha.edu
 %          - In cases where L was not high enough to find a minimun the
 %            code would reexecute with a higher L, and the binned data.
 %            This second part is incorrect and was corrected by using
 %            data2.
 %          - The reexecution part did not have the correct input
 %            parameters.
-% Apr 2021 - Modified by Ben Senderling, email bmchnonan@unomaha.edu
+% Apr 2021 - Modified by Ben Senderling, email quarc@unomaha.edu
 %          - Modified in conjunction with NONAN validation efforts.
 %            Reorganized the code and added the third implementation.
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,

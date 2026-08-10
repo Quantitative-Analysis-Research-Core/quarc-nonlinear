@@ -16,7 +16,7 @@ function xSE = ent_xsamp(x,y,dim,radius,norm)
 % Remarks
 % - Function to calculate cross sample entropy for 2 data series using the
 %   method described by Richman and Moorman (2000).
-% Sep 2015 - Created by John McCamley, unonbcf@unomaha.edu
+% Sep 2015 - Created by John McCamley, quarc@unomaha.edu
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.

@@ -22,27 +22,27 @@ function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed)
 %   percentage, the other looks for a limit. Currently only dim is
 %   returned. This code can be modified to use a comprimise of the two.
 % Prior - Created by someone
-% Feb 2015 - Modified by Ben Senderling, email: unonbcf@unomaha.edu
+% Feb 2015 - Modified by Ben Senderling, email: quarc@unomaha.edu
 %            No changes were made to the algorithm. Checks were added to
 %            provide information to the user in case of an error. The two
 %            methods described in future work were also modified to work
 %            cooperatively. In a previous version the second method (dim)
 %            overwrote the first method (dim2).
-% Sep 2015 - Modified by Ben Senderling, email: unonbcf@unomaha.edu
+% Sep 2015 - Modified by Ben Senderling, email: quarc@unomaha.edu
 %            Previously, dim was found after the for loop, this version has
 %            been modified to allow the code to find the minimum as it
 %            calculates FNN. This is set within the inputs.
 %            The check that was previously put in has been commented out.
-% Oct 2015 - Modified by John McCamley, email: unonbcf@unomaha.edu
+% Oct 2015 - Modified by John McCamley, email: quarc@unomaha.edu
 %          - Embedded other required functions as subroutines.
-% Mar 2017 - Modified by Ben Senderling, email: unonbcf@unomaha.edu
+% Mar 2017 - Modified by Ben Senderling, email: quarc@unomaha.edu
 %          - Removed global variables in favor of passing the variables
 %            from function to function directly. This significantly
 %            improved performance. Checked that the calculated percentages
 %            of nearest neighbors are the same as the previous version.
-% May 2020 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% May 2020 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Added if statement checkeding x orientation.
-% Jul 2020 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% Jul 2020 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Changed indexing throughout so the input x array doesn't
 %            need to be reoriented. Changing this sped the code up an
 %            average 11% on 10 test signals.

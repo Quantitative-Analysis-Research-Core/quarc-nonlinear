@@ -9,7 +9,7 @@ function [ NCSE ] = ent_symbolic( x, dim )
 %   at a given word length described by - Aziz, W., Arif, M., 2006.
 %   "Complexity analysis of stride interval time series by threshold
 %   dependent symbolic entropy." Eur. J. Appl. Physiol. 98: 30-40.
-% Jun 2017 - Created by William Denton, unonbcf@unomaha.edu
+% Jun 2017 - Created by William Denton, quarc@unomaha.edu
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.

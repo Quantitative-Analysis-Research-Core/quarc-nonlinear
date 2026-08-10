@@ -21,8 +21,8 @@ function [permEnt, hist] = ent_permu(x, dim, delay)
 %   doi:10.1103/PhysRevLett.88.174102
 % - MathWorks: http:www.mathworks.com/matlabcentral/fileexchange/
 %   37289-permutation-entropy)
-% Jun 2016 - Created by Patrick Meng-Frecker, unonbcf@unomaha.edu
-% Dec 2016 - Edited by Casey Wiens, email: unonbcf@unomaha.edu
+% Jun 2016 - Created by Patrick Meng-Frecker, quarc@unomaha.edu
+% Dec 2016 - Edited by Casey Wiens, email: quarc@unomaha.edu
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.

@@ -37,18 +37,18 @@ function [out,LyE] = lye_w(x,fs,delay,dim,evolve,varargin)
 %   significant impact on the resulting LyE.
 % - The code expects evolve to be the number of frames to use but we
 %   encourage you to report this as a time-value in publications.
-% Prior - Created by Shane Wurdeman, unonbcf@unomaha.edu
-%       - Adapted by Brian Knarr, unonbcf@unomaha.edu
+% Prior - Created by Shane Wurdeman, quarc@unomaha.edu
+%       - Adapted by Brian Knarr, quarc@unomaha.edu
 %       - The code previously was influenced heavily by the FORTRAN syntax
 %         published in Wolf's 1985 paper. These were modified to better
 %         take advantage of MATLAB and speed up the code.
-% Mar 2017 - Modified by Ben Senderling, unonbcf@unomaha.edu
+% Mar 2017 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Changed parameter "n" to "evolve."
 %          - Changed "ZMULT" back to 1.
 %          - Aligned the code with Wolf's Matlab File Exchange submission
 %            to find the same replacement points. This is now essential his
 %            algorithm but retains the speed of previous versions.
-% Apr 2019 - Modified by Ben Senderling, unonbcf@unomaha.edu
+% Apr 2019 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Changed line 'range_exclude = range_exclude(range_exclude>=1 &
 %            range_exclude<=NPT);' to say '>=1' instead of '>1' to prevent
 %            self matches with the first point. This was indirectly
@@ -57,7 +57,7 @@ function [out,LyE] = lye_w(x,fs,delay,dim,evolve,varargin)
 %            '<=0'. This was checked against joint angles and EMG data. The
 %            change did not result in different pairs. This also removes an
 %            input.
-% Jul 2021 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% Jul 2021 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Removed print commands to update command window.
 %% Begin Code
 

@@ -23,10 +23,10 @@ function [t,y]=chaos_library(S,t,IC,p)
 % Future Work
 % - More systems could be added.
 % Jun 2016 - Created by Christopher Cunningham
-% Jul 2016 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% Jul 2016 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Reformated comments section.
 %          - Hennon, Logistic, Aizawa attractors added.
-% Jul 2021 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% Jul 2021 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Removed plotting.
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
