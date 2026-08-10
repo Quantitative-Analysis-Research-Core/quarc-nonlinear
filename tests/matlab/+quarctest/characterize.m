@@ -57,6 +57,8 @@ function [S, per] = characterize(opts)
 %                 execution when debugging, since errors inside parfor lose
 %                 their stack.
 %     Verbose     per-system progress to stdout. Default true.
+%     Checkpoint  path to a .mat updated after every system, so a long run
+%                 that dies partway can be salvaged. Default "" (off).
 %
 %   COST. The battery is roughly 14 s per realization at N=4000 and 4-6 s at
 %   N=2000, dominated by the RQA radius search, which rebuilds the recurrence
@@ -80,6 +82,7 @@ arguments
     opts.Spread   (1,1) double = 0.01
     opts.Parallel (1,1) logical = true
     opts.Verbose  (1,1) logical = true
+    opts.Checkpoint (1,1) string = ""
 end
 
 c = quarctest.sprott_catalog();
@@ -98,7 +101,7 @@ elseif ~(isscalar(opts.Systems) && opts.Systems == "all")
 end
 
 rows = {};
-perRows = {};
+perBlocks = {};
 t0 = tic;
 
 for i = 1:numel(c)
@@ -139,13 +142,32 @@ for i = 1:numel(c)
                 median(fsUsed, 'omitnan'), toc(t0));
     end
 
-    % ---- per-realization long rows
-    for r = 1:opts.R
-        for k = 1:nM
-            if ~M(k).applies, continue, end
-            perRows{end+1} = {sys.name, sys.section, sys.category, sys.kind, ...
-                              r, ids(k), V(r,k), ok(r)}; %#ok<AGROW>
-        end
+    % ---- per-realization rows, built as one block per system
+    %
+    % Assembled with repmat rather than appended row by row: a full run is
+    % 55 systems x R realizations x ~20 metrics, which at R=1000 is over a
+    % million rows, and growing a cell array one element at a time reallocates
+    % on every step.
+    applied = find([M.applies]);
+    if ~isempty(applied)
+        nA = numel(applied);
+        realIdx = repmat((1:opts.R)', nA, 1);
+        metIdx  = repelem(ids(applied)', opts.R, 1);
+        vals    = reshape(V(:, applied), [], 1);
+        okCol   = repmat(ok, nA, 1);
+        nRow    = numel(realIdx);
+        % The four system columns and the metric name repeat for every row, so
+        % they are stored categorical rather than as string arrays: at R=1000
+        % across the catalogue that is over a million rows, and five string
+        % arrays of that length cost gigabytes to hold identical text.
+        perBlocks{end+1} = table( ...
+            repmat(categorical(sys.name), nRow, 1), ...
+            repmat(categorical(sys.section), nRow, 1), ...
+            repmat(categorical(sys.category), nRow, 1), ...
+            repmat(categorical(string(sys.kind)), nRow, 1), ...
+            realIdx, categorical(metIdx), vals, okCol, ...
+            'VariableNames', {'system','section','category','kind', ...
+                              'realization','metric','value','seriesUsable'}); %#ok<AGROW>
     end
 
     % ---- summary rows
@@ -154,15 +176,32 @@ for i = 1:numel(c)
             rows{end+1} = localRow(sys, M(k), [], opts, NaN, NaN); %#ok<AGROW>
             continue
         end
-        vals = V(ok, k);
-        vals = vals(isfinite(vals));
-        rows{end+1} = localRow(sys, M(k), vals, opts, ...
+        v = V(ok, k);
+        v = v(isfinite(v));
+        rows{end+1} = localRow(sys, M(k), v, opts, ...
                                median(fsUsed, 'omitnan'), sum(ok)); %#ok<AGROW>
+    end
+
+    % ---- checkpoint after every system
+    %
+    % A full run is a long job. Losing a system's worth of work to a crash is
+    % tolerable; losing fifty is not, so the accumulated summary is written
+    % after each system and the run can be salvaged from the last one.
+    if opts.Checkpoint ~= ""
+        ckpt = struct('rows', {rows}, 'systemsDone', i, ...
+                      'systemsTotal', numel(c), 'lastSystem', sys.name, ...
+                      'R', opts.R, 'N', opts.N, 'seed', opts.Seed, ...
+                      'elapsed', toc(t0)); %#ok<NASGU>
+        save(opts.Checkpoint, '-struct', 'ckpt');
     end
 end
 
 S = localToTable(rows);
-per = localToPerTable(perRows);
+if isempty(perBlocks)
+    per = table();
+else
+    per = vertcat(perBlocks{:});
+end
 
 if opts.Verbose
     fprintf('\ncharacterize: %d systems, R=%d, N=%d, %.1f s total\n', ...
@@ -249,13 +288,6 @@ T = cell2table(A, 'VariableNames', { ...
     'median','mad','mean','sd','min','max', ...
     'reference','referenceUncertainty','referenceSource','medianOverReference', ...
     'referenceStatus','seed','spread'});
-end
-
-function T = localToPerTable(rows)
-if isempty(rows), T = table(); return, end
-A = vertcat(rows{:});
-T = cell2table(A, 'VariableNames', { ...
-    'system','section','category','kind','realization','metric','value','seriesUsable'});
 end
 
 function c = localSubset(c)
