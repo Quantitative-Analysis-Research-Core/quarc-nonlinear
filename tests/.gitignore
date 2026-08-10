@@ -9,3 +9,10 @@ __pycache__/
 # million rows, which is a working file, not a record worth keeping in
 # history. Regenerate with quarctest.characterize.
 reports/*_per_realization.csv
+
+# Crash-recovery state and saved tables from a run in progress. The checkpoint
+# is rewritten after every system, so tracking it means a long run leaves the
+# working tree permanently dirty. Neither is a record: the committed record is
+# reports/characterization*.csv and .md.
+reports/.*.ckpt.mat
+reports/.characterization*.mat
