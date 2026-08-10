@@ -15,7 +15,7 @@ function make_reference()
 %   Only DETERMINISTIC quantities go in here. Anything driven by rand() cannot
 %   be compared value-by-value across languages -- MATLAB and NumPy do not
 %   share a generator -- and is tested by contract instead (see
-%   nonantest.surrogateContract), not by equality.
+%   quarctest.surrogateContract), not by equality.
 
 here = fileparts(mfilename('fullpath'));
 repo = fileparts(fileparts(here));

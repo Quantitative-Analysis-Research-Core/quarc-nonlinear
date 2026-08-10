@@ -1,8 +1,8 @@
 function c = sprott_catalog(name)
 %SPROTT_CATALOG The 62 systems of Sprott (2003) Appendix A.
 %
-%   c = nonantest.sprott_catalog()       all systems, as a struct array
-%   c = nonantest.sprott_catalog(name)   one system by name
+%   c = quarctest.sprott_catalog()       all systems, as a struct array
+%   c = quarctest.sprott_catalog(name)   one system by name
 %
 %   Fields
 %     name        short identifier
@@ -240,7 +240,7 @@ c = [S{:}];
 if nargin >= 1
     hit = strcmp([c.name], name);
     if ~any(hit)
-        error('nonantest:sprott_catalog:unknown', ...
+        error('quarctest:sprott_catalog:unknown', ...
               'no system named "%s" in the catalogue', name);
     end
     c = c(hit);

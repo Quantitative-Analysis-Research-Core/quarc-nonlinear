@@ -4,18 +4,18 @@ function tests = testSurrTheiler
 %   Each surrogate algorithm exists to hold one property of the data FIXED
 %   while destroying everything else. The test is therefore not "does it run"
 %   but "did the property it promised survive". The promises differ per
-%   algorithm and are asserted separately -- see nonantest.surrogateContract.
+%   algorithm and are asserted separately -- see quarctest.surrogateContract.
 tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
 tc.TestData.series = struct( ...
-    'fgn',    nonantest.signals('fgn',    512, 0.85), ...
-    'ar1',    nonantest.signals('ar1',    512, 0.70), ...
-    'henon',  nonantest.signals('henon',  512), ...
-    'skewed', nonantest.signals('skewed', 512));
+    'fgn',    quarctest.signals('fgn',    512, 0.85), ...
+    'ar1',    quarctest.signals('ar1',    512, 0.70), ...
+    'henon',  quarctest.signals('henon',  512), ...
+    'skewed', quarctest.signals('skewed', 512));
 % Mildly skewed AND autocorrelated: the regime AAFT exists for.
-tc.TestData.series.aaft = exp(0.2 * nonantest.signals('fgn', 512, 0.85));
+tc.TestData.series.aaft = exp(0.2 * quarctest.signals('fgn', 512, 0.85));
 end
 
 function teardown(~)
@@ -32,7 +32,7 @@ function testAlg1PreservesSpectrumExactly(tc)
 names = fieldnames(tc.TestData.series);
 for i = 1:numel(names)
     x = tc.TestData.series.(names{i});
-    r = nonantest.surrogateContract(x, @(v) surr_theiler(v, 1), 19);
+    r = quarctest.surrogateContract(x, @(v) surr_theiler(v, 1), 19);
 
     tc.verifyLessThan(r.spectral_error, 1e-10, sprintf( ...
         ['[%s] Algorithm 1 must preserve the power spectrum EXACTLY.\n' ...
@@ -56,7 +56,7 @@ function testAlg1PreservesAutocorrelation(tc)
 % The linear null is "the data are a Gaussian linear process". Its whole
 % content is the autocorrelation function, so the surrogate must reproduce it.
 x = tc.TestData.series.ar1;
-r = nonantest.surrogateContract(x, @(v) surr_theiler(v, 1), 39);
+r = quarctest.surrogateContract(x, @(v) surr_theiler(v, 1), 39);
 tc.verifyLessThan(abs(r.acf1_surrogate - r.acf1_original), 0.05, sprintf( ...
     ['Algorithm 1 changed the lag-1 autocorrelation: %.4f -> %.4f.\n' ...
      'The linear structure IS the null hypothesis; it must survive.'], ...
@@ -74,7 +74,7 @@ function testAlg2PreservesDistributionExactly(tc)
 names = fieldnames(tc.TestData.series);
 for i = 1:numel(names)
     x = tc.TestData.series.(names{i});
-    r = nonantest.surrogateContract(x, @(v) surr_theiler(v, 2), 19);
+    r = quarctest.surrogateContract(x, @(v) surr_theiler(v, 2), 19);
     tc.verifyLessThan(r.distribution_error, 1e-12, sprintf( ...
         ['[%s] AAFT must return an exact permutation of the input values.\n' ...
          '     measured distribution error %.3e'], names{i}, r.distribution_error));
@@ -95,7 +95,7 @@ function testAlg2SpectrumIsApproximateNotExact(tc)
 %     conjugate-symmetric fix  0.226
 % The 0.45 bound sits between them with room on both sides.
 x = tc.TestData.series.aaft;
-r = nonantest.surrogateContract(x, @(v) surr_theiler(v, 2), 39);
+r = quarctest.surrogateContract(x, @(v) surr_theiler(v, 2), 39);
 tc.verifyGreaterThan(r.spectral_error, 1e-6, ...
     'AAFT with an exact spectrum would not be AAFT -- check the algorithm switch.');
 tc.verifyLessThan(r.spectral_error, 0.45, sprintf( ...
@@ -111,7 +111,7 @@ end
 % ------------------------------------------------------------------
 function testAlg0IsAnExactPermutation(tc)
 x = tc.TestData.series.skewed;
-r = nonantest.surrogateContract(x, @(v) surr_theiler(v, 0), 19);
+r = quarctest.surrogateContract(x, @(v) surr_theiler(v, 0), 19);
 tc.verifyLessThan(r.distribution_error, 1e-12, ...
     'Algorithm 0 must be a permutation of the input.');
 tc.verifyLessThan(abs(r.acf1_surrogate), 0.15, ...
@@ -124,7 +124,7 @@ end
 function testAllAlgorithmsReturnRealSameLengthDistinct(tc)
 x = tc.TestData.series.fgn;
 for alg = [0 1 2]
-    r = nonantest.surrogateContract(x, @(v) surr_theiler(v, alg), 5);
+    r = quarctest.surrogateContract(x, @(v) surr_theiler(v, alg), 5);
     tc.verifyTrue(r.length_ok,   sprintf('alg %d changed the series length', alg));
     tc.verifyFalse(r.any_complex, sprintf('alg %d returned a complex series', alg));
     tc.verifyTrue(r.distinct,    sprintf('alg %d returned identical surrogates', alg));
@@ -135,7 +135,7 @@ function testUnknownAlgorithmIsRejected(tc)
 % Currently the switch has no otherwise branch, so alg 3 silently returns an
 % undefined output rather than telling the caller they asked for nothing.
 x = tc.TestData.series.fgn;
-s = nonantest.sideEffects(@() surr_theiler(x, 3));
+s = quarctest.sideEffects(@() surr_theiler(x, 3));
 tc.verifyTrue(s.errored, ...
     'An unsupported algorithm number should raise, not return silently.');
 end
@@ -189,9 +189,9 @@ reject = 0;
 stat0s = zeros(nRep, 1);
 for rep = 1:nRep
     if strcmp(kind, 'henon')
-        x = nonantest.signals('henon', n) + 0.02*nonantest.signals('white', n, [], 9000+rep);
+        x = quarctest.signals('henon', n) + 0.02*quarctest.signals('white', n, [], 9000+rep);
     else
-        x = nonantest.signals(kind, n, 0.70, 5000 + rep);
+        x = quarctest.signals(kind, n, 0.70, 5000 + rep);
     end
     stat0s(rep) = localTimeAsymmetry(x);
     stats = zeros(nSurr, 1);

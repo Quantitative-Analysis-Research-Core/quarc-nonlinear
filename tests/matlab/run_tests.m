@@ -13,7 +13,7 @@ function run_tests(varargin)
 %   DESIGN CONSTRAINTS (these are requirements, not preferences)
 %   - Base MATLAB only. No Statistics, Signal Processing, or Image Processing
 %     toolbox in the harness itself. A test that needs a toolbox must call
-%     nonantest.requireToolbox and be skipped, not error, when it is absent.
+%     quarctest.requireToolbox and be skipped, not error, when it is absent.
 %   - No figures. Any test that leaves a figure open fails: the library is used
 %     on clusters and in -batch runs where a figure is a hang or a crash.
 %   - No interactive debugger. Several NONAN functions execute `dbstop if error`

@@ -19,9 +19,9 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-tc.TestData.pp    = nonantest.signals('pseudoperiodic', 300);
-tc.TestData.sine  = nonantest.signals('sine', 300, 25);
-tc.TestData.lor   = nonantest.signals('lorenz', 300);
+tc.TestData.pp    = quarctest.signals('pseudoperiodic', 300);
+tc.TestData.sine  = quarctest.signals('sine', 300, 25);
+tc.TestData.lor   = quarctest.signals('lorenz', 300);
 tc.TestData.tau   = 5;
 tc.TestData.dim   = 3;
 end
@@ -47,7 +47,7 @@ for c = 1:size(cases, 1)
     failures = 0;
     lastMsg = '';
     for rep = 1:nRep
-        s = nonantest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
+        s = quarctest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
         if s.errored
             failures = failures + 1;
             lastMsg = s.err.message;
@@ -68,7 +68,7 @@ end
 function testReturnedRhoIsInSearchRangeAndBeatsEndpoints(tc)
 y = tc.TestData.lor;
 for rep = 1:10
-    s = nonantest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
+    s = quarctest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
     if s.errored, continue; end   % covered by testAlwaysReturnsRho
     rho = s.value;
     tc.verifyGreaterThanOrEqual(rho, 0.1, 'rho below the searched lower bound');
@@ -85,7 +85,7 @@ end
 % ------------------------------------------------------------------
 function testTerminatesQuickly(tc)
 y = tc.TestData.pp;
-s = nonantest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
+s = quarctest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
 tc.verifyLessThan(s.seconds, 5, sprintf( ...
     'Surr_findrho took %.1f s on a 300-point series.', s.seconds));
 end
@@ -95,7 +95,7 @@ end
 % ------------------------------------------------------------------
 function testDoesNotArmTheDebugger(tc)
 y = tc.TestData.pp;
-s = nonantest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
+s = quarctest.sideEffects(@() surr_find_rho(y, tc.TestData.tau, tc.TestData.dim));
 tc.verifyFalse(s.dbstop, ...
     ['Surr_findrho executed `dbstop if error`. This is global session state.\n' ...
      'Combined with the unassigned-output bug it means: the function errors,\n' ...
@@ -123,7 +123,7 @@ function testLowerBoundIsUsableOnChaoticData(tc)
 y = tc.TestData.lor;
 failures = 0;
 for rep = 1:10
-    s = nonantest.sideEffects(@() surr_pseudo_periodic(y, tc.TestData.tau, tc.TestData.dim, 0.1));
+    s = quarctest.sideEffects(@() surr_pseudo_periodic(y, tc.TestData.tau, tc.TestData.dim, 0.1));
     if s.errored, failures = failures + 1; end
 end
 tc.verifyEqual(failures, 0, sprintf( ...

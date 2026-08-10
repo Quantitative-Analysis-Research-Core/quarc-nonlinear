@@ -8,7 +8,7 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-x = nonantest.signals('lorenz', 200);
+x = quarctest.signals('lorenz', 200);
 tc.TestData.continuous  = x;
 tc.TestData.binary      = double(x > 0);
 tc.TestData.categorical = double(discretize(x, 4));
@@ -27,7 +27,7 @@ function testUnreachableTargetFailsInsteadOfHanging(tc)
 % 0 to ~50 as the radius crosses zero. The search previously halved the radius
 % without bound and never terminated -- measured still running after 90 s,
 % with the radius down to 6e-38 and %REC stuck at 49.7.
-s = nonantest.sideEffects(@() rqa(tc.TestData.binary, 1, 1, "rec", 2.5, norm="none"));
+s = quarctest.sideEffects(@() rqa(tc.TestData.binary, 1, 1, "rec", 2.5, norm="none"));
 tc.verifyTrue(s.errored, ...
     'An unreachable recurrence target must raise, not search forever.');
 tc.verifyEqual(s.err.identifier, 'set_radius:targetUnreachable', ...
@@ -55,14 +55,14 @@ end
 % ------------------------------------------------------------------
 function testRadiusBranchAssignsRadius(tc)
 x = tc.TestData.continuous;
-y = [x nonantest.signals('rossler', 200)];
+y = [x quarctest.signals('rossler', 200)];
 calls = { ...
     'rqa',   @() rqa(x, 3, 3, "rad", 1, norm="none"); ...
     'crqa',  @() crqa(y, 3, 3, "rad", 1, norm="none"); ...
     'mdrqa', @() mdrqa(y, 3, 3, "rad", 1, norm="none"); ...
     'jrqa',  @() jrqa(y, [3 3], [3 3], "rad", 1, norm="none")};
 for k = 1:size(calls,1)
-    s = nonantest.sideEffects(calls{k,2});
+    s = quarctest.sideEffects(calls{k,2});
     tc.verifyFalse(s.errored, sprintf('%s with param="rad" errored: %s', ...
         calls{k,1}, localMsg(s)));
 end
@@ -75,7 +75,7 @@ end
 % created.
 % ------------------------------------------------------------------
 function testWeightedEntropyHandlesUniformWeights(tc)
-s = nonantest.sideEffects(@() ent_weighted(ones(50)));
+s = quarctest.sideEffects(@() ent_weighted(ones(50)));
 tc.verifyFalse(s.errored, sprintf( ...
     'ent_weighted failed on a uniform matrix: %s', localMsg(s)));
 tc.verifyEqual(s.value, 0, 'AbsTol', 1e-12, ...

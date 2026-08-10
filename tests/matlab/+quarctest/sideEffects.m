@@ -1,7 +1,7 @@
 function s = sideEffects(fn)
 %SIDEEFFECTS Run fn and report the environment damage it caused.
 %
-%   s = nonantest.sideEffects(@() SomeFunction(args))
+%   s = quarctest.sideEffects(@() SomeFunction(args))
 %
 %   A numerically correct function can still be unusable on a cluster. This
 %   records the three ways NONAN functions currently break headless execution:

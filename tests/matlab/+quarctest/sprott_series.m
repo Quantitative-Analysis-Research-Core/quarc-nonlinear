@@ -1,8 +1,8 @@
 function [y, info] = sprott_series(sys, n, opts)
 %SPROTT_SERIES Scalar observable from a Sprott Appendix A system.
 %
-%   [y, info] = nonantest.sprott_series(sys, n)
-%   sys is one element of nonantest.sprott_catalog().
+%   [y, info] = quarctest.sprott_series(sys, n)
+%   sys is one element of quarctest.sprott_catalog().
 %
 %   Returns an n-by-1 scalar observable and a struct of what was done:
 %     info.fs        samples per unit time (1 for maps)
@@ -18,6 +18,10 @@ function [y, info] = sprott_series(sys, n, opts)
 %   magnitude, so a single fixed rate would score estimators mostly on that
 %   mismatch.
 %
+%   Decim overrides the pilot-derived decimation for flows, so that an
+%   ensemble of realizations can be held at one sampling rate. Default 0 means
+%   derive it. See the note at the branch itself.
+%
 %   Degeneracy checks. An orbit can collapse to a fixed point, diverge,
 %   exhaust the mantissa, or drift without bound, each producing a series
 %   that looks valid to a caller. These are flagged in info.degenerate rather
@@ -28,6 +32,7 @@ arguments
     n   (1,1) double {mustBePositive, mustBeInteger}
     opts.TargetPeriod (1,1) double = 40
     opts.Transient    (1,1) double = 20000
+    opts.Decim        (1,1) double {mustBeNonnegative, mustBeInteger} = 0
 end
 
 info = struct('fs', 1, 'decim', 1, 'period', NaN, 'degenerate', false, ...
@@ -43,6 +48,16 @@ end
 if sys.kind == "map"
     y = iterateMap(sys, n, 1000);
     info.fs = 1;
+elseif opts.Decim > 0
+    % Caller-supplied decimation. An ensemble over initial conditions must
+    % hold the sampling rate fixed: if every realization derived its own decim
+    % from its own pilot, a perturbed x0 could shift the period estimate by
+    % one step, change fs, and the resulting spread in a rate-dependent metric
+    % would be an artefact of the protocol rather than a property of the
+    % system. The caller computes decim once and passes it here.
+    info.decim = opts.Decim;
+    y = integrateFlow(sys, n, info.decim, opts.Transient);
+    info.fs = 1 / (sys.dt * info.decim);
 else
     % Pilot run to find the dominant period, then decimate to hit the target.
     pilot = integrateFlow(sys, 4096, 1, opts.Transient);

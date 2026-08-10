@@ -1,14 +1,14 @@
 function write_sprott_markdown(outfile)
 %WRITE_SPROTT_MARKDOWN Regenerate the Sprott Appendix A reference table.
-%   nonantest.write_sprott_markdown() writes
-%   tests/fixtures/sprott_appendix_a.md from nonantest.sprott_catalog, so the
+%   quarctest.write_sprott_markdown() writes
+%   tests/fixtures/sprott_appendix_a.md from quarctest.sprott_catalog, so the
 %   human-readable reference and the values the tests actually use cannot
 %   drift apart.
 %
 %   Run this after changing the catalogue. It is not run by the test suite:
 %   a document the tests can rewrite is not a reference.
 %
-%   See also NONANTEST.SPROTT_CATALOG.
+%   See also QUARCTEST.SPROTT_CATALOG.
 
 if nargin < 1
     here = fileparts(mfilename('fullpath'));
@@ -16,7 +16,7 @@ if nargin < 1
     outfile = fullfile(repo, 'tests', 'fixtures', 'sprott_appendix_a.md');
 end
 
-c = nonantest.sprott_catalog();
+c = quarctest.sprott_catalog();
 fid = fopen(outfile, 'w');
 closer = onCleanup(@() fclose(fid));
 
@@ -26,9 +26,9 @@ w('# Sprott (2003) Appendix A, reference values\n\n');
 w('Transcribed from J. C. Sprott, *Chaos and Time-Series Analysis*, Oxford\n');
 w('University Press (2003), Appendix A, "Common chaotic systems".\n\n');
 w('This is the human-readable record of the values encoded in\n');
-w('`tests/matlab/+nonantest/sprott_catalog.m`, and is generated from that\n');
+w('`tests/matlab/+quarctest/sprott_catalog.m`, and is generated from that\n');
 w('catalogue so the two cannot drift. Regenerate with:\n\n');
-w('```\nmatlab -batch "addpath(''tests/matlab''); nonantest.write_sprott_markdown"\n```\n\n');
+w('```\nmatlab -batch "addpath(''tests/matlab''); quarctest.write_sprott_markdown"\n```\n\n');
 
 w('## What the appendix says about these numbers\n\n');
 w('> All Lyapunov exponents are base-e and were calculated using the methods\n');

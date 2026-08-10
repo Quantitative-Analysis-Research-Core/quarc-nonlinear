@@ -10,9 +10,8 @@ Nonlinear time series analysis for MATLAB, from the Quantitative Analysis
 Research Core (QUARC) at the Center for Human Movement Variability,
 University of Nebraska at Omaha.
 
-This supersedes the NONAN Library. QUARC is the Core's current name, and this
-repository is where ongoing development happens, including changes that break
-compatibility with the NONAN releases.
+This library supersedes the NONAN Library. Function names have changed; the
+old names remain available through opt-in shims.
 
 ## INSTALLATION
 
@@ -22,15 +21,13 @@ Clone the repository and add `matlab/` to your MATLAB path:
 addpath(genpath('path/to/quarc-nonlinear/matlab'))
 ```
 
-To keep pre-rename function names working, also add the shim folder:
+To keep the pre-rename function names working, also add the shim folder:
 
 ```matlab
 addpath('path/to/quarc-nonlinear/deprecated')
 ```
 
 It sits outside `matlab/` so that `genpath` does not pull it in by accident.
-The shims are opt-in.
-
 Each shim forwards its arguments unchanged and warns once per session.
 
 ## REQUIREMENTS
@@ -39,9 +36,38 @@ MATLAB R2019b or later. The `arguments` block and name-value syntax used by
 the newer functions need R2019b; `ami`, `lyapunov` and the RQA family use it.
 
 Most functions run on **base MATLAB with no toolboxes**. The exceptions are
-noted per function in their help text. Functions rewritten during the audit
-(`ami`, `ami_histogram`, `ami_kde`) had their Statistics Toolbox dependencies
-removed and now run on base MATLAB.
+noted per function in their help text.
+
+## USAGE
+
+A complete pass over a chaotic series: generate it, choose an embedding,
+then quantify it.
+
+```matlab
+% Lorenz attractor, x component, sampled at 100 Hz
+fs = 100;
+[~, y] = chaos_library('Lorenz', 0:1/fs:100, [1 1 1], [10 28 8/3]);
+x = y(:,1);
+
+% Embedding parameters: delay from AMI, dimension from false nearest neighbours
+delay = ami(x, 100);
+dim   = fnn(x, delay, 10, 15, 2, 1);
+
+% Recurrence quantification at 2.5% recurrence
+[rp, results] = rqa(x, delay, dim, "rec", 2.5);
+results.DET     % determinism
+results.LAM     % laminarity
+
+% Largest Lyapunov exponent, nats per unit time
+lambda = lyapunov(x, fs, delay=delay, dim=dim);
+
+% Sample entropy, and the multiscale family out to 20 scales
+se   = ent_samp(x, dim, 0.2);
+rcmse = ent_ms_plus(x, 20, dim, 0.2);
+```
+
+Every function documents its arguments and returns in its own help text
+(`help rqa`, `doc lyapunov`).
 
 ## TESTS
 
@@ -53,84 +79,87 @@ Headless, base MATLAB only, exits nonzero on failure and writes JUnit XML to
 `tests/artifacts/`. Filter by name with `run_tests('Surr')`. See
 `tests/README.md` for how the suite is organised.
 
-The suite includes a benchmark of both Lyapunov estimators against the 62
-systems of Sprott (2003) Appendix A; see `tests/fixtures/`.
+The 62 systems of Sprott (2003) Appendix A are catalogued with their
+published exponents in `tests/fixtures/sprott_appendix_a.md` and serve as the
+reference set. One protocol is applied to every system, with nothing tuned
+case by case.
 
-## CHANGES FROM NONAN
+`corr_dim` is estimated on every usable system as part of the suite.
 
-Function and file names are now `lower_snake_case` with no date suffixes.
-Old names remain available through `matlab/deprecated/`.
+The Lyapunov tests run in three layers rather than one sweep: invariances
+that need no reference value at all, exact exponents from maps where lambda
+is a theorem (skew tent, logistic), and deliberately loose order-of-magnitude
+checks against published values for Henon, Rossler and Lorenz. A tight
+assertion against a numerical reference for a flow would test the choice of
+sampling rate, delay and scaling region as much as the code.
 
-Corrected during the audit that preceded this repository:
+The full head-to-head comparison of the two estimators across the catalogue
+is a separate benchmark, `quarctest.lye_benchmark`, run on demand rather than
+in the suite; its per-system results are checked in as
+`tests/fixtures/lye_benchmark_results.csv`. Over the 55 usable systems the
+median ratio to the published exponent is **0.96 for Wolf's method** and
+**0.85 for Rosenstein's**. Both are weakest on conservative systems, where
+lambda is small and the noise floor dominates. Report which method produced
+a published exponent.
 
-- `surr_theiler` algorithm 1 now preserves the power spectrum exactly.
-  Spectral error fell from ~0.59 to 3e-16 and the standard deviation ratio
-  from 0.71 to 1.0000.
-- `lye_r` is now scale invariant. A hard-coded exclusion marker of 1e5 meant
-  the exponent collapsed to 8% of its correct value once distances exceeded
-  that, silently.
-- `lye_r` memory is now O(N) rather than O(N^2): 287 MB to 0.10 MB at
-  N = 6000.
-- `surr_find_rho` always returns a value. It previously failed to assign its
-  output on 18-30% of calls depending on the series.
-- `dbstop if error` removed from ten functions. It is global session state
-  and made batch runs hang rather than fail.
-- `waitbar` removed. It required a display and contributed nothing to the
-  result.
-- `ami` replaces `AMI_Stergiou` and `AMI_Thomas` with one entry point and an
-  `Algorithm` argument. The histogram estimator's inverted `Bins` guard, bin
-  off-by-one, and non-strict minimum test are fixed; the kernel estimator is
-  7-10x faster and numerically identical.
-- `lyapunov` provides the same wrapper pattern for the Lyapunov estimators
-  and accepts a pre-built phase space.
+## CHARACTERIZATION
 
-The Python port has not been moved here. It has known defects and needs its
-own rework; it remains in the NONAN repository for now.
+Beyond pass/fail, the library is characterized across the whole catalogue:
+for each system, an ensemble of initial conditions drawn around the published
+one, the full metric battery run on each realization, and the distribution of
+every metric reported with its spread.
 
-### FILES
+```matlab
+[S, per] = quarctest.characterize(Fast=true, R=10);
+quarctest.write_characterization(S, per)
+```
 
-This is a list of the included functions and the full name of the methods.
+The report lands in `tests/reports/`. Two metrics carry published references
+and are marked `validated` — the largest Lyapunov exponent, and the
+correlation dimension with Sprott's own stated uncertainty. Everything else
+is marked `characterized`: measured and reported, with no reference value in
+existence to judge it against.
 
-All function and file names are lower_snake_case. The previous names still
-work through shims in `matlab/deprecated/`; add that folder to your path if
-you need them, and they will warn once per session.
+The catalogue is the starting point rather than the scope. The runner takes
+any system that can produce a scalar observable, so higher-dimensional,
+biological and biomechanical systems extend it without changing the design.
 
-| function | description |
-|---|---|
-| `ami` | Average mutual information versus lag, for choosing an embedding delay. Wrapper over `ami_histogram` and `ami_kde`. |
-| `ami_histogram` | AMI by equal-width joint histogram. |
-| `ami_kde` | AMI by Gaussian kernel density estimate. |
-| `chaos_library` | Systems of differential equations that produce chaotic attractors. |
-| `corr_dim` | Correlation dimension. |
-| `crqa` | Cross recurrence quantification analysis. |
-| `dfa` | Detrended fluctuation analysis. |
-| `embed` | Delay embedding of a time series. |
-| `ent_ap` | Approximate entropy. |
-| `ent_ms_plus` | Refined composite multiscale, composite multiscale, multiscale, multiscale fuzzy, and generalized multiscale entropy. |
-| `ent_permu` | Permutation entropy, log base 2. |
-| `ent_samp` | Sample entropy. |
-| `ent_symbolic` | Symbolic entropy. |
-| `ent_weighted` | Weighted entropy of a recurrence plot. |
-| `ent_xap` | Cross approximate entropy between two series. |
-| `ent_xsamp` | Cross sample entropy between two series. |
-| `fgn_sim` | Simulate fractional Gaussian noise at a specified Hurst exponent. |
-| `fnn` | Embedding dimension by false nearest neighbours. |
-| `jrqa` | Joint recurrence quantification analysis. |
-| `line_hist` | Diagonal and vertical line histograms of a recurrence plot. |
-| `lye_r` | Largest Lyapunov exponent, Rosenstein's method. Returns the divergence curve. |
-| `lye_w` | Largest Lyapunov exponent, Wolf's method. Returns bits per unit time. |
-| `mdrqa` | Multidimensional recurrence quantification analysis. |
-| `psr` | Phase space reconstruction. |
-| `rel_phase_cont` | Continuous relative phase between two cyclic series. |
-| `rel_phase_disc` | Discrete relative phase between two series. |
-| `rqa` | Recurrence quantification analysis. |
-| `rqa_plot` | Plot a recurrence plot and its statistics. |
-| `set_radius` | Find the radius giving a target percent recurrence. |
-| `surr_find_rho` | Optimal noise radius for a pseudo-periodic surrogate. |
-| `surr_pseudo_periodic` | Pseudo-periodic surrogate, using the radius from `surr_find_rho`. |
-| `surr_theiler` | Theiler surrogates: shuffle, Fourier transform, and amplitude-adjusted Fourier transform. |
+## WHAT IS INCLUDED
 
-### ARGUMENT NAMES
+**Embedding.** Delay from average mutual information (`ami`, by histogram or
+kernel density estimate), dimension from false nearest neighbours (`fnn`), and
+phase space reconstruction (`psr`, `embed`).
+
+**Recurrence quantification.** Single series (`rqa`), cross (`crqa`), joint
+(`jrqa`), and multidimensional (`mdrqa`), with radius selection for a target
+percent recurrence (`set_radius`), line-length histograms (`line_hist`),
+recurrence plot entropy (`ent_weighted`), and plotting (`rqa_plot`).
+
+**Entropy.** Sample, approximate, permutation, and symbolic entropy, their
+cross-series forms, and the multiscale family — refined composite, composite,
+multiscale, multiscale fuzzy, and generalized (`ent_samp`, `ent_ap`,
+`ent_permu`, `ent_symbolic`, `ent_xsamp`, `ent_xap`, `ent_ms_plus`), under one
+`ent` entry point.
+
+**Divergence and dimension.** Largest Lyapunov exponent by Rosenstein's and
+Wolf's methods, in nats per unit time and comparable across the two
+(`lyapunov`, `lye_r`, `lye_w`), and correlation dimension (`corr_dim`).
+
+**Scaling.** Detrended fluctuation analysis (`dfa`) and simulation of
+fractional Gaussian noise at a chosen Hurst exponent (`fgn_sim`).
+
+**Surrogates.** Theiler shuffle, Fourier, and amplitude-adjusted Fourier
+surrogates (`surr_theiler`), and pseudo-periodic surrogates with automatic
+noise radius (`surr_pseudo_periodic`, `surr_find_rho`).
+
+**Coordination.** Continuous and discrete relative phase between two series
+(`rel_phase_cont`, `rel_phase_disc`).
+
+**Chaotic systems.** Named attractors integrated from their governing
+equations, with the time scale, initial conditions and parameters under the
+caller's control (`chaos_library`).
+
+## ARGUMENT NAMES
 
 One name per concept across the library. See `NAMING.md`.
 
@@ -150,15 +179,6 @@ names in the documentation and in `arguments` blocks changed. The exception is
 `dim` and `radius` correspond to `m` and `r` in Richman & Moorman (2000); each
 function header states the mapping so the code can be read alongside the
 papers.
-
-### TESTS
-
-```
-matlab -batch "addpath('tests/matlab'); run_tests"
-python3 tests/python/run_tests.py
-```
-
-Headless, base MATLAB only, exits nonzero on failure. See `tests/README.md`.
 
 ## LICENCE
 

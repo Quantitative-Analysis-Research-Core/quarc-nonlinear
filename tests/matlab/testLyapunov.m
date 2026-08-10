@@ -4,7 +4,7 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-tc.TestData.lorenz = nonantest.signals('lorenz', 3000);
+tc.TestData.lorenz = quarctest.signals('lorenz', 3000);
 tc.TestData.fs = 1/0.03;
 end
 
@@ -72,11 +72,11 @@ function testRecoversExactMapExponents(tc)
 cases = {'skewtent', 0.4; 'skewtent', 0.3; 'skewtent', 0.2; 'logistic', []};
 for k = 1:size(cases,1)
     if isempty(cases{k,2})
-        y = nonantest.signals(cases{k,1}, 4000);
-        ref = nonantest.lambdaReference(cases{k,1});
+        y = quarctest.signals(cases{k,1}, 4000);
+        ref = quarctest.lambdaReference(cases{k,1});
     else
-        y = nonantest.signals(cases{k,1}, 4000, cases{k,2});
-        ref = nonantest.lambdaReference(cases{k,1}, cases{k,2});
+        y = quarctest.signals(cases{k,1}, 4000, cases{k,2});
+        ref = quarctest.lambdaReference(cases{k,1}, cases{k,2});
     end
     for algo = ["rosenstein", "wolf"]
         got = lyapunov(y, 1, algorithm=algo, delay=1, dim=3, evolve=5);
@@ -90,7 +90,7 @@ end
 function testBothMethodsReturnNats(tc)
 % lye_w natively returns bits; the wrapper must convert, so that the two
 % methods are directly comparable and match published values.
-y = nonantest.signals('logistic', 4000);
+y = quarctest.signals('logistic', 4000);
 [lam, extra] = lyapunov(y, 1, algorithm="wolf", delay=1, dim=3, evolve=5);
 tc.verifyEqual(lam, log(2), 'RelTol', 0.25, sprintf( ...
     'wolf via the wrapper gave %.4f; ln 2 = %.4f nats is exact here.', ...
@@ -101,8 +101,8 @@ tc.verifyEqual(extra.units, "nats per unit time");
 end
 
 function testChaoticExceedsPeriodicThroughTheWrapper(tc)
-chaotic  = lyapunov(nonantest.signals('skewtent', 3000, 0.3), 1, delay=1, dim=3);
-periodic = lyapunov(nonantest.signals('sine', 3000, 50), 1, delay=12, dim=3);
+chaotic  = lyapunov(quarctest.signals('skewtent', 3000, 0.3), 1, delay=1, dim=3);
+periodic = lyapunov(quarctest.signals('sine', 3000, 50), 1, delay=12, dim=3);
 tc.verifyGreaterThan(chaotic, periodic, sprintf( ...
     'chaotic %.4f did not exceed periodic %.4f', chaotic, periodic));
 end
@@ -143,7 +143,7 @@ tc.verifyError(@() lyapunov(xn, tc.TestData.fs), 'lyapunov:nanInput');
 end
 
 function testRunsHeadless(tc)
-s = nonantest.sideEffects(@() lyapunov(tc.TestData.lorenz, tc.TestData.fs, ...
+s = quarctest.sideEffects(@() lyapunov(tc.TestData.lorenz, tc.TestData.fs, ...
                                        delay=10, dim=5));
 tc.verifyFalse(s.errored, 'lyapunov errored');
 tc.verifyFalse(s.dbstop, 'lyapunov armed the debugger');

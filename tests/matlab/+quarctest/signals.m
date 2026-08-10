@@ -1,7 +1,7 @@
 function y = signals(kind, n, varargin)
 %SIGNALS Deterministic test signals with known analytic answers.
 %
-%   y = nonantest.signals(kind, n, ...) returns an n-by-1 column vector.
+%   y = quarctest.signals(kind, n, ...) returns an n-by-1 column vector.
 %
 %   Every generator here is implemented from scratch in base MATLAB and is
 %   deliberately INDEPENDENT of the NONAN library. Known-answer tests are
@@ -128,7 +128,7 @@ switch lower(kind)
         p = 0.3;
         if ~isempty(extra), p = extra; end
         if abs(p - 0.5) < 1e-12
-            error('nonantest:signals:dyadicTent', ...
+            error('quarctest:signals:dyadicTent', ...
                 ['p = 0.5 is the symmetric tent map, which is exactly a binary ' ...
                  'shift. In floating point the orbit exhausts the mantissa and ' ...
                  'collapses to exactly 0 after ~50 iterations. Use a ' ...
@@ -190,7 +190,7 @@ switch lower(kind)
         y(1) = 0.0;
 
     otherwise
-        error('nonantest:signals:unknownKind', 'unknown signal kind "%s"', kind);
+        error('quarctest:signals:unknownKind', 'unknown signal kind "%s"', kind);
 end
 
 y = y(:);

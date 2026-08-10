@@ -38,8 +38,8 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-tc.TestData.lorenz = nonantest.signals('lorenz', 2000);
-tc.TestData.sine   = nonantest.signals('sine', 2000, 50);
+tc.TestData.lorenz = quarctest.signals('lorenz', 2000);
+tc.TestData.sine   = quarctest.signals('sine', 2000, 50);
 end
 
 function teardown(~)
@@ -113,9 +113,9 @@ cases = {'skewtent', 0.3, 1, 2; 'logistic', [], 1, 2; ...
          'lorenz', [], 5, 3; 'rossler', [], 8, 3};
 for k = 1:size(cases,1)
     if isempty(cases{k,2})
-        y = nonantest.signals(cases{k,1}, 2000);
+        y = quarctest.signals(cases{k,1}, 2000);
     else
-        y = nonantest.signals(cases{k,1}, 2000, cases{k,2});
+        y = quarctest.signals(cases{k,1}, 2000, cases{k,2});
     end
     out = lye_r(y, 1, cases{k,3}, cases{k,4});
     tc.verifyEqual(size(out,2), 3, sprintf( ...
@@ -127,7 +127,7 @@ end
 
 function testChaoticExceedsPeriodic(tc)
 % Ordering needs no reference value and is the minimum any estimator owes.
-[~, chaotic]  = lye_w(nonantest.signals('skewtent', 2000, 0.3), 1, 1, 2, 5);
+[~, chaotic]  = lye_w(quarctest.signals('skewtent', 2000, 0.3), 1, 1, 2, 5);
 [~, periodic] = lye_w(tc.TestData.sine, 1, 12, 3, 10);
 tc.verifyGreaterThan(chaotic, periodic + 0.1, sprintf( ...
     ['A chaotic map scored %.4f and a pure sine %.4f. An estimator that\n' ...
@@ -149,8 +149,8 @@ function testRecoversExactSkewTentLadder(tc)
 ps = [0.4 0.3 0.2 0.1];
 ratios = zeros(size(ps));
 for k = 1:numel(ps)
-    y = nonantest.signals('skewtent', 2000, ps(k));
-    ref = nonantest.lambdaReference('skewtent', ps(k));
+    y = quarctest.signals('skewtent', 2000, ps(k));
+    ref = quarctest.lambdaReference('skewtent', ps(k));
     [~, L] = lye_w(y, 1, 1, 2, 5);
     ratios(k) = L / ref.bits;
     tc.verifyEqual(L, ref.bits, 'RelTol', 0.20, sprintf( ...
@@ -170,8 +170,8 @@ end
 
 function testRecoversExactLogisticExponent(tc)
 % lambda = ln 2 exactly at r = 4, by conjugacy to the tent map.
-y = nonantest.signals('logistic', 2000);
-ref = nonantest.lambdaReference('logistic');
+y = quarctest.signals('logistic', 2000);
+ref = quarctest.lambdaReference('logistic');
 [~, L] = lye_w(y, 1, 1, 2, 5);
 tc.verifyEqual(L, ref.bits, 'RelTol', 0.15, sprintf( ...
     'logistic r=4: LyE_W %.4f bits against an EXACT %.4f bits (= ln 2 nats)', ...
@@ -184,8 +184,8 @@ function testDyadicTentIsRejected(tc)
 % value in 2000. LyE_W returns NaN and LyE_R returns a 2-column matrix on it.
 % Anyone building a "known answer" test on the standard tent map at slope 2
 % gets a silently dead series, so the generator refuses rather than obliging.
-tc.verifyError(@() nonantest.signals('skewtent', 100, 0.5), ...
-    'nonantest:signals:dyadicTent');
+tc.verifyError(@() quarctest.signals('skewtent', 100, 0.5), ...
+    'quarctest:signals:dyadicTent');
 end
 
 % =================================================================
@@ -204,8 +204,8 @@ cases = { ...
     'lorenz',  1/0.03, 10, 5, 10};
 for k = 1:size(cases,1)
     name = cases{k,1};
-    y = nonantest.signals(name, 2000);
-    ref = nonantest.lambdaReference(name);
+    y = quarctest.signals(name, 2000);
+    ref = quarctest.lambdaReference(name);
     [~, L] = lye_w(y, cases{k,2}, cases{k,3}, cases{k,4}, cases{k,5});
     nats = L * log(2);
     tc.verifyGreaterThan(nats, 0, sprintf('%s: lambda must be positive', name));
@@ -222,7 +222,7 @@ end
 function testLyE_W_ReturnsBitsNotNats(tc)
 % Pins the convention against the exact logistic value, where bits and nats
 % differ by a factor of 1.44 and cannot be confused.
-y = nonantest.signals('logistic', 2000);
+y = quarctest.signals('logistic', 2000);
 [~, L] = lye_w(y, 1, 1, 2, 5);
 tc.verifyEqual(L, 1.0, 'AbsTol', 0.15, sprintf( ...
     ['LyE_W returned %.4f on the logistic map at r=4. Expected ~1.0 BITS per\n' ...
@@ -241,13 +241,13 @@ function testLyE_W_DocumentedArgumentListWorks(tc)
 % nargin == 8 and reads varargin{1:3} as SCALEMX, ANGLMX, ZMULT -- SCALEMN
 % having been removed from the code, per the function's own changelog,
 % without the signature line being updated.
-s = nonantest.sideEffects(@() lye_w(tc.TestData.lorenz, 1/0.03, 5, 3, 10, ...
+s = quarctest.sideEffects(@() lye_w(tc.TestData.lorenz, 1/0.03, 5, 3, 10, ...
                                     1, 30*pi/180, 1));
 tc.verifyFalse(s.errored, sprintf( ...
     'The documented extended form of LyE_W fails: "%s".', localMsg(s)));
 
 % And the form that is no longer supported must not silently appear to work.
-s9 = nonantest.sideEffects(@() lye_w(tc.TestData.lorenz, 1/0.03, 5, 3, 10, ...
+s9 = quarctest.sideEffects(@() lye_w(tc.TestData.lorenz, 1/0.03, 5, 3, 10, ...
                                      1, 0.1, 30*pi/180, 1));
 tc.verifyTrue(s9.errored, ...
     'A nine-argument call should raise, since SCALEMN is not implemented.');
@@ -276,7 +276,7 @@ tc.verifyNotEmpty(regexp(head, 'BITS|bits per', 'once'), ...
 end
 
 function testLyE_R_DoesNotArmDebuggerOrOpenFigures(tc)
-s = nonantest.sideEffects(@() lye_r(tc.TestData.lorenz, 1/0.03, 5, 3));
+s = quarctest.sideEffects(@() lye_r(tc.TestData.lorenz, 1/0.03, 5, 3));
 tc.verifyFalse(s.errored, sprintf('LyE_R errored: %s', localMsg(s)));
 tc.verifyFalse(s.dbstop, 'LyE_R executed `dbstop if error`.');
 tc.verifyEqual(s.figures, 0, 'LyE_R opened a figure in its default form.');
@@ -314,7 +314,7 @@ function testLyE_R_DivergenceCurveIsUsableAtLength(tc)
 % monotone-ish over its scaling region at a length where the old dense
 % allocation was already 0.3 GB.
 N = 6000;
-y = nonantest.signals('lorenz', N);
+y = quarctest.signals('lorenz', N);
 out = lye_r(y, 1/0.03, 5, 3);
 tc.verifyEqual(size(out,2), 3, 'LyE_R must return three columns');
 d = out(:,3);
@@ -323,7 +323,7 @@ tc.verifyGreaterThan(numel(nz), 100, ...
     'divergence curve is almost entirely empty');
 tc.verifyTrue(all(isfinite(nz)), ...
     'divergence curve contains non-finite values');
-[slope, ~, info] = nonantest.scaling_region(d, 1/0.03);
+[slope, ~, info] = quarctest.scaling_region(d, 1/0.03);
 tc.verifyTrue(info.ok, 'no clean scaling region found at N = 6000');
 tc.verifyGreaterThan(slope, 0, ...
     sprintf('Lorenz slope came out %.4f; it must be positive', slope));

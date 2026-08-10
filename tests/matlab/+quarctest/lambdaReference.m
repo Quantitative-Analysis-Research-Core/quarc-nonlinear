@@ -1,8 +1,8 @@
 function r = lambdaReference(kind, varargin)
 %LAMBDAREFERENCE Reference largest Lyapunov exponent, with its provenance.
 %
-%   r = nonantest.lambdaReference('skewtent', 0.3)
-%   r = nonantest.lambdaReference('lorenz')
+%   r = quarctest.lambdaReference('skewtent', 0.3)
+%   r = quarctest.lambdaReference('lorenz')
 %
 %   Returns a struct:
 %     r.nats     lambda1 in nats per unit time (per iteration for maps)
@@ -56,7 +56,7 @@ switch lower(kind)
         r.source = 'Sprott (2003) Appendix A, a=0.2 b=0.2 c=5.7';
 
     otherwise
-        error('nonantest:lambdaReference:unknown', ...
+        error('quarctest:lambdaReference:unknown', ...
               'no reference exponent for "%s"', kind);
 end
 

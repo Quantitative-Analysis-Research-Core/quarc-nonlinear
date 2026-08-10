@@ -12,7 +12,7 @@ JUnit XML lands in `tests/artifacts/results.xml`.
 ## The four kinds of test here
 
 **Contract.** Write down what a function *claims* to preserve or return, then
-assert it. `nonantest.surrogateContract` measures whether the spectrum, the
+assert it. `quarctest.surrogateContract` measures whether the spectrum, the
 distribution, and the variance survived a surrogate generator; the caller
 decides which of those the algorithm actually promised. Getting that
 distinction right matters more than the measurement: Algorithm 1 owes you an
@@ -22,7 +22,7 @@ a bug.
 
 **Known-answer recovery.** Feed a signal whose answer is known analytically and
 check the estimator returns it — white noise → DFA α = 0.5, Brownian → 1.5,
-fGn at H → α = H. The generators in `nonantest.signals` are written from
+fGn at H → α = H. The generators in `quarctest.signals` are written from
 scratch and are deliberately independent of the library: if `fgn_sim` were used
 to test `dfa`, a matched pair of errors would cancel and the test would pass.
 
@@ -37,11 +37,57 @@ because they are the shared reference data, so the equivalence tests can be
 restored when the port is reworked. Regenerate the reference with
 `matlab -batch "addpath('tests/matlab'); make_reference"`.
 
+## The characterization suite, which is not a test
+
+`quarctest.characterize` is a separate instrument with a different job. For each
+system in the Sprott catalogue it draws R initial conditions i.i.d. around the
+published one — Sprott's own `x0` is always realization 1 — runs the full metric
+battery on a series from each, and reports the distribution of every metric
+across the ensemble.
+
+```
+matlab -batch "addpath('tests/matlab'); \
+  [S,p] = quarctest.characterize(Fast=true, R=10); \
+  quarctest.write_characterization(S, p, Tag='fast')"
+```
+
+**It asserts nothing and cannot fail**, which is why it is not named `test*.m`
+and is not collected by `run_tests`. Sprott publishes exactly two of these
+quantities — the largest Lyapunov exponent and the correlation dimension, the
+latter with a stated uncertainty — and those rows are marked `validated` and
+carry the reference. Every other row is marked `characterized`: a measurement of
+an estimator on a system, with no reference value in existence to judge it
+against. The report is the deliverable, and it is committed to `tests/reports/`
+so that two runs can be diffed and read.
+
+Three design points worth knowing before extending it:
+
+- **The spread comes from initial conditions.** A deterministic system from a
+  fixed `x0` has zero variance — the existing benchmark reproduces to 5e-15. For
+  a dissipative system the realizations are finite windows of one attractor
+  started at different phases, so the spread is the estimator's sampling
+  variability. For a conservative system there is no attractor and the
+  realizations are distinct orbits, so it is a different quantity; the category
+  column carries the distinction.
+- **Sampling is fixed per system.** `sprott_series` normally derives a flow's
+  decimation from a pilot run, so a perturbed `x0` could shift the period
+  estimate and change `fs` between realizations. `characterize` computes decim
+  once from the published `x0` and passes it via `Decim=`, otherwise the scatter
+  in every rate-dependent metric would be an artefact of the protocol.
+- **The embedding is a protocol, not a measurement** — see
+  `quarctest.embed_policy`. Maps use delay 1 and dimension = state dimension + 1,
+  because a map's iterates are its natural coordinates and AMI's first minimum on
+  a map is not an embedding delay. Measured: on the logistic map, AMI's answer of
+  6 with FNN's dimension gives a correlation dimension of 3.09 against a
+  published D2 of exactly 1.0; at delay 1 the same estimator returns 0.94. AMI
+  and FNN are still reported as metrics, next to the `embed_delay` and
+  `embed_dim` actually used.
+
 ## Rules the harness follows
 
 - **Base MATLAB only.** `corr` is Statistics Toolbox, so the suite uses
-  `nonantest.pearson`. A test needing a toolbox must skip, not error.
-- **No figures.** `nonantest.sideEffects` counts figures opened and fails the
+  `quarctest.pearson`. A test needing a toolbox must skip, not error.
+- **No figures.** `quarctest.sideEffects` counts figures opened and fails the
   test if any survive.
 - **`dbclear all` before and after every test.** Ten shipped functions execute
   `dbstop if error`, which is global session state. Under `matlab -batch` an
@@ -71,11 +117,11 @@ suite with no warning. Helpers here are named `local*` and never `*Test`.
 
 ## Adding a function
 
-1. Add a known-answer signal to `nonantest.signals` if the estimator has an
+1. Add a known-answer signal to `quarctest.signals` if the estimator has an
    analytic answer.
 2. Write down the contract in the test file's header comment before writing any
    assertion. If you cannot state what the function promises, that is the
    finding.
-3. Add a `nonantest.sideEffects` check — errors, figures, `dbstop`, runtime.
+3. Add a `quarctest.sideEffects` check — errors, figures, `dbstop`, runtime.
 4. If the function will also exist in the Python port, add a fixture and a
    line to `make_reference.m`.
