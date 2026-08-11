@@ -110,6 +110,34 @@ fprintf(fid, ['The embedding rule differs by kind on purpose. A map''s iterates 
               'and `fnn_dim` are reported for both, alongside the `embed_delay` and `embed_dim`\n' ...
               'actually used, so the difference is visible rather than buried.\n\n']);
 
+% ---- systems that did not deliver a full ensemble
+lost = [];
+for i = 1:numel(systems)
+    r1 = S(S.system == systems(i), :);
+    if r1.usableRealizations(1) < R
+        lost(end+1) = i; %#ok<AGROW>
+    end
+end
+if ~isempty(lost)
+    fprintf(fid, '## Systems with an incomplete ensemble\n\n');
+    fprintf(fid, ['A realization is dropped when its series is degenerate -- the orbit collapsed,\n' ...
+                  'diverged, or produced an observable that is not bounded and recurrent. Where\n' ...
+                  'the loss is large, **the surviving realizations are a sample conditioned on\n' ...
+                  'not degenerating**, and the spread reported for that system describes a\n' ...
+                  'narrower quantity than it does elsewhere. Read those rows accordingly.\n\n']);
+    fprintf(fid, '| system | category | usable | of |\n|---|---|---|---|\n');
+    for k = lost
+        r1 = S(S.system == systems(k), :);
+        fprintf(fid, '| `%s` | %s | %d | %d |\n', systems(k), r1.category(1), ...
+                r1.usableRealizations(1), R);
+    end
+    fprintf(fid, ['\nThree of these -- `damped_pendulum`, `driven_pendulum` and `labyrinth` --\n' ...
+                  'degenerate from Sprott''s own initial condition, before any perturbation. Their\n' ...
+                  'observable carries an unbounded drift, and delay embedding requires a bounded\n' ...
+                  'recurrent observable, so no sampling scheme recovers them. They are the same\n' ...
+                  'three systems the Lyapunov benchmark returns NaN for.\n\n']);
+end
+
 for i = 1:numel(systems)
     sysName = systems(i);
     rows = S(S.system == sysName, :);
