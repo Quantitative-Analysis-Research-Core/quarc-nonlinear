@@ -59,6 +59,13 @@ function [S, per] = characterize(opts)
 %     Verbose     per-system progress to stdout. Default true.
 %     Checkpoint  path to a .mat updated after every system, so a long run
 %                 that dies partway can be salvaged. Default "" (off).
+%     Metrics     restrict the battery to these metric ids. Default "all".
+%                 The embedding is always computed, because everything
+%                 downstream depends on it, so a restricted pass reproduces
+%                 the same delay and dimension as a full one and its rows can
+%                 be merged with a full run made at the same seed. Use it to
+%                 add a column without repeating the expensive RQA and
+%                 entropy work.
 %
 %   COST. The battery is roughly 14 s per realization at N=4000 and 4-6 s at
 %   N=2000, dominated by the RQA radius search, which rebuilds the recurrence
@@ -83,6 +90,7 @@ arguments
     opts.Parallel (1,1) logical = true
     opts.Verbose  (1,1) logical = true
     opts.Checkpoint (1,1) string = ""
+    opts.Metrics  (1,:) string = "all"
 end
 
 c = quarctest.sprott_catalog();
@@ -108,6 +116,18 @@ for i = 1:numel(c)
     sys = c(i);
     M = quarctest.metric_policy(sys);
     E = quarctest.embed_policy(sys);
+    if ~(isscalar(opts.Metrics) && opts.Metrics == "all")
+        keepM = ismember([M.id], opts.Metrics);
+        unknown = setdiff(opts.Metrics, [M.id]);
+        if ~isempty(unknown)
+            error('quarctest:characterize:unknownMetric', ...
+                  'not in the battery: %s', strjoin(unknown, ', '));
+        end
+        for q = find(~keepM)
+            M(q).applies = false;
+            M(q).reason  = "not requested in this pass";
+        end
+    end
     ids = [M.id];
     nM = numel(M);
 

@@ -70,6 +70,21 @@ M = add(M, "lyap_wolf",  "Largest Lyapunov exponent (Wolf)", ...
 M = add(M, "lyap_ros",   "Largest Lyapunov exponent (Rosenstein)", ...
          "nats per unit time", true, "", "lambda");
 
+% Rosenstein does not return an exponent so much as a slope over a window of
+% the divergence curve, and the window dominates the answer: lyapunov.m records
+% that on one Lorenz series samples 2-30 give 1.67 and samples 10-150 give 0.74
+% from identical data. The window is chosen automatically, by maximising the R2
+% of a straight-line fit and then preferring the longest window within 0.02 of
+% that best R2. Reporting the exponent without reporting which window produced
+% it leaves the reader unable to tell a slope fitted over 60 points from one
+% fitted over 4, so the choice is carried in the table alongside the estimate.
+M = add(M, "lyap_ros_fit_start", "Rosenstein fit window, first sample", ...
+         "samples", true, "", "");
+M = add(M, "lyap_ros_fit_len",   "Rosenstein fit window, length", ...
+         "samples", true, "", "");
+M = add(M, "lyap_ros_fit_r2",    "Rosenstein fit window, R^2", ...
+         "", true, "", "");
+
 % D2 is defined for the invariant measure of an attractor. Sprott publishes a
 % value for the conservative systems too, so they are included and the
 % category is carried into the report rather than the row being dropped.

@@ -119,9 +119,52 @@ if want("lyap_wolf")
     [v, status] = tryOne(v, status, ids, "lyap_wolf", ...
         @() lyapunov(x, fs, algorithm="wolf", delay=delay, dim=dim));
 end
-if want("lyap_ros")
-    [v, status] = tryOne(v, status, ids, "lyap_ros", ...
-        @() lyapunov(x, fs, algorithm="rosenstein", delay=delay, dim=dim));
+% Rosenstein is called for its diagnostics as well as its slope: the fitted
+% window and its R^2 are what make the exponent interpretable, so they are
+% captured from EXTRA in the same call rather than being recomputed or, as
+% before, discarded.
+if want("lyap_ros") || want("lyap_ros_fit_start") || ...
+        want("lyap_ros_fit_len") || want("lyap_ros_fit_r2")
+    fitIds = ["lyap_ros", "lyap_ros_fit_start", "lyap_ros_fit_len", "lyap_ros_fit_r2"];
+    try
+        [lam, ex] = lyapunov(x, fs, algorithm="rosenstein", delay=delay, dim=dim);
+        lam = firstOf(lam);
+        if want("lyap_ros")
+            if isfinite(lam)
+                [v, status] = put(v, status, "lyap_ros", lam, "ok");
+            else
+                [v, status] = put(v, status, "lyap_ros", NaN, "nonfinite");
+            end
+        end
+        idx = [];
+        if isfield(ex, 'scalingRegion'), idx = ex.scalingRegion(:); end
+        if want("lyap_ros_fit_start")
+            if isempty(idx)
+                [v, status] = put(v, status, "lyap_ros_fit_start", NaN, "nofit");
+            else
+                [v, status] = put(v, status, "lyap_ros_fit_start", idx(1), "ok");
+            end
+        end
+        if want("lyap_ros_fit_len")
+            if isempty(idx)
+                [v, status] = put(v, status, "lyap_ros_fit_len", NaN, "nofit");
+            else
+                [v, status] = put(v, status, "lyap_ros_fit_len", numel(idx), "ok");
+            end
+        end
+        if want("lyap_ros_fit_r2")
+            r2 = NaN;
+            if isfield(ex, 'fitR2'), r2 = firstOf(ex.fitR2); end
+            [v, status] = put(v, status, "lyap_ros_fit_r2", r2, ...
+                              ternaryStr(isfinite(r2), "ok", "nofit"));
+        end
+    catch err
+        for k = 1:numel(fitIds)
+            if want(fitIds(k))
+                [v, status] = put(v, status, fitIds(k), NaN, "fail:" + err.identifier);
+            end
+        end
+    end
 end
 
 % ---- correlation dimension
@@ -220,6 +263,10 @@ end
 
 function a = setAt(a, mask, val)
 a(mask) = val;
+end
+
+function s = ternaryStr(cond, a, b)
+if cond, s = a; else, s = b; end
 end
 
 function y = firstOf(z)
