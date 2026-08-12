@@ -80,6 +80,23 @@ Three design points worth knowing before extending it:
   estimate and change `fs` between realizations. `characterize` computes decim
   once from the published `x0` and passes it via `Decim=`, otherwise the scatter
   in every rate-dependent metric would be an artefact of the protocol.
+- **Start-up transients are discarded twice, and the length was audited.**
+  `sprott_series` drops 1000 iterations for a map and 20000 RK4 steps for a flow
+  before collecting anything. `ensemble_ics` adds 5000 steps to reach the
+  attractor plus 200 to relax the perturbed point, so a perturbed realization
+  has ~25200 steps behind it and realization 1, which uses Sprott's `x0`
+  verbatim, has 20000. Measured against each system's own timescale that is
+  uneven: heavily decimated flows (`chua`, `double_scroll`, `labyrinth`,
+  `rabinovich_fabrikant` and ten others) get only about 5 dominant periods,
+  because decimation buys resolution of the period at the cost of transient
+  length in integrator steps. Tested rather than assumed — raising the transient
+  tenfold to 200000 steps moved `corr_dim` by at most 1.5% and `lyap_ros` by at
+  most 3.5% across the six shortest cases, all inside the ensemble spread, so
+  there is no evidence of transient contamination at this resolution. The test
+  used 24 realizations per system, so it would not resolve an effect below
+  roughly 1%. Note also that a conservative system has no attractor to settle
+  onto, so for `nose_hoover`, `labyrinth` and `driven_pendulum` the question
+  does not arise in the same form.
 - **The embedding is a protocol, not a measurement** — see
   `quarctest.embed_policy`. Maps use delay 1 and dimension = state dimension + 1,
   because a map's iterates are its natural coordinates and AMI's first minimum on
