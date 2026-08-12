@@ -1,4 +1,4 @@
-function CoD=corr_dim(x,delay,dim,showPlot)
+function [CoD, extra]=corr_dim(x,delay,dim,showPlot)
 %Correlation Dimension
 %Scaling region mid-one quarter of vertical axis -- mid + OneQuarter
 %2/5/2008
@@ -8,6 +8,27 @@ function CoD=corr_dim(x,delay,dim,showPlot)
 %dim: embedding diemnsion
 %showPlot: set showPlot=1 to see plots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%   [CoD,EXTRA] = CORR_DIM(...) also returns the correlation-sum curve and
+%   the region the slope was fitted over, so the fit can be inspected instead
+%   of taken on trust:
+%
+%      logEps     ln(epsilon), one point per bin
+%      logC       ln(C(epsilon)), renormalised as below
+%      idx        indices of logEps/logC used for the fit
+%      slope      the fitted slope, equal to CoD
+%      intercept  the fitted intercept
+%      r2         R^2 of the straight-line fit over idx
+%      bounds     the [lower upper] ln(C) bounds that selected the region
+%
+%   THE REGION IS SELECTED BY HEIGHT, NOT BY LINEARITY. It is the band of
+%   ln(C) from the midpoint of the curve's range to a quarter-range above it,
+%   and whichever epsilon fall in that band are fitted. Nothing tests whether
+%   the curve is straight there. On a well-resolved attractor it usually is,
+%   but the correlation dimension of a short or noisy series can be returned
+%   from a visibly curved stretch with no indication in the output. EXTRA.r2
+%   is what makes that visible; a low value means the number is a slope
+%   through a bend, not a scaling exponent.
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
@@ -119,6 +140,21 @@ if showPlot==1
     %axis tight
     hold off
     disp(['Correlation Dimension = ', num2str(CoD(1))])  % Correlation Dimension
+end
+
+if nargout > 1
+    idx = MidOneQuarter(:);
+    yObs = CI(idx); yObs = yObs(:);
+    yHat = polyval(CoD, epsilon(idx)); yHat = yHat(:);
+    ssTot = sum((yObs - mean(yObs)).^2);
+    if ssTot > 0 && numel(idx) > 2
+        r2 = 1 - sum((yObs - yHat).^2)/ssTot;
+    else
+        r2 = NaN;   % a fit through two points is trivially straight
+    end
+    extra = struct('logEps', epsilon(:), 'logC', CI(:), 'idx', idx, ...
+                   'slope', CoD(1), 'intercept', CoD(2), 'r2', r2, ...
+                   'bounds', [y_LowerBound y_UpperBound]);
 end
 
 CoD=CoD(1);

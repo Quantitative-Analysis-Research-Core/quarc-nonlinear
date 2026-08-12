@@ -84,11 +84,46 @@ M = add(M, "lyap_ros_fit_len",   "Rosenstein fit window, length", ...
          "samples", true, "", "");
 M = add(M, "lyap_ros_fit_r2",    "Rosenstein fit window, R^2", ...
          "", true, "", "");
+M = add(M, "lyap_ros_fit_curv",   "Rosenstein fit window, scaled curvature", ...
+         "", true, "", "");
+M = add(M, "lyap_ros_fit_maxdev", "Rosenstein fit window, max deviation", ...
+         "fraction of rise", true, "", "");
+M = add(M, "lyap_ros_fit_runsz",  "Rosenstein fit window, residual runs z", ...
+         "", true, "", "");
 
 % D2 is defined for the invariant measure of an attractor. Sprott publishes a
 % value for the conservative systems too, so they are included and the
 % category is carried into the report rather than the row being dropped.
 M = add(M, "corr_dim",   "Correlation dimension", "", true, "", "d2");
+
+% corr_dim selects its scaling region by HEIGHT -- the band of ln(C) from the
+% curve's midpoint to a quarter-range above it -- and never tests whether the
+% curve is straight there. These columns supply the missing evidence: R^2 of
+% the fit, how many bins it covered, and how far it ran in ln(epsilon). The
+% span matters independently of R^2, because a fit over a short stretch can be
+% straight and still not be a scaling region.
+%
+% R^2 IS NOT A TEST OF LINEARITY and is not treated as one here. It is the
+% fraction of variance a straight line explains, and a smooth monotone bend
+% explains nearly all of it: the Thomas system fits at R^2 = 0.988 over a
+% visibly curved region and returns D2 = 2.48 against a published 1.84. The
+% curvature, max-deviation and residual-runs columns are what actually
+% separate a straight stretch from a bent one; see quarctest.fit_linearity.
+% And none of them makes an estimate correct -- the linear congruential
+% generator is straight by every measure and still returns 1.95 against a
+% published D2 of exactly 1.
+M = add(M, "corr_dim_fit_r2",   "Correlation dimension fit, R^2", ...
+         "", true, "", "");
+M = add(M, "corr_dim_fit_curv",   "Correlation dimension fit, scaled curvature", ...
+         "", true, "", "");
+M = add(M, "corr_dim_fit_maxdev", "Correlation dimension fit, max deviation", ...
+         "fraction of rise", true, "", "");
+M = add(M, "corr_dim_fit_runsz",  "Correlation dimension fit, residual runs z", ...
+         "", true, "", "");
+M = add(M, "corr_dim_fit_len",  "Correlation dimension fit, bins used", ...
+         "bins", true, "", "");
+M = add(M, "corr_dim_fit_span", "Correlation dimension fit, ln(epsilon) span", ...
+         "ln units", true, "", "");
 
 M = add(M, "rqa_radius", "RQA radius at target recurrence", "", true, "", "");
 M = add(M, "rqa_det",    "RQA determinism",   "percent", true, "", "");

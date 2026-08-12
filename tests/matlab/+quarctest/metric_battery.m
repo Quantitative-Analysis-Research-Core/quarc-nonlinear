@@ -123,9 +123,11 @@ end
 % window and its R^2 are what make the exponent interpretable, so they are
 % captured from EXTRA in the same call rather than being recomputed or, as
 % before, discarded.
-if want("lyap_ros") || want("lyap_ros_fit_start") || ...
-        want("lyap_ros_fit_len") || want("lyap_ros_fit_r2")
-    fitIds = ["lyap_ros", "lyap_ros_fit_start", "lyap_ros_fit_len", "lyap_ros_fit_r2"];
+if want("lyap_ros") || want("lyap_ros_fit_start") || want("lyap_ros_fit_len") || ...
+        want("lyap_ros_fit_r2") || want("lyap_ros_fit_curv") || ...
+        want("lyap_ros_fit_maxdev") || want("lyap_ros_fit_runsz")
+    fitIds = ["lyap_ros", "lyap_ros_fit_start", "lyap_ros_fit_len", "lyap_ros_fit_r2", ...
+              "lyap_ros_fit_curv", "lyap_ros_fit_maxdev", "lyap_ros_fit_runsz"];
     try
         [lam, ex] = lyapunov(x, fs, algorithm="rosenstein", delay=delay, dim=dim);
         lam = firstOf(lam);
@@ -152,11 +154,28 @@ if want("lyap_ros") || want("lyap_ros_fit_start") || ...
                 [v, status] = put(v, status, "lyap_ros_fit_len", numel(idx), "ok");
             end
         end
+        % The divergence curve is fitted against sample index, so the
+        % diagnostics are computed on exactly the points lyapunov used.
+        ll = struct('r2', NaN, 'curvature', NaN, 'maxDev', NaN, 'runsZ', NaN);
+        if ~isempty(idx) && isfield(ex, 'divergence')
+            dv = ex.divergence(:);
+            ll = quarctest.fit_linearity(idx, dv(idx));
+        end
         if want("lyap_ros_fit_r2")
-            r2 = NaN;
-            if isfield(ex, 'fitR2'), r2 = firstOf(ex.fitR2); end
-            [v, status] = put(v, status, "lyap_ros_fit_r2", r2, ...
-                              ternaryStr(isfinite(r2), "ok", "nofit"));
+            [v, status] = put(v, status, "lyap_ros_fit_r2", ll.r2, ...
+                              ternaryStr(isfinite(ll.r2), "ok", "nofit"));
+        end
+        if want("lyap_ros_fit_curv")
+            [v, status] = put(v, status, "lyap_ros_fit_curv", ll.curvature, ...
+                              ternaryStr(isfinite(ll.curvature), "ok", "nofit"));
+        end
+        if want("lyap_ros_fit_maxdev")
+            [v, status] = put(v, status, "lyap_ros_fit_maxdev", ll.maxDev, ...
+                              ternaryStr(isfinite(ll.maxDev), "ok", "nofit"));
+        end
+        if want("lyap_ros_fit_runsz")
+            [v, status] = put(v, status, "lyap_ros_fit_runsz", ll.runsZ, ...
+                              ternaryStr(isfinite(ll.runsZ), "ok", "nofit"));
         end
     catch err
         for k = 1:numel(fitIds)
@@ -169,9 +188,50 @@ end
 
 % ---- correlation dimension
 
-if want("corr_dim")
-    [v, status] = tryOne(v, status, ids, "corr_dim", ...
-        @() firstOf(corr_dim(x, delay, dim, false)));
+% As with Rosenstein, corr_dim is called for its diagnostics as well as its
+% slope. Its scaling region is chosen by height rather than by linearity, so
+% the R^2, the number of bins and the ln(epsilon) span are the only evidence
+% that the fitted stretch was straight at all.
+cdIds = ["corr_dim", "corr_dim_fit_r2", "corr_dim_fit_len", "corr_dim_fit_span", ...
+         "corr_dim_fit_curv", "corr_dim_fit_maxdev", "corr_dim_fit_runsz"];
+if any(arrayfun(want, cdIds))
+    try
+        [cd_, cex] = corr_dim(x, delay, dim, false);
+        if want("corr_dim")
+            [v, status] = put(v, status, "corr_dim", firstOf(cd_), "ok");
+        end
+        cl = quarctest.fit_linearity(cex.logEps(cex.idx), cex.logC(cex.idx));
+        if want("corr_dim_fit_r2")
+            [v, status] = put(v, status, "corr_dim_fit_r2", cl.r2, "ok");
+        end
+        if want("corr_dim_fit_curv")
+            [v, status] = put(v, status, "corr_dim_fit_curv", cl.curvature, "ok");
+        end
+        if want("corr_dim_fit_maxdev")
+            [v, status] = put(v, status, "corr_dim_fit_maxdev", cl.maxDev, "ok");
+        end
+        if want("corr_dim_fit_runsz")
+            [v, status] = put(v, status, "corr_dim_fit_runsz", cl.runsZ, "ok");
+        end
+        if want("corr_dim_fit_len")
+            [v, status] = put(v, status, "corr_dim_fit_len", numel(cex.idx), "ok");
+        end
+        if want("corr_dim_fit_span")
+            le = cex.logEps(:); ii = cex.idx(:);
+            if numel(ii) >= 2
+                [v, status] = put(v, status, "corr_dim_fit_span", ...
+                                  le(ii(end)) - le(ii(1)), "ok");
+            else
+                [v, status] = put(v, status, "corr_dim_fit_span", NaN, "nofit");
+            end
+        end
+    catch err
+        for k = 1:numel(cdIds)
+            if want(cdIds(k))
+                [v, status] = put(v, status, cdIds(k), NaN, "fail:" + err.identifier);
+            end
+        end
+    end
 end
 
 % ---- recurrence quantification, one call feeding every RQA column
