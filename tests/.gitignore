@@ -15,4 +15,4 @@ reports/*_per_realization.csv
 # working tree permanently dirty. Neither is a record: the committed record is
 # reports/characterization*.csv and .md.
 reports/.*.ckpt.mat
-reports/.characterization*.mat
+reports/.*.mat
