@@ -106,6 +106,55 @@ Three design points worth knowing before extending it:
   and FNN are still reported as metrics, next to the `embed_delay` and
   `embed_dim` actually used.
 
+## The dysts catalogue
+
+`quarctest.characterize_series` runs the same battery over ensembles generated
+outside MATLAB, which is how the 129 usable systems of the dysts database of
+Gilpin (2021) enter the suite alongside Sprott's 58.
+
+They qualify on the same grounds Sprott's do: dysts computes each system's
+Lyapunov spectrum by integrating the tangent space with the Jacobian and
+Gram-Schmidt/QR orthonormalization, and also publishes a correlation dimension.
+Both come from the linearized equations rather than from a time series, which is
+what makes them usable as references at all.
+
+Generate the ensembles first — this is simulation only, no metrics:
+
+```bash
+python3.12 -m venv /tmp/dystsenv && /tmp/dystsenv/bin/pip install dysts
+/tmp/dystsenv/bin/python python/export_dysts.py \
+    --out tests/reports/dysts --R 100 --N 16000 --workers 30
+```
+
+then run the battery over them:
+
+```
+matlab -batch "addpath('tests/matlab'); \
+  [S,p] = quarctest.characterize_series(R=100); \
+  quarctest.write_characterization(S, p, Tag='dysts')"
+```
+
+**The export is the expensive half and it is deliberately stored.** Integrating
+one realization costs 2-4x what the whole metric battery costs, so regenerating
+per experiment would dominate everything. Written once, every later experiment
+reads the same bytes — which also makes those experiments within-realization,
+since an `evolve` sweep and a `theiler` sweep then run on literally identical
+data.
+
+`--N` is a ceiling. Truncating a stored series is free, so any shorter-series
+experiment is a column slice; lengthening one means regenerating the whole
+export. It is set at 16000 so series-length experiments cost nothing later.
+Storage is float64 for the same reason: `corr_dim` works on inter-point
+distances at the smallest radii, and disk is cheaper than a question about
+precision. Expect ~1.6 GB and roughly 17 h on 30 workers; the `.bin` files are
+gitignored, the manifest is committed because it carries the reference values
+and the protocol.
+
+The six delay-differential systems are excluded — they need a history function
+rather than an initial condition — as is any system whose every component is
+listed in `unbounded_indices`, since delay embedding requires a bounded
+recurrent observable.
+
 ## Parameter sweeps
 
 `quarctest.evolve_sweep` measures Wolf's exponent against its renormalisation

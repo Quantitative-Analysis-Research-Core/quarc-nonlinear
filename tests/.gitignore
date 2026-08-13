@@ -16,3 +16,8 @@ reports/*_per_realization.csv
 # reports/characterization*.csv and .md.
 reports/.*.ckpt.mat
 reports/.*.mat
+
+# Exported dysts ensembles. 129 systems x 100 realizations x 16000 samples of
+# float64 is ~1.6 GB of regenerable simulation output; the manifest is small
+# and is kept because it carries the reference values and the protocol.
+reports/dysts/*.bin
