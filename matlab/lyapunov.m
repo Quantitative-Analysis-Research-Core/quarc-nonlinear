@@ -36,6 +36,31 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %   ___ = LYAPUNOV(X,FS,evolve=E) sets the propagation length in samples
 %   ("wolf" only). Default 10.
 %
+%   EVOLVE MATTERS MORE ON MAPS THAN THE DEFAULT SUGGESTS. It is how long a
+%   pair is allowed to separate before the neighbour is replaced, and Wolf's
+%   method assumes the pair stays in the linear regime over that interval. On
+%   a flow sampled at roughly 40 samples per orbit, 10 samples is a quarter
+%   turn and the estimate barely depends on it. On a map, 10 samples is 10
+%   iterations: on the logistic map, where lambda = ln 2 per iteration, a pair
+%   separates by 2^10 before replacement, which is far outside any linear
+%   regime.
+%
+%   Measured over Sprott's Appendix A at 200 realizations per system, median
+%   absolute log10 error against the published exponent:
+%
+%                        evolve=1   evolve=10
+%      noninvertible maps    0.007       0.093
+%      dissipative maps      0.012       0.096
+%      conservative maps     0.244       0.357
+%      flows                 0.033       0.036
+%
+%   So for a map, prefer evolve=1: the logistic, sine, cubic, delayed logistic
+%   and Ricker maps all recover their published exponents to within 0.3% there
+%   and lose 12-36% at the default. For a flow the default is fine and
+%   slightly larger values are marginally better. Conservative systems are
+%   poorly estimated at every interval and the choice does not rescue them.
+%   Regenerate this table with quarctest.evolve_sweep.
+%
 %   Input Arguments
 %      X   time series (column vector) or phase space (N-by-D matrix)
 %      FS  sampling frequency, Hz. Use 1 for maps.

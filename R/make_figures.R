@@ -13,6 +13,7 @@ source(file.path(repo, "R", "figures", "_common.R"))
 cat("figures ->", file.path(repo, "tests", "reports", "figures"), "\n")
 for (f in c("fig_corr_dim_reference.R",
             "fig_lyapunov_reference.R",
-            "fig_scaling_regions.R")) {
+            "fig_scaling_regions.R",
+            "fig_evolve_sweep.R")) {
   source(file.path(repo, "R", "figures", f))
 }

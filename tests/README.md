@@ -106,6 +106,47 @@ Three design points worth knowing before extending it:
   and FNN are still reported as metrics, next to the `embed_delay` and
   `embed_dim` actually used.
 
+## Parameter sweeps
+
+`quarctest.evolve_sweep` measures Wolf's exponent against its renormalisation
+interval across every usable map plus eight flows, reusing one series per
+realization for all interval values so the comparison is within-realization.
+
+It answers a question the characterization report raised but could not settle:
+Wolf's estimator is erratic on maps (0.33x on Arnold's cat, 0.63x on Ikeda at
+the default) while behaving on flows. The cause is that `evolve` is fixed at 10
+samples for every system. On a flow decimated to ~40 samples per orbit that is
+a quarter turn; on a map it is 10 iterations, and a logistic-map pair separates
+by 2^10 before the neighbour is replaced -- far outside the linear regime Wolf's
+method assumes.
+
+Median absolute log10 error against the published exponent, 200 realizations
+per system:
+
+| category | evolve = 1 | evolve = 10 |
+|---|---|---|
+| noninvertible maps | 0.007 | 0.093 |
+| dissipative maps | 0.012 | 0.096 |
+| conservative maps | 0.244 | 0.357 |
+| flows | 0.033 | 0.036 |
+
+The flows are the control, and they matter: without them a maps-only result
+could not separate "maps need a different interval" from "the default is wrong
+everywhere". Flows are flat across the whole range and mildly prefer larger
+intervals; no flow's best is at 1.
+
+Not universal, and the exceptions are recorded rather than smoothed over.
+Conservative maps mostly do not follow the pattern -- Chirikov is best at 30,
+the chaotic web returns 0.001 at every interval and is simply not estimable
+this way, and Henon's area-preserving map peaks at 0.36. Their exponents are
+small and the noise floor dominates, which is the same weakness the Lyapunov
+benchmark already reports for conservative systems.
+
+**The library default is unchanged at 10.** Changing it would silently alter
+every exponent the library has ever produced, which is a decision for a release
+rather than a test suite. The evidence is documented in `lyapunov`'s help so a
+caller analysing a map can choose deliberately.
+
 ## Rules the harness follows
 
 - **Base MATLAB only.** `corr` is Statistics Toolbox, so the suite uses
