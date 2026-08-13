@@ -79,7 +79,7 @@ for i = 1:numel(c)
     ids = [M.id];
     nM = numel(M);
 
-    X = localRead(sys);                 % R-by-N, float32 on disk
+    X = localRead(sys);                 % R-by-N, dtype named in the manifest
     R = min(opts.R, size(X, 1));
     X = X(1:R, :);
     fs = sys.fs;
