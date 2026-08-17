@@ -18,8 +18,13 @@ function [t,y]=chaos_library(S,t,IC,p)
 %   recognition from the user. The rest of the handles contain more
 %   information on the chaotic attractors, and includes the vector
 %   components and typical parameters and initial conditions.
-% - For 2D attractors, the t variable is used to specify the number of data
-%   points. The rest of the function inputs can be used normally. 
+% - The discrete maps, Hennon and Logistic, take no step size. For those t
+%   specifies the number of data points, either as a count or as a vector of
+%   sample indices with one element per iterate. The first row of y is the
+%   initial condition, so a request for n points returns n rows and n-1
+%   iterations. The rest of the function inputs can be used normally.
+% - y is column oriented for every system: n-by-3 for the flows, n-by-2 for
+%   Hennon ([x y]) and n-by-1 for Logistic. t has one element per row of y.
 % Future Work
 % - More systems could be added.
 % Jun 2016 - Created by Christopher Cunningham
@@ -28,6 +33,11 @@ function [t,y]=chaos_library(S,t,IC,p)
 %          - Hennon, Logistic, Aizawa attractors added.
 % Jul 2021 - Modified by Ben Senderling, bmchnonan@unomaha.edu
 %          - Removed plotting.
+% Aug 2026 - Modified by Aaron Likens, alikens@unomaha.edu
+%          - Fixed the two discrete maps. Logistic never assigned y and so
+%            errored on every call; Hennon returned only its second
+%            coordinate and rejected a vector t. Both now return a column
+%            oriented y and a matching t. An unknown system name errors.
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
@@ -39,17 +49,32 @@ switch S
     case 'Lorenz'
         [t,y] = ode45(@Lorenz,t,IC,[],p);
     case 'Hennon'
+        % The map state is held in x and z, not in the output variable y.
+        % Writing the second coordinate straight into y returned that
+        % coordinate alone, as a row, with x discarded and the returned t
+        % still the caller's iteration count.
+        n = map_length(t);
+        x = zeros(n,1);
+        z = zeros(n,1);
         x(1) = IC(1);
-        y(1) = IC(2);
-        for c = 1:t
-            x(c+1) = 1 - p(1)*x(c)^2 + y(c);
-            y(c+1) = p(2)*x(c);
+        z(1) = IC(2);
+        for c = 1:n-1
+            x(c+1) = 1 - p(1)*x(c)^2 + z(c);
+            z(c+1) = p(2)*x(c);
         end
+        y = [x z];
+        t = map_time(t,n);
     case 'Logistic'
+        % The iterate was accumulated in x and never copied to y, so the
+        % function threw MATLAB:unassignedOutputs on every call.
+        n = map_length(t);
+        x = zeros(n,1);
         x(1) = IC(1);
-        for c = 1:t
+        for c = 1:n-1
             x(c+1) = p(1)*x(c)*(1-x(c));
         end
+        y = x;
+        t = map_time(t,n);
     case 'Aizawa'
         [t,y] = ode23(@Aizawa,t,IC,[],p);
     case 'DequanLi'
@@ -67,6 +92,41 @@ switch S
         [t,y] = ode45(@Arneodo,t,IC,[],p);
     case 'TSUCSI'
         [t,y] = ode45(@TSUCSI,t,IC,[],p);
+    otherwise
+        % Without this an unrecognised name fell out of the switch with both
+        % outputs unassigned, which reads as a fault in the solver rather
+        % than a misspelled system.
+        error('chaos_library:unknownSystem', ...
+            'Unknown system ''%s''.', S);
+end
+end
+
+%% Support for the discrete maps
+
+function n = map_length(t)
+% Number of data points to generate for a discrete map. The maps take no
+% step size, so t is either a count or a vector of sample indices; each
+% element of a vector is one iterate. A vector reached the colon expression
+% directly before this and raised MATLAB:colon:operandsNotRealScalar, even
+% though the header documents t as being allowed in vector form.
+if isscalar(t)
+    n = round(t);
+else
+    n = numel(t);
+end
+if n < 1
+    error('chaos_library:badLength', ...
+        't must ask for at least one data point.');
+end
+end
+
+function t = map_time(t,n)
+% Sample indices for a discrete map, one per row of y, so the two outputs
+% can be used together. A vector t is returned as given, in column form.
+if isscalar(t)
+    t = (0:n-1)';
+else
+    t = t(:);
 end
 end
 
