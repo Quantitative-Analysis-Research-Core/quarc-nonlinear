@@ -46,6 +46,7 @@ arguments
     opts.Checkpoint (1,1) string = ""
 end
 
+quarctest.require_library();
 c = quarctest.dysts_catalog(opts.Manifest);
 if ~(isscalar(opts.Systems) && opts.Systems == "all")
     keep = ismember([c.name], opts.Systems);

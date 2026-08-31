@@ -93,6 +93,7 @@ arguments
     opts.Metrics  (1,:) string = "all"
 end
 
+quarctest.require_library();
 c = quarctest.sprott_catalog();
 c = c([c.usable]);
 

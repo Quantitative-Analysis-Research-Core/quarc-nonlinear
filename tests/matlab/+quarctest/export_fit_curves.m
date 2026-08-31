@@ -42,6 +42,7 @@ arguments
     opts.N       (1,1) double {mustBePositive, mustBeInteger} = 4000
 end
 
+quarctest.require_library();
 c = quarctest.sprott_catalog();
 c = c([c.usable]);
 

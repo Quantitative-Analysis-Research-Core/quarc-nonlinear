@@ -53,6 +53,7 @@ arguments
     opts.Verbose (1,1) logical = true
 end
 
+quarctest.require_library();
 c = quarctest.sprott_catalog();
 c = c([c.usable]);
 
