@@ -51,7 +51,13 @@ CATLBL <- c(noninvertible_map = "Noninvertible Map",
             conservative_map  = "Conservative Map",
             driven_flow       = "Driven Flow",
             autonomous_flow   = "Autonomous Flow",
-            conservative_flow = "Conservative Flow")
+            conservative_flow = "Conservative Flow",
+            # The dysts catalogue carries the same physical kinds under its own
+            # names; mapping them onto the Sprott labels keeps one palette across
+            # both reference sets.
+            dysts_flow              = "Autonomous Flow",
+            dysts_driven_flow       = "Driven Flow",
+            dysts_conservative_flow = "Conservative Flow")
 
 # System ids that a generic title-caser would get wrong.
 LBL <- c(lcg = "LCG", act = "ACT", windmi = "WINDMI",
