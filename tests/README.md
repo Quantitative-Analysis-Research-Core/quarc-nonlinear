@@ -134,6 +134,18 @@ matlab -batch "addpath('tests/matlab'); \
   quarctest.write_characterization(S, p, Tag='dysts')"
 ```
 
+The export already exists and is shared via Dropbox, so on a new machine sync
+it instead of regenerating:
+
+```bash
+rsync -a ~/Library/CloudStorage/Dropbox/quarc-data/dysts/ \
+    tests/reports/dysts/ --exclude README.txt
+```
+
+The manifest is not in Dropbox on purpose — git is its source of truth, and
+the reader resolves the `.bin` paths relative to the manifest it is given, so
+the bins must sit next to the repo's own copy.
+
 **The export is the expensive half and it is deliberately stored.** Integrating
 one realization costs 2-4x what the whole metric battery costs, so regenerating
 per experiment would dominate everything. Written once, every later experiment
