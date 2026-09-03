@@ -2263,6 +2263,31 @@
    "doi": ""
   },
   {
+   "system": "Sakarya",
+   "file": "Sakarya.bin",
+   "dtype": "float64",
+   "R": 100,
+   "N": 16000,
+   "obsIndex": 0,
+   "stateDim": 3,
+   "period": 4.9844,
+   "fs": 8.025038118931064,
+   "dt": 0.0009970461743625946,
+   "lambdaMax": 0.26501036485491514,
+   "lyapunovSpectrum": [
+    0.3080921246264039,
+    0.00035292037656675234,
+    -1.2584697568737606
+   ],
+   "corrDim": 2.055704010721625,
+   "kaplanYorke": 2.245095314885476,
+   "nonautonomous": false,
+   "hamiltonian": false,
+   "degenerate": 3,
+   "citation": "Li, Chunbiao, et al (2015). A novel four-wing strange attractor born in bistability. IEICE Electronics Express 12.4.",
+   "doi": ""
+  },
+  {
    "system": "SaltonSea",
    "file": "SaltonSea.bin",
    "dtype": "float64",

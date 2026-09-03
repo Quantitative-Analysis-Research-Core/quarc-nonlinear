@@ -53,6 +53,7 @@ narrower quantity than it does elsewhere. Read those rows accordingly.
 | system | category | usable | of |
 |---|---|---|---|
 | `HyperLu` | dysts_flow | 98 | 100 |
+| `Sakarya` | dysts_flow | 97 | 100 |
 ## Aizawa (dysts, dysts_flow)
 
 Usable realizations: 100 of 100. fs = 15.4817.
@@ -3612,6 +3613,46 @@ Usable realizations: 100 of 100. fs = 6.58751.
 | `ent_ms_s1` | characterized | 100 | 0.4601 | 0.0061 | 0.4602 | 0.00913 | - | - |
 | `ent_ms_ci` | characterized | 100 | 9.242 | 0.177 | 9.223 | 0.264 | - | - |
 | `dfa_alpha` | characterized | 100 | 0.2077 | 0.00134 | 0.2078 | 0.00223 | - | - |
+
+## Sakarya (dysts, dysts_flow)
+
+Usable realizations: 97 of 100. fs = 8.02504.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 97 | 6 | 0 | 6 | 0 | - | - |
+| `fnn_dim` | characterized | 97 | 5 | 1 | 5.196 | 0.731 | - | - |
+| `embed_delay` | characterized | 97 | 6 | 0 | 6 | 0 | - | - |
+| `embed_dim` | characterized | 97 | 5 | 1 | 5.196 | 0.731 | - | - |
+| `lyap_wolf` | validated | 97 | 0.2606 | 0.0107 | 0.263 | 0.0159 | 0.265 | 0.983 |
+| `lyap_ros` | validated | 97 | 0.1941 | 0.00698 | 0.1949 | 0.00869 | 0.265 | 0.732 |
+| `lyap_ros_fit_start` | characterized | 97 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 97 | 147 | 5 | 148.8 | 9.95 | - | - |
+| `lyap_ros_fit_r2` | characterized | 97 | 0.9797 | 0.000188 | 0.9796 | 0.000537 | - | - |
+| `lyap_ros_fit_curv` | characterized | 97 | -0.5651 | 0.00322 | -0.5652 | 0.00495 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 97 | 0.1022 | 0.00354 | 0.1022 | 0.00484 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 97 | -11.83 | 0.216 | -11.9 | 0.413 | - | - |
+| `corr_dim` | validated | 97 | 2.135 | 0.0393 | 2.13 | 0.0551 | 2.056 | 1.038 |
+| `corr_dim_fit_r2` | characterized | 97 | 0.9995 | 0.000233 | 0.9994 | 0.000397 | - | - |
+| `corr_dim_fit_curv` | characterized | 97 | 0.0825 | 0.0197 | 0.08225 | 0.0339 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 97 | 0.01269 | 0.00299 | 0.01238 | 0.00487 | - | - |
+| `corr_dim_fit_runsz` | characterized | 97 | -6.419 | 0.154 | -6.374 | 0.318 | - | - |
+| `corr_dim_fit_len` | characterized | 97 | 48 | 2 | 47.9 | 3.46 | - | - |
+| `corr_dim_fit_span` | characterized | 97 | 2.122 | 0.0444 | 2.119 | 0.077 | - | - |
+| `rqa_radius` | characterized | 97 | 0.7355 | 0.139 | 0.7677 | 0.13 | - | - |
+| `rqa_det` | characterized | 97 | 99.77 | 0.0116 | 99.77 | 0.0172 | - | - |
+| `rqa_lam` | characterized | 97 | 99.95 | 0.0058 | 99.96 | 0.00985 | - | - |
+| `rqa_meanL` | characterized | 97 | 23.86 | 0.264 | 23.87 | 0.351 | - | - |
+| `rqa_maxL` | characterized | 97 | 2039 | 276 | 2219 | 534 | - | - |
+| `rqa_entL` | characterized | 97 | 5.871 | 0.00857 | 5.871 | 0.0143 | - | - |
+| `rqa_entV` | characterized | 97 | 6.386 | 0.0515 | 6.382 | 0.0593 | - | - |
+| `rqa_entW` | characterized | 97 | 2.495 | 0.115 | 2.56 | 0.2 | - | - |
+| `ent_samp` | characterized | 97 | 0.4834 | 0.00154 | 0.4831 | 0.0032 | - | - |
+| `ent_ap` | characterized | 97 | 0.5661 | 0.00306 | 0.5659 | 0.00504 | - | - |
+| `ent_permu` | characterized | 97 | 2.348 | 0.0212 | 2.349 | 0.0336 | - | - |
+| `ent_ms_s1` | characterized | 97 | 0.4834 | 0.00154 | 0.4831 | 0.0032 | - | - |
+| `ent_ms_ci` | characterized | 97 | 6.996 | 0.0734 | 7.011 | 0.128 | - | - |
+| `dfa_alpha` | characterized | 97 | 0.4775 | 0.00908 | 0.4758 | 0.0158 | - | - |
 
 ## SaltonSea (dysts, dysts_flow)
 
