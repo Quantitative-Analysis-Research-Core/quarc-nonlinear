@@ -41,8 +41,10 @@ that reason, so series-length experiments cost nothing later.
 import argparse
 import json
 import os
+import signal
 import sys
 import time
+import zlib
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import numpy as np
@@ -51,6 +53,15 @@ TARGET_PTS_PER_PERIOD = 40
 SPREAD = 0.01           # IC perturbation, as a fraction of attractor extent
 ANCHOR_PERIODS = 50     # integration to land on the attractor
 RELAX_PERIODS = 5       # relaxation after perturbing
+TRAJ_TIMEOUT_S = 900    # wall-clock cap on one solve; ~4x a normal realization
+
+
+class _IntegrationTimeout(Exception):
+    pass
+
+
+def _raise_timeout(signum, frame):
+    raise _IntegrationTimeout()
 
 
 def system_names(catalog):
@@ -89,12 +100,27 @@ def export_one(name, meta, R, N, seed, outdir):
     if obs is None:
         return {"system": name, "skipped": "every component unbounded"}
 
-    rng = np.random.default_rng(seed + abs(hash(name)) % (2**31))
+    # crc32, not hash(): Python salts str hashes per process, so hash(name)
+    # gave every run -- and every pool worker -- a different draw sequence
+    # under the same --seed.
+    rng = np.random.default_rng(seed + zlib.crc32(name.encode()) % (2**31))
 
     def traj(ic, npts):
+        # A perturbed IC can wedge the adaptive integrator indefinitely: one
+        # Sakarya realization burned 110 CPU-hours without returning while a
+        # normal one takes ~200 s. A solve that has not come back within the
+        # alarm is returned as None, which the callers already record as a
+        # degenerate realization.
         model.ic = np.asarray(ic, dtype=float)
-        out = model.make_trajectory(npts, pts_per_period=TARGET_PTS_PER_PERIOD,
-                                    resample=True)
+        signal.signal(signal.SIGALRM, _raise_timeout)
+        signal.alarm(TRAJ_TIMEOUT_S)
+        try:
+            out = model.make_trajectory(npts, pts_per_period=TARGET_PTS_PER_PERIOD,
+                                        resample=True)
+        except _IntegrationTimeout:
+            return None
+        finally:
+            signal.alarm(0)
         return None if out is None else np.asarray(out)
 
     # Land on the attractor and measure its extent.
