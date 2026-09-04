@@ -1,7 +1,7 @@
 function [slope, idx, info] = scaling_region(d, fs, opts)
 %SCALING_REGION Automatic linear scaling region of a divergence curve.
 %
-%   [slope, idx, info] = nonantest.scaling_region(d, fs)
+%   [slope, idx, info] = quarctest.scaling_region(d, fs)
 %
 %   d is the average line divergence curve (LyE_R column 3), fs the sample
 %   rate. Returns the fitted slope in natural log units per unit time, the

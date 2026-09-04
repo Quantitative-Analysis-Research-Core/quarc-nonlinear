@@ -1,5 +1,5 @@
 function run_tests(varargin)
-%RUN_TESTS Headless entry point for the NONAN MATLAB test suite.
+%RUN_TESTS Headless entry point for the QUARC MATLAB test suite.
 %
 %   From a shell, at the repository root:
 %       matlab -batch "addpath('tests/matlab'); run_tests"
@@ -13,10 +13,10 @@ function run_tests(varargin)
 %   DESIGN CONSTRAINTS (these are requirements, not preferences)
 %   - Base MATLAB only. No Statistics, Signal Processing, or Image Processing
 %     toolbox in the harness itself. A test that needs a toolbox must call
-%     nonantest.requireToolbox and be skipped, not error, when it is absent.
+%     quarctest.requireToolbox and be skipped, not error, when it is absent.
 %   - No figures. Any test that leaves a figure open fails: the library is used
 %     on clusters and in -batch runs where a figure is a hang or a crash.
-%   - No interactive debugger. Several NONAN functions execute `dbstop if error`
+%   - No interactive debugger. Several QUARC functions execute `dbstop if error`
 %     at load, which is global session state and turns any later uncaught error
 %     into an indefinite halt under `matlab -batch`. The runner clears it before
 %     and after every test.
@@ -51,7 +51,7 @@ runner.addPlugin(XMLPlugin.producingJUnitFormat(fullfile(artifacts, 'results.xml
 
 results = runner.run(suite);
 
-fprintf('\n================ NONAN test summary ================\n');
+fprintf('\n================ QUARC test summary ================\n');
 fprintf('  passed  %d\n', nnz([results.Passed]));
 fprintf('  failed  %d\n', nnz([results.Failed]));
 fprintf('  skipped %d\n', nnz([results.Incomplete]));

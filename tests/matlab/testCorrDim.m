@@ -54,7 +54,7 @@ end
 function testIsScaleInvariant(tc)
 % A correlation dimension counts pairs within a radius that scales with the
 % data, so multiplying the series by a constant must not change it.
-x = nonantest.signals('lorenz', 3000);
+x = quarctest.signals('lorenz', 3000);
 base = localFirst(corr_dim(x, 8, 5, false));
 for c = [1e-3 1e3 1e6]
     got = localFirst(corr_dim(c*x, 8, 5, false));
@@ -66,7 +66,7 @@ end
 function testWhiteNoiseFillsTheEmbeddingSpace(tc)
 % Independent samples have no attractor, so the correlation dimension rises
 % with the embedding dimension instead of saturating.
-x = nonantest.signals('white', 3000);
+x = quarctest.signals('white', 3000);
 d = arrayfun(@(m) localFirst(corr_dim(x, 1, m, false)), 2:5);
 fprintf('    [known answer] white noise D2 at dim 2:5 = %s\n', mat2str(round(d,3)));
 tc.verifyTrue(all(diff(d) > 0), sprintf( ...
@@ -75,7 +75,7 @@ tc.verifyTrue(all(diff(d) > 0), sprintf( ...
 end
 
 function testRunsHeadless(tc)
-s = nonantest.sideEffects(@() corr_dim(nonantest.signals('lorenz',1000), 8, 5, false));
+s = quarctest.sideEffects(@() corr_dim(quarctest.signals('lorenz',1000), 8, 5, false));
 tc.verifyFalse(s.errored, 'corr_dim errored');
 tc.verifyEqual(s.figures, 0, 'corr_dim opened a figure with showPlot false');
 end
@@ -87,14 +87,14 @@ function r = localRun()
 persistent cached
 if ~isempty(cached), r = cached; return, end
 
-c = nonantest.sprott_catalog();
+c = quarctest.sprott_catalog();
 c = c([c.usable]);
 ref = []; obs = []; isMap = logical([]);
 for i = 1:numel(c)
     s = c(i);
     if ~isfinite(s.d2), continue, end
     try
-        [x, gi] = nonantest.sprott_series(s, 4000);
+        [x, gi] = quarctest.sprott_series(s, 4000);
         if gi.degenerate, continue, end
         if s.kind == "map"
             v = corr_dim(x, 1, 3, false);

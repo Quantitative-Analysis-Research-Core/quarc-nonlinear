@@ -22,8 +22,8 @@ for f = ["ami", "ami_histogram", "ami_kde"]
     tc.assumeTrue(exist(f, 'file') == 2, sprintf( ...
         '%s is not on the path; skipping (expected on branches without the AMI refactor).', f));
 end
-tc.TestData.lorenz = nonantest.signals('lorenz', 1200);
-tc.TestData.white  = nonantest.signals('white', 2000);
+tc.TestData.lorenz = quarctest.signals('lorenz', 1200);
+tc.TestData.white  = quarctest.signals('white', 2000);
 end
 
 function teardown(~)
@@ -71,7 +71,7 @@ function testIndependentSeriesSitAtTheKnownBiasFloor(tc)
 % i.e. 0.61-0.85 of the predicted bias throughout.
 prev = Inf;
 for N = [500 2000 8000 32000]
-    x = nonantest.signals('white', N);
+    x = quarctest.signals('white', N);
     [~, curve, info] = ami_histogram(x, 30);
     floorBits = mean(curve(11:end, 2));
     predicted = (info.bins - 1)^2 / (2 * info.samplesPerLag * log(2));
@@ -102,8 +102,8 @@ function testRecoversTheExactGaussianMutualInformation(tc)
 phi = 0.7;
 exact = @(k) -0.5 * log2(1 - phi^(2*k));
 
-[~, ch] = ami_histogram(nonantest.signals('ar1', 20000, phi), 3);
-[~, ck] = ami_kde(nonantest.signals('ar1', 3000, phi), 3);
+[~, ch] = ami_histogram(quarctest.signals('ar1', 20000, phi), 3);
+[~, ck] = ami_kde(quarctest.signals('ar1', 3000, phi), 3);
 
 for k = 1:2
     tc.verifyEqual(ch(k+1,2), exact(k), 'RelTol', 0.55, sprintf( ...
@@ -129,7 +129,7 @@ function testNoisySineMinimumIsNearQuarterPeriod(tc)
 % not a property of the signal. A deterministic signal has no meaningful AMI
 % minimum, which is worth knowing before anyone uses one as a test case.
 P = 40;
-x = nonantest.signals('sine', 2000, P) + 0.15 * nonantest.signals('white', 2000);
+x = quarctest.signals('sine', 2000, P) + 0.15 * quarctest.signals('white', 2000);
 tau = ami_histogram(x, 60);
 tc.verifyEqual(tau, P/4, 'AbsTol', 4, sprintf( ...
     'first AMI minimum of a noisy period-%d sine at lag %g, expected near %g.', ...
@@ -153,7 +153,7 @@ tc.verifyLessThan(d, 1e-9, sprintf( ...
 end
 
 function testKdeIsFasterThanOriginal(tc)
-x = nonantest.signals('lorenz', 1000);
+x = quarctest.signals('lorenz', 1000);
 L = 15;
 t1 = tic; ami_thomas(x, L); tOld = toc(t1);
 t2 = tic; ami_kde(x, L);    tNew = toc(t2);
@@ -162,7 +162,7 @@ tc.verifyLessThan(tNew, tOld, 'the refactor should not be slower');
 end
 
 function testChunkSizeDoesNotChangeTheAnswer(tc)
-x = nonantest.signals('lorenz', 600);
+x = quarctest.signals('lorenz', 600);
 [~, a] = ami_kde(x, 10, chunk=64);
 [~, b] = ami_kde(x, 10, chunk=4096);
 tc.verifyEqual(a, b, 'AbsTol', 1e-12, ...
@@ -208,7 +208,7 @@ tc.verifyError(@() ami_kde(x, 10),       'ami_kde:nanInput');
 end
 
 function testLagTooLargeIsRejected(tc)
-tc.verifyError(@() ami_histogram(nonantest.signals('white', 50), 60), ...
+tc.verifyError(@() ami_histogram(quarctest.signals('white', 50), 60), ...
     'ami_histogram:lagTooLarge');
 end
 

@@ -4,9 +4,9 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-tc.TestData.white = nonantest.signals('white', 1000);
-tc.TestData.ar1   = nonantest.signals('ar1', 1000, 0.8);
-tc.TestData.sine  = nonantest.signals('sine', 1000, 25);
+tc.TestData.white = quarctest.signals('white', 1000);
+tc.TestData.ar1   = quarctest.signals('ar1', 1000, 0.8);
+tc.TestData.sine  = quarctest.signals('sine', 1000, 25);
 end
 
 function teardown(~)
@@ -24,7 +24,7 @@ function testAllNormalisationOptionsWork(tc)
 x = tc.TestData.white; y = tc.TestData.ar1;
 got = nan(1,3);
 for n = 1:3
-    s = nonantest.sideEffects(@() ent_xsamp(x, y, 2, 0.2, n));
+    s = quarctest.sideEffects(@() ent_xsamp(x, y, 2, 0.2, n));
     tc.verifyFalse(s.errored, sprintf( ...
         'ent_xsamp with norm=%d errored: %s', n, localMsg(s)));
     if ~s.errored, got(n) = s.value; end
@@ -51,7 +51,7 @@ function testCrossEntropiesRiseWithDissimilarity(tc)
 % Two independent series share fewer template matches than a series and a
 % lightly perturbed copy of itself.
 x = tc.TestData.ar1;
-near = x + 0.05*std(x)*nonantest.signals('white', numel(x));
+near = x + 0.05*std(x)*quarctest.signals('white', numel(x));
 far  = tc.TestData.white;
 for f = {@ent_xsamp, @ent_xap}
     fn = f{1};
@@ -139,7 +139,7 @@ end
 % Housekeeping.
 % ------------------------------------------------------------------
 function testFamilyIsSilent(tc)
-x = nonantest.signals('white', 400); y = nonantest.signals('ar1', 400, 0.5);
+x = quarctest.signals('white', 400); y = quarctest.signals('ar1', 400, 0.5);
 calls = { ...
     'ent_ap',        @() ent_ap(x, 2, 0.2); ...
     'ent_xap',       @() ent_xap(x, y, 2, 0.2, 1); ...
@@ -154,11 +154,11 @@ end
 end
 
 function testRunHeadless(tc)
-x = nonantest.signals('white', 400); y = nonantest.signals('ar1', 400, 0.5);
+x = quarctest.signals('white', 400); y = quarctest.signals('ar1', 400, 0.5);
 calls = {@() ent_ap(x,2,0.2), @() ent_xap(x,y,2,0.2,1), ...
          @() ent_xsamp(x,y,2,0.2,1), @() ent_weighted(-abs(randn(30)))};
 for k = 1:numel(calls)
-    s = nonantest.sideEffects(calls{k});
+    s = quarctest.sideEffects(calls{k});
     tc.verifyFalse(s.errored, sprintf('call %d errored: %s', k, localMsg(s)));
     tc.verifyEqual(s.figures, 0, sprintf('call %d opened a figure', k));
 end

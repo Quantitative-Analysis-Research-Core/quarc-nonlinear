@@ -4,9 +4,9 @@ tests = functiontests(localfunctions);
 end
 
 function setupOnce(tc)
-tc.TestData.white = nonantest.signals('white', 2000);
-tc.TestData.ar1   = nonantest.signals('ar1', 2000, 0.7);
-tc.TestData.sine  = nonantest.signals('sine', 2000, 25);
+tc.TestData.white = quarctest.signals('white', 2000);
+tc.TestData.ar1   = quarctest.signals('ar1', 2000, 0.7);
+tc.TestData.sine  = quarctest.signals('sine', 2000, 25);
 end
 
 function teardown(~)
@@ -115,7 +115,7 @@ end
 % No console output. Two functions in this family printed on every call.
 % ------------------------------------------------------------------
 function testFamilyIsSilent(tc)
-x = nonantest.signals('ar1', 400, 0.5);
+x = quarctest.signals('ar1', 400, 0.5);
 b = double(x > median(x));
 calls = { ...
     'ent_samp',     @() ent_samp(x, 2, 0.2); ...
@@ -130,7 +130,7 @@ end
 end
 
 function testRunsHeadless(tc)
-s = nonantest.sideEffects(@() ent(tc.TestData.white));
+s = quarctest.sideEffects(@() ent(tc.TestData.white));
 tc.verifyFalse(s.errored, 'ent errored');
 tc.verifyEqual(s.figures, 0, 'ent opened a figure');
 end

@@ -4,11 +4,11 @@ Transcribed from J. C. Sprott, *Chaos and Time-Series Analysis*, Oxford
 University Press (2003), Appendix A, "Common chaotic systems".
 
 This is the human-readable record of the values encoded in
-`tests/matlab/+nonantest/sprott_catalog.m`, and is generated from that
+`tests/matlab/+quarctest/sprott_catalog.m`, and is generated from that
 catalogue so the two cannot drift. Regenerate with:
 
 ```
-matlab -batch "addpath('tests/matlab'); nonantest.write_sprott_markdown"
+matlab -batch "addpath('tests/matlab'); quarctest.write_sprott_markdown"
 ```
 
 ## What the appendix says about these numbers

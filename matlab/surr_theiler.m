@@ -18,7 +18,7 @@ function z =surr_theiler(x,algorithm)
 %            feedback
 %          - The code was originally created as two algorithms. It was
 %            modified so one code included both functions.
-% Jul 2020 - Modified by Ben Senderling, bmchnonan@unomaha.edu
+% Jul 2020 - Modified by Ben Senderling, quarc@unomaha.edu
 %          - Changed file and function name.
 %          - Added reference.
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,

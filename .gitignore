@@ -8,3 +8,4 @@ slprj/
 
 # test output
 tests/artifacts/
+__pycache__/

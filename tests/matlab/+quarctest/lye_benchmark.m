@@ -1,8 +1,8 @@
 function R = lye_benchmark(opts)
 %LYE_BENCHMARK Evaluate LyE_R and LyE_W over Sprott (2003) Appendix A.
 %
-%   R = nonantest.lye_benchmark()
-%   R = nonantest.lye_benchmark(N=4000, Verbose=true)
+%   R = quarctest.lye_benchmark()
+%   R = quarctest.lye_benchmark(N=4000, Verbose=true)
 %
 %   Runs both estimators over every usable system in the catalogue and
 %   returns a table with, per system and per estimator:
@@ -22,14 +22,14 @@ function R = lye_benchmark(opts)
 %   that disagreement is the finding.
 %
 %   PROTOCOL, IDENTICAL FOR EVERY SYSTEM.
-%     - series from nonantest.sprott_series (uniform automatic sampling:
+%     - series from quarctest.sprott_series (uniform automatic sampling:
 %       flows decimated so the dominant period is ~40 samples)
 %     - tau  = first minimum of AMI, capped, via ami() where available and a
 %              first-zero-crossing of the autocorrelation as fallback
 %     - dim  = 5 for flows, 2 for 1-D maps, 3 for 2-D maps
 %     - LyE_W: evolve = 5 (maps) or 10 (flows); output converted bits -> nats
 %     - LyE_R: divergence curve fitted over an AUTOMATICALLY selected scaling
-%              region (nonantest.scaling_region): longest near-linear window
+%              region (quarctest.scaling_region): longest near-linear window
 %              before saturation. A fixed window cannot serve both maps and
 %              flows -- a map's curve saturates within ~13 samples, so any
 %              window starting at 5 and running to 50 sits on the plateau and
@@ -56,7 +56,7 @@ arguments
     opts.Verbose (1,1) logical = true
 end
 
-c = nonantest.sprott_catalog();
+c = quarctest.sprott_catalog();
 c = c([c.usable]);
 
 n = numel(c);
@@ -89,7 +89,7 @@ for i = 1:n
     category(i) = s.category; tier(i) = s.tier; expected(i) = s.lambda;
 
     try
-        [y, gi] = nonantest.sprott_series(s, opts.N);
+        [y, gi] = quarctest.sprott_series(s, opts.N);
         if gi.degenerate
             note(i) = "series degenerate: " + gi.reason;
             continue
@@ -114,7 +114,7 @@ for i = 1:n
             if size(out,2) < 3
                 note(i) = note(i) + " rosen: LyE_R returned 2 columns";
             else
-                [sl, ~, si] = nonantest.scaling_region(out(:,3), fs);
+                [sl, ~, si] = quarctest.scaling_region(out(:,3), fs);
                 ros(i) = sl;
                 if ~si.ok
                     note(i) = note(i) + " rosen: no clean scaling region";
