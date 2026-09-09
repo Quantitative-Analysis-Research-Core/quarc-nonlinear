@@ -38,15 +38,15 @@ for i4 = -(length(a)-1):length(a)-1
     % the input vector [0 1 1 0 1 0 1 1 0 0 1 1 1] will return
     %                  [0 1 1 0 2 0 3 3 0 0 4 4 4]
     d=bwlabel(c,8);
-    % tabulate counts the instances of each integer, therefore the line
-    % lengths
-    if sum(d) ~= 0
-        d = nonzeros(hist(d)); % This speeds up the code 30-40% and is simpler to understand.
+    % One histogram bin per label, so each line is counted exactly once at
+    % its exact length. hist(d) with its ten default bins merged adjacent
+    % labels whenever a diagonal carried ten or more lines -- summing their
+    % lengths into fictitious long lines -- and the zeros needed a separate
+    % drop that also took real lines with it.
+    if max(d) > 0
+        d = histcounts(d(d>0), 0.5:1:max(d)+0.5);
     else
         d = [];
-    end
-    if i4 ~= 0
-        d=d(2:end);
     end
     % diag_hist is creating one long array of all of the line lengths for
     % all of the diagonals
@@ -65,15 +65,11 @@ end
 for i5=1:length(a)
     c=(a(:,i5));
     v=bwlabel(c,8);
-    if sum(v) ~= 0
-        v = nonzeros(hist(v)); % This speeds up the code 30-40% and is simpler to understand.
+    % Same exact tabulation as the diagonals above.
+    if max(v) > 0
+        v = histcounts(v(v>0), 0.5:1:max(v)+0.5);
     else
         v = [];
-    end
-    if ~isempty(v)
-        if v(1,1)~=length(a)
-            v=v(2:end);
-        end
     end
     vertical_hist(length(vertical_hist)+1:length(vertical_hist)+length(v))=v;
 end
