@@ -209,10 +209,15 @@ end
 function S = localSummarize(per, dmins)
 rows = {};
 for sysName = unique(per.system, 'stable')'
+    % The category comes from the system, not from the usable subset: a
+    % system whose every realization failed (PanXuZhou cannot reach the
+    % recurrence target) still gets its n=0 rows rather than crashing the
+    % summary after the whole sweep has run.
+    cat_ = per.category(find(per.system == sysName, 1));
     for d = dmins
         q = per(per.system == sysName & per.dmin == d & per.seriesUsable, :);
         v = q(isfinite(q.det), :);
-        rows{end+1} = {sysName, q.category(1), d, height(v), ...
+        rows{end+1} = {sysName, cat_, d, height(v), ...
             median(v.det), mad_(v.det), median(v.meanL), mad_(v.meanL), ...
             median(v.maxL), mad_(v.maxL), median(v.entL), mad_(v.entL), ...
             median(v.radius)}; %#ok<AGROW>
