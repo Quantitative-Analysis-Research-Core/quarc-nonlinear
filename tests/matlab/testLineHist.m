@@ -62,6 +62,47 @@ vert = vert(vert > 0);
 tc.verifyEqual(sort(vert(:)'), sort(lens), 'vertical line lengths wrong');
 end
 
+function testTheilerWindowExcludesNearDiagonalLines(tc)
+% A line on diagonal k=3 is tangential shadowing when the window is 5 and a
+% recurrence when the window is 2. The far line on k=8 survives both.
+n = 20;
+B = eye(n);
+for i = 1:4,  B(i, i+3) = 1; end       % length-4 line on k=3
+for i = 1:3,  B(i, i+8) = 1; end       % length-3 line on k=8
+a = B * 2 - 2;
+[~, h5, ~, ~] = line_hist([], a, 1, 'rqa', 5);
+h5 = h5(h5 > 0);
+tc.verifyEqual(sort(h5(:)'), 3, 'window of 5 should leave only the far line');
+[~, h2, ~, ~] = line_hist([], a, 1, 'rqa', 2);
+h2 = h2(h2 > 0);
+tc.verifyEqual(sort(h2(:)'), [3 4], 'window of 2 should keep both lines');
+end
+
+function testTheilerRecurrenceCountsOutsideTheBandOnly(tc)
+% One recurrent pair inside the band, one outside, on n=10: with theiler=2
+% only the outside pair (and its transpose) can count, over the
+% n^2 - (n + 2*(n-1) + 2*(n-2)) = 56 admissible cells.
+n = 10;
+B = eye(n);
+B(1, 2) = 1; B(2, 1) = 1;              % inside the band
+B(1, 5) = 1; B(5, 1) = 1;              % outside it
+a = B * 2 - 2;
+[rec, ~, ~, ~] = line_hist([], a, 1, 'rqa', 2);
+tc.verifyEqual(rec, 100 * 2 / 56, 'AbsTol', 1e-12);
+end
+
+function testTheilerZeroReproducesOldBehaviour(tc)
+% The default must be byte-identical to the historical output: LOI excluded,
+% everything else counted, %REC over n^2 - n cells.
+lens = [1 2 3 2 1];
+B = makeRP(40, lens);
+a = B * 2 - 2;
+[rec0, h0, v0, ~] = line_hist([], a, 1, 'rqa');
+[recW, hW, vW, ~] = line_hist([], a, 1, 'rqa', 0);
+tc.verifyEqual({rec0, h0, v0}, {recW, hW, vW});
+tc.verifyEqual(rec0, 100 * sum(lens) * 1 / (40^2 - 40), 'AbsTol', 1e-12);
+end
+
 % ------------------------------------------------------------------
 function B = makeRP(n, lens)
 % Identity (the LOI) plus the requested line lengths along the first
