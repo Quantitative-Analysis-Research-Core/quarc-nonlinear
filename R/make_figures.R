@@ -17,6 +17,7 @@ for (f in c("fig_corr_dim_reference.R",
             "fig_lyapunov_reference_dysts.R",
             "fig_metric_spearman_dysts.R",
             "fig_rqa_rec_sweep.R",
+            "fig_rqa_dmin_sweep.R",
             "fig_scaling_regions.R",
             "fig_evolve_sweep.R")) {
   source(file.path(repo, "R", "figures", f))
