@@ -87,11 +87,14 @@ same "column of near-constants" description fits map-`rqa_lam` and nobody
 excludes that, and a measured column of 0.5s is itself evidence the estimator
 behaves.
 
-**Status: policy currently excludes; flip it by setting `applies = true` for
-`dfa_alpha` in `metric_policy.m` (drop the `mapScaleReason`) and re-running
-the Sprott characterization to populate the rows.** The multiscale-entropy
-exclusion should stay either way — the two arguments are genuinely different,
-even though the code currently reuses one reason string for both.
+**Status: DECIDED 2026-09-13 — the exclusion stays.** Both arguments above
+are real, but this is a test suite, and the cost of the two errors is not
+symmetric: excluding a possibly-meaningful metric costs a missing row with a
+stated reason, while including a debatable one puts an authoritative-looking
+number in a table where nothing distinguishes it from the well-founded ones.
+Strictness wins in a testing context; nuance belongs in analyses, where the
+analyst owns the interpretation. (Flipping it later remains one `applies`
+flag in `metric_policy.m` plus a Sprott re-run.)
 
 ## Exclusions — per system
 
