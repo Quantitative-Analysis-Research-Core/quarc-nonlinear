@@ -130,6 +130,16 @@ M = add(M, "rqa_det",    "RQA determinism",   "percent", true, "", "");
 M = add(M, "rqa_lam",    "RQA laminarity",    "percent", true, "", "");
 M = add(M, "rqa_meanL",  "RQA mean diagonal line length", "samples", true, "", "");
 M = add(M, "rqa_maxL",   "RQA longest diagonal line",     "samples", true, "", "");
+% At dense sampling the plain MaxL is routinely a tangential line -- the
+% trajectory shadowing itself a few samples apart -- and carries almost no
+% exponent information (rho -0.14 against lambda per sample across the dysts
+% catalogue). With pairs closer than 10 samples excluded it is the family's
+% strongest lambda correlate (-0.49, stable through a window of 40). Same
+% radius as the other RQA rows; only the band is masked. Maps are excluded:
+% their iterates are not samples of a continuous trajectory, so there is no
+% tangential band, and the window would delete genuine short recurrences.
+M = add(M, "rqa_maxL_tw", "RQA longest diagonal line, Theiler window", "samples", ...
+    ~isMap, ternary(isMap, "a map has no tangential band; the window would delete genuine recurrences", ""), "");
 M = add(M, "rqa_entL",   "RQA diagonal line entropy",     "bits", true, "", "");
 M = add(M, "rqa_entV",   "RQA vertical line entropy",     "bits", true, "", "");
 M = add(M, "rqa_entW",   "RQA weighted recurrence entropy", "bits", true, "", "");
