@@ -167,6 +167,39 @@ rather than an initial condition — as is any system whose every component is
 listed in `unbounded_indices`, since delay embedding requires a bounded
 recurrent observable.
 
+### The multi-channel export (`tests/reports/dysts_mc`)
+
+A second export keeps every bounded state variable per system, shaped
+`(R, C, N)`, with `obsIndices` and `nChannels` in each manifest entry. It was
+run with `--solver RK45 --R 100 --N 16000 --workers 24`. The bins (~4.6 GB) are
+gitignored like the single-channel ones. `dysts_catalog.m` still reads only
+`obsIndex`, so MATLAB cannot consume this export yet.
+
+**It is incomplete: HyperLu and Sakarya are missing, and the cause is open.**
+
+- The first run finished the other 127 systems in 48 minutes. These two had not
+  finished 18 hours later, when the manifest was rebuilt without them. That run
+  predates the 900 s per-solve alarm.
+- A re-run of just these two, with the alarm, on 2 workers, had finished neither
+  after 92 minutes and was stopped. Both workers were at full CPU inside numpy
+  ufuncs, which is RK45 stepping in Python, not a blocked call.
+- Yet a single realization (`--R 1`, same seed, so the same first draw) takes
+  5 s for HyperLu and 6 s for Sakarya. 100 of those should take under 10
+  minutes.
+
+So some perturbed initial conditions, not the systems as a whole, drive RK45
+into a crawl, and each such solve then runs until the alarm drops it as
+degenerate. That makes the worst case ~100 x 900 s, about 25 h per system,
+ending mostly degenerate. The likely reason is stiffness along those
+trajectories, which dysts' default Radau is built for, but that is untested.
+Before re-running, time realizations one by one under both RK45 and Radau.
+Whichever solver fills these two in has to be recorded, since the other 127
+used RK45.
+
+The 127 existing systems also cannot be regenerated bit-for-bit: they were
+drawn with the salted `hash(name)` seed that `main` has since replaced with
+`crc32`.
+
 ## Parameter sweeps
 
 `quarctest.evolve_sweep` measures Wolf's exponent against its renormalisation

@@ -137,6 +137,12 @@ def export_one(name, meta, R, N, seed, outdir, solver="", rtol=1e-9, atol=1e-9):
                 # stiff. An explicit solver is ~60x faster where it works; where
                 # it does not, fall back rather than lose the system. The
                 # fallback shares the alarm, so one call is still capped.
+                #
+                # It only fires when RK45 gives up. An RK45 solve that crawls
+                # instead never returns None, so it runs into the alarm and the
+                # realization is lost without Radau ever being tried. That is
+                # the likely, still untested, reason HyperLu and Sakarya never
+                # finished under --solver RK45 (see tests/README.md).
                 out = model.make_trajectory(npts, pts_per_period=TARGET_PTS_PER_PERIOD,
                                             resample=True)
         except _IntegrationTimeout:
