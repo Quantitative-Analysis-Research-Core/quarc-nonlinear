@@ -54,1625 +54,15 @@ narrower quantity than it does elsewhere. Read those rows accordingly.
 |---|---|---|---|
 | `cusp` | noninvertible_map | 999 | 1000 |
 | `damped_pendulum` | driven_flow | 460 | 1000 |
-| `simplest_quadratic` | autonomous_flow | 995 | 1000 |
 | `driven_pendulum` | conservative_flow | 387 | 1000 |
 | `labyrinth` | conservative_flow | 440 | 1000 |
+| `simplest_quadratic` | autonomous_flow | 995 | 1000 |
 
 Three of these -- `damped_pendulum`, `driven_pendulum` and `labyrinth` --
 degenerate from Sprott's own initial condition, before any perturbation. Their
 observable carries an unbounded drift, and delay embedding requires a bounded
 recurrent observable, so no sampling scheme recovers them. They are the same
 three systems the Lyapunov benchmark returns NaN for.
-
-## logistic (A.1.1, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 8 | 1 | 8.146 | 1.24 | - | - |
-| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.5609 | 0.00665 | 0.5607 | 0.00993 | 0.6931 | 0.809 |
-| `lyap_ros` | validated | 1000 | 0.6098 | 0.00259 | 0.6143 | 0.0121 | 0.6931 | 0.880 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 14 | 0 | 13.84 | 0.365 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9821 | 0.000965 | 0.9835 | 0.00382 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4485 | 0.0135 | -0.4235 | 0.0656 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1153 | 0.00302 | 0.1103 | 0.0136 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.763 | 0 | -2.738 | 0.059 | - | - |
-| `corr_dim` | validated | 1000 | 0.9258 | 0.0135 | 0.9234 | 0.0213 | 1 | 0.926 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 2.16e-05 | 0.9999 | 5.29e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0163 | 0.0125 | -0.01506 | 0.0193 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.00458 | 0.00131 | 0.005006 | 0.00214 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.684 | 0.714 | -5.544 | 1 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 51.06 | 3.65 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 4.199 | 0.0736 | 4.205 | 0.118 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.06969 | 0.00157 | 0.06967 | 0.00225 | - | - |
-| `rqa_det` | characterized | 1000 | 74.26 | 0.135 | 74.25 | 0.208 | - | - |
-| `rqa_lam` | characterized | 1000 | 10.01 | 1.28 | 10.11 | 1.91 | - | - |
-| `rqa_meanL` | characterized | 1000 | 3.061 | 0.00852 | 3.062 | 0.0128 | - | - |
-| `rqa_maxL` | characterized | 1000 | 18 | 1 | 18.34 | 1.93 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.059 | 0.00813 | 2.06 | 0.0122 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.774 | 0.112 | 1.774 | 0.163 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.605 | 0.0184 | 3.609 | 0.0256 | - | - |
-| `ent_samp` | characterized | 1000 | 0.6375 | 0.00328 | 0.6373 | 0.00473 | - | - |
-| `ent_ap` | characterized | 1000 | 0.6578 | 0.00174 | 0.6577 | 0.00249 | - | - |
-| `ent_permu` | characterized | 1000 | 4.691 | 0.0112 | 4.691 | 0.016 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## sine_map (A.1.2, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 8 | 1 | 8.238 | 1.36 | - | - |
-| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.5558 | 0.00734 | 0.555 | 0.0109 | 0.6891 | 0.807 |
-| `lyap_ros` | validated | 1000 | 0.6098 | 0.00205 | 0.6106 | 0.00608 | 0.6891 | 0.885 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 14 | 0 | 13.97 | 0.165 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9837 | 0.000897 | 0.9839 | 0.002 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4257 | 0.0135 | -0.4216 | 0.0337 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1105 | 0.00307 | 0.1097 | 0.0073 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.763 | 0 | -2.759 | 0.0267 | - | - |
-| `corr_dim` | validated | 1000 | 0.9151 | 0.0151 | 0.9111 | 0.025 | 1 | 0.915 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3.4e-05 | 0.9999 | 0.000104 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.02319 | 0.0135 | -0.02072 | 0.0227 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.005341 | 0.00162 | 0.005737 | 0.00253 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.908 | 0.655 | -5.707 | 0.968 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 51.03 | 3.9 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 4.246 | 0.0827 | 4.261 | 0.138 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.06397 | 0.00185 | 0.06379 | 0.00281 | - | - |
-| `rqa_det` | characterized | 1000 | 74.44 | 0.151 | 74.45 | 0.235 | - | - |
-| `rqa_lam` | characterized | 1000 | 16.37 | 1.67 | 16.52 | 2.53 | - | - |
-| `rqa_meanL` | characterized | 1000 | 3.072 | 0.00968 | 3.073 | 0.015 | - | - |
-| `rqa_maxL` | characterized | 1000 | 18 | 1 | 18.63 | 1.98 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.07 | 0.00922 | 2.071 | 0.0142 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.951 | 0.102 | 1.954 | 0.152 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.707 | 0.00923 | 3.706 | 0.0138 | - | - |
-| `ent_samp` | characterized | 1000 | 0.6333 | 0.00411 | 0.6329 | 0.00636 | - | - |
-| `ent_ap` | characterized | 1000 | 0.6544 | 0.00234 | 0.6541 | 0.00361 | - | - |
-| `ent_permu` | characterized | 1000 | 4.607 | 0.0152 | 4.606 | 0.0232 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## lcg (A.1.4, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 2 | 1 | 1.763 | 0.861 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.267 | 0.445 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3596 | 0.00348 | 0.3597 | 0.00521 | 8.874 | 0.041 |
-| `lyap_ros` | validated | 1000 | 0.1947 | 0.0196 | 0.1172 | 0.102 | 8.874 | 0.022 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.426 | 0.495 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4.179 | 0.384 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.6174 | 0.0318 | 0.6869 | 0.128 | - | - |
-| `lyap_ros_fit_curv` | characterized | 179 | 0.05673 | 0.756 | 0.04635 | 0.959 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.3834 | 0.0222 | 0.3308 | 0.0959 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0.2303 | 0.512 | - | - |
-| `corr_dim` | validated | 1000 | 1.971 | 0.0058 | 1.971 | 0.00883 | 1 | 1.971 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.15e-05 | 1 | 2.05e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.01411 | 0.00648 | -0.01395 | 0.00951 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003538 | 0.000815 | 0.003723 | 0.00127 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.155 | 0.596 | -5.004 | 0.932 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 44 | 2 | 43.83 | 3.56 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.968 | 0.0184 | 1.962 | 0.0383 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.3219 | 0.00112 | 0.3218 | 0.00174 | - | - |
-| `rqa_det` | characterized | 1000 | 28.04 | 0.0906 | 28.05 | 0.129 | - | - |
-| `rqa_lam` | characterized | 1000 | 4.969 | 0.338 | 4.975 | 0.491 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.176 | 0.00193 | 2.176 | 0.00282 | - | - |
-| `rqa_maxL` | characterized | 1000 | 7 | 0 | 7.217 | 0.78 | - | - |
-| `rqa_entL` | characterized | 1000 | 0.7168 | 0.00524 | 0.7166 | 0.00783 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.561 | 0.0505 | 0.5616 | 0.0744 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.741 | 0.00835 | 3.741 | 0.013 | - | - |
-| `ent_samp` | characterized | 1000 | 2.188 | 0.00723 | 2.188 | 0.0109 | - | - |
-| `ent_ap` | characterized | 1000 | 2.107 | 0.00544 | 2.107 | 0.00832 | - | - |
-| `ent_permu` | characterized | 1000 | 6.886 | 0.00219 | 6.886 | 0.00326 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## cubic_map (A.1.5, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 1 | 5.523 | 1.12 | - | - |
-| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.6991 | 0.00886 | 0.6993 | 0.0136 | 1.099 | 0.636 |
-| `lyap_ros` | validated | 1000 | 0.9869 | 0.00255 | 0.9869 | 0.00367 | 1.099 | 0.898 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 8 | 0 | 8 | 0 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9886 | 0.00043 | 0.9886 | 0.000639 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.3362 | 0.007 | -0.337 | 0.0105 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.0747 | 0.00144 | 0.07484 | 0.00211 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -1.442 | 0 | -1.442 | 3.55e-15 | - | - |
-| `corr_dim` | validated | 1000 | 0.9473 | 0.00921 | 0.9459 | 0.0146 | 1 | 0.947 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.2e-05 | 1 | 3.36e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.006851 | 0.0098 | -0.005843 | 0.0156 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003742 | 0.000925 | 0.00407 | 0.00158 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.387 | 0.636 | -5.28 | 0.952 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.16 | 3.68 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 4.099 | 0.0559 | 4.096 | 0.0963 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.09732 | 0.00146 | 0.09723 | 0.00221 | - | - |
-| `rqa_det` | characterized | 1000 | 60.07 | 0.286 | 60.08 | 0.427 | - | - |
-| `rqa_lam` | characterized | 1000 | 1.986 | 0.313 | 2.039 | 0.465 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.543 | 0.00418 | 2.543 | 0.00651 | - | - |
-| `rqa_maxL` | characterized | 1000 | 12 | 1 | 12.23 | 1.25 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.443 | 0.00635 | 1.444 | 0.00978 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.248 | 0.114 | 1.251 | 0.174 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.582 | 0.024 | 3.579 | 0.0302 | - | - |
-| `ent_samp` | characterized | 1000 | 0.9816 | 0.00496 | 0.9813 | 0.00694 | - | - |
-| `ent_ap` | characterized | 1000 | 1.019 | 0.00222 | 1.019 | 0.00309 | - | - |
-| `ent_permu` | characterized | 1000 | 6.332 | 0.0074 | 6.331 | 0.0108 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## ricker (A.1.6, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 23 | 3 | 23.08 | 3.22 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3403 | 0.00516 | 0.3404 | 0.00738 | 0.3848 | 0.884 |
-| `lyap_ros` | validated | 1000 | 0.3265 | 0.00436 | 0.3271 | 0.00688 | 0.3848 | 0.848 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 25 | 0 | 24.84 | 0.633 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9826 | 0.00123 | 0.9825 | 0.00143 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4871 | 0.0195 | -0.4873 | 0.0232 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1079 | 0.00334 | 0.108 | 0.00438 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -4.281 | 0.00821 | -4.265 | 0.0726 | - | - |
-| `corr_dim` | validated | 1000 | 0.9113 | 0.0146 | 0.9082 | 0.0222 | 1 | 0.911 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.46e-05 | 0.9999 | 9.88e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.02415 | 0.0164 | -0.022 | 0.0269 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006248 | 0.00181 | 0.00663 | 0.00281 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.241 | 0.528 | -6.066 | 0.81 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 53 | 3 | 52.49 | 4 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 4.273 | 0.0772 | 4.279 | 0.124 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.06591 | 0.00134 | 0.06582 | 0.00198 | - | - |
-| `rqa_det` | characterized | 1000 | 88.18 | 0.379 | 88.17 | 0.581 | - | - |
-| `rqa_lam` | characterized | 1000 | 0.1704 | 0.086 | 0.2088 | 0.157 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.395 | 0.0515 | 4.398 | 0.0789 | - | - |
-| `rqa_maxL` | characterized | 1000 | 36 | 3 | 36.99 | 4.36 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.932 | 0.0245 | 2.934 | 0.039 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.655 | 0.306 | 1.617 | 0.473 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.755 | 0.00694 | 3.754 | 0.0107 | - | - |
-| `ent_samp` | characterized | 1000 | 0.3505 | 0.00756 | 0.3505 | 0.0111 | - | - |
-| `ent_ap` | characterized | 1000 | 0.3812 | 0.00444 | 0.3811 | 0.00648 | - | - |
-| `ent_permu` | characterized | 1000 | 3.543 | 0.0104 | 3.542 | 0.0153 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## gauss_map (A.1.7, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 1 | 4.832 | 0.972 | - | - |
-| `fnn_dim` | characterized | 1000 | 6 | 0 | 6.35 | 0.496 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.5614 | 0.00916 | 0.5614 | 0.0135 | 2.373 | 0.237 |
-| `lyap_ros` | validated | 1000 | 1.323 | 0.00788 | 1.323 | 0.012 | 2.373 | 0.557 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9591 | 0.00188 | 0.9589 | 0.00287 | - | - |
-| `lyap_ros_fit_curv` | characterized | 0 | NaN | NaN | NaN | NaN | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07805 | 0.00186 | 0.07818 | 0.00292 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `corr_dim` | validated | 1000 | 1.012 | 0.00384 | 1.011 | 0.0058 | 1 | 1.012 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 2.45e-05 | 0.9999 | 4.24e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.0275 | 0.00714 | 0.0276 | 0.0106 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007406 | 0.00102 | 0.007517 | 0.00154 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.936 | 0.479 | -5.863 | 0.72 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 2 | 49.7 | 3.68 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.83 | 0.0299 | 3.819 | 0.064 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.1923 | 0.00198 | 0.1923 | 0.00299 | - | - |
-| `rqa_det` | characterized | 1000 | 41.6 | 0.341 | 41.59 | 0.546 | - | - |
-| `rqa_lam` | characterized | 1000 | 2.913 | 0.45 | 2.999 | 0.691 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.314 | 0.00569 | 2.314 | 0.00834 | - | - |
-| `rqa_maxL` | characterized | 1000 | 9 | 1 | 9.167 | 0.894 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.041 | 0.0117 | 1.042 | 0.0172 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.294 | 0.143 | 1.289 | 0.207 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.755 | 0.00797 | 3.754 | 0.0115 | - | - |
-| `ent_samp` | characterized | 1000 | 1.394 | 0.00937 | 1.394 | 0.0145 | - | - |
-| `ent_ap` | characterized | 1000 | 1.487 | 0.00681 | 1.487 | 0.0105 | - | - |
-| `ent_permu` | characterized | 1000 | 6.418 | 0.0196 | 6.417 | 0.0296 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## cusp (A.1.8, noninvertible_map)
-
-Usable realizations: 999 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 999 | 31 | 5 | 30.71 | 7.97 | - | - |
-| `fnn_dim` | characterized | 999 | 2 | 0 | 2.483 | 0.598 | - | - |
-| `embed_delay` | characterized | 999 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 999 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 999 | 0.385 | 0.0155 | 0.3791 | 0.0349 | 0.5 | 0.770 |
-| `lyap_ros` | validated | 999 | 0.4209 | 0.0193 | 0.4146 | 0.039 | 0.5 | 0.842 |
-| `lyap_ros_fit_start` | characterized | 999 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 999 | 15 | 0 | 14.63 | 0.514 | - | - |
-| `lyap_ros_fit_r2` | characterized | 999 | 0.983 | 0.00185 | 0.9832 | 0.00204 | - | - |
-| `lyap_ros_fit_curv` | characterized | 999 | -0.4759 | 0.0288 | -0.471 | 0.0326 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 999 | 0.09049 | 0.00427 | 0.09072 | 0.00502 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 999 | -2.944 | 0 | -2.882 | 0.0854 | - | - |
-| `corr_dim` | validated | 999 | 1.009 | 0.00991 | 1.007 | 0.0373 | 1 | 1.009 |
-| `corr_dim_fit_r2` | characterized | 999 | 0.9999 | 4.41e-05 | 0.9991 | 0.00873 | - | - |
-| `corr_dim_fit_curv` | characterized | 999 | -0.01752 | 0.0242 | -0.04212 | 0.0891 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 999 | 0.00543 | 0.00266 | 0.01089 | 0.0171 | - | - |
-| `corr_dim_fit_runsz` | characterized | 999 | -6.259 | 0.453 | -6.037 | 0.863 | - | - |
-| `corr_dim_fit_len` | characterized | 999 | 51 | 2 | 50.29 | 4.65 | - | - |
-| `corr_dim_fit_span` | characterized | 999 | 3.853 | 0.0537 | 3.848 | 0.203 | - | - |
-| `rqa_radius` | characterized | 999 | 0.07067 | 0.00527 | 0.06648 | 0.0152 | - | - |
-| `rqa_det` | characterized | 999 | 90.52 | 1.44 | 91 | 2.71 | - | - |
-| `rqa_lam` | characterized | 999 | 47.96 | 6.28 | 50.86 | 13 | - | - |
-| `rqa_meanL` | characterized | 999 | 5.41 | 0.596 | 13.41 | 61.3 | - | - |
-| `rqa_maxL` | characterized | 999 | 131 | 48 | 204.3 | 246 | - | - |
-| `rqa_entL` | characterized | 999 | 3.228 | 0.165 | 3.344 | 0.586 | - | - |
-| `rqa_entV` | characterized | 999 | 2.642 | 0.249 | 2.831 | 0.914 | - | - |
-| `rqa_entW` | characterized | 999 | 3.398 | 0.0187 | 3.382 | 0.084 | - | - |
-| `ent_samp` | characterized | 999 | 0.3001 | 0.0359 | 0.2886 | 0.0663 | - | - |
-| `ent_ap` | characterized | 999 | 0.4747 | 0.0194 | 0.4667 | 0.0429 | - | - |
-| `ent_permu` | characterized | 999 | 3.36 | 0.113 | 3.318 | 0.246 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## pinchers (A.1.10, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 14 | 1 | 14.03 | 1.7 | - | - |
-| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3805 | 0.0043 | 0.38 | 0.00604 | 0.4679 | 0.813 |
-| `lyap_ros` | validated | 1000 | 0.4094 | 0.00184 | 0.4077 | 0.00548 | 0.4679 | 0.875 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 20 | 0 | 20.18 | 0.395 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9859 | 0.000803 | 0.9852 | 0.00229 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4167 | 0.0128 | -0.429 | 0.0373 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1072 | 0.00321 | 0.1091 | 0.00708 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -3.669 | 0 | -3.69 | 0.0492 | - | - |
-| `corr_dim` | validated | 1000 | 0.9993 | 0.00594 | 0.9992 | 0.00902 | 1 | 0.999 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 5.87e-06 | 1 | 1.77e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0005104 | 0.00852 | -0.0004902 | 0.0129 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.002787 | 0.000784 | 0.003079 | 0.00131 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.057 | 0.882 | -4.896 | 1.24 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.13 | 3.81 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.893 | 0.0374 | 3.884 | 0.0692 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.08358 | 0.000345 | 0.08351 | 0.000537 | - | - |
-| `rqa_det` | characterized | 1000 | 86.36 | 0.152 | 86.37 | 0.229 | - | - |
-| `rqa_lam` | characterized | 1000 | 1.362 | 0.389 | 1.474 | 0.674 | - | - |
-| `rqa_meanL` | characterized | 1000 | 3.75 | 0.0176 | 3.751 | 0.0263 | - | - |
-| `rqa_maxL` | characterized | 1000 | 26 | 2 | 26.92 | 2.92 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.599 | 0.0113 | 2.6 | 0.017 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.125 | 0.196 | 2.118 | 0.276 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.662 | 0.00746 | 3.661 | 0.0111 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4428 | 0.0037 | 0.4425 | 0.00559 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4433 | 0.00178 | 0.4431 | 0.00282 | - | - |
-| `ent_permu` | characterized | 1000 | 3.609 | 0.01 | 3.608 | 0.0148 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## sine_circle (A.1.12, noninvertible_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 9 | 0 | 9.774 | 1.07 | - | - |
-| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3236 | 0.00567 | 0.3232 | 0.00875 | 0.3539 | 0.914 |
-| `lyap_ros` | validated | 1000 | 0.3196 | 0.00506 | 0.3192 | 0.00748 | 0.3539 | 0.903 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 25 | 0 | 25.16 | 0.606 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9825 | 0.00122 | 0.9826 | 0.00145 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.466 | 0.0194 | -0.4651 | 0.0254 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.113 | 0.00331 | 0.1132 | 0.00464 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -4.289 | 0 | -4.307 | 0.0689 | - | - |
-| `corr_dim` | validated | 1000 | 0.8989 | 0.0155 | 0.8975 | 0.0237 | 1 | 0.899 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 5.34e-05 | 0.9999 | 9.51e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.02922 | 0.0146 | -0.02891 | 0.0214 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006216 | 0.00209 | 0.006678 | 0.00293 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.319 | 0.5 | -6.079 | 0.904 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 53 | 3 | 52.61 | 3.98 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 4.314 | 0.081 | 4.321 | 0.132 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.06964 | 0.000597 | 0.06959 | 0.000869 | - | - |
-| `rqa_det` | characterized | 1000 | 92.06 | 0.168 | 92.06 | 0.253 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.188 | 0.0515 | 4.194 | 0.0814 | - | - |
-| `rqa_maxL` | characterized | 1000 | 46 | 4 | 46.43 | 6.64 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.702 | 0.0263 | 2.705 | 0.0411 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.784 | 0.00578 | 3.784 | 0.00873 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2993 | 0.00183 | 0.2992 | 0.0027 | - | - |
-| `ent_ap` | characterized | 1000 | 0.3681 | 0.00201 | 0.368 | 0.00282 | - | - |
-| `ent_permu` | characterized | 1000 | 3.532 | 0.00937 | 3.532 | 0.0132 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## henon (A.2.1, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 17 | 1 | 17.25 | 2.32 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3506 | 0.00477 | 0.3508 | 0.00685 | 0.4192 | 0.836 |
-| `lyap_ros` | validated | 1000 | 0.3554 | 0.00315 | 0.3562 | 0.00666 | 0.4192 | 0.848 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 18 | 0 | 17.89 | 0.389 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.983 | 0.00136 | 0.9831 | 0.0018 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4742 | 0.0212 | -0.4706 | 0.0289 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1023 | 0.00391 | 0.1021 | 0.00506 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -3.392 | 0 | -3.377 | 0.0533 | - | - |
-| `corr_dim` | validated | 1000 | 1.181 | 0.0126 | 1.179 | 0.0196 | 1.22 +/- 0.036 | 0.968 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9995 | 0.000137 | 0.9995 | 0.000215 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.07184 | 0.0136 | 0.07292 | 0.0197 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01487 | 0.00192 | 0.01503 | 0.00287 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.717 | 0.222 | -6.657 | 0.351 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 52 | 3 | 52.2 | 4.17 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.251 | 0.0425 | 3.245 | 0.0798 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.1981 | 0.00118 | 0.198 | 0.00176 | - | - |
-| `rqa_det` | characterized | 1000 | 84.7 | 0.199 | 84.72 | 0.3 | - | - |
-| `rqa_lam` | characterized | 1000 | 1.369 | 0.359 | 1.439 | 0.582 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.092 | 0.0382 | 4.097 | 0.0558 | - | - |
-| `rqa_maxL` | characterized | 1000 | 35 | 3 | 36.08 | 4.94 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.801 | 0.0212 | 2.804 | 0.0307 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.949 | 0.18 | 1.94 | 0.262 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.712 | 0.0075 | 3.711 | 0.0115 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4576 | 0.00356 | 0.4574 | 0.00538 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4751 | 0.00225 | 0.4749 | 0.00355 | - | - |
-| `ent_permu` | characterized | 1000 | 4.248 | 0.0124 | 4.248 | 0.0187 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## lozi (A.2.2, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 15 | 1 | 14.73 | 1.88 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3597 | 0.00539 | 0.3596 | 0.00774 | 0.4702 | 0.765 |
-| `lyap_ros` | validated | 1000 | 0.3842 | 0.00227 | 0.3842 | 0.00409 | 0.4702 | 0.817 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 15 | 0 | 15 | 0.141 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9838 | 0.00102 | 0.9837 | 0.00145 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4609 | 0.0159 | -0.4611 | 0.0226 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09538 | 0.00296 | 0.09535 | 0.00419 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.944 | 0 | -2.944 | 0.0232 | - | - |
-| `corr_dim` | validated | 1000 | 1.395 | 0.00938 | 1.394 | 0.0138 | 1.384 +/- 0.053 | 1.008 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.21e-05 | 1 | 2.54e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.002393 | 0.00994 | -0.001827 | 0.0142 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003994 | 0.000854 | 0.00438 | 0.00154 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.325 | 0.479 | -5.25 | 0.771 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.47 | 3.9 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.783 | 0.0313 | 2.773 | 0.057 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.2468 | 0.0016 | 0.2466 | 0.00238 | - | - |
-| `rqa_det` | characterized | 1000 | 90.07 | 0.184 | 90.07 | 0.257 | - | - |
-| `rqa_lam` | characterized | 1000 | 1.674 | 0.445 | 1.761 | 0.687 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.012 | 0.0331 | 4.013 | 0.0488 | - | - |
-| `rqa_maxL` | characterized | 1000 | 29 | 2 | 29.6 | 3.23 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.761 | 0.0193 | 2.762 | 0.0283 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.867 | 0.172 | 1.851 | 0.265 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.587 | 0.0156 | 3.587 | 0.022 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4383 | 0.00389 | 0.4381 | 0.00562 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4504 | 0.00222 | 0.4504 | 0.00335 | - | - |
-| `ent_permu` | characterized | 1000 | 4.413 | 0.00925 | 4.414 | 0.0137 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## delayed_logistic (A.2.3, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 0 | 6.91 | 0.45 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.175 | 0.00383 | 0.1751 | 0.00528 | 0.1831 | 0.956 |
-| `lyap_ros` | validated | 1000 | 0.1504 | 0.00336 | 0.1505 | 0.0049 | 0.1831 | 0.822 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 49 | 1 | 49.15 | 1.76 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9811 | 0.000537 | 0.9811 | 0.000629 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5316 | 0.00799 | -0.531 | 0.0103 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1078 | 0.00264 | 0.1077 | 0.00398 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -6.492 | 0.078 | -6.502 | 0.134 | - | - |
-| `corr_dim` | validated | 1000 | 1.03 | 0.0163 | 1.028 | 0.0257 | 1.144 +/- 0.034 | 0.900 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 8.12e-05 | 0.9997 | 0.000201 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.0267 | 0.0211 | 0.02863 | 0.0312 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.00802 | 0.00145 | 0.008542 | 0.00251 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.394 | 0.326 | -6.313 | 0.559 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 54 | 2 | 53.2 | 3.78 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.787 | 0.0622 | 3.787 | 0.107 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.08451 | 0.001 | 0.08428 | 0.00159 | - | - |
-| `rqa_det` | characterized | 1000 | 83.55 | 0.389 | 83.56 | 0.556 | - | - |
-| `rqa_lam` | characterized | 1000 | 13.68 | 1.55 | 13.74 | 2.34 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.806 | 0.0978 | 4.806 | 0.145 | - | - |
-| `rqa_maxL` | characterized | 1000 | 69 | 6 | 70.17 | 9.38 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.76 | 0.0254 | 2.76 | 0.0386 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.115 | 0.0517 | 1.11 | 0.0764 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.549 | 0.0131 | 3.546 | 0.0188 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4931 | 0.00253 | 0.4927 | 0.00394 | - | - |
-| `ent_ap` | characterized | 1000 | 0.362 | 0.00245 | 0.3618 | 0.00353 | - | - |
-| `ent_permu` | characterized | 1000 | 3.542 | 0.0125 | 3.541 | 0.0188 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## tinkerbell (A.2.4, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 0 | 7.073 | 1.68 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.004 | 0.0632 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1733 | 0.00309 | 0.1731 | 0.00465 | 0.19 | 0.912 |
-| `lyap_ros` | validated | 1000 | 0.1559 | 0.00261 | 0.1558 | 0.00389 | 0.19 | 0.821 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 37 | 1 | 37.02 | 1.08 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9816 | 0.000802 | 0.9816 | 0.000934 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5165 | 0.0125 | -0.5166 | 0.0151 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1122 | 0.00256 | 0.1124 | 0.00369 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -5.499 | 0.0872 | -5.498 | 0.0978 | - | - |
-| `corr_dim` | validated | 1000 | 1.129 | 0.0134 | 1.128 | 0.0208 | 1.329 +/- 0.036 | 0.850 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000149 | 0.9996 | 0.000221 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.06137 | 0.0159 | -0.06045 | 0.0234 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0176 | 0.00349 | 0.01744 | 0.00514 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.566 | 0.229 | -6.466 | 0.482 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.9 | 3.75 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.387 | 0.0499 | 3.387 | 0.081 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.169 | 0.000903 | 0.1688 | 0.00143 | - | - |
-| `rqa_det` | characterized | 1000 | 94.94 | 0.113 | 94.93 | 0.162 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.693 | 0.025 | 4.696 | 0.0377 | - | - |
-| `rqa_maxL` | characterized | 1000 | 63 | 6 | 63.69 | 9.16 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.981 | 0.00967 | 2.982 | 0.0157 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.49 | 0.00627 | 3.489 | 0.00921 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2671 | 0.00214 | 0.2671 | 0.0031 | - | - |
-| `ent_ap` | characterized | 1000 | 0.3917 | 0.00395 | 0.3913 | 0.00591 | - | - |
-| `ent_permu` | characterized | 1000 | 4.954 | 0.0154 | 4.954 | 0.0229 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## burgers (A.2.5, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 10 | 0 | 10.03 | 0.165 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1279 | 0.00478 | 0.128 | 0.00688 | 0.1208 | 1.059 |
-| `lyap_ros` | validated | 1000 | 0.09897 | 0.00327 | 0.1016 | 0.0136 | 0.1208 | 0.820 |
-| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.82 | 0.504 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 47 | 2 | 44.8 | 7.16 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9804 | 0.000308 | 0.9805 | 0.000497 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4802 | 0.0108 | -0.4791 | 0.0163 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1226 | 0.00353 | 0.1217 | 0.00703 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -6.229 | 0.143 | -6.059 | 0.67 | - | - |
-| `corr_dim` | validated | 1000 | 1.006 | 0.0135 | 1.002 | 0.0219 | 1.462 +/- 0.054 | 0.688 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.00016 | 0.9995 | 0.000276 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.04282 | 0.0276 | -0.03948 | 0.0401 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01468 | 0.00288 | 0.01513 | 0.00425 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.433 | 0.225 | -6.33 | 0.451 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 51.84 | 3.26 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.768 | 0.0668 | 3.77 | 0.119 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.04078 | 0.000638 | 0.04079 | 0.000914 | - | - |
-| `rqa_det` | characterized | 1000 | 94.04 | 0.138 | 94.04 | 0.21 | - | - |
-| `rqa_lam` | characterized | 1000 | 45.88 | 1.11 | 45.72 | 1.59 | - | - |
-| `rqa_meanL` | characterized | 1000 | 5.128 | 0.0566 | 5.133 | 0.0809 | - | - |
-| `rqa_maxL` | characterized | 1000 | 79.5 | 7.5 | 80.85 | 16.8 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.213 | 0.0189 | 3.216 | 0.0287 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.36 | 0.045 | 1.361 | 0.071 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.217 | 0.00685 | 3.216 | 0.0102 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2016 | 0.0012 | 0.2015 | 0.00181 | - | - |
-| `ent_ap` | characterized | 1000 | 0.2288 | 0.00109 | 0.2286 | 0.00167 | - | - |
-| `ent_permu` | characterized | 1000 | 2.486 | 0.00602 | 2.486 | 0.00899 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## holmes_cubic (A.2.6, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 25 | 2 | 24.77 | 3.68 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.4051 | 0.00742 | 0.4051 | 0.0108 | 0.5946 | 0.681 |
-| `lyap_ros` | validated | 1000 | 0.4838 | 0.00302 | 0.4849 | 0.0078 | 0.5946 | 0.814 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 12 | 0 | 11.94 | 0.262 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9832 | 0.00121 | 0.9834 | 0.00179 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4708 | 0.0179 | -0.4666 | 0.0277 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08627 | 0.00281 | 0.08583 | 0.00461 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.394 | 0 | -2.384 | 0.0464 | - | - |
-| `corr_dim` | validated | 1000 | 1.199 | 0.00934 | 1.198 | 0.0142 | 1.26 +/- 0.039 | 0.951 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000151 | 0.9993 | 0.000224 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.09917 | 0.0112 | -0.09875 | 0.0168 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01586 | 0.00181 | 0.01586 | 0.00261 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.57 | 0.214 | -6.545 | 0.324 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.21 | 3.82 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.252 | 0.0363 | 3.246 | 0.0664 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.1567 | 0.00523 | 0.1569 | 0.00746 | - | - |
-| `rqa_det` | characterized | 1000 | 85.33 | 0.25 | 85.35 | 0.374 | - | - |
-| `rqa_lam` | characterized | 1000 | 4.578 | 0.731 | 4.654 | 1.16 | - | - |
-| `rqa_meanL` | characterized | 1000 | 3.732 | 0.0211 | 3.733 | 0.0328 | - | - |
-| `rqa_maxL` | characterized | 1000 | 25 | 2 | 25.51 | 2.96 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.584 | 0.0132 | 2.585 | 0.0204 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.19 | 0.121 | 2.181 | 0.174 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.225 | 0.126 | 3.196 | 0.15 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5626 | 0.00954 | 0.5629 | 0.0131 | - | - |
-| `ent_ap` | characterized | 1000 | 0.6639 | 0.00616 | 0.6638 | 0.00924 | - | - |
-| `ent_permu` | characterized | 1000 | 5.944 | 0.0141 | 5.943 | 0.0215 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## dissipative_standard (A.2.8, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 1 | 7.352 | 1.29 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.4367 | 0.00479 | 0.437 | 0.00716 | 1.47 | 0.297 |
-| `lyap_ros` | validated | 1000 | 1.046 | 0.00646 | 1.047 | 0.00959 | 1.47 | 0.712 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9696 | 0.00156 | 0.9696 | 0.00231 | - | - |
-| `lyap_ros_fit_curv` | characterized | 0 | NaN | NaN | NaN | NaN | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.06704 | 0.00186 | 0.06704 | 0.00273 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `corr_dim` | validated | 1000 | 1.232 | 0.0103 | 1.23 | 0.0163 | 1.356 +/- 0.047 | 0.908 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9962 | 0.000536 | 0.9961 | 0.000791 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.2301 | 0.0165 | -0.2297 | 0.0247 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03438 | 0.00253 | 0.03448 | 0.00389 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.86 | 0.154 | -6.813 | 0.304 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 54 | 2 | 53.42 | 4.09 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.149 | 0.0361 | 3.143 | 0.0614 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.5794 | 0.00474 | 0.5795 | 0.00724 | - | - |
-| `rqa_det` | characterized | 1000 | 59.12 | 0.551 | 59.16 | 0.839 | - | - |
-| `rqa_lam` | characterized | 1000 | 0.8109 | 0.174 | 0.8377 | 0.266 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.74 | 0.0268 | 2.74 | 0.0401 | - | - |
-| `rqa_maxL` | characterized | 1000 | 14 | 1 | 14.3 | 1.87 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.704 | 0.0324 | 1.703 | 0.0488 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.3156 | 0.0967 | 0.3266 | 0.143 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.542 | 0.0146 | 3.542 | 0.0228 | - | - |
-| `ent_samp` | characterized | 1000 | 1.236 | 0.0199 | 1.236 | 0.0305 | - | - |
-| `ent_ap` | characterized | 1000 | 1.473 | 0.00976 | 1.472 | 0.0136 | - | - |
-| `ent_permu` | characterized | 1000 | 6.66 | 0.0147 | 6.66 | 0.023 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## ikeda (A.2.9, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 11 | 1 | 11.49 | 1.7 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.982 | 0.218 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3188 | 0.00454 | 0.3188 | 0.00657 | 0.5076 | 0.628 |
-| `lyap_ros` | validated | 1000 | 0.4017 | 0.00367 | 0.4022 | 0.00767 | 0.5076 | 0.791 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 10 | 0 | 9.964 | 0.207 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9837 | 0.00131 | 0.9838 | 0.00193 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4537 | 0.0193 | -0.4508 | 0.03 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08118 | 0.00303 | 0.08068 | 0.00478 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.012 | 0 | -2.003 | 0.05 | - | - |
-| `corr_dim` | validated | 1000 | 1.701 | 0.0133 | 1.701 | 0.0193 | 1.69 +/- 0.073 | 1.007 |
-| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.87e-05 | 0.9999 | 3.87e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0009509 | 0.012 | -0.0006392 | 0.0184 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.004723 | 0.00115 | 0.005143 | 0.00189 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.539 | 0.584 | -5.451 | 0.823 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 3 | 49.12 | 3.66 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.272 | 0.0266 | 2.265 | 0.0479 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.4748 | 0.0034 | 0.4745 | 0.00525 | - | - |
-| `rqa_det` | characterized | 1000 | 75.14 | 0.451 | 75.14 | 0.653 | - | - |
-| `rqa_lam` | characterized | 1000 | 2.596 | 0.52 | 2.665 | 0.777 | - | - |
-| `rqa_meanL` | characterized | 1000 | 3.536 | 0.0335 | 3.537 | 0.0499 | - | - |
-| `rqa_maxL` | characterized | 1000 | 30 | 3 | 30.41 | 4.57 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.438 | 0.0246 | 2.438 | 0.0361 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.485 | 0.142 | 1.486 | 0.205 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.582 | 0.0144 | 3.581 | 0.0207 | - | - |
-| `ent_samp` | characterized | 1000 | 0.9745 | 0.0117 | 0.9741 | 0.0176 | - | - |
-| `ent_ap` | characterized | 1000 | 0.9987 | 0.00769 | 0.9983 | 0.0114 | - | - |
-| `ent_permu` | characterized | 1000 | 5.954 | 0.019 | 5.953 | 0.0294 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## sinai (A.2.10, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 1 | 4.492 | 1.06 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3714 | 0.00366 | 0.3713 | 0.00547 | 0.9595 | 0.387 |
-| `lyap_ros` | validated | 1000 | 0.8437 | 0.00425 | 0.8436 | 0.00608 | 0.9595 | 0.879 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9819 | 0.000934 | 0.9819 | 0.00142 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4404 | 0.0134 | -0.4407 | 0.02 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.06624 | 0.00161 | 0.06622 | 0.00244 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -0.4364 | 0 | -0.4364 | 2.05e-15 | - | - |
-| `corr_dim` | validated | 1000 | 1.755 | 0.0121 | 1.755 | 0.0176 | 1.779 +/- 0.063 | 0.986 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.25e-05 | 0.9999 | 7.11e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.03785 | 0.0076 | -0.03817 | 0.0122 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007445 | 0.00163 | 0.007665 | 0.00235 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.37 | 0.274 | -6.256 | 0.531 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 2 | 49.28 | 3.48 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.21 | 0.0227 | 2.204 | 0.0413 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.5477 | 0.00205 | 0.5476 | 0.00307 | - | - |
-| `rqa_det` | characterized | 1000 | 65.19 | 0.245 | 65.2 | 0.378 | - | - |
-| `rqa_lam` | characterized | 1000 | 2.6 | 0.382 | 2.64 | 0.586 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.622 | 0.00419 | 2.622 | 0.00615 | - | - |
-| `rqa_maxL` | characterized | 1000 | 13 | 1 | 13.35 | 1.33 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.557 | 0.0058 | 1.558 | 0.00851 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.8508 | 0.127 | 0.8572 | 0.187 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.636 | 0.0133 | 3.635 | 0.0189 | - | - |
-| `ent_samp` | characterized | 1000 | 1.152 | 0.00576 | 1.151 | 0.00896 | - | - |
-| `ent_ap` | characterized | 1000 | 1.123 | 0.00323 | 1.123 | 0.0047 | - | - |
-| `ent_permu` | characterized | 1000 | 6.525 | 0.0164 | 6.525 | 0.0242 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## predator_prey (A.2.11, dissipative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.137 | 0.344 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1962 | 0.00324 | 0.1963 | 0.00503 | 0.1966 | 0.998 |
-| `lyap_ros` | validated | 1000 | 0.1659 | 0.0024 | 0.1658 | 0.00369 | 0.1966 | 0.844 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 27 | 1 | 26.77 | 0.802 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9817 | 0.00093 | 0.9817 | 0.00111 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4999 | 0.0142 | -0.4995 | 0.0169 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09839 | 0.00297 | 0.09844 | 0.00422 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -4.47 | 0.0818 | -4.458 | 0.0906 | - | - |
-| `corr_dim` | validated | 1000 | 1.571 | 0.0224 | 1.571 | 0.0335 | 1.903 +/- 0.079 | 0.826 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 5.77e-05 | 0.9999 | 0.00012 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.03087 | 0.0158 | -0.03119 | 0.0237 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006803 | 0.0023 | 0.007389 | 0.00329 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.098 | 0.45 | -5.886 | 0.81 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 49.11 | 3.43 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.449 | 0.0488 | 2.446 | 0.0727 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.2457 | 0.00206 | 0.2457 | 0.00303 | - | - |
-| `rqa_det` | characterized | 1000 | 82.2 | 0.382 | 82.2 | 0.534 | - | - |
-| `rqa_lam` | characterized | 1000 | 0.02677 | 0.0144 | 0.03622 | 0.032 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.189 | 0.0351 | 4.191 | 0.0507 | - | - |
-| `rqa_maxL` | characterized | 1000 | 49 | 4 | 49.49 | 6.96 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.804 | 0.0143 | 2.804 | 0.0214 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | 0.2332 | 0.39 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.769 | 0.00796 | 3.768 | 0.0119 | - | - |
-| `ent_samp` | characterized | 1000 | 0.9054 | 0.00741 | 0.9054 | 0.011 | - | - |
-| `ent_ap` | characterized | 1000 | 0.7448 | 0.00357 | 0.7446 | 0.0056 | - | - |
-| `ent_permu` | characterized | 1000 | 4.871 | 0.0214 | 4.87 | 0.0321 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## chirikov (A.3.1, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 0 | 4.742 | 2.84 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2.109 | 0.334 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1973 | 0.0262 | 0.1912 | 0.044 | 0.105 | 1.880 |
-| `lyap_ros` | validated | 1000 | 0.1556 | 0.0219 | 0.1558 | 0.0421 | 0.105 | 1.483 |
-| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.656 | 0.643 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 12 | 2 | 13.16 | 10.1 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9796 | 0.00143 | 0.9792 | 0.00268 | - | - |
-| `lyap_ros_fit_curv` | characterized | 998 | -0.4997 | 0.0177 | -0.4982 | 0.0379 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08478 | 0.00832 | 0.08838 | 0.0167 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.394 | 0.428 | -2.378 | 1.03 | - | - |
-| `corr_dim` | validated | 1000 | 1.755 | 0.0641 | 1.711 | 0.145 | 1.954 +/- 0.077 | 0.898 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9995 | 0.000272 | 0.9993 | 0.000945 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.08302 | 0.0252 | -0.08288 | 0.0561 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01694 | 0.0041 | 0.01766 | 0.00746 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.407 | 0.232 | -6.332 | 0.432 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 48.68 | 4.08 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.215 | 0.0805 | 2.285 | 0.231 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.2149 | 0.0153 | 0.2045 | 0.0377 | - | - |
-| `rqa_det` | characterized | 1000 | 87.89 | 0.911 | 88.31 | 1.82 | - | - |
-| `rqa_lam` | characterized | 1000 | 2.024 | 1.58 | 2.348 | 1.96 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.073 | 0.22 | 4.283 | 0.764 | - | - |
-| `rqa_maxL` | characterized | 1000 | 156 | 61 | 228.5 | 230 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.663 | 0.0919 | 2.723 | 0.201 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.7174 | 0.138 | 0.6912 | 0.275 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.672 | 0.0596 | 3.611 | 0.171 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5573 | 0.0522 | 0.5267 | 0.0977 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5736 | 0.0278 | 0.5542 | 0.0731 | - | - |
-| `ent_permu` | characterized | 1000 | 4.028 | 0.161 | 3.994 | 0.313 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## henon_area (A.3.2, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1.069 | 0.254 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.001796 | 0.00199 | 0.006776 | 0.00931 | 0.00643 | 0.279 |
-| `lyap_ros` | validated | 1000 | 0.02122 | 0.0132 | 0.01756 | 0.0144 | 0.00643 | 3.300 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.042 | 0.224 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 66 | 17 | 57.57 | 46.1 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9801 | 0.00103 | 0.9765 | 0.0429 | - | - |
-| `lyap_ros_fit_curv` | characterized | 964 | -0.4924 | 0.0535 | -0.3013 | 0.353 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1246 | 0.0152 | 0.1055 | 0.0503 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -7.56 | 1.16 | -5.769 | 4.09 | - | - |
-| `corr_dim` | validated | 1000 | 1.021 | 0.0817 | 1.056 | 0.196 | 2.2 +/- 0.063 | 0.464 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9974 | 0.00232 | 0.9945 | 0.0108 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.143 | 0.0926 | -0.1651 | 0.161 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03645 | 0.0181 | 0.04024 | 0.0303 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.546 | 0.333 | -7.538 | 0.619 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 64 | 5 | 65.28 | 9.19 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.207 | 0.389 | 3.418 | 0.738 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.1484 | 0.024 | 0.1326 | 0.0368 | - | - |
-| `rqa_det` | characterized | 1000 | 96.67 | 0.684 | 97.13 | 1.15 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `rqa_meanL` | characterized | 1000 | 17.75 | 1.13 | 17.75 | 1.63 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3298 | 626 | 2512 | 1.41e+03 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.889 | 0.283 | 3.795 | 0.391 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.47 | 0.0434 | 3.453 | 0.0744 | - | - |
-| `ent_samp` | characterized | 1000 | 0.1448 | 0.0214 | 0.1441 | 0.0267 | - | - |
-| `ent_ap` | characterized | 1000 | 0.1463 | 0.0135 | 0.1444 | 0.0157 | - | - |
-| `ent_permu` | characterized | 1000 | 3.412 | 0.00971 | 3.421 | 0.0232 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## arnold_cat (A.3.3, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 2 | 1 | 1.734 | 0.908 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3547 | 0.00292 | 0.3546 | 0.00461 | 0.9624 | 0.369 |
-| `lyap_ros` | validated | 1000 | 0.9418 | 0.00553 | 0.9183 | 0.0504 | 0.9624 | 0.979 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4.205 | 0.404 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9952 | 0.000483 | 0.9915 | 0.00752 | - | - |
-| `lyap_ros_fit_curv` | characterized | 205 | -0.505 | 0.00692 | -0.5031 | 0.0104 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.04094 | 0.00186 | 0.04741 | 0.014 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | -0.05547 | 0.265 | - | - |
-| `corr_dim` | validated | 1000 | 1.938 | 0.00868 | 1.937 | 0.0134 | 2 | 0.969 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3e-05 | 0.9999 | 4.76e-05 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.03178 | 0.00709 | -0.03217 | 0.0106 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006635 | 0.000974 | 0.006698 | 0.00148 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.138 | 0.384 | -6.024 | 0.598 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 48.54 | 3.4 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.009 | 0.0185 | 2.004 | 0.0344 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.6172 | 0.00172 | 0.6171 | 0.00268 | - | - |
-| `rqa_det` | characterized | 1000 | 67.98 | 0.166 | 67.98 | 0.248 | - | - |
-| `rqa_lam` | characterized | 1000 | 3.492 | 0.384 | 3.532 | 0.587 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.618 | 0.00331 | 2.618 | 0.0049 | - | - |
-| `rqa_maxL` | characterized | 1000 | 13 | 1 | 13.29 | 1.32 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.552 | 0.0046 | 1.552 | 0.0068 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.7579 | 0.0817 | 0.7624 | 0.131 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.614 | 0.0125 | 3.614 | 0.0192 | - | - |
-| `ent_samp` | characterized | 1000 | 1.112 | 0.00332 | 1.112 | 0.00507 | - | - |
-| `ent_ap` | characterized | 1000 | 1.093 | 0.00246 | 1.093 | 0.00371 | - | - |
-| `ent_permu` | characterized | 1000 | 6.722 | 0.00739 | 6.722 | 0.0109 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## gingerbreadman (A.3.4, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.05607 | 0.00723 | 0.0539 | 0.012 | 0.07339 | 0.764 |
-| `lyap_ros` | validated | 1000 | 0.05643 | 0.00565 | 0.05548 | 0.00899 | 0.07339 | 0.769 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.031 | 0.257 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 56 | 4 | 56.8 | 6.69 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9802 | 0.000313 | 0.9802 | 0.000606 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5427 | 0.00521 | -0.5423 | 0.00847 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09467 | 0.00441 | 0.0947 | 0.00636 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -7.012 | 0.278 | -7.052 | 0.457 | - | - |
-| `corr_dim` | validated | 1000 | 1.78 | 0.0617 | 1.736 | 0.146 | 2.171 +/- 0.078 | 0.820 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000359 | 0.9991 | 0.000889 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0935 | 0.0299 | -0.08948 | 0.0586 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01823 | 0.00452 | 0.01881 | 0.00805 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.336 | 0.337 | -6.236 | 0.638 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.16 | 4.85 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.033 | 0.0895 | 2.083 | 0.203 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.3241 | 0.0101 | 0.3177 | 0.0273 | - | - |
-| `rqa_det` | characterized | 1000 | 97.92 | 0.166 | 97.99 | 0.371 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.1355 | 0.516 | - | - |
-| `rqa_meanL` | characterized | 1000 | 11.1 | 0.291 | 11.61 | 2.26 | - | - |
-| `rqa_maxL` | characterized | 1000 | 287 | 101 | 469.9 | 497 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.287 | 0.0512 | 4.267 | 0.221 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.736 | 0.0301 | 3.721 | 0.112 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2089 | 0.00906 | 0.2015 | 0.0238 | - | - |
-| `ent_ap` | characterized | 1000 | 0.1995 | 0.00727 | 0.1954 | 0.0176 | - | - |
-| `ent_permu` | characterized | 1000 | 3.83 | 0.024 | 3.838 | 0.0408 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## chaotic_web (A.3.5, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 2.918 | 0.275 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 3.56e-05 | 0.00011 | 0.00135 | 0.00551 | 0.04847 | 0.001 |
-| `lyap_ros` | validated | 1000 | 0.0005895 | 0.000521 | 0.02383 | 0.0479 | 0.04847 | 0.012 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.219 | 0.536 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 5 | 1 | 14.51 | 35.5 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.0117 | 0.9347 | 0.0922 | - | - |
-| `lyap_ros_fit_curv` | characterized | 607 | -0.2909 | 0.189 | -0.2587 | 0.515 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08651 | 0.0311 | 0.1135 | 0.0755 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0.436 | -0.9585 | 2.54 | - | - |
-| `corr_dim` | validated | 1000 | 1.005 | 0.0179 | 0.9602 | 0.12 | 1.779 +/- 0.059 | 0.565 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000524 | 0.9931 | 0.0226 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.06294 | 0.0604 | -0.1439 | 0.24 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01823 | 0.0129 | 0.03677 | 0.0414 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.206 | 0.592 | -6.727 | 1.49 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 62 | 5 | 61.47 | 9.31 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 3.05 | 0.481 | 3.391 | 0.967 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.05374 | 0.00191 | 0.0593 | 0.0408 | - | - |
-| `rqa_det` | characterized | 1000 | 96.32 | 0.395 | 96.34 | 2.31 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.0022 | 0.0427 | - | - |
-| `rqa_meanL` | characterized | 1000 | 15.57 | 4.88 | 63.66 | 292 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3930 | 36 | 3790 | 565 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.61 | 0.303 | 2.813 | 0.86 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | 0.0002138 | 0.00676 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.645 | 0.0179 | 3.601 | 0.124 | - | - |
-| `ent_samp` | characterized | 1000 | 0.08904 | 0.011 | 0.08687 | 0.0192 | - | - |
-| `ent_ap` | characterized | 1000 | 0.08691 | 0.0104 | 0.08509 | 0.0185 | - | - |
-| `ent_permu` | characterized | 1000 | 3.978 | 0.343 | 3.663 | 0.611 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## lorenz3d_map (A.3.6, conservative_map)
-
-Usable realizations: 1000 of 1000. fs = 1.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1.001 | 0.0316 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.08173 | 0.00693 | 0.07898 | 0.0143 | 0.07456 | 1.096 |
-| `lyap_ros` | validated | 1000 | 0.07133 | 0.00536 | 0.07028 | 0.009 | 0.07456 | 0.957 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.061 | 0.419 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 43 | 3 | 42.26 | 5.11 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9807 | 0.000418 | 0.9808 | 0.00062 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.536 | 0.00668 | -0.5342 | 0.016 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09259 | 0.00401 | 0.09289 | 0.00637 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -5.963 | 0.208 | -5.922 | 0.466 | - | - |
-| `corr_dim` | validated | 1000 | 1.874 | 0.047 | 1.809 | 0.182 | 1.745 +/- 0.057 | 1.074 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 0.0001 | 0.9994 | 0.00195 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.03484 | 0.025 | -0.03763 | 0.0759 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.008828 | 0.00322 | 0.01186 | 0.012 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.723 | 0.425 | -6.613 | 0.78 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 56 | 3 | 56.45 | 6.15 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.064 | 0.0653 | 2.152 | 0.284 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.574 | 0.0113 | 0.5673 | 0.0448 | - | - |
-| `rqa_det` | characterized | 1000 | 92.39 | 0.151 | 92.59 | 0.769 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
-| `rqa_meanL` | characterized | 1000 | 8.991 | 0.209 | 9.711 | 3.03 | - | - |
-| `rqa_maxL` | characterized | 1000 | 266 | 99 | 427.8 | 430 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.199 | 0.0202 | 4.217 | 0.0973 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.862 | 0.00623 | 3.846 | 0.0685 | - | - |
-| `ent_samp` | characterized | 1000 | 0.987 | 0.0271 | 0.9474 | 0.122 | - | - |
-| `ent_ap` | characterized | 1000 | 0.9279 | 0.0207 | 0.9083 | 0.0847 | - | - |
-| `ent_permu` | characterized | 1000 | 5.44 | 0.0222 | 5.41 | 0.121 | - | - |
-| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
-| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
-| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
-
-Excluded here: `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
-
-## damped_pendulum (A.4.1, driven_flow)
-
-Usable realizations: 460 of 1000. fs = 0.490196.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 444 | 65 | 10 | 65.33 | 15.8 | - | - |
-| `fnn_dim` | characterized | 460 | 5 | 0 | 5.23 | 0.597 | - | - |
-| `embed_delay` | characterized | 460 | 64 | 10.5 | 63.1 | 19.5 | - | - |
-| `embed_dim` | characterized | 460 | 5 | 0 | 5.23 | 0.597 | - | - |
-| `lyap_wolf` | validated | 460 | 0.01511 | 0.00811 | 0.0149 | 0.0102 | 0.1414 | 0.107 |
-| `lyap_ros` | validated | 460 | 0.01507 | 0.00292 | 0.01943 | 0.0232 | 0.1414 | 0.107 |
-| `lyap_ros_fit_start` | characterized | 460 | 2 | 0 | 2.102 | 0.549 | - | - |
-| `lyap_ros_fit_len` | characterized | 460 | 11 | 1 | 12.35 | 4.88 | - | - |
-| `lyap_ros_fit_r2` | characterized | 460 | 0.9779 | 0.00272 | 0.9782 | 0.00405 | - | - |
-| `lyap_ros_fit_curv` | characterized | 460 | -0.4803 | 0.036 | -0.472 | 0.0603 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 460 | 0.08648 | 0.00732 | 0.08701 | 0.0144 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 460 | -2.216 | 0.566 | -2.023 | 0.965 | - | - |
-| `corr_dim` | validated | 460 | 4.709 | 0.421 | 4.72 | 0.836 | 2.764 +/- 0.158 | 1.704 |
-| `corr_dim_fit_r2` | characterized | 460 | 0.9987 | 0.000947 | 0.9973 | 0.00419 | - | - |
-| `corr_dim_fit_curv` | characterized | 460 | -0.1215 | 0.07 | -0.1341 | 0.135 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 460 | 0.0249 | 0.0099 | 0.02934 | 0.019 | - | - |
-| `corr_dim_fit_runsz` | characterized | 460 | -5.318 | 0.296 | -5.318 | 0.507 | - | - |
-| `corr_dim_fit_len` | characterized | 460 | 36 | 3 | 36.56 | 4.16 | - | - |
-| `corr_dim_fit_span` | characterized | 460 | 0.7988 | 0.0718 | 0.8269 | 0.206 | - | - |
-| `rqa_radius` | characterized | 460 | 0.5903 | 0.111 | 0.6022 | 0.181 | - | - |
-| `rqa_det` | characterized | 460 | 98.44 | 0.309 | 98.31 | 0.626 | - | - |
-| `rqa_lam` | characterized | 460 | 98.96 | 0.197 | 98.89 | 0.387 | - | - |
-| `rqa_meanL` | characterized | 460 | 13.41 | 2.14 | 13.64 | 3.62 | - | - |
-| `rqa_maxL` | characterized | 460 | 3723 | 48.5 | 3725 | 165 | - | - |
-| `rqa_entL` | characterized | 460 | 4.423 | 0.166 | 4.389 | 0.336 | - | - |
-| `rqa_entV` | characterized | 460 | 5.151 | 0.182 | 5.098 | 0.433 | - | - |
-| `rqa_entW` | characterized | 460 | 3.566 | 0.129 | 3.537 | 0.182 | - | - |
-| `ent_samp` | characterized | 460 | 0.1136 | 0.0236 | 0.1057 | 0.0395 | - | - |
-| `ent_ap` | characterized | 460 | 0.1177 | 0.0251 | 0.1088 | 0.0407 | - | - |
-| `ent_permu` | characterized | 460 | 5.513 | 0.0251 | 5.51 | 0.0369 | - | - |
-| `ent_ms_s1` | characterized | 460 | 0.1136 | 0.0236 | 0.1057 | 0.0395 | - | - |
-| `ent_ms_ci` | characterized | 460 | 3.228 | 0.81 | 3.302 | 1.09 | - | - |
-| `dfa_alpha` | characterized | 460 | 1.513 | 0.0363 | 1.512 | 0.0518 | - | - |
-
-## driven_vdp (A.4.2, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 11.7647.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 12 | 0 | 12.32 | 0.476 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.708 | 0.708 | - | - |
-| `embed_delay` | characterized | 1000 | 12 | 0 | 12.32 | 0.476 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 1 | 4.708 | 0.708 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.2095 | 0.0204 | 0.2094 | 0.0306 | 0.1933 | 1.084 |
-| `lyap_ros` | validated | 1000 | 0.1565 | 0.011 | 0.1573 | 0.0185 | 0.1933 | 0.810 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.244 | 0.695 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 189.4 | 24.2 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9853 | 0.0061 | 0.986 | 0.00639 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4158 | 0.104 | -0.3946 | 0.132 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09818 | 0.0144 | 0.09569 | 0.0218 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.59 | 0.289 | -13.25 | 1.06 | - | - |
-| `corr_dim` | validated | 1000 | 1.923 | 0.0553 | 1.932 | 0.0892 | 2.19 +/- 0.08 | 0.878 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000393 | 0.9991 | 0.000822 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.08137 | 0.0425 | -0.08243 | 0.0648 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01665 | 0.00625 | 0.01761 | 0.00842 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.217 | 0.311 | -7.106 | 0.545 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 61 | 4 | 60.21 | 5.59 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.974 | 0.0752 | 1.972 | 0.11 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.9218 | 0.183 | 0.8804 | 0.158 | - | - |
-| `rqa_det` | characterized | 1000 | 99.04 | 0.0921 | 99.03 | 0.125 | - | - |
-| `rqa_lam` | characterized | 1000 | 99.2 | 0.171 | 99.16 | 0.231 | - | - |
-| `rqa_meanL` | characterized | 1000 | 9.281 | 0.428 | 9.311 | 0.526 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3951 | 12 | 3953 | 9.77 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.913 | 0.0643 | 3.913 | 0.0873 | - | - |
-| `rqa_entV` | characterized | 1000 | 3.04 | 0.0502 | 3.031 | 0.0734 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.678 | 0.0226 | 3.662 | 0.0483 | - | - |
-| `ent_samp` | characterized | 1000 | 0.3175 | 0.00526 | 0.3168 | 0.00771 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4096 | 0.00316 | 0.4092 | 0.00454 | - | - |
-| `ent_permu` | characterized | 1000 | 2.045 | 0.0042 | 2.045 | 0.00614 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.3175 | 0.00526 | 0.3168 | 0.00771 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 7.164 | 0.114 | 7.141 | 0.186 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.6498 | 0.0139 | 0.6496 | 0.0212 | - | - |
-
-## shaw_vdp (A.4.3, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 5.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 10 | 0 | 9.638 | 0.481 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.741 | 0.641 | - | - |
-| `embed_delay` | characterized | 1000 | 10 | 0 | 9.638 | 0.481 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 0 | 4.741 | 0.641 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1034 | 0.00803 | 0.103 | 0.0122 | 0.118 | 0.877 |
-| `lyap_ros` | validated | 1000 | 0.08688 | 0.00548 | 0.08669 | 0.00815 | 0.118 | 0.736 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 192 | 8 | 187.6 | 13.9 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9794 | 0.000882 | 0.9818 | 0.00485 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5433 | 0.0205 | -0.5025 | 0.0939 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1125 | 0.0114 | 0.1077 | 0.02 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.53 | 0.362 | -13.38 | 0.526 | - | - |
-| `corr_dim` | validated | 1000 | 2.04 | 0.0455 | 2.034 | 0.0678 | 2.007 +/- 0.091 | 1.017 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000117 | 0.9997 | 0.000384 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.01651 | 0.0337 | -0.01386 | 0.0555 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.009135 | 0.00403 | 0.01104 | 0.00689 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.668 | 0.404 | -6.527 | 0.702 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 56 | 3 | 55.27 | 5.3 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.871 | 0.0565 | 1.875 | 0.0911 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.7548 | 0.0287 | 0.719 | 0.108 | - | - |
-| `rqa_det` | characterized | 1000 | 98.11 | 0.0949 | 98.11 | 0.266 | - | - |
-| `rqa_lam` | characterized | 1000 | 97.18 | 0.411 | 96.93 | 0.643 | - | - |
-| `rqa_meanL` | characterized | 1000 | 9.139 | 0.425 | 9.276 | 0.614 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3959 | 4 | 3547 | 956 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.718 | 0.0844 | 3.752 | 0.11 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.138 | 0.0901 | 2.026 | 0.188 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.682 | 0.0567 | 3.644 | 0.0825 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4435 | 0.00368 | 0.4429 | 0.00532 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4648 | 0.00299 | 0.4646 | 0.00435 | - | - |
-| `ent_permu` | characterized | 1000 | 2.353 | 0.0216 | 2.353 | 0.0309 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4435 | 0.00368 | 0.4429 | 0.00532 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 7.448 | 0.105 | 7.441 | 0.176 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4928 | 0.00758 | 0.4922 | 0.0116 | - | - |
-
-## brusselator (A.4.4, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 2.5.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 0 | 7.036 | 0.186 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.005 | 0.0706 | - | - |
-| `embed_delay` | characterized | 1000 | 7 | 0 | 7.036 | 0.186 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.005 | 0.0706 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.01347 | 0.00153 | 0.01339 | 0.00234 | 0.014 | 0.962 |
-| `lyap_ros` | validated | 1000 | 0.009453 | 0.001 | -0.004394 | 0.0454 | 0.014 | 0.675 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.428 | 0.984 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 176.5 | 63.5 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9689 | 0.00737 | 0.9685 | 0.0105 | - | - |
-| `lyap_ros_fit_curv` | characterized | 885 | -0.1486 | 0.0769 | -0.1499 | 0.114 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.2093 | 0.0246 | 0.1982 | 0.045 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -11.14 | 0.795 | -9.743 | 3.92 | - | - |
-| `corr_dim` | validated | 1000 | 1.735 | 0.0387 | 1.727 | 0.0599 | 2.224 +/- 0.095 | 0.780 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9981 | 0.000786 | 0.998 | 0.00108 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.1607 | 0.036 | -0.154 | 0.0569 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.02775 | 0.00625 | 0.02831 | 0.00908 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.153 | 0.149 | -7.158 | 0.263 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 59 | 2 | 58.83 | 3.3 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.191 | 0.0566 | 2.205 | 0.0927 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.4332 | 0.00407 | 0.4332 | 0.0104 | - | - |
-| `rqa_det` | characterized | 1000 | 96.41 | 0.0475 | 96.31 | 0.538 | - | - |
-| `rqa_lam` | characterized | 1000 | 85.09 | 0.0803 | 85.03 | 0.334 | - | - |
-| `rqa_meanL` | characterized | 1000 | 9.678 | 0.2 | 9.676 | 0.421 | - | - |
-| `rqa_maxL` | characterized | 1000 | 1072 | 135 | 1112 | 224 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.684 | 0.0113 | 3.666 | 0.0883 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.828 | 0.0103 | 1.828 | 0.0235 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.669 | 0.004 | 3.668 | 0.00895 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2993 | 0.000823 | 0.2991 | 0.0014 | - | - |
-| `ent_ap` | characterized | 1000 | 0.3829 | 0.00287 | 0.3822 | 0.0048 | - | - |
-| `ent_permu` | characterized | 1000 | 2.782 | 0.00508 | 2.782 | 0.00741 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.2993 | 0.000823 | 0.2991 | 0.0014 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 7.717 | 0.0948 | 7.699 | 0.148 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.3103 | 0.000598 | 0.3104 | 0.000891 | - | - |
-
-## ueda (A.4.5, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 6.66667.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.191 | 0.393 | - | - |
-| `embed_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.191 | 0.393 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.108 | 0.0132 | 0.1088 | 0.0194 | 0.1034 | 1.045 |
-| `lyap_ros` | validated | 1000 | 0.07043 | 0.011 | 0.1362 | 0.116 | 0.1034 | 0.681 |
-| `lyap_ros_fit_start` | characterized | 1000 | 2 | 1 | 2.334 | 1.4 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 175 | 25 | 136.1 | 77.3 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.00065 | 0.982 | 0.00316 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4404 | 0.0529 | -0.4113 | 0.1 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1547 | 0.0315 | 0.1393 | 0.0457 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -12.71 | 0.9 | -10.09 | 4.57 | - | - |
-| `corr_dim` | validated | 1000 | 2.502 | 0.0782 | 2.487 | 0.125 | 2.675 +/- 0.132 | 0.935 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000154 | 0.9997 | 0.000303 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0451 | 0.0311 | -0.04103 | 0.0484 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01123 | 0.00395 | 0.012 | 0.00571 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.492 | 0.322 | -6.338 | 0.593 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 51.48 | 3.88 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.54 | 0.0529 | 1.548 | 0.0913 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.5943 | 0.0211 | 0.6148 | 0.0703 | - | - |
-| `rqa_det` | characterized | 1000 | 97.55 | 0.232 | 97.67 | 0.459 | - | - |
-| `rqa_lam` | characterized | 1000 | 92.08 | 0.521 | 92.23 | 1.49 | - | - |
-| `rqa_meanL` | characterized | 1000 | 9.417 | 0.5 | 10.01 | 1.55 | - | - |
-| `rqa_maxL` | characterized | 1000 | 502 | 75 | 524.5 | 125 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.066 | 0.0909 | 4.149 | 0.239 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.269 | 0.0308 | 2.269 | 0.0483 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.473 | 0.0666 | 3.471 | 0.079 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5363 | 0.0127 | 0.5344 | 0.0189 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5685 | 0.00871 | 0.567 | 0.013 | - | - |
-| `ent_permu` | characterized | 1000 | 2.707 | 0.0313 | 2.703 | 0.0489 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.5363 | 0.0127 | 0.5344 | 0.0189 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.612 | 0.401 | 9.545 | 0.585 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.5205 | 0.0123 | 0.521 | 0.0176 | - | - |
-
-## duffing_two_well (A.4.6, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 0.490196.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 0 | 4.366 | 0.963 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.642 | 0.492 | - | - |
-| `embed_delay` | characterized | 1000 | 5 | 0 | 4.366 | 0.963 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 0 | 4.642 | 0.492 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.08129 | 0.0135 | 0.07849 | 0.0126 | 0.1572 | 0.517 |
-| `lyap_ros` | validated | 1000 | 0.02169 | 0.00591 | 0.03153 | 0.0207 | 0.1572 | 0.138 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.005 | 0.0706 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 28 | 6 | 26.62 | 8.01 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.8533 | 0.0372 | 0.8774 | 0.0656 | - | - |
-| `lyap_ros_fit_curv` | characterized | 994 | -0.8559 | 0.0676 | -0.7513 | 0.178 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.3848 | 0.0488 | 0.3247 | 0.122 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -2.878 | 0.29 | -2.613 | 0.724 | - | - |
-| `corr_dim` | validated | 1000 | 3.042 | 0.386 | 3.114 | 0.384 | 2.334 +/- 0.114 | 1.303 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000335 | 0.9991 | 0.000775 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.09239 | 0.0277 | 0.09889 | 0.0465 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01763 | 0.00455 | 0.01841 | 0.00707 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.671 | 0.262 | -5.61 | 0.411 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 39 | 3 | 38.85 | 4.16 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.27 | 0.142 | 1.26 | 0.158 | - | - |
-| `rqa_radius` | characterized | 1000 | 1.213 | 0.0831 | 1.144 | 0.172 | - | - |
-| `rqa_det` | characterized | 1000 | 33.68 | 1.18 | 33.94 | 2.05 | - | - |
-| `rqa_lam` | characterized | 1000 | 6.979 | 0.918 | 6.94 | 1.29 | - | - |
-| `rqa_meanL` | characterized | 1000 | 2.628 | 0.123 | 3.084 | 0.751 | - | - |
-| `rqa_maxL` | characterized | 1000 | 45 | 5 | 45.98 | 7.62 | - | - |
-| `rqa_entL` | characterized | 1000 | 1.312 | 0.117 | 1.667 | 0.598 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.3636 | 0.0894 | 0.2951 | 0.173 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.437 | 0.0389 | 3.438 | 0.0544 | - | - |
-| `ent_samp` | characterized | 1000 | 1.242 | 0.0113 | 1.241 | 0.0165 | - | - |
-| `ent_ap` | characterized | 1000 | 1.191 | 0.00723 | 1.19 | 0.0108 | - | - |
-| `ent_permu` | characterized | 1000 | 6.079 | 0.0184 | 6.078 | 0.0265 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 1.242 | 0.0113 | 1.241 | 0.0165 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 11.84 | 0.135 | 11.83 | 0.199 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.5386 | 0.0181 | 0.5391 | 0.0282 | - | - |
-
-## duffing_vdp (A.4.7, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 6.25.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 10 | 0 | 9.843 | 0.364 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.094 | 0.292 | - | - |
-| `embed_delay` | characterized | 1000 | 10 | 0 | 9.843 | 0.364 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.094 | 0.292 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.08979 | 0.00679 | 0.08992 | 0.00996 | 0.0963 | 0.932 |
-| `lyap_ros` | validated | 1000 | 0.08541 | 0.00464 | 0.08545 | 0.00734 | 0.0963 | 0.887 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 189.8 | 17.2 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9836 | 0.00374 | 0.9852 | 0.00572 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5008 | 0.0621 | -0.4613 | 0.116 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08741 | 0.014 | 0.08346 | 0.0214 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.88 | 0.0088 | -13.5 | 0.665 | - | - |
-| `corr_dim` | validated | 1000 | 2.228 | 0.052 | 2.225 | 0.0806 | 2.333 +/- 0.115 | 0.955 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000112 | 0.9997 | 0.000527 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.0149 | 0.029 | -0.00956 | 0.0531 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01018 | 0.00363 | 0.01229 | 0.00741 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.987 | 0.468 | -5.852 | 0.758 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 48.5 | 3.5 | 47.79 | 5.68 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.677 | 0.0535 | 1.679 | 0.0843 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.5726 | 0.0165 | 0.5839 | 0.0513 | - | - |
-| `rqa_det` | characterized | 1000 | 99.75 | 0.0127 | 99.75 | 0.0233 | - | - |
-| `rqa_lam` | characterized | 1000 | 97.51 | 0.16 | 97.51 | 0.358 | - | - |
-| `rqa_meanL` | characterized | 1000 | 19.76 | 0.345 | 20.03 | 0.809 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3969 | 0 | 3969 | 3.26 | - | - |
-| `rqa_entL` | characterized | 1000 | 5.227 | 0.0318 | 5.234 | 0.0483 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.916 | 0.0645 | 1.924 | 0.107 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.757 | 0.00966 | 3.751 | 0.0216 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4825 | 0.0031 | 0.4824 | 0.00464 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4842 | 0.00337 | 0.4843 | 0.00487 | - | - |
-| `ent_permu` | characterized | 1000 | 2.055 | 0.00435 | 2.055 | 0.00647 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4825 | 0.0031 | 0.4824 | 0.00464 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 5.616 | 0.217 | 5.623 | 0.313 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4681 | 0.00646 | 0.4685 | 0.00942 | - | - |
-
-## rayleigh_duffing (A.4.8, driven_flow)
-
-Usable realizations: 1000 of 1000. fs = 3.84615.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 6 | 0 | 6 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 6 | 0 | 6 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.08342 | 0.00585 | 0.08315 | 0.00881 | 0.0912 | 0.915 |
-| `lyap_ros` | validated | 1000 | 0.08075 | 0.00793 | 0.08143 | 0.0118 | 0.0912 | 0.885 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.261 | 0.815 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 117 | 23 | 117 | 33.3 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.98 | 0.000132 | 0.9801 | 0.000403 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5354 | 0.0092 | -0.5317 | 0.0187 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09201 | 0.00761 | 0.09219 | 0.011 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.48 | 1.09 | -10.35 | 1.64 | - | - |
-| `corr_dim` | validated | 1000 | 2.329 | 0.0455 | 2.324 | 0.0695 | 2.194 +/- 0.12 | 1.062 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000112 | 0.9997 | 0.000253 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.02937 | 0.031 | -0.02421 | 0.0479 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01086 | 0.00306 | 0.01151 | 0.00487 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.463 | 0.332 | -6.361 | 0.552 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 52 | 3 | 51.98 | 4.18 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.655 | 0.0476 | 1.657 | 0.0724 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.6489 | 0.00797 | 0.6486 | 0.012 | - | - |
-| `rqa_det` | characterized | 1000 | 99.16 | 0.0262 | 99.16 | 0.0391 | - | - |
-| `rqa_lam` | characterized | 1000 | 94 | 0.289 | 93.96 | 0.442 | - | - |
-| `rqa_meanL` | characterized | 1000 | 13.05 | 0.172 | 13.07 | 0.267 | - | - |
-| `rqa_maxL` | characterized | 1000 | 438 | 61 | 458.2 | 106 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.641 | 0.0193 | 4.642 | 0.0291 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.624 | 0.0357 | 1.625 | 0.054 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.702 | 0.0109 | 3.701 | 0.0162 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5414 | 0.00478 | 0.5409 | 0.0069 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5444 | 0.00463 | 0.5441 | 0.00664 | - | - |
-| `ent_permu` | characterized | 1000 | 2.638 | 0.00671 | 2.637 | 0.00987 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.5414 | 0.00478 | 0.5409 | 0.0069 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.697 | 0.172 | 8.695 | 0.25 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4025 | 0.00947 | 0.4027 | 0.0139 | - | - |
-
-## lorenz (A.5.1, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 25.641.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 0 | 4.086 | 0.375 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.093 | 0.291 | - | - |
-| `embed_delay` | characterized | 1000 | 4 | 0 | 4.086 | 0.375 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3.093 | 0.291 | - | - |
-| `lyap_wolf` | validated | 1000 | 1.28 | 0.0634 | 1.275 | 0.0976 | 0.9056 | 1.414 |
-| `lyap_ros` | validated | 1000 | 0.8428 | 0.0293 | 0.8491 | 0.0837 | 0.9056 | 0.931 |
-| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.161 | 1.2 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 106 | 5 | 105.5 | 11.9 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9795 | 0.000225 | 0.9793 | 0.00118 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4915 | 0.0143 | -0.4924 | 0.0272 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.136 | 0.00588 | 0.1343 | 0.0106 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -9.903 | 0.269 | -9.858 | 0.692 | - | - |
-| `corr_dim` | validated | 1000 | 2.018 | 0.0285 | 2.016 | 0.0443 | 2.068 +/- 0.086 | 0.976 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000113 | 0.9997 | 0.000204 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.04413 | 0.0237 | -0.04197 | 0.0363 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01033 | 0.00273 | 0.01054 | 0.004 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.279 | 0.293 | -6.159 | 0.558 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 49.2 | 3.49 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.926 | 0.0395 | 1.922 | 0.0597 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.3296 | 0.0033 | 0.3403 | 0.037 | - | - |
-| `rqa_det` | characterized | 1000 | 95.42 | 0.0813 | 95.31 | 0.867 | - | - |
-| `rqa_lam` | characterized | 1000 | 76.61 | 1.54 | 77.23 | 3.49 | - | - |
-| `rqa_meanL` | characterized | 1000 | 7.875 | 0.113 | 7.979 | 0.726 | - | - |
-| `rqa_maxL` | characterized | 1000 | 196 | 21 | 202.2 | 36.8 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.782 | 0.0146 | 3.771 | 0.168 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.9622 | 0.0748 | 0.9843 | 0.133 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.681 | 0.0481 | 3.646 | 0.134 | - | - |
-| `ent_samp` | characterized | 1000 | 0.3956 | 0.00608 | 0.3964 | 0.0093 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4352 | 0.011 | 0.435 | 0.0162 | - | - |
-| `ent_permu` | characterized | 1000 | 2.507 | 0.0227 | 2.506 | 0.032 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.3956 | 0.00608 | 0.3964 | 0.0093 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 7.076 | 0.0831 | 7.053 | 0.14 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.8355 | 0.0248 | 0.8351 | 0.0359 | - | - |
-
-## rossler (A.5.2, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 6.66667.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 10 | 0 | 9.431 | 0.708 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 3.995 | 0.0706 | - | - |
-| `embed_delay` | characterized | 1000 | 10 | 0 | 9.431 | 0.708 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 3.995 | 0.0706 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.0672 | 0.00686 | 0.06662 | 0.0104 | 0.0714 | 0.941 |
-| `lyap_ros` | validated | 1000 | 0.05856 | 0.00529 | 0.05854 | 0.00798 | 0.0714 | 0.820 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.002 | 0.0632 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 199.7 | 5.36 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9971 | 0.00154 | 0.9958 | 0.00396 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.08477 | 0.106 | -0.09062 | 0.156 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.04068 | 0.0137 | 0.04487 | 0.022 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.55 | 0.306 | -13.4 | 0.472 | - | - |
-| `corr_dim` | validated | 1000 | 1.863 | 0.0473 | 1.857 | 0.0718 | 1.991 +/- 0.065 | 0.936 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000248 | 0.9994 | 0.000767 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.03796 | 0.0498 | -0.03395 | 0.08 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0138 | 0.00541 | 0.01571 | 0.00886 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.889 | 0.354 | -6.784 | 0.622 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 58 | 3 | 57.23 | 4.94 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.011 | 0.074 | 2.016 | 0.111 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.4964 | 0.00556 | 0.4939 | 0.0107 | - | - |
-| `rqa_det` | characterized | 1000 | 99.15 | 0.0417 | 99.16 | 0.12 | - | - |
-| `rqa_lam` | characterized | 1000 | 94.8 | 0.432 | 94.76 | 0.607 | - | - |
-| `rqa_meanL` | characterized | 1000 | 16.72 | 0.695 | 17.02 | 1.17 | - | - |
-| `rqa_maxL` | characterized | 1000 | 815.5 | 123 | 856.3 | 214 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.565 | 0.0593 | 4.574 | 0.0977 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.948 | 0.07 | 1.944 | 0.113 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.707 | 0.023 | 3.706 | 0.0351 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4845 | 0.00248 | 0.483 | 0.00557 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4988 | 0.00341 | 0.4974 | 0.00655 | - | - |
-| `ent_permu` | characterized | 1000 | 2.042 | 0.00328 | 2.042 | 0.00487 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4845 | 0.00248 | 0.483 | 0.00557 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 4.594 | 0.105 | 4.55 | 0.189 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.3395 | 0.00169 | 0.3395 | 0.00246 | - | - |
-
-## diffusionless_lorenz (A.5.3, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 2.94118.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.353 | 0.495 | - | - |
-| `embed_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.353 | 0.495 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.214 | 0.00636 | 0.2141 | 0.01 | 0.2101 | 1.018 |
-| `lyap_ros` | validated | 1000 | 0.1581 | 0.00406 | 0.158 | 0.00613 | 0.2101 | 0.753 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 68 | 3 | 68.56 | 3.77 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9801 | 0.000531 | 0.9801 | 0.00104 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5517 | 0.00969 | -0.5497 | 0.0183 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1192 | 0.00397 | 0.1189 | 0.0062 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -7.813 | 0.179 | -7.841 | 0.24 | - | - |
-| `corr_dim` | validated | 1000 | 2.148 | 0.0327 | 2.144 | 0.051 | 2.169 +/- 0.128 | 0.991 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.32e-05 | 0.9999 | 0.000106 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.01582 | 0.019 | -0.01382 | 0.0302 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006107 | 0.00196 | 0.00671 | 0.0032 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.003 | 0.47 | -5.828 | 0.822 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 49 | 3 | 48.99 | 3.98 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.794 | 0.0432 | 1.791 | 0.0664 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.571 | 0.0517 | 0.6042 | 0.0916 | - | - |
-| `rqa_det` | characterized | 1000 | 95.5 | 0.599 | 95.48 | 0.834 | - | - |
-| `rqa_lam` | characterized | 1000 | 89.31 | 0.788 | 90.14 | 1.73 | - | - |
-| `rqa_meanL` | characterized | 1000 | 8.613 | 0.393 | 8.614 | 0.572 | - | - |
-| `rqa_maxL` | characterized | 1000 | 127 | 15 | 133.2 | 28.4 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.053 | 0.0957 | 4.054 | 0.138 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.439 | 0.101 | 2.446 | 0.157 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.181 | 0.088 | 3.168 | 0.139 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5041 | 0.00943 | 0.5018 | 0.0151 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5804 | 0.00502 | 0.5798 | 0.00788 | - | - |
-| `ent_permu` | characterized | 1000 | 2.751 | 0.0198 | 2.751 | 0.0289 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.5041 | 0.00943 | 0.5018 | 0.0151 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.948 | 0.315 | 8.925 | 0.473 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.6506 | 0.0192 | 0.6506 | 0.0285 | - | - |
-
-## complex_butterfly (A.5.4, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 2.94118.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 4 | 0 | 5.913 | 2.41 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 5.393 | 0.656 | - | - |
-| `embed_delay` | characterized | 1000 | 4 | 0 | 5.913 | 2.41 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 0 | 5.393 | 0.656 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1345 | 0.00619 | 0.1335 | 0.00988 | 0.169 | 0.796 |
-| `lyap_ros` | validated | 1000 | 0.1117 | 0.00712 | 0.1111 | 0.0106 | 0.169 | 0.661 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 84 | 4 | 83.53 | 7.47 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9797 | 0.000587 | 0.9792 | 0.00132 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5551 | 0.00752 | -0.5523 | 0.0147 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1133 | 0.0071 | 0.1115 | 0.0107 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -8.779 | 0.26 | -8.731 | 0.439 | - | - |
-| `corr_dim` | validated | 1000 | 2.408 | 0.0575 | 2.411 | 0.0959 | 2.491 +/- 0.131 | 0.967 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000171 | 0.9996 | 0.000437 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.05071 | 0.0282 | 0.05194 | 0.0447 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01089 | 0.00465 | 0.01207 | 0.00688 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.18 | 0.381 | -6.002 | 0.731 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 47 | 3 | 47.27 | 4.19 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.599 | 0.0511 | 1.595 | 0.0786 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.7016 | 0.131 | 0.775 | 0.224 | - | - |
-| `rqa_det` | characterized | 1000 | 91.93 | 1.4 | 91.62 | 1.89 | - | - |
-| `rqa_lam` | characterized | 1000 | 91.51 | 3.51 | 92.41 | 3.8 | - | - |
-| `rqa_meanL` | characterized | 1000 | 6.449 | 0.479 | 6.608 | 0.781 | - | - |
-| `rqa_maxL` | characterized | 1000 | 370 | 193 | 985.5 | 1.2e+03 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.109 | 0.136 | 3.142 | 0.192 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.964 | 0.0794 | 2.112 | 0.276 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.696 | 0.0565 | 3.64 | 0.122 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4602 | 0.00664 | 0.4596 | 0.00944 | - | - |
-| `ent_ap` | characterized | 1000 | 0.54 | 0.00609 | 0.5393 | 0.00909 | - | - |
-| `ent_permu` | characterized | 1000 | 2.947 | 0.0432 | 2.947 | 0.0652 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4602 | 0.00664 | 0.4596 | 0.00944 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.75 | 0.121 | 9.739 | 0.182 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.7288 | 0.0123 | 0.7291 | 0.0183 | - | - |
-
-## chen (A.5.5, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 66.6667.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 0 | 6.893 | 0.309 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.341 | 0.474 | - | - |
-| `embed_delay` | characterized | 1000 | 7 | 0 | 6.893 | 0.309 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.341 | 0.474 | - | - |
-| `lyap_wolf` | validated | 1000 | 2.301 | 0.135 | 2.301 | 0.197 | 2.027 | 1.135 |
-| `lyap_ros` | validated | 1000 | 1.654 | 0.153 | 1.714 | 0.272 | 2.027 | 0.816 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.13 | 0.473 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 113 | 16 | 110 | 26 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9781 | 0.000611 | 0.9781 | 0.000771 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5605 | 0.00742 | -0.5587 | 0.0123 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09783 | 0.00767 | 0.09726 | 0.0104 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.28 | 0.795 | -10.06 | 1.33 | - | - |
-| `corr_dim` | validated | 1000 | 2.233 | 0.0414 | 2.229 | 0.0654 | 2.147 +/- 0.117 | 1.040 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 6.79e-05 | 0.9998 | 0.000348 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.008534 | 0.03 | 0.01218 | 0.0459 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007797 | 0.00258 | 0.009612 | 0.00614 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.179 | 0.406 | -6.055 | 0.663 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.64 | 4.22 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.728 | 0.0505 | 1.726 | 0.0743 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.6726 | 0.0411 | 0.7184 | 0.0996 | - | - |
-| `rqa_det` | characterized | 1000 | 98.45 | 0.147 | 98.46 | 0.212 | - | - |
-| `rqa_lam` | characterized | 1000 | 96.73 | 0.174 | 97.03 | 0.554 | - | - |
-| `rqa_meanL` | characterized | 1000 | 10.97 | 0.401 | 11.03 | 0.608 | - | - |
-| `rqa_maxL` | characterized | 1000 | 650.5 | 168 | 713.6 | 274 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.334 | 0.0507 | 4.35 | 0.0932 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.38 | 0.113 | 2.374 | 0.159 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.24 | 0.085 | 3.237 | 0.125 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4909 | 0.00632 | 0.4888 | 0.0101 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5672 | 0.00719 | 0.5654 | 0.0111 | - | - |
-| `ent_permu` | characterized | 1000 | 2.124 | 0.0148 | 2.125 | 0.0224 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4909 | 0.00632 | 0.4888 | 0.0101 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.219 | 0.351 | 8.185 | 0.515 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4998 | 0.0152 | 0.5003 | 0.0217 | - | - |
-
-## hadley (A.5.6, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 10.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 9 | 0 | 9.162 | 0.387 | - | - |
-| `fnn_dim` | characterized | 1000 | 6 | 0 | 5.89 | 0.361 | - | - |
-| `embed_delay` | characterized | 1000 | 9 | 0 | 9.162 | 0.387 | - | - |
-| `embed_dim` | characterized | 1000 | 6 | 0 | 5.89 | 0.361 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1481 | 0.0172 | 0.1473 | 0.0245 | 0.1665 | 0.889 |
-| `lyap_ros` | validated | 1000 | 0.1291 | 0.0103 | 0.13 | 0.0158 | 0.1665 | 0.775 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 188 | 16.7 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.979 | 0.00211 | 0.9826 | 0.00628 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5582 | 0.0321 | -0.494 | 0.118 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09471 | 0.0135 | 0.09019 | 0.021 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.75 | 0.146 | -13.41 | 0.634 | - | - |
-| `corr_dim` | validated | 1000 | 2.481 | 0.128 | 2.475 | 0.18 | 2.162 +/- 0.114 | 1.148 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.00027 | 0.9994 | 0.000722 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.0624 | 0.0359 | 0.06734 | 0.0549 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01351 | 0.0053 | 0.01535 | 0.00876 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.619 | 0.357 | -6.508 | 0.618 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 53 | 4 | 53.04 | 5.2 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.536 | 0.0848 | 1.547 | 0.123 | - | - |
-| `rqa_radius` | characterized | 1000 | 1.029 | 0.0234 | 1.013 | 0.0677 | - | - |
-| `rqa_det` | characterized | 1000 | 97.63 | 0.393 | 97.58 | 0.582 | - | - |
-| `rqa_lam` | characterized | 1000 | 98.2 | 0.181 | 98.16 | 0.339 | - | - |
-| `rqa_meanL` | characterized | 1000 | 8.172 | 0.499 | 8.343 | 0.929 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3954 | 0 | 3951 | 85.4 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.361 | 0.113 | 3.372 | 0.162 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.749 | 0.0583 | 2.74 | 0.11 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.772 | 0.0215 | 3.764 | 0.0365 | - | - |
-| `ent_samp` | characterized | 1000 | 0.467 | 0.00957 | 0.4656 | 0.0141 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5036 | 0.00804 | 0.5026 | 0.0116 | - | - |
-| `ent_permu` | characterized | 1000 | 2.45 | 0.0616 | 2.45 | 0.0877 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.467 | 0.00957 | 0.4656 | 0.0141 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.371 | 0.188 | 8.347 | 0.283 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4872 | 0.00925 | 0.4862 | 0.0141 | - | - |
 
 ## act (A.5.7, autonomous_flow)
 
@@ -1704,6 +94,7 @@ Usable realizations: 1000 of 1000. fs = 5.88235.
 | `rqa_lam` | characterized | 1000 | 75.23 | 0.573 | 75.37 | 1.06 | - | - |
 | `rqa_meanL` | characterized | 1000 | 5.569 | 0.0793 | 5.59 | 0.123 | - | - |
 | `rqa_maxL` | characterized | 1000 | 289 | 59 | 313.9 | 99.5 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 289 | 59 | 313.9 | 99.5 | - | - |
 | `rqa_entL` | characterized | 1000 | 2.657 | 0.0742 | 2.778 | 0.23 | - | - |
 | `rqa_entV` | characterized | 1000 | 1.263 | 0.0487 | 1.274 | 0.0703 | - | - |
 | `rqa_entW` | characterized | 1000 | 3.47 | 0.0245 | 3.518 | 0.0952 | - | - |
@@ -1714,245 +105,132 @@ Usable realizations: 1000 of 1000. fs = 5.88235.
 | `ent_ms_ci` | characterized | 1000 | 7.109 | 0.0649 | 7.111 | 0.0971 | - | - |
 | `dfa_alpha` | characterized | 1000 | 0.4493 | 0.0022 | 0.4494 | 0.00327 | - | - |
 
-## rabinovich_fabrikant (A.5.8, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 1.96078.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 3 | 0 | 2.322 | 0.947 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.613 | 1.02 | - | - |
-| `embed_delay` | characterized | 1000 | 3 | 0 | 2.322 | 0.947 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 1 | 4.613 | 1.02 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1831 | 0.0147 | 0.2012 | 0.0374 | 0.1981 | 0.924 |
-| `lyap_ros` | validated | 1000 | 0.1678 | 0.0135 | 0.1808 | 0.0289 | 0.1981 | 0.847 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.549 | 0.883 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 34 | 2 | 30.72 | 5.63 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9807 | 0.000596 | 0.9808 | 0.000725 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.516 | 0.00958 | -0.5173 | 0.0133 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1029 | 0.00351 | 0.1011 | 0.00659 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -5.217 | 0.192 | -4.86 | 0.605 | - | - |
-| `corr_dim` | validated | 1000 | 2.23 | 0.0497 | 2.228 | 0.0635 | 2.191 +/- 0.113 | 1.018 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3.79e-05 | 0.9999 | 0.000139 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.002295 | 0.0217 | 0.004862 | 0.0323 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.005849 | 0.00191 | 0.006513 | 0.00333 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.961 | 0.475 | -5.833 | 0.797 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.49 | 4.43 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.73 | 0.0452 | 1.732 | 0.0677 | - | - |
-| `rqa_radius` | characterized | 1000 | 1.047 | 0.263 | 0.8996 | 0.329 | - | - |
-| `rqa_det` | characterized | 1000 | 75.62 | 1.74 | 77.45 | 4.45 | - | - |
-| `rqa_lam` | characterized | 1000 | 6.179 | 3.87 | 5.438 | 3.54 | - | - |
-| `rqa_meanL` | characterized | 1000 | 5.94 | 0.392 | 5.57 | 0.841 | - | - |
-| `rqa_maxL` | characterized | 1000 | 110 | 12 | 113.5 | 21.2 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.213 | 0.0931 | 3.131 | 0.229 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.009661 | 0.00966 | 0.01181 | 0.0125 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.579 | 0.0127 | 3.582 | 0.0186 | - | - |
-| `ent_samp` | characterized | 1000 | 0.8217 | 0.00825 | 0.821 | 0.0126 | - | - |
-| `ent_ap` | characterized | 1000 | 0.8668 | 0.00682 | 0.8656 | 0.0105 | - | - |
-| `ent_permu` | characterized | 1000 | 5.003 | 0.0173 | 5.003 | 0.0258 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.8217 | 0.00825 | 0.821 | 0.0126 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.158 | 0.102 | 9.155 | 0.148 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4292 | 0.0129 | 0.4295 | 0.0186 | - | - |
-
-## rigid_body (A.5.9, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 3.84615.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.586 | 0.673 | - | - |
-| `embed_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 1 | 4.586 | 0.673 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1531 | 0.0102 | 0.1532 | 0.0146 | 0.1421 | 1.078 |
-| `lyap_ros` | validated | 1000 | 0.1133 | 0.00697 | 0.1134 | 0.0113 | 0.1421 | 0.797 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.171 | 0.663 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 108 | 9 | 108.6 | 13.9 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9794 | 0.000413 | 0.9793 | 0.000589 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5473 | 0.00914 | -0.5434 | 0.0168 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1064 | 0.00613 | 0.1065 | 0.00992 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.03 | 0.441 | -10.03 | 0.703 | - | - |
-| `corr_dim` | validated | 1000 | 2.144 | 0.0504 | 2.134 | 0.0832 | 2.069 +/- 0.121 | 1.036 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 8.33e-05 | 0.9997 | 0.000392 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.008696 | 0.0322 | 0.01584 | 0.0507 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.008229 | 0.00277 | 0.00968 | 0.00545 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.268 | 0.395 | -6.141 | 0.679 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 50.42 | 4.33 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.8 | 0.0531 | 1.805 | 0.0891 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.7179 | 0.136 | 0.6683 | 0.123 | - | - |
-| `rqa_det` | characterized | 1000 | 98.01 | 0.209 | 97.89 | 0.341 | - | - |
-| `rqa_lam` | characterized | 1000 | 95.48 | 1.54 | 94.51 | 1.77 | - | - |
-| `rqa_meanL` | characterized | 1000 | 9.963 | 0.268 | 9.943 | 0.47 | - | - |
-| `rqa_maxL` | characterized | 1000 | 263 | 44 | 301.3 | 126 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.306 | 0.0242 | 4.297 | 0.0615 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.017 | 0.108 | 2.014 | 0.163 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.292 | 0.0823 | 3.281 | 0.124 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4629 | 0.00435 | 0.4624 | 0.00653 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5348 | 0.00794 | 0.5341 | 0.0116 | - | - |
-| `ent_permu` | characterized | 1000 | 2.286 | 0.017 | 2.287 | 0.0252 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4629 | 0.00435 | 0.4624 | 0.00653 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.23 | 0.167 | 8.21 | 0.259 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.5396 | 0.0167 | 0.5398 | 0.0255 | - | - |
-
-## chua (A.5.10, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 1.96078.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.3578 | 0.00956 | 0.358 | 0.014 | 0.3271 | 1.094 |
-| `lyap_ros` | validated | 1000 | 0.3127 | 0.0074 | 0.3128 | 0.0114 | 0.3271 | 0.956 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 23 | 1 | 23.08 | 1.12 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9816 | 0.000877 | 0.9816 | 0.00104 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5074 | 0.0128 | -0.5077 | 0.0151 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08934 | 0.00281 | 0.08989 | 0.00426 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -4.044 | 0.112 | -4.041 | 0.136 | - | - |
-| `corr_dim` | validated | 1000 | 1.969 | 0.0236 | 1.967 | 0.0352 | 2.125 +/- 0.098 | 0.926 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 6.09e-05 | 0.9998 | 0.000112 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.03165 | 0.0142 | 0.0317 | 0.0209 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007537 | 0.002 | 0.007876 | 0.003 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -5.923 | 0.344 | -5.788 | 0.589 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 46 | 2 | 45.88 | 3.21 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.954 | 0.0292 | 1.948 | 0.0521 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.2676 | 0.00159 | 0.2675 | 0.00241 | - | - |
-| `rqa_det` | characterized | 1000 | 82.66 | 0.212 | 82.67 | 0.318 | - | - |
-| `rqa_lam` | characterized | 1000 | 1.552 | 0.156 | 1.57 | 0.235 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.439 | 0.0392 | 4.443 | 0.0596 | - | - |
-| `rqa_maxL` | characterized | 1000 | 71 | 7 | 72.85 | 11.2 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.87 | 0.0258 | 2.872 | 0.0378 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.008779 | 0.00878 | 0.01981 | 0.0283 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.757 | 0.00804 | 3.761 | 0.0173 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4628 | 0.0056 | 0.4624 | 0.00827 | - | - |
-| `ent_ap` | characterized | 1000 | 0.611 | 0.00543 | 0.611 | 0.00792 | - | - |
-| `ent_permu` | characterized | 1000 | 5.152 | 0.0174 | 5.152 | 0.0253 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4628 | 0.0056 | 0.4624 | 0.00827 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.677 | 0.112 | 9.666 | 0.163 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.6682 | 0.0232 | 0.6683 | 0.0344 | - | - |
-
-## moore_spiegel (A.5.11, autonomous_flow)
-
-Usable realizations: 1000 of 1000. fs = 11.7647.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 0 | 6.16 | 3.08 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.499 | 1.16 | - | - |
-| `embed_delay` | characterized | 1000 | 5 | 0 | 6.16 | 3.08 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.499 | 1.16 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.2867 | 0.0457 | 0.2834 | 0.071 | 0.1119 | 2.562 |
-| `lyap_ros` | validated | 1000 | 0.6747 | 0.0311 | 0.6057 | 0.185 | 0.1119 | 6.030 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 50 | 2 | 65.94 | 46.2 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.000518 | 0.9815 | 0.00369 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5415 | 0.00822 | -0.5188 | 0.0812 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1028 | 0.00326 | 0.0998 | 0.0128 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -6.566 | 0.15 | -7.302 | 2.17 | - | - |
-| `corr_dim` | validated | 1000 | 1.575 | 0.0411 | 1.618 | 0.156 | 2.309 +/- 0.107 | 0.682 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9973 | 0.000898 | 0.9974 | 0.00128 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.1943 | 0.0354 | -0.1688 | 0.0903 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03588 | 0.00398 | 0.0337 | 0.00886 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.217 | 0.206 | -7.171 | 0.383 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 59.5 | 2.5 | 59.26 | 4.46 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.456 | 0.0568 | 2.404 | 0.203 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.381 | 0.00257 | 0.5096 | 0.327 | - | - |
-| `rqa_det` | characterized | 1000 | 97.69 | 0.0635 | 97.39 | 0.943 | - | - |
-| `rqa_lam` | characterized | 1000 | 85.37 | 0.344 | 87.42 | 4.59 | - | - |
-| `rqa_meanL` | characterized | 1000 | 13.18 | 0.219 | 12.54 | 1.86 | - | - |
-| `rqa_maxL` | characterized | 1000 | 619 | 123 | 1018 | 1.08e+03 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.376 | 0.0185 | 4.188 | 0.484 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.059 | 0.0197 | 1.205 | 0.409 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.562 | 0.0141 | 3.552 | 0.0745 | - | - |
-| `ent_samp` | characterized | 1000 | 0.3493 | 0.0032 | 0.3488 | 0.00523 | - | - |
-| `ent_ap` | characterized | 1000 | 0.3875 | 0.00238 | 0.3874 | 0.00371 | - | - |
-| `ent_permu` | characterized | 1000 | 2.161 | 0.00753 | 2.161 | 0.0106 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.3493 | 0.0032 | 0.3488 | 0.00523 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 4.89 | 0.052 | 4.895 | 0.0759 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.469 | 0.00392 | 0.4688 | 0.00633 | - | - |
-
-## thomas (A.5.12, autonomous_flow)
+## arnold_cat (A.3.3, conservative_map)
 
 Usable realizations: 1000 of 1000. fs = 1.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 15 | 1 | 12.12 | 3.55 | - | - |
-| `fnn_dim` | characterized | 1000 | 8 | 1 | 8.151 | 1.33 | - | - |
-| `embed_delay` | characterized | 1000 | 15 | 1 | 12.12 | 3.55 | - | - |
-| `embed_dim` | characterized | 1000 | 8 | 1 | 8.151 | 1.33 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.04186 | 0.00674 | 0.04164 | 0.00927 | 0.0349 | 1.200 |
-| `lyap_ros` | validated | 1000 | 0.01512 | 0.00479 | 0.01672 | 0.00817 | 0.0349 | 0.433 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.461 | 0.725 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 132.5 | 24.5 | 128.7 | 42.5 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9734 | 0.00351 | 0.9708 | 0.00782 | - | - |
-| `lyap_ros_fit_curv` | characterized | 988 | -0.5907 | 0.0213 | -0.597 | 0.0784 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.121 | 0.0225 | 0.1386 | 0.044 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.88 | 1.03 | -10.38 | 2.71 | - | - |
-| `corr_dim` | validated | 1000 | 2.806 | 0.483 | 2.951 | 0.694 | 1.843 +/- 0.075 | 1.523 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9879 | 0.00438 | 0.9872 | 0.00676 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.4042 | 0.0764 | 0.4024 | 0.115 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.072 | 0.0134 | 0.07289 | 0.0199 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.171 | 0.39 | -6.114 | 0.561 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 45 | 5 | 44.6 | 6.66 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.341 | 0.219 | 1.34 | 0.278 | - | - |
-| `rqa_radius` | characterized | 1000 | 1.82 | 0.291 | 1.796 | 0.389 | - | - |
-| `rqa_det` | characterized | 1000 | 94.58 | 0.658 | 94.01 | 1.46 | - | - |
-| `rqa_lam` | characterized | 1000 | 97.32 | 0.267 | 96.99 | 0.768 | - | - |
-| `rqa_meanL` | characterized | 1000 | 4.835 | 0.228 | 4.839 | 0.403 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3909 | 30 | 3911 | 33.8 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.791 | 0.108 | 2.763 | 0.161 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.966 | 0.249 | 2.919 | 0.287 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.511 | 0.0663 | 3.51 | 0.0889 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4672 | 0.00571 | 0.4669 | 0.00878 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5451 | 0.00412 | 0.5449 | 0.00628 | - | - |
-| `ent_permu` | characterized | 1000 | 3.999 | 0.0218 | 3.999 | 0.0333 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4672 | 0.00571 | 0.4669 | 0.00878 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.791 | 0.128 | 9.776 | 0.201 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.6922 | 0.0261 | 0.6928 | 0.0357 | - | - |
+| `ami_delay` | characterized | 1000 | 2 | 1 | 1.734 | 0.908 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3547 | 0.00292 | 0.3546 | 0.00461 | 0.9624 | 0.369 |
+| `lyap_ros` | validated | 1000 | 0.9418 | 0.00553 | 0.9183 | 0.0504 | 0.9624 | 0.979 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4.205 | 0.404 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9952 | 0.000483 | 0.9915 | 0.00752 | - | - |
+| `lyap_ros_fit_curv` | characterized | 205 | -0.505 | 0.00692 | -0.5031 | 0.0104 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.04094 | 0.00186 | 0.04741 | 0.014 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | -0.05547 | 0.265 | - | - |
+| `corr_dim` | validated | 1000 | 1.938 | 0.00868 | 1.937 | 0.0134 | 2 | 0.969 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3e-05 | 0.9999 | 4.76e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.03178 | 0.00709 | -0.03217 | 0.0106 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006635 | 0.000974 | 0.006698 | 0.00148 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.138 | 0.384 | -6.024 | 0.598 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 48.54 | 3.4 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.009 | 0.0185 | 2.004 | 0.0344 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.6172 | 0.00172 | 0.6171 | 0.00268 | - | - |
+| `rqa_det` | characterized | 1000 | 67.98 | 0.166 | 67.98 | 0.248 | - | - |
+| `rqa_lam` | characterized | 1000 | 3.492 | 0.384 | 3.532 | 0.587 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.618 | 0.00331 | 2.618 | 0.0049 | - | - |
+| `rqa_maxL` | characterized | 1000 | 13 | 1 | 13.29 | 1.32 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 1.552 | 0.0046 | 1.552 | 0.0068 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.7579 | 0.0817 | 0.7624 | 0.131 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.614 | 0.0125 | 3.614 | 0.0192 | - | - |
+| `ent_samp` | characterized | 1000 | 1.112 | 0.00332 | 1.112 | 0.00507 | - | - |
+| `ent_ap` | characterized | 1000 | 1.093 | 0.00246 | 1.093 | 0.00371 | - | - |
+| `ent_permu` | characterized | 1000 | 6.722 | 0.00739 | 6.722 | 0.0109 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
 
-## halvorsen (A.5.13, autonomous_flow)
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
 
-Usable realizations: 1000 of 1000. fs = 28.5714.
+## brusselator (A.4.4, driven_flow)
+
+Usable realizations: 1000 of 1000. fs = 2.5.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 7 | 0 | 6.747 | 0.435 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.932 | 0.578 | - | - |
-| `embed_delay` | characterized | 1000 | 7 | 0 | 6.747 | 0.435 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 0 | 4.932 | 0.578 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.8568 | 0.0559 | 0.8592 | 0.0804 | 0.7899 | 1.085 |
-| `lyap_ros` | validated | 1000 | 0.7095 | 0.0467 | 0.7118 | 0.0737 | 0.7899 | 0.898 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.007 | 0.138 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 111 | 10 | 111.1 | 17.2 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9783 | 0.00053 | 0.9782 | 0.000857 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5726 | 0.00624 | -0.5719 | 0.0105 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09439 | 0.00557 | 0.09491 | 0.00802 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.2 | 0.511 | -10.17 | 0.852 | - | - |
-| `corr_dim` | validated | 1000 | 2.069 | 0.0512 | 2.066 | 0.0742 | 2.11 +/- 0.095 | 0.981 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 7.48e-05 | 0.9998 | 0.000221 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.01126 | 0.0297 | 0.013 | 0.0431 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007928 | 0.00301 | 0.009087 | 0.00475 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.564 | 0.407 | -6.412 | 0.707 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 55 | 3 | 54.84 | 4.67 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.856 | 0.0535 | 1.855 | 0.0824 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.878 | 0.0229 | 0.869 | 0.117 | - | - |
-| `rqa_det` | characterized | 1000 | 95.9 | 0.45 | 95.74 | 0.868 | - | - |
-| `rqa_lam` | characterized | 1000 | 97.27 | 0.186 | 97.1 | 0.719 | - | - |
-| `rqa_meanL` | characterized | 1000 | 7.322 | 0.361 | 7.375 | 0.543 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3971 | 4 | 2977 | 1.43e+03 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.265 | 0.103 | 3.282 | 0.137 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.567 | 0.0851 | 2.565 | 0.118 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.68 | 0.0257 | 3.683 | 0.0468 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4925 | 0.00706 | 0.4915 | 0.0109 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5455 | 0.00293 | 0.5445 | 0.00507 | - | - |
-| `ent_permu` | characterized | 1000 | 2.526 | 0.0173 | 2.525 | 0.0265 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4925 | 0.00706 | 0.4915 | 0.0109 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.225 | 0.117 | 9.206 | 0.187 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.5276 | 0.0149 | 0.5271 | 0.0209 | - | - |
+| `ami_delay` | characterized | 1000 | 7 | 0 | 7.036 | 0.186 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.005 | 0.0706 | - | - |
+| `embed_delay` | characterized | 1000 | 7 | 0 | 7.036 | 0.186 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.005 | 0.0706 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.01347 | 0.00153 | 0.01339 | 0.00234 | 0.014 | 0.962 |
+| `lyap_ros` | validated | 1000 | 0.009453 | 0.001 | -0.004394 | 0.0454 | 0.014 | 0.675 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.428 | 0.984 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 176.5 | 63.5 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9689 | 0.00737 | 0.9685 | 0.0105 | - | - |
+| `lyap_ros_fit_curv` | characterized | 885 | -0.1486 | 0.0769 | -0.1499 | 0.114 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.2093 | 0.0246 | 0.1982 | 0.045 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -11.14 | 0.795 | -9.743 | 3.92 | - | - |
+| `corr_dim` | validated | 1000 | 1.735 | 0.0387 | 1.727 | 0.0599 | 2.224 +/- 0.095 | 0.780 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9981 | 0.000786 | 0.998 | 0.00108 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.1607 | 0.036 | -0.154 | 0.0569 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.02775 | 0.00625 | 0.02831 | 0.00908 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.153 | 0.149 | -7.158 | 0.263 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 59 | 2 | 58.83 | 3.3 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.191 | 0.0566 | 2.205 | 0.0927 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.4332 | 0.00407 | 0.4332 | 0.0104 | - | - |
+| `rqa_det` | characterized | 1000 | 96.41 | 0.0475 | 96.31 | 0.538 | - | - |
+| `rqa_lam` | characterized | 1000 | 85.09 | 0.0803 | 85.03 | 0.334 | - | - |
+| `rqa_meanL` | characterized | 1000 | 9.678 | 0.2 | 9.676 | 0.421 | - | - |
+| `rqa_maxL` | characterized | 1000 | 1072 | 135 | 1112 | 224 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 1072 | 135 | 1112 | 224 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.684 | 0.0113 | 3.666 | 0.0883 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.828 | 0.0103 | 1.828 | 0.0235 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.669 | 0.004 | 3.668 | 0.00895 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2993 | 0.000823 | 0.2991 | 0.0014 | - | - |
+| `ent_ap` | characterized | 1000 | 0.3829 | 0.00287 | 0.3822 | 0.0048 | - | - |
+| `ent_permu` | characterized | 1000 | 2.782 | 0.00508 | 2.782 | 0.00741 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.2993 | 0.000823 | 0.2991 | 0.0014 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 7.717 | 0.0948 | 7.699 | 0.148 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.3103 | 0.000598 | 0.3104 | 0.000891 | - | - |
+
+## burgers (A.2.5, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 10 | 0 | 10.03 | 0.165 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1279 | 0.00478 | 0.128 | 0.00688 | 0.1208 | 1.059 |
+| `lyap_ros` | validated | 1000 | 0.09897 | 0.00327 | 0.1016 | 0.0136 | 0.1208 | 0.820 |
+| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.82 | 0.504 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 47 | 2 | 44.8 | 7.16 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9804 | 0.000308 | 0.9805 | 0.000497 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4802 | 0.0108 | -0.4791 | 0.0163 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1226 | 0.00353 | 0.1217 | 0.00703 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -6.229 | 0.143 | -6.059 | 0.67 | - | - |
+| `corr_dim` | validated | 1000 | 1.006 | 0.0135 | 1.002 | 0.0219 | 1.462 +/- 0.054 | 0.688 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.00016 | 0.9995 | 0.000276 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.04282 | 0.0276 | -0.03948 | 0.0401 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01468 | 0.00288 | 0.01513 | 0.00425 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.433 | 0.225 | -6.33 | 0.451 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 51.84 | 3.26 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.768 | 0.0668 | 3.77 | 0.119 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.04078 | 0.000638 | 0.04079 | 0.000914 | - | - |
+| `rqa_det` | characterized | 1000 | 94.04 | 0.138 | 94.04 | 0.21 | - | - |
+| `rqa_lam` | characterized | 1000 | 45.88 | 1.11 | 45.72 | 1.59 | - | - |
+| `rqa_meanL` | characterized | 1000 | 5.128 | 0.0566 | 5.133 | 0.0809 | - | - |
+| `rqa_maxL` | characterized | 1000 | 79.5 | 7.5 | 80.85 | 16.8 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 3.213 | 0.0189 | 3.216 | 0.0287 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.36 | 0.045 | 1.361 | 0.071 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.217 | 0.00685 | 3.216 | 0.0102 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2016 | 0.0012 | 0.2015 | 0.00181 | - | - |
+| `ent_ap` | characterized | 1000 | 0.2288 | 0.00109 | 0.2286 | 0.00167 | - | - |
+| `ent_permu` | characterized | 1000 | 2.486 | 0.00602 | 2.486 | 0.00899 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
 
 ## burke_shaw (A.5.14, autonomous_flow)
 
@@ -1984,6 +262,7 @@ Usable realizations: 1000 of 1000. fs = 50.
 | `rqa_lam` | characterized | 1000 | 96.58 | 0.153 | 96.67 | 0.7 | - | - |
 | `rqa_meanL` | characterized | 1000 | 12.49 | 0.961 | 12.61 | 1.51 | - | - |
 | `rqa_maxL` | characterized | 1000 | 300 | 88 | 350.9 | 181 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 174 | 18.5 | 178.5 | 29.2 | - | - |
 | `rqa_entL` | characterized | 1000 | 4.646 | 0.142 | 4.659 | 0.216 | - | - |
 | `rqa_entV` | characterized | 1000 | 3.109 | 0.111 | 3.118 | 0.179 | - | - |
 | `rqa_entW` | characterized | 1000 | 3.247 | 0.0979 | 3.239 | 0.151 | - | - |
@@ -1994,205 +273,468 @@ Usable realizations: 1000 of 1000. fs = 50.
 | `ent_ms_ci` | characterized | 1000 | 7.026 | 0.418 | 6.995 | 0.629 | - | - |
 | `dfa_alpha` | characterized | 1000 | 0.8137 | 0.0238 | 0.8138 | 0.0342 | - | - |
 
-## rucklidge (A.5.15, autonomous_flow)
+## chaotic_web (A.3.5, conservative_map)
 
-Usable realizations: 1000 of 1000. fs = 6.66667.
+Usable realizations: 1000 of 1000. fs = 1.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.416 | 0.493 | - | - |
-| `embed_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.416 | 0.493 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.2453 | 0.0162 | 0.2453 | 0.0239 | 0.0643 | 3.815 |
-| `lyap_ros` | validated | 1000 | 0.1557 | 0.0104 | 0.1608 | 0.0219 | 0.0643 | 2.422 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.42 | 0.763 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 133.5 | 13.5 | 128.6 | 25.6 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9761 | 0.000891 | 0.976 | 0.00126 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5648 | 0.0117 | -0.5657 | 0.0185 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1191 | 0.00827 | 0.1175 | 0.0134 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -11.23 | 0.608 | -10.93 | 1.27 | - | - |
-| `corr_dim` | validated | 1000 | 2.142 | 0.0497 | 2.118 | 0.1 | 2.108 +/- 0.095 | 1.016 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 8.26e-05 | 0.9998 | 0.000354 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.007655 | 0.0306 | 0.007178 | 0.0506 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007493 | 0.00284 | 0.009181 | 0.00589 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.238 | 0.448 | -6.03 | 0.799 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.13 | 4.52 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.795 | 0.0555 | 1.801 | 0.101 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.6732 | 0.0617 | 0.7113 | 0.0934 | - | - |
-| `rqa_det` | characterized | 1000 | 95.37 | 0.569 | 95.44 | 0.819 | - | - |
-| `rqa_lam` | characterized | 1000 | 91.25 | 1.06 | 91.24 | 1.19 | - | - |
-| `rqa_meanL` | characterized | 1000 | 8.135 | 0.607 | 8.286 | 0.984 | - | - |
-| `rqa_maxL` | characterized | 1000 | 222 | 26 | 229.6 | 48.4 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.671 | 0.168 | 3.7 | 0.253 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.566 | 0.133 | 2.585 | 0.213 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.678 | 0.0223 | 3.679 | 0.0337 | - | - |
-| `ent_samp` | characterized | 1000 | 0.457 | 0.0123 | 0.4529 | 0.0202 | - | - |
-| `ent_ap` | characterized | 1000 | 0.5426 | 0.00527 | 0.5416 | 0.00818 | - | - |
-| `ent_permu` | characterized | 1000 | 2.899 | 0.032 | 2.896 | 0.047 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.457 | 0.0123 | 0.4529 | 0.0202 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.288 | 0.33 | 9.142 | 0.571 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.327 | 0.00355 | 0.3272 | 0.00557 | - | - |
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 2.918 | 0.275 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 3.56e-05 | 0.00011 | 0.00135 | 0.00551 | 0.04847 | 0.001 |
+| `lyap_ros` | validated | 1000 | 0.0005895 | 0.000521 | 0.02383 | 0.0479 | 0.04847 | 0.012 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.219 | 0.536 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 5 | 1 | 14.51 | 35.5 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.0117 | 0.9347 | 0.0922 | - | - |
+| `lyap_ros_fit_curv` | characterized | 607 | -0.2909 | 0.189 | -0.2587 | 0.515 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08651 | 0.0311 | 0.1135 | 0.0755 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0.436 | -0.9585 | 2.54 | - | - |
+| `corr_dim` | validated | 1000 | 1.005 | 0.0179 | 0.9602 | 0.12 | 1.779 +/- 0.059 | 0.565 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000524 | 0.9931 | 0.0226 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.06294 | 0.0604 | -0.1439 | 0.24 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01823 | 0.0129 | 0.03677 | 0.0414 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.206 | 0.592 | -6.727 | 1.49 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 62 | 5 | 61.47 | 9.31 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.05 | 0.481 | 3.391 | 0.967 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.05374 | 0.00191 | 0.0593 | 0.0408 | - | - |
+| `rqa_det` | characterized | 1000 | 96.32 | 0.395 | 96.34 | 2.31 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.0022 | 0.0427 | - | - |
+| `rqa_meanL` | characterized | 1000 | 15.57 | 4.88 | 63.66 | 292 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3930 | 36 | 3790 | 565 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.61 | 0.303 | 2.813 | 0.86 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | 0.0002138 | 0.00676 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.645 | 0.0179 | 3.601 | 0.124 | - | - |
+| `ent_samp` | characterized | 1000 | 0.08904 | 0.011 | 0.08687 | 0.0192 | - | - |
+| `ent_ap` | characterized | 1000 | 0.08691 | 0.0104 | 0.08509 | 0.0185 | - | - |
+| `ent_permu` | characterized | 1000 | 3.978 | 0.343 | 3.663 | 0.611 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
 
-## windmi (A.5.16, autonomous_flow)
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## chen (A.5.5, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 66.6667.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 7 | 0 | 6.893 | 0.309 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.341 | 0.474 | - | - |
+| `embed_delay` | characterized | 1000 | 7 | 0 | 6.893 | 0.309 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.341 | 0.474 | - | - |
+| `lyap_wolf` | validated | 1000 | 2.301 | 0.135 | 2.301 | 0.197 | 2.027 | 1.135 |
+| `lyap_ros` | validated | 1000 | 1.654 | 0.153 | 1.714 | 0.272 | 2.027 | 0.816 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.13 | 0.473 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 113 | 16 | 110 | 26 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9781 | 0.000611 | 0.9781 | 0.000771 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5605 | 0.00742 | -0.5587 | 0.0123 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09783 | 0.00767 | 0.09726 | 0.0104 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.28 | 0.795 | -10.06 | 1.33 | - | - |
+| `corr_dim` | validated | 1000 | 2.233 | 0.0414 | 2.229 | 0.0654 | 2.147 +/- 0.117 | 1.040 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 6.79e-05 | 0.9998 | 0.000348 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.008534 | 0.03 | 0.01218 | 0.0459 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007797 | 0.00258 | 0.009612 | 0.00614 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.179 | 0.406 | -6.055 | 0.663 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.64 | 4.22 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.728 | 0.0505 | 1.726 | 0.0743 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.6726 | 0.0411 | 0.7184 | 0.0996 | - | - |
+| `rqa_det` | characterized | 1000 | 98.45 | 0.147 | 98.46 | 0.212 | - | - |
+| `rqa_lam` | characterized | 1000 | 96.73 | 0.174 | 97.03 | 0.554 | - | - |
+| `rqa_meanL` | characterized | 1000 | 10.97 | 0.401 | 11.03 | 0.608 | - | - |
+| `rqa_maxL` | characterized | 1000 | 650.5 | 168 | 713.6 | 274 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 255 | 28 | 261.5 | 46.2 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.334 | 0.0507 | 4.35 | 0.0932 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.38 | 0.113 | 2.374 | 0.159 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.24 | 0.085 | 3.237 | 0.125 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4909 | 0.00632 | 0.4888 | 0.0101 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5672 | 0.00719 | 0.5654 | 0.0111 | - | - |
+| `ent_permu` | characterized | 1000 | 2.124 | 0.0148 | 2.125 | 0.0224 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4909 | 0.00632 | 0.4888 | 0.0101 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.219 | 0.351 | 8.185 | 0.515 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4998 | 0.0152 | 0.5003 | 0.0217 | - | - |
+
+## chirikov (A.3.1, conservative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 4 | 0 | 4.742 | 2.84 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2.109 | 0.334 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1973 | 0.0262 | 0.1912 | 0.044 | 0.105 | 1.880 |
+| `lyap_ros` | validated | 1000 | 0.1556 | 0.0219 | 0.1558 | 0.0421 | 0.105 | 1.483 |
+| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.656 | 0.643 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 12 | 2 | 13.16 | 10.1 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9796 | 0.00143 | 0.9792 | 0.00268 | - | - |
+| `lyap_ros_fit_curv` | characterized | 998 | -0.4997 | 0.0177 | -0.4982 | 0.0379 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08478 | 0.00832 | 0.08838 | 0.0167 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.394 | 0.428 | -2.378 | 1.03 | - | - |
+| `corr_dim` | validated | 1000 | 1.755 | 0.0641 | 1.711 | 0.145 | 1.954 +/- 0.077 | 0.898 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9995 | 0.000272 | 0.9993 | 0.000945 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.08302 | 0.0252 | -0.08288 | 0.0561 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01694 | 0.0041 | 0.01766 | 0.00746 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.407 | 0.232 | -6.332 | 0.432 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 48.68 | 4.08 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.215 | 0.0805 | 2.285 | 0.231 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.2149 | 0.0153 | 0.2045 | 0.0377 | - | - |
+| `rqa_det` | characterized | 1000 | 87.89 | 0.911 | 88.31 | 1.82 | - | - |
+| `rqa_lam` | characterized | 1000 | 2.024 | 1.58 | 2.348 | 1.96 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.073 | 0.22 | 4.283 | 0.764 | - | - |
+| `rqa_maxL` | characterized | 1000 | 156 | 61 | 228.5 | 230 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.663 | 0.0919 | 2.723 | 0.201 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.7174 | 0.138 | 0.6912 | 0.275 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.672 | 0.0596 | 3.611 | 0.171 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5573 | 0.0522 | 0.5267 | 0.0977 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5736 | 0.0278 | 0.5542 | 0.0731 | - | - |
+| `ent_permu` | characterized | 1000 | 4.028 | 0.161 | 3.994 | 0.313 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## chua (A.5.10, autonomous_flow)
 
 Usable realizations: 1000 of 1000. fs = 1.96078.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 9 | 0 | 8.548 | 0.498 | - | - |
-| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.93 | 0.54 | - | - |
-| `embed_delay` | characterized | 1000 | 9 | 0 | 8.548 | 0.498 | - | - |
-| `embed_dim` | characterized | 1000 | 5 | 0 | 4.93 | 0.54 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.0682 | 0.00509 | 0.06825 | 0.00743 | 0.0755 | 0.903 |
-| `lyap_ros` | validated | 1000 | 0.04799 | 0.00336 | 0.04811 | 0.00529 | 0.0755 | 0.636 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.012 | 0.109 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 127 | 12 | 128.2 | 18.5 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.976 | 0.000924 | 0.9759 | 0.00144 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5895 | 0.00791 | -0.5908 | 0.0124 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1031 | 0.0047 | 0.1035 | 0.00725 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -10.91 | 0.563 | -10.95 | 0.847 | - | - |
-| `corr_dim` | validated | 1000 | 1.93 | 0.0485 | 1.924 | 0.0703 | 2.035 +/- 0.095 | 0.949 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000124 | 0.9997 | 0.000404 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.02788 | 0.0348 | 0.03076 | 0.0507 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01059 | 0.00442 | 0.01191 | 0.00687 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.566 | 0.416 | -6.45 | 0.691 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 55 | 3 | 54.46 | 4.71 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.987 | 0.0586 | 1.989 | 0.0897 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.7311 | 0.03 | 0.7258 | 0.0917 | - | - |
-| `rqa_det` | characterized | 1000 | 88.65 | 1.03 | 88.5 | 1.77 | - | - |
-| `rqa_lam` | characterized | 1000 | 79.24 | 1.85 | 78.44 | 4.11 | - | - |
-| `rqa_meanL` | characterized | 1000 | 5.511 | 0.335 | 5.502 | 0.376 | - | - |
-| `rqa_maxL` | characterized | 1000 | 265.5 | 28.5 | 273.7 | 49.1 | - | - |
-| `rqa_entL` | characterized | 1000 | 2.897 | 0.159 | 2.853 | 0.163 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.111 | 0.0975 | 1.109 | 0.147 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.7 | 0.0342 | 3.694 | 0.0401 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4068 | 0.00363 | 0.4066 | 0.00534 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4601 | 0.00601 | 0.4596 | 0.00835 | - | - |
-| `ent_permu` | characterized | 1000 | 3.052 | 0.0195 | 3.053 | 0.0299 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4068 | 0.00363 | 0.4066 | 0.00534 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 9.556 | 0.199 | 9.546 | 0.294 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.3139 | 0.0131 | 0.3143 | 0.0188 | - | - |
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3578 | 0.00956 | 0.358 | 0.014 | 0.3271 | 1.094 |
+| `lyap_ros` | validated | 1000 | 0.3127 | 0.0074 | 0.3128 | 0.0114 | 0.3271 | 0.956 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 23 | 1 | 23.08 | 1.12 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9816 | 0.000877 | 0.9816 | 0.00104 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5074 | 0.0128 | -0.5077 | 0.0151 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08934 | 0.00281 | 0.08989 | 0.00426 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -4.044 | 0.112 | -4.041 | 0.136 | - | - |
+| `corr_dim` | validated | 1000 | 1.969 | 0.0236 | 1.967 | 0.0352 | 2.125 +/- 0.098 | 0.926 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 6.09e-05 | 0.9998 | 0.000112 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.03165 | 0.0142 | 0.0317 | 0.0209 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007537 | 0.002 | 0.007876 | 0.003 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.923 | 0.344 | -5.788 | 0.589 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 46 | 2 | 45.88 | 3.21 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.954 | 0.0292 | 1.948 | 0.0521 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.2676 | 0.00159 | 0.2675 | 0.00241 | - | - |
+| `rqa_det` | characterized | 1000 | 82.66 | 0.212 | 82.67 | 0.318 | - | - |
+| `rqa_lam` | characterized | 1000 | 1.552 | 0.156 | 1.57 | 0.235 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.439 | 0.0392 | 4.443 | 0.0596 | - | - |
+| `rqa_maxL` | characterized | 1000 | 71 | 7 | 72.85 | 11.2 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 71 | 7 | 72.85 | 11.2 | - | - |
+| `rqa_entL` | characterized | 1000 | 2.87 | 0.0258 | 2.872 | 0.0378 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.008779 | 0.00878 | 0.01981 | 0.0283 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.757 | 0.00804 | 3.761 | 0.0173 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4628 | 0.0056 | 0.4624 | 0.00827 | - | - |
+| `ent_ap` | characterized | 1000 | 0.611 | 0.00543 | 0.611 | 0.00792 | - | - |
+| `ent_permu` | characterized | 1000 | 5.152 | 0.0174 | 5.152 | 0.0253 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4628 | 0.0056 | 0.4624 | 0.00827 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.677 | 0.112 | 9.666 | 0.163 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.6682 | 0.0232 | 0.6683 | 0.0344 | - | - |
 
-## simplest_quadratic (A.5.17, autonomous_flow)
-
-Usable realizations: 995 of 1000. fs = 2.94118.
-
-| metric | role | n | median | MAD | mean | SD | reference | ratio |
-|---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 995 | 11 | 0 | 10.97 | 0.271 | - | - |
-| `fnn_dim` | characterized | 995 | 4 | 0 | 4.018 | 0.133 | - | - |
-| `embed_delay` | characterized | 995 | 11 | 0 | 10.97 | 0.271 | - | - |
-| `embed_dim` | characterized | 995 | 4 | 0 | 4.018 | 0.133 | - | - |
-| `lyap_wolf` | validated | 995 | 0.05122 | 0.00281 | 0.05092 | 0.00397 | 0.0551 | 0.930 |
-| `lyap_ros` | validated | 995 | 0.04983 | 0.00173 | 0.04966 | 0.00258 | 0.0551 | 0.904 |
-| `lyap_ros_fit_start` | characterized | 995 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 995 | 200 | 0 | 200 | 0 | - | - |
-| `lyap_ros_fit_r2` | characterized | 995 | 0.9963 | 0.0017 | 0.9958 | 0.00276 | - | - |
-| `lyap_ros_fit_curv` | characterized | 995 | -0.2229 | 0.0603 | -0.2202 | 0.0948 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 995 | 0.04953 | 0.0107 | 0.04999 | 0.0165 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 995 | -13.89 | 0.00423 | -13.75 | 0.305 | - | - |
-| `corr_dim` | validated | 995 | 1.874 | 0.0436 | 1.867 | 0.0685 | 2.187 +/- 0.075 | 0.857 |
-| `corr_dim_fit_r2` | characterized | 995 | 0.9998 | 0.000153 | 0.9996 | 0.000429 | - | - |
-| `corr_dim_fit_curv` | characterized | 995 | -0.02597 | 0.0361 | -0.02054 | 0.0582 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 995 | 0.01034 | 0.00362 | 0.0115 | 0.00598 | - | - |
-| `corr_dim_fit_runsz` | characterized | 995 | -6.591 | 0.349 | -6.48 | 0.619 | - | - |
-| `corr_dim_fit_len` | characterized | 995 | 54 | 3 | 53.57 | 4.58 | - | - |
-| `corr_dim_fit_span` | characterized | 995 | 2.031 | 0.0663 | 2.036 | 0.0992 | - | - |
-| `rqa_radius` | characterized | 995 | 0.4108 | 0.00696 | 0.4104 | 0.0114 | - | - |
-| `rqa_det` | characterized | 995 | 98.24 | 0.0326 | 98.26 | 0.132 | - | - |
-| `rqa_lam` | characterized | 995 | 87.68 | 0.848 | 87.64 | 1.21 | - | - |
-| `rqa_meanL` | characterized | 995 | 11.4 | 0.0711 | 11.48 | 0.523 | - | - |
-| `rqa_maxL` | characterized | 995 | 418 | 42 | 431.8 | 75.6 | - | - |
-| `rqa_entL` | characterized | 995 | 3.914 | 0.0115 | 3.921 | 0.0572 | - | - |
-| `rqa_entV` | characterized | 995 | 1.215 | 0.0343 | 1.203 | 0.0686 | - | - |
-| `rqa_entW` | characterized | 995 | 3.724 | 0.0214 | 3.716 | 0.0564 | - | - |
-| `ent_samp` | characterized | 995 | 0.2407 | 0.000319 | 0.2407 | 0.000517 | - | - |
-| `ent_ap` | characterized | 995 | 0.2695 | 0.00099 | 0.2692 | 0.00169 | - | - |
-| `ent_permu` | characterized | 995 | 2.116 | 0.00386 | 2.116 | 0.00605 | - | - |
-| `ent_ms_s1` | characterized | 995 | 0.2407 | 0.000319 | 0.2407 | 0.000517 | - | - |
-| `ent_ms_ci` | characterized | 995 | 4.319 | 0.0388 | 4.311 | 0.0612 | - | - |
-| `dfa_alpha` | characterized | 995 | 0.3601 | 0.00812 | 0.3604 | 0.0118 | - | - |
-
-## simplest_cubic (A.5.18, autonomous_flow)
+## complex_butterfly (A.5.4, autonomous_flow)
 
 Usable realizations: 1000 of 1000. fs = 2.94118.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.1203 | 0.00718 | 0.1204 | 0.011 | 0.0837 | 1.437 |
-| `lyap_ros` | validated | 1000 | 0.3475 | 0.011 | 0.3464 | 0.0172 | 0.0837 | 4.151 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.009 | 0.164 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 19 | 1 | 18.54 | 1.11 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9813 | 0.000735 | 0.9813 | 0.000878 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.5075 | 0.0102 | -0.5079 | 0.0125 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07819 | 0.00276 | 0.07864 | 0.00434 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -3.522 | 0.13 | -3.458 | 0.148 | - | - |
-| `corr_dim` | validated | 1000 | 1.476 | 0.0182 | 1.472 | 0.0284 | 2.174 +/- 0.083 | 0.679 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9971 | 0.000497 | 0.9971 | 0.000746 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.2017 | 0.0169 | -0.1989 | 0.0265 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03474 | 0.00356 | 0.03489 | 0.00507 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.717 | 0.15 | -6.708 | 0.243 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 52.02 | 3.22 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.61 | 0.0358 | 2.612 | 0.0526 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.1755 | 0.000949 | 0.1754 | 0.00133 | - | - |
-| `rqa_det` | characterized | 1000 | 99.47 | 0.012 | 99.47 | 0.0183 | - | - |
-| `rqa_lam` | characterized | 1000 | 52.88 | 1.05 | 52.86 | 1.5 | - | - |
-| `rqa_meanL` | characterized | 1000 | 14.24 | 0.0931 | 14.26 | 0.154 | - | - |
-| `rqa_maxL` | characterized | 1000 | 283.5 | 30.5 | 291 | 47.6 | - | - |
-| `rqa_entL` | characterized | 1000 | 4.901 | 0.0169 | 4.903 | 0.0264 | - | - |
-| `rqa_entV` | characterized | 1000 | 0.1624 | 0.00544 | 0.1627 | 0.00846 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.689 | 0.0106 | 3.689 | 0.0152 | - | - |
-| `ent_samp` | characterized | 1000 | 0.2835 | 0.00313 | 0.2836 | 0.00439 | - | - |
-| `ent_ap` | characterized | 1000 | 0.2845 | 0.00334 | 0.2845 | 0.00468 | - | - |
-| `ent_permu` | characterized | 1000 | 1.94 | 0.00437 | 1.94 | 0.00645 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.2835 | 0.00313 | 0.2836 | 0.00439 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 2.874 | 0.0603 | 2.868 | 0.0855 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4612 | 0.00415 | 0.4608 | 0.00617 | - | - |
+| `ami_delay` | characterized | 1000 | 4 | 0 | 5.913 | 2.41 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 5.393 | 0.656 | - | - |
+| `embed_delay` | characterized | 1000 | 4 | 0 | 5.913 | 2.41 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 0 | 5.393 | 0.656 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1345 | 0.00619 | 0.1335 | 0.00988 | 0.169 | 0.796 |
+| `lyap_ros` | validated | 1000 | 0.1117 | 0.00712 | 0.1111 | 0.0106 | 0.169 | 0.661 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 84 | 4 | 83.53 | 7.47 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9797 | 0.000587 | 0.9792 | 0.00132 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5551 | 0.00752 | -0.5523 | 0.0147 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1133 | 0.0071 | 0.1115 | 0.0107 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -8.779 | 0.26 | -8.731 | 0.439 | - | - |
+| `corr_dim` | validated | 1000 | 2.408 | 0.0575 | 2.411 | 0.0959 | 2.491 +/- 0.131 | 0.967 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000171 | 0.9996 | 0.000437 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.05071 | 0.0282 | 0.05194 | 0.0447 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01089 | 0.00465 | 0.01207 | 0.00688 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.18 | 0.381 | -6.002 | 0.731 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 47 | 3 | 47.27 | 4.19 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.599 | 0.0511 | 1.595 | 0.0786 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.7016 | 0.131 | 0.775 | 0.224 | - | - |
+| `rqa_det` | characterized | 1000 | 91.93 | 1.4 | 91.62 | 1.89 | - | - |
+| `rqa_lam` | characterized | 1000 | 91.51 | 3.51 | 92.41 | 3.8 | - | - |
+| `rqa_meanL` | characterized | 1000 | 6.449 | 0.479 | 6.608 | 0.781 | - | - |
+| `rqa_maxL` | characterized | 1000 | 370 | 193 | 985.5 | 1.2e+03 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 182 | 18 | 188.4 | 33.7 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.109 | 0.136 | 3.142 | 0.192 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.964 | 0.0794 | 2.112 | 0.276 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.696 | 0.0565 | 3.64 | 0.122 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4602 | 0.00664 | 0.4596 | 0.00944 | - | - |
+| `ent_ap` | characterized | 1000 | 0.54 | 0.00609 | 0.5393 | 0.00909 | - | - |
+| `ent_permu` | characterized | 1000 | 2.947 | 0.0432 | 2.947 | 0.0652 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4602 | 0.00664 | 0.4596 | 0.00944 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.75 | 0.121 | 9.739 | 0.182 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.7288 | 0.0123 | 0.7291 | 0.0183 | - | - |
 
-## simplest_piecewise (A.5.19, autonomous_flow)
+## cubic_map (A.1.5, noninvertible_map)
 
-Usable realizations: 1000 of 1000. fs = 6.25.
+Usable realizations: 1000 of 1000. fs = 1.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 11 | 0 | 10.76 | 0.505 | - | - |
-| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `embed_delay` | characterized | 1000 | 11 | 0 | 10.76 | 0.505 | - | - |
+| `ami_delay` | characterized | 1000 | 5 | 1 | 5.523 | 1.12 | - | - |
+| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.6991 | 0.00886 | 0.6993 | 0.0136 | 1.099 | 0.636 |
+| `lyap_ros` | validated | 1000 | 0.9869 | 0.00255 | 0.9869 | 0.00367 | 1.099 | 0.898 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 8 | 0 | 8 | 0 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9886 | 0.00043 | 0.9886 | 0.000639 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.3362 | 0.007 | -0.337 | 0.0105 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.0747 | 0.00144 | 0.07484 | 0.00211 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -1.442 | 0 | -1.442 | 3.55e-15 | - | - |
+| `corr_dim` | validated | 1000 | 0.9473 | 0.00921 | 0.9459 | 0.0146 | 1 | 0.947 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.2e-05 | 1 | 3.36e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.006851 | 0.0098 | -0.005843 | 0.0156 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003742 | 0.000925 | 0.00407 | 0.00158 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.387 | 0.636 | -5.28 | 0.952 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.16 | 3.68 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 4.099 | 0.0559 | 4.096 | 0.0963 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.09732 | 0.00146 | 0.09723 | 0.00221 | - | - |
+| `rqa_det` | characterized | 1000 | 60.07 | 0.286 | 60.08 | 0.427 | - | - |
+| `rqa_lam` | characterized | 1000 | 1.986 | 0.313 | 2.039 | 0.465 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.543 | 0.00418 | 2.543 | 0.00651 | - | - |
+| `rqa_maxL` | characterized | 1000 | 12 | 1 | 12.23 | 1.25 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 1.443 | 0.00635 | 1.444 | 0.00978 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.248 | 0.114 | 1.251 | 0.174 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.582 | 0.024 | 3.579 | 0.0302 | - | - |
+| `ent_samp` | characterized | 1000 | 0.9816 | 0.00496 | 0.9813 | 0.00694 | - | - |
+| `ent_ap` | characterized | 1000 | 1.019 | 0.00222 | 1.019 | 0.00309 | - | - |
+| `ent_permu` | characterized | 1000 | 6.332 | 0.0074 | 6.331 | 0.0108 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## cusp (A.1.8, noninvertible_map)
+
+Usable realizations: 999 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 999 | 31 | 5 | 30.71 | 7.97 | - | - |
+| `fnn_dim` | characterized | 999 | 2 | 0 | 2.483 | 0.598 | - | - |
+| `embed_delay` | characterized | 999 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 999 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 999 | 0.385 | 0.0155 | 0.3791 | 0.0349 | 0.5 | 0.770 |
+| `lyap_ros` | validated | 999 | 0.4209 | 0.0193 | 0.4146 | 0.039 | 0.5 | 0.842 |
+| `lyap_ros_fit_start` | characterized | 999 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 999 | 15 | 0 | 14.63 | 0.514 | - | - |
+| `lyap_ros_fit_r2` | characterized | 999 | 0.983 | 0.00185 | 0.9832 | 0.00204 | - | - |
+| `lyap_ros_fit_curv` | characterized | 999 | -0.4759 | 0.0288 | -0.471 | 0.0326 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 999 | 0.09049 | 0.00427 | 0.09072 | 0.00502 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 999 | -2.944 | 0 | -2.882 | 0.0854 | - | - |
+| `corr_dim` | validated | 999 | 1.009 | 0.00991 | 1.007 | 0.0373 | 1 | 1.009 |
+| `corr_dim_fit_r2` | characterized | 999 | 0.9999 | 4.41e-05 | 0.9991 | 0.00873 | - | - |
+| `corr_dim_fit_curv` | characterized | 999 | -0.01752 | 0.0242 | -0.04212 | 0.0891 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 999 | 0.00543 | 0.00266 | 0.01089 | 0.0171 | - | - |
+| `corr_dim_fit_runsz` | characterized | 999 | -6.259 | 0.453 | -6.037 | 0.863 | - | - |
+| `corr_dim_fit_len` | characterized | 999 | 51 | 2 | 50.29 | 4.65 | - | - |
+| `corr_dim_fit_span` | characterized | 999 | 3.853 | 0.0537 | 3.848 | 0.203 | - | - |
+| `rqa_radius` | characterized | 999 | 0.07067 | 0.00527 | 0.06648 | 0.0152 | - | - |
+| `rqa_det` | characterized | 999 | 90.52 | 1.44 | 91 | 2.71 | - | - |
+| `rqa_lam` | characterized | 999 | 47.96 | 6.28 | 50.86 | 13 | - | - |
+| `rqa_meanL` | characterized | 999 | 5.41 | 0.596 | 13.41 | 61.3 | - | - |
+| `rqa_maxL` | characterized | 999 | 131 | 48 | 204.3 | 246 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 999 | 3.228 | 0.165 | 3.344 | 0.586 | - | - |
+| `rqa_entV` | characterized | 999 | 2.642 | 0.249 | 2.831 | 0.914 | - | - |
+| `rqa_entW` | characterized | 999 | 3.398 | 0.0187 | 3.382 | 0.084 | - | - |
+| `ent_samp` | characterized | 999 | 0.3001 | 0.0359 | 0.2886 | 0.0663 | - | - |
+| `ent_ap` | characterized | 999 | 0.4747 | 0.0194 | 0.4667 | 0.0429 | - | - |
+| `ent_permu` | characterized | 999 | 3.36 | 0.113 | 3.318 | 0.246 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## damped_pendulum (A.4.1, driven_flow)
+
+Usable realizations: 460 of 1000. fs = 0.490196.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 444 | 65 | 10 | 65.33 | 15.8 | - | - |
+| `fnn_dim` | characterized | 460 | 5 | 0 | 5.23 | 0.597 | - | - |
+| `embed_delay` | characterized | 460 | 64 | 10.5 | 63.1 | 19.5 | - | - |
+| `embed_dim` | characterized | 460 | 5 | 0 | 5.23 | 0.597 | - | - |
+| `lyap_wolf` | validated | 460 | 0.01511 | 0.00811 | 0.0149 | 0.0102 | 0.1414 | 0.107 |
+| `lyap_ros` | validated | 460 | 0.01507 | 0.00292 | 0.01943 | 0.0232 | 0.1414 | 0.107 |
+| `lyap_ros_fit_start` | characterized | 460 | 2 | 0 | 2.102 | 0.549 | - | - |
+| `lyap_ros_fit_len` | characterized | 460 | 11 | 1 | 12.35 | 4.88 | - | - |
+| `lyap_ros_fit_r2` | characterized | 460 | 0.9779 | 0.00272 | 0.9782 | 0.00405 | - | - |
+| `lyap_ros_fit_curv` | characterized | 460 | -0.4803 | 0.036 | -0.472 | 0.0603 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 460 | 0.08648 | 0.00732 | 0.08701 | 0.0144 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 460 | -2.216 | 0.566 | -2.023 | 0.965 | - | - |
+| `corr_dim` | validated | 460 | 4.709 | 0.421 | 4.72 | 0.836 | 2.764 +/- 0.158 | 1.704 |
+| `corr_dim_fit_r2` | characterized | 460 | 0.9987 | 0.000947 | 0.9973 | 0.00419 | - | - |
+| `corr_dim_fit_curv` | characterized | 460 | -0.1215 | 0.07 | -0.1341 | 0.135 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 460 | 0.0249 | 0.0099 | 0.02934 | 0.019 | - | - |
+| `corr_dim_fit_runsz` | characterized | 460 | -5.318 | 0.296 | -5.318 | 0.507 | - | - |
+| `corr_dim_fit_len` | characterized | 460 | 36 | 3 | 36.56 | 4.16 | - | - |
+| `corr_dim_fit_span` | characterized | 460 | 0.7988 | 0.0718 | 0.8269 | 0.206 | - | - |
+| `rqa_radius` | characterized | 460 | 0.5903 | 0.111 | 0.6022 | 0.181 | - | - |
+| `rqa_det` | characterized | 460 | 98.44 | 0.309 | 98.31 | 0.626 | - | - |
+| `rqa_lam` | characterized | 460 | 98.96 | 0.197 | 98.89 | 0.387 | - | - |
+| `rqa_meanL` | characterized | 460 | 13.41 | 2.14 | 13.64 | 3.62 | - | - |
+| `rqa_maxL` | characterized | 460 | 3723 | 48.5 | 3725 | 165 | - | - |
+| `rqa_maxL_tw` | characterized | 460 | 741 | 432 | 1014 | 883 | - | - |
+| `rqa_entL` | characterized | 460 | 4.423 | 0.166 | 4.389 | 0.336 | - | - |
+| `rqa_entV` | characterized | 460 | 5.151 | 0.182 | 5.098 | 0.433 | - | - |
+| `rqa_entW` | characterized | 460 | 3.566 | 0.129 | 3.537 | 0.182 | - | - |
+| `ent_samp` | characterized | 460 | 0.1136 | 0.0236 | 0.1057 | 0.0395 | - | - |
+| `ent_ap` | characterized | 460 | 0.1177 | 0.0251 | 0.1088 | 0.0407 | - | - |
+| `ent_permu` | characterized | 460 | 5.513 | 0.0251 | 5.51 | 0.0369 | - | - |
+| `ent_ms_s1` | characterized | 460 | 0.1136 | 0.0236 | 0.1057 | 0.0395 | - | - |
+| `ent_ms_ci` | characterized | 460 | 3.228 | 0.81 | 3.302 | 1.09 | - | - |
+| `dfa_alpha` | characterized | 460 | 1.513 | 0.0363 | 1.512 | 0.0518 | - | - |
+
+## delayed_logistic (A.2.3, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 7 | 0 | 6.91 | 0.45 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
 | `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.04197 | 0.00717 | 0.04223 | 0.0105 | 0.0362 | 1.159 |
-| `lyap_ros` | validated | 1000 | 0.05543 | 0.00895 | 0.06309 | 0.0193 | 0.0362 | 1.531 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.084 | 0.457 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 150.4 | 69.2 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9825 | 0.00222 | 0.9844 | 0.00412 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.1693 | 0.138 | -0.231 | 0.201 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09987 | 0.0197 | 0.0989 | 0.0226 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -13.58 | 0.168 | -11.33 | 3.22 | - | - |
-| `corr_dim` | validated | 1000 | 1.626 | 0.108 | 1.634 | 0.15 | 2.131 +/- 0.072 | 0.763 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000431 | 0.999 | 0.000991 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | 0.04812 | 0.0518 | 0.05202 | 0.0776 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0231 | 0.00756 | 0.02383 | 0.0108 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -7.03 | 0.296 | -6.976 | 0.504 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 59 | 4 | 59.44 | 5.45 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 2.151 | 0.141 | 2.17 | 0.206 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.4204 | 0.00444 | 0.4196 | 0.00648 | - | - |
-| `rqa_det` | characterized | 1000 | 99.89 | 0.00809 | 99.89 | 0.0135 | - | - |
-| `rqa_lam` | characterized | 1000 | 95.66 | 0.149 | 95.65 | 0.238 | - | - |
-| `rqa_meanL` | characterized | 1000 | 24.54 | 0.265 | 24.33 | 0.743 | - | - |
-| `rqa_maxL` | characterized | 1000 | 3977 | 0 | 3977 | 1.01 | - | - |
-| `rqa_entL` | characterized | 1000 | 5.434 | 0.101 | 5.409 | 0.158 | - | - |
-| `rqa_entV` | characterized | 1000 | 1.89 | 0.0528 | 1.874 | 0.0837 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.717 | 0.0168 | 3.716 | 0.0261 | - | - |
-| `ent_samp` | characterized | 1000 | 0.4225 | 0.00398 | 0.421 | 0.00653 | - | - |
-| `ent_ap` | characterized | 1000 | 0.4253 | 0.00459 | 0.4238 | 0.00735 | - | - |
-| `ent_permu` | characterized | 1000 | 1.995 | 0.00391 | 1.995 | 0.00568 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.4225 | 0.00398 | 0.421 | 0.00653 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 4.877 | 0.0629 | 4.869 | 0.0975 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.4659 | 0.0058 | 0.4645 | 0.00854 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.175 | 0.00383 | 0.1751 | 0.00528 | 0.1831 | 0.956 |
+| `lyap_ros` | validated | 1000 | 0.1504 | 0.00336 | 0.1505 | 0.0049 | 0.1831 | 0.822 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 49 | 1 | 49.15 | 1.76 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9811 | 0.000537 | 0.9811 | 0.000629 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5316 | 0.00799 | -0.531 | 0.0103 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1078 | 0.00264 | 0.1077 | 0.00398 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -6.492 | 0.078 | -6.502 | 0.134 | - | - |
+| `corr_dim` | validated | 1000 | 1.03 | 0.0163 | 1.028 | 0.0257 | 1.144 +/- 0.034 | 0.900 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 8.12e-05 | 0.9997 | 0.000201 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.0267 | 0.0211 | 0.02863 | 0.0312 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.00802 | 0.00145 | 0.008542 | 0.00251 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.394 | 0.326 | -6.313 | 0.559 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 54 | 2 | 53.2 | 3.78 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.787 | 0.0622 | 3.787 | 0.107 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.08451 | 0.001 | 0.08428 | 0.00159 | - | - |
+| `rqa_det` | characterized | 1000 | 83.55 | 0.389 | 83.56 | 0.556 | - | - |
+| `rqa_lam` | characterized | 1000 | 13.68 | 1.55 | 13.74 | 2.34 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.806 | 0.0978 | 4.806 | 0.145 | - | - |
+| `rqa_maxL` | characterized | 1000 | 69 | 6 | 70.17 | 9.38 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.76 | 0.0254 | 2.76 | 0.0386 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.115 | 0.0517 | 1.11 | 0.0764 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.549 | 0.0131 | 3.546 | 0.0188 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4931 | 0.00253 | 0.4927 | 0.00394 | - | - |
+| `ent_ap` | characterized | 1000 | 0.362 | 0.00245 | 0.3618 | 0.00353 | - | - |
+| `ent_permu` | characterized | 1000 | 3.542 | 0.0125 | 3.541 | 0.0188 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## diffusionless_lorenz (A.5.3, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 2.94118.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.353 | 0.495 | - | - |
+| `embed_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.353 | 0.495 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.214 | 0.00636 | 0.2141 | 0.01 | 0.2101 | 1.018 |
+| `lyap_ros` | validated | 1000 | 0.1581 | 0.00406 | 0.158 | 0.00613 | 0.2101 | 0.753 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 68 | 3 | 68.56 | 3.77 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9801 | 0.000531 | 0.9801 | 0.00104 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5517 | 0.00969 | -0.5497 | 0.0183 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1192 | 0.00397 | 0.1189 | 0.0062 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -7.813 | 0.179 | -7.841 | 0.24 | - | - |
+| `corr_dim` | validated | 1000 | 2.148 | 0.0327 | 2.144 | 0.051 | 2.169 +/- 0.128 | 0.991 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.32e-05 | 0.9999 | 0.000106 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.01582 | 0.019 | -0.01382 | 0.0302 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006107 | 0.00196 | 0.00671 | 0.0032 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.003 | 0.47 | -5.828 | 0.822 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 3 | 48.99 | 3.98 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.794 | 0.0432 | 1.791 | 0.0664 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.571 | 0.0517 | 0.6042 | 0.0916 | - | - |
+| `rqa_det` | characterized | 1000 | 95.5 | 0.599 | 95.48 | 0.834 | - | - |
+| `rqa_lam` | characterized | 1000 | 89.31 | 0.788 | 90.14 | 1.73 | - | - |
+| `rqa_meanL` | characterized | 1000 | 8.613 | 0.393 | 8.614 | 0.572 | - | - |
+| `rqa_maxL` | characterized | 1000 | 127 | 15 | 133.2 | 28.4 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 120 | 11 | 123.4 | 18.4 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.053 | 0.0957 | 4.054 | 0.138 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.439 | 0.101 | 2.446 | 0.157 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.181 | 0.088 | 3.168 | 0.139 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5041 | 0.00943 | 0.5018 | 0.0151 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5804 | 0.00502 | 0.5798 | 0.00788 | - | - |
+| `ent_permu` | characterized | 1000 | 2.751 | 0.0198 | 2.751 | 0.0289 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.5041 | 0.00943 | 0.5018 | 0.0151 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.948 | 0.315 | 8.925 | 0.473 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.6506 | 0.0192 | 0.6506 | 0.0285 | - | - |
+
+## dissipative_standard (A.2.8, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 7 | 1 | 7.352 | 1.29 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.4367 | 0.00479 | 0.437 | 0.00716 | 1.47 | 0.297 |
+| `lyap_ros` | validated | 1000 | 1.046 | 0.00646 | 1.047 | 0.00959 | 1.47 | 0.712 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9696 | 0.00156 | 0.9696 | 0.00231 | - | - |
+| `lyap_ros_fit_curv` | characterized | 0 | NaN | NaN | NaN | NaN | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.06704 | 0.00186 | 0.06704 | 0.00273 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `corr_dim` | validated | 1000 | 1.232 | 0.0103 | 1.23 | 0.0163 | 1.356 +/- 0.047 | 0.908 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9962 | 0.000536 | 0.9961 | 0.000791 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.2301 | 0.0165 | -0.2297 | 0.0247 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03438 | 0.00253 | 0.03448 | 0.00389 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.86 | 0.154 | -6.813 | 0.304 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 54 | 2 | 53.42 | 4.09 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.149 | 0.0361 | 3.143 | 0.0614 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.5794 | 0.00474 | 0.5795 | 0.00724 | - | - |
+| `rqa_det` | characterized | 1000 | 59.12 | 0.551 | 59.16 | 0.839 | - | - |
+| `rqa_lam` | characterized | 1000 | 0.8109 | 0.174 | 0.8377 | 0.266 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.74 | 0.0268 | 2.74 | 0.0401 | - | - |
+| `rqa_maxL` | characterized | 1000 | 14 | 1 | 14.3 | 1.87 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 1.704 | 0.0324 | 1.703 | 0.0488 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.3156 | 0.0967 | 0.3266 | 0.143 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.542 | 0.0146 | 3.542 | 0.0228 | - | - |
+| `ent_samp` | characterized | 1000 | 1.236 | 0.0199 | 1.236 | 0.0305 | - | - |
+| `ent_ap` | characterized | 1000 | 1.473 | 0.00976 | 1.472 | 0.0136 | - | - |
+| `ent_permu` | characterized | 1000 | 6.66 | 0.0147 | 6.66 | 0.023 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
 
 ## double_scroll (A.5.20, autonomous_flow)
 
@@ -2224,6 +766,7 @@ Usable realizations: 1000 of 1000. fs = 0.490196.
 | `rqa_lam` | characterized | 1000 | 33.89 | 3.17 | 34.01 | 4.75 | - | - |
 | `rqa_meanL` | characterized | 1000 | 6.916 | 0.112 | 6.93 | 0.172 | - | - |
 | `rqa_maxL` | characterized | 1000 | 68 | 5 | 69.22 | 8.49 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 68 | 5 | 69.22 | 8.49 | - | - |
 | `rqa_entL` | characterized | 1000 | 3.868 | 0.0314 | 3.869 | 0.0481 | - | - |
 | `rqa_entV` | characterized | 1000 | 1.929 | 0.108 | 1.921 | 0.164 | - | - |
 | `rqa_entW` | characterized | 1000 | 3.684 | 0.0131 | 3.682 | 0.0648 | - | - |
@@ -2264,6 +807,7 @@ Usable realizations: 387 of 1000. fs = 0.490196.
 | `rqa_lam` | characterized | 387 | 99.86 | 0.0339 | 99.84 | 0.0701 | - | - |
 | `rqa_meanL` | characterized | 387 | 30.65 | 5.59 | 29.99 | 10.7 | - | - |
 | `rqa_maxL` | characterized | 387 | 3783 | 42 | 3794 | 85.2 | - | - |
+| `rqa_maxL_tw` | characterized | 387 | 3649 | 145 | 2857 | 1.22e+03 | - | - |
 | `rqa_entL` | characterized | 387 | 5.479 | 0.176 | 5.342 | 0.524 | - | - |
 | `rqa_entV` | characterized | 387 | 6.355 | 0.19 | 6.175 | 0.667 | - | - |
 | `rqa_entW` | characterized | 387 | 3.493 | 0.144 | 3.444 | 0.242 | - | - |
@@ -2274,125 +818,382 @@ Usable realizations: 387 of 1000. fs = 0.490196.
 | `ent_ms_ci` | characterized | 387 | 1.438 | 0.407 | 1.545 | 0.648 | - | - |
 | `dfa_alpha` | characterized | 387 | 1.71 | 0.0462 | 1.713 | 0.0759 | - | - |
 
-## simplest_driven (A.6.2, conservative_flow)
+## driven_vdp (A.4.2, driven_flow)
 
-Usable realizations: 1000 of 1000. fs = 12.5.
+Usable realizations: 1000 of 1000. fs = 11.7647.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 8 | 1 | 8.361 | 1.85 | - | - |
-| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.141 | 0.394 | - | - |
-| `embed_delay` | characterized | 1000 | 8 | 1 | 8.361 | 1.85 | - | - |
-| `embed_dim` | characterized | 1000 | 4 | 0 | 4.141 | 0.394 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.2377 | 0.0365 | 0.2283 | 0.0614 | 0.0971 | 2.448 |
-| `lyap_ros` | validated | 1000 | 0.3217 | 0.0318 | 0.309 | 0.0613 | 0.0971 | 3.313 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 82 | 7 | 85.35 | 21.8 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9803 | 0.000209 | 0.9805 | 0.00155 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.546 | 0.00492 | -0.5406 | 0.0412 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09618 | 0.00437 | 0.09551 | 0.00828 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -8.666 | 0.412 | -8.788 | 1.03 | - | - |
-| `corr_dim` | validated | 1000 | 2.55 | 0.163 | 2.593 | 0.242 | 2.634 +/- 0.16 | 0.968 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9992 | 0.000449 | 0.999 | 0.000742 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.08965 | 0.0468 | -0.07938 | 0.073 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.02028 | 0.00536 | 0.01972 | 0.0077 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.336 | 0.268 | -6.247 | 0.477 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 48.5 | 3.5 | 48.37 | 4.25 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.485 | 0.111 | 1.478 | 0.164 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.535 | 0.0317 | 0.5686 | 0.103 | - | - |
-| `rqa_det` | characterized | 1000 | 99.78 | 0.072 | 99.79 | 0.0819 | - | - |
-| `rqa_lam` | characterized | 1000 | 96.85 | 1.92 | 96.83 | 1.87 | - | - |
-| `rqa_meanL` | characterized | 1000 | 18.95 | 0.811 | 20.14 | 5.3 | - | - |
-| `rqa_maxL` | characterized | 1000 | 1204 | 586 | 1605 | 1.06e+03 | - | - |
-| `rqa_entL` | characterized | 1000 | 5.372 | 0.113 | 5.388 | 0.207 | - | - |
-| `rqa_entV` | characterized | 1000 | 2.689 | 0.587 | 2.725 | 0.621 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.741 | 0.0362 | 3.671 | 0.157 | - | - |
-| `ent_samp` | characterized | 1000 | 0.5225 | 0.018 | 0.485 | 0.0658 | - | - |
-| `ent_ap` | characterized | 1000 | 0.543 | 0.0167 | 0.533 | 0.0431 | - | - |
-| `ent_permu` | characterized | 1000 | 1.916 | 0.0466 | 1.906 | 0.0562 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 0.5225 | 0.018 | 0.485 | 0.0658 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 5.601 | 0.301 | 5.904 | 0.741 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.3989 | 0.0492 | 0.4422 | 0.117 | - | - |
+| `ami_delay` | characterized | 1000 | 12 | 0 | 12.32 | 0.476 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.708 | 0.708 | - | - |
+| `embed_delay` | characterized | 1000 | 12 | 0 | 12.32 | 0.476 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 1 | 4.708 | 0.708 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.2095 | 0.0204 | 0.2094 | 0.0306 | 0.1933 | 1.084 |
+| `lyap_ros` | validated | 1000 | 0.1565 | 0.011 | 0.1573 | 0.0185 | 0.1933 | 0.810 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.244 | 0.695 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 189.4 | 24.2 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9853 | 0.0061 | 0.986 | 0.00639 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4158 | 0.104 | -0.3946 | 0.132 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09818 | 0.0144 | 0.09569 | 0.0218 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.59 | 0.289 | -13.25 | 1.06 | - | - |
+| `corr_dim` | validated | 1000 | 1.923 | 0.0553 | 1.932 | 0.0892 | 2.19 +/- 0.08 | 0.878 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000393 | 0.9991 | 0.000822 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.08137 | 0.0425 | -0.08243 | 0.0648 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01665 | 0.00625 | 0.01761 | 0.00842 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.217 | 0.311 | -7.106 | 0.545 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 61 | 4 | 60.21 | 5.59 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.974 | 0.0752 | 1.972 | 0.11 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.9218 | 0.183 | 0.8804 | 0.158 | - | - |
+| `rqa_det` | characterized | 1000 | 99.04 | 0.0921 | 99.03 | 0.125 | - | - |
+| `rqa_lam` | characterized | 1000 | 99.2 | 0.171 | 99.16 | 0.231 | - | - |
+| `rqa_meanL` | characterized | 1000 | 9.281 | 0.428 | 9.311 | 0.526 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3951 | 12 | 3953 | 9.77 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 452 | 66 | 467.3 | 107 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.913 | 0.0643 | 3.913 | 0.0873 | - | - |
+| `rqa_entV` | characterized | 1000 | 3.04 | 0.0502 | 3.031 | 0.0734 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.678 | 0.0226 | 3.662 | 0.0483 | - | - |
+| `ent_samp` | characterized | 1000 | 0.3175 | 0.00526 | 0.3168 | 0.00771 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4096 | 0.00316 | 0.4092 | 0.00454 | - | - |
+| `ent_permu` | characterized | 1000 | 2.045 | 0.0042 | 2.045 | 0.00614 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.3175 | 0.00526 | 0.3168 | 0.00771 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 7.164 | 0.114 | 7.141 | 0.186 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.6498 | 0.0139 | 0.6496 | 0.0212 | - | - |
 
-## nose_hoover (A.6.3, conservative_flow)
+## duffing_two_well (A.4.6, driven_flow)
 
 Usable realizations: 1000 of 1000. fs = 0.490196.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `fnn_dim` | characterized | 1000 | 6 | 1 | 6.449 | 0.688 | - | - |
-| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
-| `embed_dim` | characterized | 1000 | 6 | 1 | 6.449 | 0.688 | - | - |
-| `lyap_wolf` | validated | 1000 | 0.04372 | 0.00553 | 0.04229 | 0.00943 | 0.0138 | 3.168 |
-| `lyap_ros` | validated | 1000 | 0.07795 | 0.00627 | 0.07859 | 0.00918 | 0.0138 | 5.648 |
-| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.006 | 0.134 | - | - |
-| `lyap_ros_fit_len` | characterized | 1000 | 10 | 1 | 9.833 | 1.54 | - | - |
-| `lyap_ros_fit_r2` | characterized | 1000 | 0.9826 | 0.00152 | 0.983 | 0.00229 | - | - |
-| `lyap_ros_fit_curv` | characterized | 1000 | -0.4702 | 0.0232 | -0.4629 | 0.0393 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07442 | 0.00339 | 0.07431 | 0.00545 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 1000 | -1.967 | 0.249 | -1.943 | 0.344 | - | - |
-| `corr_dim` | validated | 1000 | 2.167 | 0.0327 | 2.156 | 0.0674 | 2.521 +/- 0.146 | 0.860 |
-| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000179 | 0.9995 | 0.000316 | - | - |
-| `corr_dim_fit_curv` | characterized | 1000 | -0.07142 | 0.0194 | -0.07042 | 0.0316 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0155 | 0.00354 | 0.01572 | 0.00525 | - | - |
-| `corr_dim_fit_runsz` | characterized | 1000 | -6.72 | 0.22 | -6.645 | 0.437 | - | - |
-| `corr_dim_fit_len` | characterized | 1000 | 53 | 2 | 53.12 | 3.52 | - | - |
-| `corr_dim_fit_span` | characterized | 1000 | 1.772 | 0.032 | 1.775 | 0.0682 | - | - |
-| `rqa_radius` | characterized | 1000 | 0.953 | 0.126 | 1.001 | 0.14 | - | - |
-| `rqa_det` | characterized | 1000 | 90.04 | 0.417 | 90.21 | 1.45 | - | - |
-| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.0001927 | 0.00101 | - | - |
-| `rqa_meanL` | characterized | 1000 | 5.341 | 0.502 | 5.515 | 0.478 | - | - |
-| `rqa_maxL` | characterized | 1000 | 210 | 62 | 256.8 | 162 | - | - |
-| `rqa_entL` | characterized | 1000 | 3.163 | 0.185 | 3.217 | 0.184 | - | - |
-| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
-| `rqa_entW` | characterized | 1000 | 3.289 | 0.0803 | 3.276 | 0.134 | - | - |
-| `ent_samp` | characterized | 1000 | 1.233 | 0.0194 | 1.22 | 0.0469 | - | - |
-| `ent_ap` | characterized | 1000 | 1.004 | 0.00824 | 0.9976 | 0.0246 | - | - |
-| `ent_permu` | characterized | 1000 | 5.725 | 0.0123 | 5.719 | 0.0342 | - | - |
-| `ent_ms_s1` | characterized | 1000 | 1.233 | 0.0194 | 1.22 | 0.0469 | - | - |
-| `ent_ms_ci` | characterized | 1000 | 8.334 | 0.678 | 8.087 | 0.96 | - | - |
-| `dfa_alpha` | characterized | 1000 | 0.8196 | 0.0487 | 0.8055 | 0.0982 | - | - |
+| `ami_delay` | characterized | 1000 | 5 | 0 | 4.366 | 0.963 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.642 | 0.492 | - | - |
+| `embed_delay` | characterized | 1000 | 5 | 0 | 4.366 | 0.963 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 0 | 4.642 | 0.492 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.08129 | 0.0135 | 0.07849 | 0.0126 | 0.1572 | 0.517 |
+| `lyap_ros` | validated | 1000 | 0.02169 | 0.00591 | 0.03153 | 0.0207 | 0.1572 | 0.138 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.005 | 0.0706 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 28 | 6 | 26.62 | 8.01 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.8533 | 0.0372 | 0.8774 | 0.0656 | - | - |
+| `lyap_ros_fit_curv` | characterized | 994 | -0.8559 | 0.0676 | -0.7513 | 0.178 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.3848 | 0.0488 | 0.3247 | 0.122 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.878 | 0.29 | -2.613 | 0.724 | - | - |
+| `corr_dim` | validated | 1000 | 3.042 | 0.386 | 3.114 | 0.384 | 2.334 +/- 0.114 | 1.303 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9994 | 0.000335 | 0.9991 | 0.000775 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.09239 | 0.0277 | 0.09889 | 0.0465 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01763 | 0.00455 | 0.01841 | 0.00707 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.671 | 0.262 | -5.61 | 0.411 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 39 | 3 | 38.85 | 4.16 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.27 | 0.142 | 1.26 | 0.158 | - | - |
+| `rqa_radius` | characterized | 1000 | 1.213 | 0.0831 | 1.144 | 0.172 | - | - |
+| `rqa_det` | characterized | 1000 | 33.68 | 1.18 | 33.94 | 2.05 | - | - |
+| `rqa_lam` | characterized | 1000 | 6.979 | 0.918 | 6.94 | 1.29 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.628 | 0.123 | 3.084 | 0.751 | - | - |
+| `rqa_maxL` | characterized | 1000 | 45 | 5 | 45.98 | 7.62 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 45 | 5 | 45.98 | 7.62 | - | - |
+| `rqa_entL` | characterized | 1000 | 1.312 | 0.117 | 1.667 | 0.598 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.3636 | 0.0894 | 0.2951 | 0.173 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.437 | 0.0389 | 3.438 | 0.0544 | - | - |
+| `ent_samp` | characterized | 1000 | 1.242 | 0.0113 | 1.241 | 0.0165 | - | - |
+| `ent_ap` | characterized | 1000 | 1.191 | 0.00723 | 1.19 | 0.0108 | - | - |
+| `ent_permu` | characterized | 1000 | 6.079 | 0.0184 | 6.078 | 0.0265 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 1.242 | 0.0113 | 1.241 | 0.0165 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 11.84 | 0.135 | 11.83 | 0.199 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.5386 | 0.0181 | 0.5391 | 0.0282 | - | - |
 
-## labyrinth (A.6.4, conservative_flow)
+## duffing_vdp (A.4.7, driven_flow)
 
-Usable realizations: 440 of 1000. fs = 0.196078.
+Usable realizations: 1000 of 1000. fs = 6.25.
 
 | metric | role | n | median | MAD | mean | SD | reference | ratio |
 |---|---|---|---|---|---|---|---|---|
-| `ami_delay` | characterized | 437 | 34 | 27 | 33.57 | 28.4 | - | - |
-| `fnn_dim` | characterized | 440 | 6 | 0 | 5.973 | 0.633 | - | - |
-| `embed_delay` | characterized | 440 | 34 | 27 | 33.35 | 28.4 | - | - |
-| `embed_dim` | characterized | 440 | 6 | 0 | 5.973 | 0.633 | - | - |
-| `lyap_wolf` | validated | 440 | 0.004315 | 0.00237 | 0.00432 | 0.00287 | 0.1402 | 0.031 |
-| `lyap_ros` | validated | 440 | 0.003452 | 0.00148 | 0.005231 | 0.00493 | 0.1402 | 0.025 |
-| `lyap_ros_fit_start` | characterized | 440 | 1 | 0 | 1.648 | 0.983 | - | - |
-| `lyap_ros_fit_len` | characterized | 440 | 23 | 5 | 45.9 | 50.7 | - | - |
-| `lyap_ros_fit_r2` | characterized | 440 | 0.9496 | 0.0198 | 0.9455 | 0.0258 | - | - |
-| `lyap_ros_fit_curv` | characterized | 440 | -0.6659 | 0.111 | -0.6597 | 0.163 | - | - |
-| `lyap_ros_fit_maxdev` | characterized | 440 | 0.2027 | 0.0777 | 0.1933 | 0.0854 | - | - |
-| `lyap_ros_fit_runsz` | characterized | 440 | -3.338 | 1.19 | -4.218 | 3.09 | - | - |
-| `corr_dim` | validated | 440 | 4.146 | 0.567 | 4.394 | 1.21 | 2.837 +/- 0.173 | 1.461 |
-| `corr_dim_fit_r2` | characterized | 440 | 0.9962 | 0.00294 | 0.9932 | 0.00936 | - | - |
-| `corr_dim_fit_curv` | characterized | 440 | -0.2041 | 0.137 | -0.1842 | 0.231 | - | - |
-| `corr_dim_fit_maxdev` | characterized | 440 | 0.04199 | 0.0159 | 0.04852 | 0.029 | - | - |
-| `corr_dim_fit_runsz` | characterized | 440 | -5.116 | 0.407 | -5.175 | 0.635 | - | - |
-| `corr_dim_fit_len` | characterized | 440 | 33 | 4 | 34.54 | 6.82 | - | - |
-| `corr_dim_fit_span` | characterized | 440 | 0.909 | 0.148 | 0.9176 | 0.247 | - | - |
-| `rqa_radius` | characterized | 440 | 0.341 | 0.149 | 0.3586 | 0.188 | - | - |
-| `rqa_det` | characterized | 440 | 93.54 | 3.61 | 88.26 | 10.9 | - | - |
-| `rqa_lam` | characterized | 440 | 95.6 | 2.46 | 93.37 | 6.77 | - | - |
-| `rqa_meanL` | characterized | 440 | 9.801 | 3.53 | 12.25 | 6.99 | - | - |
-| `rqa_maxL` | characterized | 440 | 3699 | 145 | 2911 | 1.39e+03 | - | - |
-| `rqa_entL` | characterized | 440 | 3.964 | 0.437 | 3.851 | 0.738 | - | - |
-| `rqa_entV` | characterized | 440 | 4.097 | 0.871 | 4.054 | 1.06 | - | - |
-| `rqa_entW` | characterized | 440 | 3.421 | 0.176 | 3.401 | 0.264 | - | - |
-| `ent_samp` | characterized | 440 | 0.09193 | 0.0289 | 0.1039 | 0.0557 | - | - |
-| `ent_ap` | characterized | 440 | 0.09585 | 0.0292 | 0.1083 | 0.0567 | - | - |
-| `ent_permu` | characterized | 440 | 6.054 | 0.0477 | 6.041 | 0.095 | - | - |
-| `ent_ms_s1` | characterized | 440 | 0.09193 | 0.0289 | 0.1039 | 0.0557 | - | - |
-| `ent_ms_ci` | characterized | 440 | 1.789 | 0.453 | 1.852 | 0.685 | - | - |
-| `dfa_alpha` | characterized | 440 | 1.584 | 0.0452 | 1.585 | 0.0727 | - | - |
+| `ami_delay` | characterized | 1000 | 10 | 0 | 9.843 | 0.364 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.094 | 0.292 | - | - |
+| `embed_delay` | characterized | 1000 | 10 | 0 | 9.843 | 0.364 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.094 | 0.292 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.08979 | 0.00679 | 0.08992 | 0.00996 | 0.0963 | 0.932 |
+| `lyap_ros` | validated | 1000 | 0.08541 | 0.00464 | 0.08545 | 0.00734 | 0.0963 | 0.887 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 189.8 | 17.2 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9836 | 0.00374 | 0.9852 | 0.00572 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5008 | 0.0621 | -0.4613 | 0.116 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08741 | 0.014 | 0.08346 | 0.0214 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.88 | 0.0088 | -13.5 | 0.665 | - | - |
+| `corr_dim` | validated | 1000 | 2.228 | 0.052 | 2.225 | 0.0806 | 2.333 +/- 0.115 | 0.955 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000112 | 0.9997 | 0.000527 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0149 | 0.029 | -0.00956 | 0.0531 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01018 | 0.00363 | 0.01229 | 0.00741 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.987 | 0.468 | -5.852 | 0.758 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 48.5 | 3.5 | 47.79 | 5.68 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.677 | 0.0535 | 1.679 | 0.0843 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.5726 | 0.0165 | 0.5839 | 0.0513 | - | - |
+| `rqa_det` | characterized | 1000 | 99.75 | 0.0127 | 99.75 | 0.0233 | - | - |
+| `rqa_lam` | characterized | 1000 | 97.51 | 0.16 | 97.51 | 0.358 | - | - |
+| `rqa_meanL` | characterized | 1000 | 19.76 | 0.345 | 20.03 | 0.809 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3969 | 0 | 3969 | 3.26 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 489.5 | 63.5 | 504.9 | 104 | - | - |
+| `rqa_entL` | characterized | 1000 | 5.227 | 0.0318 | 5.234 | 0.0483 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.916 | 0.0645 | 1.924 | 0.107 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.757 | 0.00966 | 3.751 | 0.0216 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4825 | 0.0031 | 0.4824 | 0.00464 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4842 | 0.00337 | 0.4843 | 0.00487 | - | - |
+| `ent_permu` | characterized | 1000 | 2.055 | 0.00435 | 2.055 | 0.00647 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4825 | 0.0031 | 0.4824 | 0.00464 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 5.616 | 0.217 | 5.623 | 0.313 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4681 | 0.00646 | 0.4685 | 0.00942 | - | - |
+
+## gauss_map (A.1.7, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 5 | 1 | 4.832 | 0.972 | - | - |
+| `fnn_dim` | characterized | 1000 | 6 | 0 | 6.35 | 0.496 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.5614 | 0.00916 | 0.5614 | 0.0135 | 2.373 | 0.237 |
+| `lyap_ros` | validated | 1000 | 1.323 | 0.00788 | 1.323 | 0.012 | 2.373 | 0.557 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9591 | 0.00188 | 0.9589 | 0.00287 | - | - |
+| `lyap_ros_fit_curv` | characterized | 0 | NaN | NaN | NaN | NaN | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07805 | 0.00186 | 0.07818 | 0.00292 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `corr_dim` | validated | 1000 | 1.012 | 0.00384 | 1.011 | 0.0058 | 1 | 1.012 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 2.45e-05 | 0.9999 | 4.24e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.0275 | 0.00714 | 0.0276 | 0.0106 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007406 | 0.00102 | 0.007517 | 0.00154 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.936 | 0.479 | -5.863 | 0.72 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 2 | 49.7 | 3.68 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.83 | 0.0299 | 3.819 | 0.064 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.1923 | 0.00198 | 0.1923 | 0.00299 | - | - |
+| `rqa_det` | characterized | 1000 | 41.6 | 0.341 | 41.59 | 0.546 | - | - |
+| `rqa_lam` | characterized | 1000 | 2.913 | 0.45 | 2.999 | 0.691 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.314 | 0.00569 | 2.314 | 0.00834 | - | - |
+| `rqa_maxL` | characterized | 1000 | 9 | 1 | 9.167 | 0.894 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 1.041 | 0.0117 | 1.042 | 0.0172 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.294 | 0.143 | 1.289 | 0.207 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.755 | 0.00797 | 3.754 | 0.0115 | - | - |
+| `ent_samp` | characterized | 1000 | 1.394 | 0.00937 | 1.394 | 0.0145 | - | - |
+| `ent_ap` | characterized | 1000 | 1.487 | 0.00681 | 1.487 | 0.0105 | - | - |
+| `ent_permu` | characterized | 1000 | 6.418 | 0.0196 | 6.417 | 0.0296 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## gingerbreadman (A.3.4, conservative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.05607 | 0.00723 | 0.0539 | 0.012 | 0.07339 | 0.764 |
+| `lyap_ros` | validated | 1000 | 0.05643 | 0.00565 | 0.05548 | 0.00899 | 0.07339 | 0.769 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.031 | 0.257 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 56 | 4 | 56.8 | 6.69 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9802 | 0.000313 | 0.9802 | 0.000606 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5427 | 0.00521 | -0.5423 | 0.00847 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09467 | 0.00441 | 0.0947 | 0.00636 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -7.012 | 0.278 | -7.052 | 0.457 | - | - |
+| `corr_dim` | validated | 1000 | 1.78 | 0.0617 | 1.736 | 0.146 | 2.171 +/- 0.078 | 0.820 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000359 | 0.9991 | 0.000889 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0935 | 0.0299 | -0.08948 | 0.0586 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01823 | 0.00452 | 0.01881 | 0.00805 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.336 | 0.337 | -6.236 | 0.638 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.16 | 4.85 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.033 | 0.0895 | 2.083 | 0.203 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.3241 | 0.0101 | 0.3177 | 0.0273 | - | - |
+| `rqa_det` | characterized | 1000 | 97.92 | 0.166 | 97.99 | 0.371 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.1355 | 0.516 | - | - |
+| `rqa_meanL` | characterized | 1000 | 11.1 | 0.291 | 11.61 | 2.26 | - | - |
+| `rqa_maxL` | characterized | 1000 | 287 | 101 | 469.9 | 497 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 4.287 | 0.0512 | 4.267 | 0.221 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.736 | 0.0301 | 3.721 | 0.112 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2089 | 0.00906 | 0.2015 | 0.0238 | - | - |
+| `ent_ap` | characterized | 1000 | 0.1995 | 0.00727 | 0.1954 | 0.0176 | - | - |
+| `ent_permu` | characterized | 1000 | 3.83 | 0.024 | 3.838 | 0.0408 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## hadley (A.5.6, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 10.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 9 | 0 | 9.162 | 0.387 | - | - |
+| `fnn_dim` | characterized | 1000 | 6 | 0 | 5.89 | 0.361 | - | - |
+| `embed_delay` | characterized | 1000 | 9 | 0 | 9.162 | 0.387 | - | - |
+| `embed_dim` | characterized | 1000 | 6 | 0 | 5.89 | 0.361 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1481 | 0.0172 | 0.1473 | 0.0245 | 0.1665 | 0.889 |
+| `lyap_ros` | validated | 1000 | 0.1291 | 0.0103 | 0.13 | 0.0158 | 0.1665 | 0.775 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 188 | 16.7 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.979 | 0.00211 | 0.9826 | 0.00628 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5582 | 0.0321 | -0.494 | 0.118 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09471 | 0.0135 | 0.09019 | 0.021 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.75 | 0.146 | -13.41 | 0.634 | - | - |
+| `corr_dim` | validated | 1000 | 2.481 | 0.128 | 2.475 | 0.18 | 2.162 +/- 0.114 | 1.148 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.00027 | 0.9994 | 0.000722 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.0624 | 0.0359 | 0.06734 | 0.0549 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01351 | 0.0053 | 0.01535 | 0.00876 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.619 | 0.357 | -6.508 | 0.618 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 53 | 4 | 53.04 | 5.2 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.536 | 0.0848 | 1.547 | 0.123 | - | - |
+| `rqa_radius` | characterized | 1000 | 1.029 | 0.0234 | 1.013 | 0.0677 | - | - |
+| `rqa_det` | characterized | 1000 | 97.63 | 0.393 | 97.58 | 0.582 | - | - |
+| `rqa_lam` | characterized | 1000 | 98.2 | 0.181 | 98.16 | 0.339 | - | - |
+| `rqa_meanL` | characterized | 1000 | 8.172 | 0.499 | 8.343 | 0.929 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3954 | 0 | 3951 | 85.4 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 479 | 85 | 505.9 | 149 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.361 | 0.113 | 3.372 | 0.162 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.749 | 0.0583 | 2.74 | 0.11 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.772 | 0.0215 | 3.764 | 0.0365 | - | - |
+| `ent_samp` | characterized | 1000 | 0.467 | 0.00957 | 0.4656 | 0.0141 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5036 | 0.00804 | 0.5026 | 0.0116 | - | - |
+| `ent_permu` | characterized | 1000 | 2.45 | 0.0616 | 2.45 | 0.0877 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.467 | 0.00957 | 0.4656 | 0.0141 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.371 | 0.188 | 8.347 | 0.283 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4872 | 0.00925 | 0.4862 | 0.0141 | - | - |
+
+## halvorsen (A.5.13, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 28.5714.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 7 | 0 | 6.747 | 0.435 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.932 | 0.578 | - | - |
+| `embed_delay` | characterized | 1000 | 7 | 0 | 6.747 | 0.435 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 0 | 4.932 | 0.578 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.8568 | 0.0559 | 0.8592 | 0.0804 | 0.7899 | 1.085 |
+| `lyap_ros` | validated | 1000 | 0.7095 | 0.0467 | 0.7118 | 0.0737 | 0.7899 | 0.898 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.007 | 0.138 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 111 | 10 | 111.1 | 17.2 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9783 | 0.00053 | 0.9782 | 0.000857 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5726 | 0.00624 | -0.5719 | 0.0105 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09439 | 0.00557 | 0.09491 | 0.00802 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.2 | 0.511 | -10.17 | 0.852 | - | - |
+| `corr_dim` | validated | 1000 | 2.069 | 0.0512 | 2.066 | 0.0742 | 2.11 +/- 0.095 | 0.981 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 7.48e-05 | 0.9998 | 0.000221 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.01126 | 0.0297 | 0.013 | 0.0431 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007928 | 0.00301 | 0.009087 | 0.00475 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.564 | 0.407 | -6.412 | 0.707 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 55 | 3 | 54.84 | 4.67 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.856 | 0.0535 | 1.855 | 0.0824 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.878 | 0.0229 | 0.869 | 0.117 | - | - |
+| `rqa_det` | characterized | 1000 | 95.9 | 0.45 | 95.74 | 0.868 | - | - |
+| `rqa_lam` | characterized | 1000 | 97.27 | 0.186 | 97.1 | 0.719 | - | - |
+| `rqa_meanL` | characterized | 1000 | 7.322 | 0.361 | 7.375 | 0.543 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3971 | 4 | 2977 | 1.43e+03 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 280.5 | 34.5 | 291.3 | 56.7 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.265 | 0.103 | 3.282 | 0.137 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.567 | 0.0851 | 2.565 | 0.118 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.68 | 0.0257 | 3.683 | 0.0468 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4925 | 0.00706 | 0.4915 | 0.0109 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5455 | 0.00293 | 0.5445 | 0.00507 | - | - |
+| `ent_permu` | characterized | 1000 | 2.526 | 0.0173 | 2.525 | 0.0265 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4925 | 0.00706 | 0.4915 | 0.0109 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.225 | 0.117 | 9.206 | 0.187 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.5276 | 0.0149 | 0.5271 | 0.0209 | - | - |
+
+## henon (A.2.1, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 17 | 1 | 17.25 | 2.32 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3506 | 0.00477 | 0.3508 | 0.00685 | 0.4192 | 0.836 |
+| `lyap_ros` | validated | 1000 | 0.3554 | 0.00315 | 0.3562 | 0.00666 | 0.4192 | 0.848 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 18 | 0 | 17.89 | 0.389 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.983 | 0.00136 | 0.9831 | 0.0018 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4742 | 0.0212 | -0.4706 | 0.0289 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1023 | 0.00391 | 0.1021 | 0.00506 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -3.392 | 0 | -3.377 | 0.0533 | - | - |
+| `corr_dim` | validated | 1000 | 1.181 | 0.0126 | 1.179 | 0.0196 | 1.22 +/- 0.036 | 0.968 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9995 | 0.000137 | 0.9995 | 0.000215 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.07184 | 0.0136 | 0.07292 | 0.0197 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01487 | 0.00192 | 0.01503 | 0.00287 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.717 | 0.222 | -6.657 | 0.351 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 52 | 3 | 52.2 | 4.17 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.251 | 0.0425 | 3.245 | 0.0798 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.1981 | 0.00118 | 0.198 | 0.00176 | - | - |
+| `rqa_det` | characterized | 1000 | 84.7 | 0.199 | 84.72 | 0.3 | - | - |
+| `rqa_lam` | characterized | 1000 | 1.369 | 0.359 | 1.439 | 0.582 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.092 | 0.0382 | 4.097 | 0.0558 | - | - |
+| `rqa_maxL` | characterized | 1000 | 35 | 3 | 36.08 | 4.94 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.801 | 0.0212 | 2.804 | 0.0307 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.949 | 0.18 | 1.94 | 0.262 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.712 | 0.0075 | 3.711 | 0.0115 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4576 | 0.00356 | 0.4574 | 0.00538 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4751 | 0.00225 | 0.4749 | 0.00355 | - | - |
+| `ent_permu` | characterized | 1000 | 4.248 | 0.0124 | 4.248 | 0.0187 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## henon_area (A.3.2, conservative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1.069 | 0.254 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.001796 | 0.00199 | 0.006776 | 0.00931 | 0.00643 | 0.279 |
+| `lyap_ros` | validated | 1000 | 0.02122 | 0.0132 | 0.01756 | 0.0144 | 0.00643 | 3.300 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.042 | 0.224 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 66 | 17 | 57.57 | 46.1 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9801 | 0.00103 | 0.9765 | 0.0429 | - | - |
+| `lyap_ros_fit_curv` | characterized | 964 | -0.4924 | 0.0535 | -0.3013 | 0.353 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1246 | 0.0152 | 0.1055 | 0.0503 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -7.56 | 1.16 | -5.769 | 4.09 | - | - |
+| `corr_dim` | validated | 1000 | 1.021 | 0.0817 | 1.056 | 0.196 | 2.2 +/- 0.063 | 0.464 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9974 | 0.00232 | 0.9945 | 0.0108 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.143 | 0.0926 | -0.1651 | 0.161 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03645 | 0.0181 | 0.04024 | 0.0303 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.546 | 0.333 | -7.538 | 0.619 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 64 | 5 | 65.28 | 9.19 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.207 | 0.389 | 3.418 | 0.738 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.1484 | 0.024 | 0.1326 | 0.0368 | - | - |
+| `rqa_det` | characterized | 1000 | 96.67 | 0.684 | 97.13 | 1.15 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `rqa_meanL` | characterized | 1000 | 17.75 | 1.13 | 17.75 | 1.63 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3298 | 626 | 2512 | 1.41e+03 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 3.889 | 0.283 | 3.795 | 0.391 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.47 | 0.0434 | 3.453 | 0.0744 | - | - |
+| `ent_samp` | characterized | 1000 | 0.1448 | 0.0214 | 0.1441 | 0.0267 | - | - |
+| `ent_ap` | characterized | 1000 | 0.1463 | 0.0135 | 0.1444 | 0.0157 | - | - |
+| `ent_permu` | characterized | 1000 | 3.412 | 0.00971 | 3.421 | 0.0232 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
 
 ## henon_heiles (A.6.5, conservative_flow)
 
@@ -2424,6 +1225,7 @@ Usable realizations: 1000 of 1000. fs = 5.55556.
 | `rqa_lam` | characterized | 1000 | 98.3 | 0.366 | 96.57 | 3.97 | - | - |
 | `rqa_meanL` | characterized | 1000 | 20.54 | 2.3 | 20.47 | 3.43 | - | - |
 | `rqa_maxL` | characterized | 1000 | 3959 | 10 | 3837 | 483 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 961 | 278 | 1114 | 600 | - | - |
 | `rqa_entL` | characterized | 1000 | 4.919 | 0.24 | 4.89 | 0.338 | - | - |
 | `rqa_entV` | characterized | 1000 | 2.688 | 0.281 | 2.424 | 0.696 | - | - |
 | `rqa_entW` | characterized | 1000 | 3.7 | 0.0522 | 3.674 | 0.111 | - | - |
@@ -2433,4 +1235,1260 @@ Usable realizations: 1000 of 1000. fs = 5.55556.
 | `ent_ms_s1` | characterized | 1000 | 0.486 | 0.0269 | 0.4578 | 0.0698 | - | - |
 | `ent_ms_ci` | characterized | 1000 | 7.656 | 0.511 | 7.161 | 1.34 | - | - |
 | `dfa_alpha` | characterized | 1000 | 0.5859 | 0.0473 | 0.5563 | 0.0919 | - | - |
+
+## holmes_cubic (A.2.6, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 25 | 2 | 24.77 | 3.68 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.4051 | 0.00742 | 0.4051 | 0.0108 | 0.5946 | 0.681 |
+| `lyap_ros` | validated | 1000 | 0.4838 | 0.00302 | 0.4849 | 0.0078 | 0.5946 | 0.814 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 12 | 0 | 11.94 | 0.262 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9832 | 0.00121 | 0.9834 | 0.00179 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4708 | 0.0179 | -0.4666 | 0.0277 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08627 | 0.00281 | 0.08583 | 0.00461 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.394 | 0 | -2.384 | 0.0464 | - | - |
+| `corr_dim` | validated | 1000 | 1.199 | 0.00934 | 1.198 | 0.0142 | 1.26 +/- 0.039 | 0.951 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000151 | 0.9993 | 0.000224 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.09917 | 0.0112 | -0.09875 | 0.0168 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01586 | 0.00181 | 0.01586 | 0.00261 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.57 | 0.214 | -6.545 | 0.324 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.21 | 3.82 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.252 | 0.0363 | 3.246 | 0.0664 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.1567 | 0.00523 | 0.1569 | 0.00746 | - | - |
+| `rqa_det` | characterized | 1000 | 85.33 | 0.25 | 85.35 | 0.374 | - | - |
+| `rqa_lam` | characterized | 1000 | 4.578 | 0.731 | 4.654 | 1.16 | - | - |
+| `rqa_meanL` | characterized | 1000 | 3.732 | 0.0211 | 3.733 | 0.0328 | - | - |
+| `rqa_maxL` | characterized | 1000 | 25 | 2 | 25.51 | 2.96 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.584 | 0.0132 | 2.585 | 0.0204 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.19 | 0.121 | 2.181 | 0.174 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.225 | 0.126 | 3.196 | 0.15 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5626 | 0.00954 | 0.5629 | 0.0131 | - | - |
+| `ent_ap` | characterized | 1000 | 0.6639 | 0.00616 | 0.6638 | 0.00924 | - | - |
+| `ent_permu` | characterized | 1000 | 5.944 | 0.0141 | 5.943 | 0.0215 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## ikeda (A.2.9, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 11 | 1 | 11.49 | 1.7 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.982 | 0.218 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3188 | 0.00454 | 0.3188 | 0.00657 | 0.5076 | 0.628 |
+| `lyap_ros` | validated | 1000 | 0.4017 | 0.00367 | 0.4022 | 0.00767 | 0.5076 | 0.791 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 10 | 0 | 9.964 | 0.207 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9837 | 0.00131 | 0.9838 | 0.00193 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4537 | 0.0193 | -0.4508 | 0.03 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.08118 | 0.00303 | 0.08068 | 0.00478 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.012 | 0 | -2.003 | 0.05 | - | - |
+| `corr_dim` | validated | 1000 | 1.701 | 0.0133 | 1.701 | 0.0193 | 1.69 +/- 0.073 | 1.007 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.87e-05 | 0.9999 | 3.87e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0009509 | 0.012 | -0.0006392 | 0.0184 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.004723 | 0.00115 | 0.005143 | 0.00189 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.539 | 0.584 | -5.451 | 0.823 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 3 | 49.12 | 3.66 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.272 | 0.0266 | 2.265 | 0.0479 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.4748 | 0.0034 | 0.4745 | 0.00525 | - | - |
+| `rqa_det` | characterized | 1000 | 75.14 | 0.451 | 75.14 | 0.653 | - | - |
+| `rqa_lam` | characterized | 1000 | 2.596 | 0.52 | 2.665 | 0.777 | - | - |
+| `rqa_meanL` | characterized | 1000 | 3.536 | 0.0335 | 3.537 | 0.0499 | - | - |
+| `rqa_maxL` | characterized | 1000 | 30 | 3 | 30.41 | 4.57 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.438 | 0.0246 | 2.438 | 0.0361 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.485 | 0.142 | 1.486 | 0.205 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.582 | 0.0144 | 3.581 | 0.0207 | - | - |
+| `ent_samp` | characterized | 1000 | 0.9745 | 0.0117 | 0.9741 | 0.0176 | - | - |
+| `ent_ap` | characterized | 1000 | 0.9987 | 0.00769 | 0.9983 | 0.0114 | - | - |
+| `ent_permu` | characterized | 1000 | 5.954 | 0.019 | 5.953 | 0.0294 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## labyrinth (A.6.4, conservative_flow)
+
+Usable realizations: 440 of 1000. fs = 0.196078.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 437 | 34 | 27 | 33.57 | 28.4 | - | - |
+| `fnn_dim` | characterized | 440 | 6 | 0 | 5.973 | 0.633 | - | - |
+| `embed_delay` | characterized | 440 | 34 | 27 | 33.35 | 28.4 | - | - |
+| `embed_dim` | characterized | 440 | 6 | 0 | 5.973 | 0.633 | - | - |
+| `lyap_wolf` | validated | 440 | 0.004315 | 0.00237 | 0.00432 | 0.00287 | 0.1402 | 0.031 |
+| `lyap_ros` | validated | 440 | 0.003452 | 0.00148 | 0.005231 | 0.00493 | 0.1402 | 0.025 |
+| `lyap_ros_fit_start` | characterized | 440 | 1 | 0 | 1.648 | 0.983 | - | - |
+| `lyap_ros_fit_len` | characterized | 440 | 23 | 5 | 45.9 | 50.7 | - | - |
+| `lyap_ros_fit_r2` | characterized | 440 | 0.9496 | 0.0198 | 0.9455 | 0.0258 | - | - |
+| `lyap_ros_fit_curv` | characterized | 440 | -0.6659 | 0.111 | -0.6597 | 0.163 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 440 | 0.2027 | 0.0777 | 0.1933 | 0.0854 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 440 | -3.338 | 1.19 | -4.218 | 3.09 | - | - |
+| `corr_dim` | validated | 440 | 4.146 | 0.567 | 4.394 | 1.21 | 2.837 +/- 0.173 | 1.461 |
+| `corr_dim_fit_r2` | characterized | 440 | 0.9962 | 0.00294 | 0.9932 | 0.00936 | - | - |
+| `corr_dim_fit_curv` | characterized | 440 | -0.2041 | 0.137 | -0.1842 | 0.231 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 440 | 0.04199 | 0.0159 | 0.04852 | 0.029 | - | - |
+| `corr_dim_fit_runsz` | characterized | 440 | -5.116 | 0.407 | -5.175 | 0.635 | - | - |
+| `corr_dim_fit_len` | characterized | 440 | 33 | 4 | 34.54 | 6.82 | - | - |
+| `corr_dim_fit_span` | characterized | 440 | 0.909 | 0.148 | 0.9176 | 0.247 | - | - |
+| `rqa_radius` | characterized | 440 | 0.341 | 0.149 | 0.3586 | 0.188 | - | - |
+| `rqa_det` | characterized | 440 | 93.54 | 3.61 | 88.26 | 10.9 | - | - |
+| `rqa_lam` | characterized | 440 | 95.6 | 2.46 | 93.37 | 6.77 | - | - |
+| `rqa_meanL` | characterized | 440 | 9.801 | 3.53 | 12.25 | 6.99 | - | - |
+| `rqa_maxL` | characterized | 440 | 3699 | 145 | 2911 | 1.39e+03 | - | - |
+| `rqa_maxL_tw` | characterized | 440 | 390 | 278 | 624.5 | 749 | - | - |
+| `rqa_entL` | characterized | 440 | 3.964 | 0.437 | 3.851 | 0.738 | - | - |
+| `rqa_entV` | characterized | 440 | 4.097 | 0.871 | 4.054 | 1.06 | - | - |
+| `rqa_entW` | characterized | 440 | 3.421 | 0.176 | 3.401 | 0.264 | - | - |
+| `ent_samp` | characterized | 440 | 0.09193 | 0.0289 | 0.1039 | 0.0557 | - | - |
+| `ent_ap` | characterized | 440 | 0.09585 | 0.0292 | 0.1083 | 0.0567 | - | - |
+| `ent_permu` | characterized | 440 | 6.054 | 0.0477 | 6.041 | 0.095 | - | - |
+| `ent_ms_s1` | characterized | 440 | 0.09193 | 0.0289 | 0.1039 | 0.0557 | - | - |
+| `ent_ms_ci` | characterized | 440 | 1.789 | 0.453 | 1.852 | 0.685 | - | - |
+| `dfa_alpha` | characterized | 440 | 1.584 | 0.0452 | 1.585 | 0.0727 | - | - |
+
+## lcg (A.1.4, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 2 | 1 | 1.763 | 0.861 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.267 | 0.445 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3596 | 0.00348 | 0.3597 | 0.00521 | 8.874 | 0.041 |
+| `lyap_ros` | validated | 1000 | 0.1947 | 0.0196 | 0.1172 | 0.102 | 8.874 | 0.022 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.426 | 0.495 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 4 | 0 | 4.179 | 0.384 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.6174 | 0.0318 | 0.6869 | 0.128 | - | - |
+| `lyap_ros_fit_curv` | characterized | 179 | 0.05673 | 0.756 | 0.04635 | 0.959 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.3834 | 0.0222 | 0.3308 | 0.0959 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | 0 | 0 | 0.2303 | 0.512 | - | - |
+| `corr_dim` | validated | 1000 | 1.971 | 0.0058 | 1.971 | 0.00883 | 1 | 1.971 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.15e-05 | 1 | 2.05e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.01411 | 0.00648 | -0.01395 | 0.00951 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003538 | 0.000815 | 0.003723 | 0.00127 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.155 | 0.596 | -5.004 | 0.932 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 44 | 2 | 43.83 | 3.56 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.968 | 0.0184 | 1.962 | 0.0383 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.3219 | 0.00112 | 0.3218 | 0.00174 | - | - |
+| `rqa_det` | characterized | 1000 | 28.04 | 0.0906 | 28.05 | 0.129 | - | - |
+| `rqa_lam` | characterized | 1000 | 4.969 | 0.338 | 4.975 | 0.491 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.176 | 0.00193 | 2.176 | 0.00282 | - | - |
+| `rqa_maxL` | characterized | 1000 | 7 | 0 | 7.217 | 0.78 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 0.7168 | 0.00524 | 0.7166 | 0.00783 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.561 | 0.0505 | 0.5616 | 0.0744 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.741 | 0.00835 | 3.741 | 0.013 | - | - |
+| `ent_samp` | characterized | 1000 | 2.188 | 0.00723 | 2.188 | 0.0109 | - | - |
+| `ent_ap` | characterized | 1000 | 2.107 | 0.00544 | 2.107 | 0.00832 | - | - |
+| `ent_permu` | characterized | 1000 | 6.886 | 0.00219 | 6.886 | 0.00326 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## logistic (A.1.1, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 8 | 1 | 8.146 | 1.24 | - | - |
+| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.5609 | 0.00665 | 0.5607 | 0.00993 | 0.6931 | 0.809 |
+| `lyap_ros` | validated | 1000 | 0.6098 | 0.00259 | 0.6143 | 0.0121 | 0.6931 | 0.880 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 14 | 0 | 13.84 | 0.365 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9821 | 0.000965 | 0.9835 | 0.00382 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4485 | 0.0135 | -0.4235 | 0.0656 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1153 | 0.00302 | 0.1103 | 0.0136 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.763 | 0 | -2.738 | 0.059 | - | - |
+| `corr_dim` | validated | 1000 | 0.9258 | 0.0135 | 0.9234 | 0.0213 | 1 | 0.926 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 2.16e-05 | 0.9999 | 5.29e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0163 | 0.0125 | -0.01506 | 0.0193 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.00458 | 0.00131 | 0.005006 | 0.00214 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.684 | 0.714 | -5.544 | 1 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 51.06 | 3.65 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 4.199 | 0.0736 | 4.205 | 0.118 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.06969 | 0.00157 | 0.06967 | 0.00225 | - | - |
+| `rqa_det` | characterized | 1000 | 74.26 | 0.135 | 74.25 | 0.208 | - | - |
+| `rqa_lam` | characterized | 1000 | 10.01 | 1.28 | 10.11 | 1.91 | - | - |
+| `rqa_meanL` | characterized | 1000 | 3.061 | 0.00852 | 3.062 | 0.0128 | - | - |
+| `rqa_maxL` | characterized | 1000 | 18 | 1 | 18.34 | 1.93 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.059 | 0.00813 | 2.06 | 0.0122 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.774 | 0.112 | 1.774 | 0.163 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.605 | 0.0184 | 3.609 | 0.0256 | - | - |
+| `ent_samp` | characterized | 1000 | 0.6375 | 0.00328 | 0.6373 | 0.00473 | - | - |
+| `ent_ap` | characterized | 1000 | 0.6578 | 0.00174 | 0.6577 | 0.00249 | - | - |
+| `ent_permu` | characterized | 1000 | 4.691 | 0.0112 | 4.691 | 0.016 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## lorenz (A.5.1, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 25.641.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 4 | 0 | 4.086 | 0.375 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.093 | 0.291 | - | - |
+| `embed_delay` | characterized | 1000 | 4 | 0 | 4.086 | 0.375 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3.093 | 0.291 | - | - |
+| `lyap_wolf` | validated | 1000 | 1.28 | 0.0634 | 1.275 | 0.0976 | 0.9056 | 1.414 |
+| `lyap_ros` | validated | 1000 | 0.8428 | 0.0293 | 0.8491 | 0.0837 | 0.9056 | 0.931 |
+| `lyap_ros_fit_start` | characterized | 1000 | 4 | 0 | 3.161 | 1.2 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 106 | 5 | 105.5 | 11.9 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9795 | 0.000225 | 0.9793 | 0.00118 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4915 | 0.0143 | -0.4924 | 0.0272 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.136 | 0.00588 | 0.1343 | 0.0106 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -9.903 | 0.269 | -9.858 | 0.692 | - | - |
+| `corr_dim` | validated | 1000 | 2.018 | 0.0285 | 2.016 | 0.0443 | 2.068 +/- 0.086 | 0.976 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000113 | 0.9997 | 0.000204 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.04413 | 0.0237 | -0.04197 | 0.0363 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01033 | 0.00273 | 0.01054 | 0.004 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.279 | 0.293 | -6.159 | 0.558 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 49.2 | 3.49 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.926 | 0.0395 | 1.922 | 0.0597 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.3296 | 0.0033 | 0.3403 | 0.037 | - | - |
+| `rqa_det` | characterized | 1000 | 95.42 | 0.0813 | 95.31 | 0.867 | - | - |
+| `rqa_lam` | characterized | 1000 | 76.61 | 1.54 | 77.23 | 3.49 | - | - |
+| `rqa_meanL` | characterized | 1000 | 7.875 | 0.113 | 7.979 | 0.726 | - | - |
+| `rqa_maxL` | characterized | 1000 | 196 | 21 | 202.2 | 36.8 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 195 | 20 | 201.5 | 36.6 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.782 | 0.0146 | 3.771 | 0.168 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.9622 | 0.0748 | 0.9843 | 0.133 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.681 | 0.0481 | 3.646 | 0.134 | - | - |
+| `ent_samp` | characterized | 1000 | 0.3956 | 0.00608 | 0.3964 | 0.0093 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4352 | 0.011 | 0.435 | 0.0162 | - | - |
+| `ent_permu` | characterized | 1000 | 2.507 | 0.0227 | 2.506 | 0.032 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.3956 | 0.00608 | 0.3964 | 0.0093 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 7.076 | 0.0831 | 7.053 | 0.14 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.8355 | 0.0248 | 0.8351 | 0.0359 | - | - |
+
+## lorenz3d_map (A.3.6, conservative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1.001 | 0.0316 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.08173 | 0.00693 | 0.07898 | 0.0143 | 0.07456 | 1.096 |
+| `lyap_ros` | validated | 1000 | 0.07133 | 0.00536 | 0.07028 | 0.009 | 0.07456 | 0.957 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.061 | 0.419 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 43 | 3 | 42.26 | 5.11 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9807 | 0.000418 | 0.9808 | 0.00062 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.536 | 0.00668 | -0.5342 | 0.016 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09259 | 0.00401 | 0.09289 | 0.00637 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -5.963 | 0.208 | -5.922 | 0.466 | - | - |
+| `corr_dim` | validated | 1000 | 1.874 | 0.047 | 1.809 | 0.182 | 1.745 +/- 0.057 | 1.074 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 0.0001 | 0.9994 | 0.00195 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.03484 | 0.025 | -0.03763 | 0.0759 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.008828 | 0.00322 | 0.01186 | 0.012 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.723 | 0.425 | -6.613 | 0.78 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 56 | 3 | 56.45 | 6.15 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.064 | 0.0653 | 2.152 | 0.284 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.574 | 0.0113 | 0.5673 | 0.0448 | - | - |
+| `rqa_det` | characterized | 1000 | 92.39 | 0.151 | 92.59 | 0.769 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `rqa_meanL` | characterized | 1000 | 8.991 | 0.209 | 9.711 | 3.03 | - | - |
+| `rqa_maxL` | characterized | 1000 | 266 | 99 | 427.8 | 430 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 4.199 | 0.0202 | 4.217 | 0.0973 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.862 | 0.00623 | 3.846 | 0.0685 | - | - |
+| `ent_samp` | characterized | 1000 | 0.987 | 0.0271 | 0.9474 | 0.122 | - | - |
+| `ent_ap` | characterized | 1000 | 0.9279 | 0.0207 | 0.9083 | 0.0847 | - | - |
+| `ent_permu` | characterized | 1000 | 5.44 | 0.0222 | 5.41 | 0.121 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## lozi (A.2.2, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 15 | 1 | 14.73 | 1.88 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3597 | 0.00539 | 0.3596 | 0.00774 | 0.4702 | 0.765 |
+| `lyap_ros` | validated | 1000 | 0.3842 | 0.00227 | 0.3842 | 0.00409 | 0.4702 | 0.817 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 15 | 0 | 15 | 0.141 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9838 | 0.00102 | 0.9837 | 0.00145 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4609 | 0.0159 | -0.4611 | 0.0226 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09538 | 0.00296 | 0.09535 | 0.00419 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.944 | 0 | -2.944 | 0.0232 | - | - |
+| `corr_dim` | validated | 1000 | 1.395 | 0.00938 | 1.394 | 0.0138 | 1.384 +/- 0.053 | 1.008 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 1.21e-05 | 1 | 2.54e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.002393 | 0.00994 | -0.001827 | 0.0142 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.003994 | 0.000854 | 0.00438 | 0.00154 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.325 | 0.479 | -5.25 | 0.771 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.47 | 3.9 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.783 | 0.0313 | 2.773 | 0.057 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.2468 | 0.0016 | 0.2466 | 0.00238 | - | - |
+| `rqa_det` | characterized | 1000 | 90.07 | 0.184 | 90.07 | 0.257 | - | - |
+| `rqa_lam` | characterized | 1000 | 1.674 | 0.445 | 1.761 | 0.687 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.012 | 0.0331 | 4.013 | 0.0488 | - | - |
+| `rqa_maxL` | characterized | 1000 | 29 | 2 | 29.6 | 3.23 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.761 | 0.0193 | 2.762 | 0.0283 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.867 | 0.172 | 1.851 | 0.265 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.587 | 0.0156 | 3.587 | 0.022 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4383 | 0.00389 | 0.4381 | 0.00562 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4504 | 0.00222 | 0.4504 | 0.00335 | - | - |
+| `ent_permu` | characterized | 1000 | 4.413 | 0.00925 | 4.414 | 0.0137 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## moore_spiegel (A.5.11, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 11.7647.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 5 | 0 | 6.16 | 3.08 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.499 | 1.16 | - | - |
+| `embed_delay` | characterized | 1000 | 5 | 0 | 6.16 | 3.08 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.499 | 1.16 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.2867 | 0.0457 | 0.2834 | 0.071 | 0.1119 | 2.562 |
+| `lyap_ros` | validated | 1000 | 0.6747 | 0.0311 | 0.6057 | 0.185 | 0.1119 | 6.030 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 50 | 2 | 65.94 | 46.2 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.000518 | 0.9815 | 0.00369 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5415 | 0.00822 | -0.5188 | 0.0812 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1028 | 0.00326 | 0.0998 | 0.0128 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -6.566 | 0.15 | -7.302 | 2.17 | - | - |
+| `corr_dim` | validated | 1000 | 1.575 | 0.0411 | 1.618 | 0.156 | 2.309 +/- 0.107 | 0.682 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9973 | 0.000898 | 0.9974 | 0.00128 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.1943 | 0.0354 | -0.1688 | 0.0903 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03588 | 0.00398 | 0.0337 | 0.00886 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.217 | 0.206 | -7.171 | 0.383 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 59.5 | 2.5 | 59.26 | 4.46 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.456 | 0.0568 | 2.404 | 0.203 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.381 | 0.00257 | 0.5096 | 0.327 | - | - |
+| `rqa_det` | characterized | 1000 | 97.69 | 0.0635 | 97.39 | 0.943 | - | - |
+| `rqa_lam` | characterized | 1000 | 85.37 | 0.344 | 87.42 | 4.59 | - | - |
+| `rqa_meanL` | characterized | 1000 | 13.18 | 0.219 | 12.54 | 1.86 | - | - |
+| `rqa_maxL` | characterized | 1000 | 619 | 123 | 1018 | 1.08e+03 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 584 | 97 | 634.2 | 192 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.376 | 0.0185 | 4.188 | 0.484 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.059 | 0.0197 | 1.205 | 0.409 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.562 | 0.0141 | 3.552 | 0.0745 | - | - |
+| `ent_samp` | characterized | 1000 | 0.3493 | 0.0032 | 0.3488 | 0.00523 | - | - |
+| `ent_ap` | characterized | 1000 | 0.3875 | 0.00238 | 0.3874 | 0.00371 | - | - |
+| `ent_permu` | characterized | 1000 | 2.161 | 0.00753 | 2.161 | 0.0106 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.3493 | 0.0032 | 0.3488 | 0.00523 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 4.89 | 0.052 | 4.895 | 0.0759 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.469 | 0.00392 | 0.4688 | 0.00633 | - | - |
+
+## nose_hoover (A.6.3, conservative_flow)
+
+Usable realizations: 1000 of 1000. fs = 0.490196.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 6 | 1 | 6.449 | 0.688 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 6 | 1 | 6.449 | 0.688 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.04372 | 0.00553 | 0.04229 | 0.00943 | 0.0138 | 3.168 |
+| `lyap_ros` | validated | 1000 | 0.07795 | 0.00627 | 0.07859 | 0.00918 | 0.0138 | 5.648 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.006 | 0.134 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 10 | 1 | 9.833 | 1.54 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9826 | 0.00152 | 0.983 | 0.00229 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4702 | 0.0232 | -0.4629 | 0.0393 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07442 | 0.00339 | 0.07431 | 0.00545 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -1.967 | 0.249 | -1.943 | 0.344 | - | - |
+| `corr_dim` | validated | 1000 | 2.167 | 0.0327 | 2.156 | 0.0674 | 2.521 +/- 0.146 | 0.860 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000179 | 0.9995 | 0.000316 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.07142 | 0.0194 | -0.07042 | 0.0316 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0155 | 0.00354 | 0.01572 | 0.00525 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.72 | 0.22 | -6.645 | 0.437 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 53 | 2 | 53.12 | 3.52 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.772 | 0.032 | 1.775 | 0.0682 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.953 | 0.126 | 1.001 | 0.14 | - | - |
+| `rqa_det` | characterized | 1000 | 90.04 | 0.417 | 90.21 | 1.45 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0.0001927 | 0.00101 | - | - |
+| `rqa_meanL` | characterized | 1000 | 5.341 | 0.502 | 5.515 | 0.478 | - | - |
+| `rqa_maxL` | characterized | 1000 | 210 | 62 | 256.8 | 162 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 210 | 62 | 256.8 | 162 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.163 | 0.185 | 3.217 | 0.184 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.289 | 0.0803 | 3.276 | 0.134 | - | - |
+| `ent_samp` | characterized | 1000 | 1.233 | 0.0194 | 1.22 | 0.0469 | - | - |
+| `ent_ap` | characterized | 1000 | 1.004 | 0.00824 | 0.9976 | 0.0246 | - | - |
+| `ent_permu` | characterized | 1000 | 5.725 | 0.0123 | 5.719 | 0.0342 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 1.233 | 0.0194 | 1.22 | 0.0469 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.334 | 0.678 | 8.087 | 0.96 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.8196 | 0.0487 | 0.8055 | 0.0982 | - | - |
+
+## pinchers (A.1.10, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 14 | 1 | 14.03 | 1.7 | - | - |
+| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3805 | 0.0043 | 0.38 | 0.00604 | 0.4679 | 0.813 |
+| `lyap_ros` | validated | 1000 | 0.4094 | 0.00184 | 0.4077 | 0.00548 | 0.4679 | 0.875 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 20 | 0 | 20.18 | 0.395 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9859 | 0.000803 | 0.9852 | 0.00229 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4167 | 0.0128 | -0.429 | 0.0373 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1072 | 0.00321 | 0.1091 | 0.00708 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -3.669 | 0 | -3.69 | 0.0492 | - | - |
+| `corr_dim` | validated | 1000 | 0.9993 | 0.00594 | 0.9992 | 0.00902 | 1 | 0.999 |
+| `corr_dim_fit_r2` | characterized | 1000 | 1 | 5.87e-06 | 1 | 1.77e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0005104 | 0.00852 | -0.0004902 | 0.0129 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.002787 | 0.000784 | 0.003079 | 0.00131 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.057 | 0.882 | -4.896 | 1.24 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.13 | 3.81 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.893 | 0.0374 | 3.884 | 0.0692 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.08358 | 0.000345 | 0.08351 | 0.000537 | - | - |
+| `rqa_det` | characterized | 1000 | 86.36 | 0.152 | 86.37 | 0.229 | - | - |
+| `rqa_lam` | characterized | 1000 | 1.362 | 0.389 | 1.474 | 0.674 | - | - |
+| `rqa_meanL` | characterized | 1000 | 3.75 | 0.0176 | 3.751 | 0.0263 | - | - |
+| `rqa_maxL` | characterized | 1000 | 26 | 2 | 26.92 | 2.92 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.599 | 0.0113 | 2.6 | 0.017 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.125 | 0.196 | 2.118 | 0.276 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.662 | 0.00746 | 3.661 | 0.0111 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4428 | 0.0037 | 0.4425 | 0.00559 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4433 | 0.00178 | 0.4431 | 0.00282 | - | - |
+| `ent_permu` | characterized | 1000 | 3.609 | 0.01 | 3.608 | 0.0148 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## predator_prey (A.2.11, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.137 | 0.344 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1962 | 0.00324 | 0.1963 | 0.00503 | 0.1966 | 0.998 |
+| `lyap_ros` | validated | 1000 | 0.1659 | 0.0024 | 0.1658 | 0.00369 | 0.1966 | 0.844 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 27 | 1 | 26.77 | 0.802 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9817 | 0.00093 | 0.9817 | 0.00111 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4999 | 0.0142 | -0.4995 | 0.0169 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09839 | 0.00297 | 0.09844 | 0.00422 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -4.47 | 0.0818 | -4.458 | 0.0906 | - | - |
+| `corr_dim` | validated | 1000 | 1.571 | 0.0224 | 1.571 | 0.0335 | 1.903 +/- 0.079 | 0.826 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 5.77e-05 | 0.9999 | 0.00012 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.03087 | 0.0158 | -0.03119 | 0.0237 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006803 | 0.0023 | 0.007389 | 0.00329 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.098 | 0.45 | -5.886 | 0.81 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 49 | 2 | 49.11 | 3.43 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.449 | 0.0488 | 2.446 | 0.0727 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.2457 | 0.00206 | 0.2457 | 0.00303 | - | - |
+| `rqa_det` | characterized | 1000 | 82.2 | 0.382 | 82.2 | 0.534 | - | - |
+| `rqa_lam` | characterized | 1000 | 0.02677 | 0.0144 | 0.03622 | 0.032 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.189 | 0.0351 | 4.191 | 0.0507 | - | - |
+| `rqa_maxL` | characterized | 1000 | 49 | 4 | 49.49 | 6.96 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.804 | 0.0143 | 2.804 | 0.0214 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | 0.2332 | 0.39 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.769 | 0.00796 | 3.768 | 0.0119 | - | - |
+| `ent_samp` | characterized | 1000 | 0.9054 | 0.00741 | 0.9054 | 0.011 | - | - |
+| `ent_ap` | characterized | 1000 | 0.7448 | 0.00357 | 0.7446 | 0.0056 | - | - |
+| `ent_permu` | characterized | 1000 | 4.871 | 0.0214 | 4.87 | 0.0321 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## rabinovich_fabrikant (A.5.8, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 1.96078.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 3 | 0 | 2.322 | 0.947 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.613 | 1.02 | - | - |
+| `embed_delay` | characterized | 1000 | 3 | 0 | 2.322 | 0.947 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 1 | 4.613 | 1.02 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1831 | 0.0147 | 0.2012 | 0.0374 | 0.1981 | 0.924 |
+| `lyap_ros` | validated | 1000 | 0.1678 | 0.0135 | 0.1808 | 0.0289 | 0.1981 | 0.847 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.549 | 0.883 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 34 | 2 | 30.72 | 5.63 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9807 | 0.000596 | 0.9808 | 0.000725 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.516 | 0.00958 | -0.5173 | 0.0133 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1029 | 0.00351 | 0.1011 | 0.00659 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -5.217 | 0.192 | -4.86 | 0.605 | - | - |
+| `corr_dim` | validated | 1000 | 2.23 | 0.0497 | 2.228 | 0.0635 | 2.191 +/- 0.113 | 1.018 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3.79e-05 | 0.9999 | 0.000139 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.002295 | 0.0217 | 0.004862 | 0.0323 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.005849 | 0.00191 | 0.006513 | 0.00333 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.961 | 0.475 | -5.833 | 0.797 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 49.49 | 4.43 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.73 | 0.0452 | 1.732 | 0.0677 | - | - |
+| `rqa_radius` | characterized | 1000 | 1.047 | 0.263 | 0.8996 | 0.329 | - | - |
+| `rqa_det` | characterized | 1000 | 75.62 | 1.74 | 77.45 | 4.45 | - | - |
+| `rqa_lam` | characterized | 1000 | 6.179 | 3.87 | 5.438 | 3.54 | - | - |
+| `rqa_meanL` | characterized | 1000 | 5.94 | 0.392 | 5.57 | 0.841 | - | - |
+| `rqa_maxL` | characterized | 1000 | 110 | 12 | 113.5 | 21.2 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 110 | 12 | 113.5 | 21.2 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.213 | 0.0931 | 3.131 | 0.229 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.009661 | 0.00966 | 0.01181 | 0.0125 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.579 | 0.0127 | 3.582 | 0.0186 | - | - |
+| `ent_samp` | characterized | 1000 | 0.8217 | 0.00825 | 0.821 | 0.0126 | - | - |
+| `ent_ap` | characterized | 1000 | 0.8668 | 0.00682 | 0.8656 | 0.0105 | - | - |
+| `ent_permu` | characterized | 1000 | 5.003 | 0.0173 | 5.003 | 0.0258 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.8217 | 0.00825 | 0.821 | 0.0126 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.158 | 0.102 | 9.155 | 0.148 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4292 | 0.0129 | 0.4295 | 0.0186 | - | - |
+
+## rayleigh_duffing (A.4.8, driven_flow)
+
+Usable realizations: 1000 of 1000. fs = 3.84615.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 6 | 0 | 6 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 6 | 0 | 6 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.08342 | 0.00585 | 0.08315 | 0.00881 | 0.0912 | 0.915 |
+| `lyap_ros` | validated | 1000 | 0.08075 | 0.00793 | 0.08143 | 0.0118 | 0.0912 | 0.885 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.261 | 0.815 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 117 | 23 | 117 | 33.3 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.98 | 0.000132 | 0.9801 | 0.000403 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5354 | 0.0092 | -0.5317 | 0.0187 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09201 | 0.00761 | 0.09219 | 0.011 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.48 | 1.09 | -10.35 | 1.64 | - | - |
+| `corr_dim` | validated | 1000 | 2.329 | 0.0455 | 2.324 | 0.0695 | 2.194 +/- 0.12 | 1.062 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000112 | 0.9997 | 0.000253 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.02937 | 0.031 | -0.02421 | 0.0479 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01086 | 0.00306 | 0.01151 | 0.00487 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.463 | 0.332 | -6.361 | 0.552 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 52 | 3 | 51.98 | 4.18 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.655 | 0.0476 | 1.657 | 0.0724 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.6489 | 0.00797 | 0.6486 | 0.012 | - | - |
+| `rqa_det` | characterized | 1000 | 99.16 | 0.0262 | 99.16 | 0.0391 | - | - |
+| `rqa_lam` | characterized | 1000 | 94 | 0.289 | 93.96 | 0.442 | - | - |
+| `rqa_meanL` | characterized | 1000 | 13.05 | 0.172 | 13.07 | 0.267 | - | - |
+| `rqa_maxL` | characterized | 1000 | 438 | 61 | 458.2 | 106 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 371.5 | 48.5 | 384.4 | 85 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.641 | 0.0193 | 4.642 | 0.0291 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.624 | 0.0357 | 1.625 | 0.054 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.702 | 0.0109 | 3.701 | 0.0162 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5414 | 0.00478 | 0.5409 | 0.0069 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5444 | 0.00463 | 0.5441 | 0.00664 | - | - |
+| `ent_permu` | characterized | 1000 | 2.638 | 0.00671 | 2.637 | 0.00987 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.5414 | 0.00478 | 0.5409 | 0.0069 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.697 | 0.172 | 8.695 | 0.25 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4025 | 0.00947 | 0.4027 | 0.0139 | - | - |
+
+## ricker (A.1.6, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 23 | 3 | 23.08 | 3.22 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3403 | 0.00516 | 0.3404 | 0.00738 | 0.3848 | 0.884 |
+| `lyap_ros` | validated | 1000 | 0.3265 | 0.00436 | 0.3271 | 0.00688 | 0.3848 | 0.848 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 25 | 0 | 24.84 | 0.633 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9826 | 0.00123 | 0.9825 | 0.00143 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4871 | 0.0195 | -0.4873 | 0.0232 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1079 | 0.00334 | 0.108 | 0.00438 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -4.281 | 0.00821 | -4.265 | 0.0726 | - | - |
+| `corr_dim` | validated | 1000 | 0.9113 | 0.0146 | 0.9082 | 0.0222 | 1 | 0.911 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.46e-05 | 0.9999 | 9.88e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.02415 | 0.0164 | -0.022 | 0.0269 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006248 | 0.00181 | 0.00663 | 0.00281 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.241 | 0.528 | -6.066 | 0.81 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 53 | 3 | 52.49 | 4 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 4.273 | 0.0772 | 4.279 | 0.124 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.06591 | 0.00134 | 0.06582 | 0.00198 | - | - |
+| `rqa_det` | characterized | 1000 | 88.18 | 0.379 | 88.17 | 0.581 | - | - |
+| `rqa_lam` | characterized | 1000 | 0.1704 | 0.086 | 0.2088 | 0.157 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.395 | 0.0515 | 4.398 | 0.0789 | - | - |
+| `rqa_maxL` | characterized | 1000 | 36 | 3 | 36.99 | 4.36 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.932 | 0.0245 | 2.934 | 0.039 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.655 | 0.306 | 1.617 | 0.473 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.755 | 0.00694 | 3.754 | 0.0107 | - | - |
+| `ent_samp` | characterized | 1000 | 0.3505 | 0.00756 | 0.3505 | 0.0111 | - | - |
+| `ent_ap` | characterized | 1000 | 0.3812 | 0.00444 | 0.3811 | 0.00648 | - | - |
+| `ent_permu` | characterized | 1000 | 3.543 | 0.0104 | 3.542 | 0.0153 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## rigid_body (A.5.9, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 3.84615.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 1 | 4.586 | 0.673 | - | - |
+| `embed_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 1 | 4.586 | 0.673 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1531 | 0.0102 | 0.1532 | 0.0146 | 0.1421 | 1.078 |
+| `lyap_ros` | validated | 1000 | 0.1133 | 0.00697 | 0.1134 | 0.0113 | 0.1421 | 0.797 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.171 | 0.663 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 108 | 9 | 108.6 | 13.9 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9794 | 0.000413 | 0.9793 | 0.000589 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5473 | 0.00914 | -0.5434 | 0.0168 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1064 | 0.00613 | 0.1065 | 0.00992 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.03 | 0.441 | -10.03 | 0.703 | - | - |
+| `corr_dim` | validated | 1000 | 2.144 | 0.0504 | 2.134 | 0.0832 | 2.069 +/- 0.121 | 1.036 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 8.33e-05 | 0.9997 | 0.000392 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.008696 | 0.0322 | 0.01584 | 0.0507 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.008229 | 0.00277 | 0.00968 | 0.00545 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.268 | 0.395 | -6.141 | 0.679 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 50.42 | 4.33 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.8 | 0.0531 | 1.805 | 0.0891 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.7179 | 0.136 | 0.6683 | 0.123 | - | - |
+| `rqa_det` | characterized | 1000 | 98.01 | 0.209 | 97.89 | 0.341 | - | - |
+| `rqa_lam` | characterized | 1000 | 95.48 | 1.54 | 94.51 | 1.77 | - | - |
+| `rqa_meanL` | characterized | 1000 | 9.963 | 0.268 | 9.943 | 0.47 | - | - |
+| `rqa_maxL` | characterized | 1000 | 263 | 44 | 301.3 | 126 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 244 | 38 | 277.7 | 112 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.306 | 0.0242 | 4.297 | 0.0615 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.017 | 0.108 | 2.014 | 0.163 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.292 | 0.0823 | 3.281 | 0.124 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4629 | 0.00435 | 0.4624 | 0.00653 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5348 | 0.00794 | 0.5341 | 0.0116 | - | - |
+| `ent_permu` | characterized | 1000 | 2.286 | 0.017 | 2.287 | 0.0252 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4629 | 0.00435 | 0.4624 | 0.00653 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 8.23 | 0.167 | 8.21 | 0.259 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.5396 | 0.0167 | 0.5398 | 0.0255 | - | - |
+
+## rossler (A.5.2, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 6.66667.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 10 | 0 | 9.431 | 0.708 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 3.995 | 0.0706 | - | - |
+| `embed_delay` | characterized | 1000 | 10 | 0 | 9.431 | 0.708 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 3.995 | 0.0706 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.0672 | 0.00686 | 0.06662 | 0.0104 | 0.0714 | 0.941 |
+| `lyap_ros` | validated | 1000 | 0.05856 | 0.00529 | 0.05854 | 0.00798 | 0.0714 | 0.820 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.002 | 0.0632 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 199.7 | 5.36 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9971 | 0.00154 | 0.9958 | 0.00396 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.08477 | 0.106 | -0.09062 | 0.156 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.04068 | 0.0137 | 0.04487 | 0.022 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.55 | 0.306 | -13.4 | 0.472 | - | - |
+| `corr_dim` | validated | 1000 | 1.863 | 0.0473 | 1.857 | 0.0718 | 1.991 +/- 0.065 | 0.936 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000248 | 0.9994 | 0.000767 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.03796 | 0.0498 | -0.03395 | 0.08 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0138 | 0.00541 | 0.01571 | 0.00886 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.889 | 0.354 | -6.784 | 0.622 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 58 | 3 | 57.23 | 4.94 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.011 | 0.074 | 2.016 | 0.111 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.4964 | 0.00556 | 0.4939 | 0.0107 | - | - |
+| `rqa_det` | characterized | 1000 | 99.15 | 0.0417 | 99.16 | 0.12 | - | - |
+| `rqa_lam` | characterized | 1000 | 94.8 | 0.432 | 94.76 | 0.607 | - | - |
+| `rqa_meanL` | characterized | 1000 | 16.72 | 0.695 | 17.02 | 1.17 | - | - |
+| `rqa_maxL` | characterized | 1000 | 815.5 | 123 | 856.3 | 214 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 815.5 | 123 | 856.3 | 214 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.565 | 0.0593 | 4.574 | 0.0977 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.948 | 0.07 | 1.944 | 0.113 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.707 | 0.023 | 3.706 | 0.0351 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4845 | 0.00248 | 0.483 | 0.00557 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4988 | 0.00341 | 0.4974 | 0.00655 | - | - |
+| `ent_permu` | characterized | 1000 | 2.042 | 0.00328 | 2.042 | 0.00487 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4845 | 0.00248 | 0.483 | 0.00557 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 4.594 | 0.105 | 4.55 | 0.189 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.3395 | 0.00169 | 0.3395 | 0.00246 | - | - |
+
+## rucklidge (A.5.15, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 6.66667.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.416 | 0.493 | - | - |
+| `embed_delay` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.416 | 0.493 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.2453 | 0.0162 | 0.2453 | 0.0239 | 0.0643 | 3.815 |
+| `lyap_ros` | validated | 1000 | 0.1557 | 0.0104 | 0.1608 | 0.0219 | 0.0643 | 2.422 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.42 | 0.763 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 133.5 | 13.5 | 128.6 | 25.6 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9761 | 0.000891 | 0.976 | 0.00126 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5648 | 0.0117 | -0.5657 | 0.0185 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1191 | 0.00827 | 0.1175 | 0.0134 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -11.23 | 0.608 | -10.93 | 1.27 | - | - |
+| `corr_dim` | validated | 1000 | 2.142 | 0.0497 | 2.118 | 0.1 | 2.108 +/- 0.095 | 1.016 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 8.26e-05 | 0.9998 | 0.000354 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.007655 | 0.0306 | 0.007178 | 0.0506 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007493 | 0.00284 | 0.009181 | 0.00589 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.238 | 0.448 | -6.03 | 0.799 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 3 | 50.13 | 4.52 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.795 | 0.0555 | 1.801 | 0.101 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.6732 | 0.0617 | 0.7113 | 0.0934 | - | - |
+| `rqa_det` | characterized | 1000 | 95.37 | 0.569 | 95.44 | 0.819 | - | - |
+| `rqa_lam` | characterized | 1000 | 91.25 | 1.06 | 91.24 | 1.19 | - | - |
+| `rqa_meanL` | characterized | 1000 | 8.135 | 0.607 | 8.286 | 0.984 | - | - |
+| `rqa_maxL` | characterized | 1000 | 222 | 26 | 229.6 | 48.4 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 222 | 26 | 229.6 | 48.4 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.671 | 0.168 | 3.7 | 0.253 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.566 | 0.133 | 2.585 | 0.213 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.678 | 0.0223 | 3.679 | 0.0337 | - | - |
+| `ent_samp` | characterized | 1000 | 0.457 | 0.0123 | 0.4529 | 0.0202 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5426 | 0.00527 | 0.5416 | 0.00818 | - | - |
+| `ent_permu` | characterized | 1000 | 2.899 | 0.032 | 2.896 | 0.047 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.457 | 0.0123 | 0.4529 | 0.0202 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.288 | 0.33 | 9.142 | 0.571 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.327 | 0.00355 | 0.3272 | 0.00557 | - | - |
+
+## shaw_vdp (A.4.3, driven_flow)
+
+Usable realizations: 1000 of 1000. fs = 5.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 10 | 0 | 9.638 | 0.481 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.741 | 0.641 | - | - |
+| `embed_delay` | characterized | 1000 | 10 | 0 | 9.638 | 0.481 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 0 | 4.741 | 0.641 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1034 | 0.00803 | 0.103 | 0.0122 | 0.118 | 0.877 |
+| `lyap_ros` | validated | 1000 | 0.08688 | 0.00548 | 0.08669 | 0.00815 | 0.118 | 0.736 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 192 | 8 | 187.6 | 13.9 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9794 | 0.000882 | 0.9818 | 0.00485 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5433 | 0.0205 | -0.5025 | 0.0939 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1125 | 0.0114 | 0.1077 | 0.02 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.53 | 0.362 | -13.38 | 0.526 | - | - |
+| `corr_dim` | validated | 1000 | 2.04 | 0.0455 | 2.034 | 0.0678 | 2.007 +/- 0.091 | 1.017 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000117 | 0.9997 | 0.000384 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.01651 | 0.0337 | -0.01386 | 0.0555 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.009135 | 0.00403 | 0.01104 | 0.00689 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.668 | 0.404 | -6.527 | 0.702 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 56 | 3 | 55.27 | 5.3 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.871 | 0.0565 | 1.875 | 0.0911 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.7548 | 0.0287 | 0.719 | 0.108 | - | - |
+| `rqa_det` | characterized | 1000 | 98.11 | 0.0949 | 98.11 | 0.266 | - | - |
+| `rqa_lam` | characterized | 1000 | 97.18 | 0.411 | 96.93 | 0.643 | - | - |
+| `rqa_meanL` | characterized | 1000 | 9.139 | 0.425 | 9.276 | 0.614 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3959 | 4 | 3547 | 956 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 409 | 67 | 421.4 | 100 | - | - |
+| `rqa_entL` | characterized | 1000 | 3.718 | 0.0844 | 3.752 | 0.11 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.138 | 0.0901 | 2.026 | 0.188 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.682 | 0.0567 | 3.644 | 0.0825 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4435 | 0.00368 | 0.4429 | 0.00532 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4648 | 0.00299 | 0.4646 | 0.00435 | - | - |
+| `ent_permu` | characterized | 1000 | 2.353 | 0.0216 | 2.353 | 0.0309 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4435 | 0.00368 | 0.4429 | 0.00532 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 7.448 | 0.105 | 7.441 | 0.176 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4928 | 0.00758 | 0.4922 | 0.0116 | - | - |
+
+## simplest_cubic (A.5.18, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 2.94118.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1203 | 0.00718 | 0.1204 | 0.011 | 0.0837 | 1.437 |
+| `lyap_ros` | validated | 1000 | 0.3475 | 0.011 | 0.3464 | 0.0172 | 0.0837 | 4.151 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.009 | 0.164 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 19 | 1 | 18.54 | 1.11 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9813 | 0.000735 | 0.9813 | 0.000878 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5075 | 0.0102 | -0.5079 | 0.0125 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.07819 | 0.00276 | 0.07864 | 0.00434 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -3.522 | 0.13 | -3.458 | 0.148 | - | - |
+| `corr_dim` | validated | 1000 | 1.476 | 0.0182 | 1.472 | 0.0284 | 2.174 +/- 0.083 | 0.679 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9971 | 0.000497 | 0.9971 | 0.000746 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.2017 | 0.0169 | -0.1989 | 0.0265 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.03474 | 0.00356 | 0.03489 | 0.00507 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.717 | 0.15 | -6.708 | 0.243 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 52.02 | 3.22 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.61 | 0.0358 | 2.612 | 0.0526 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.1755 | 0.000949 | 0.1754 | 0.00133 | - | - |
+| `rqa_det` | characterized | 1000 | 99.47 | 0.012 | 99.47 | 0.0183 | - | - |
+| `rqa_lam` | characterized | 1000 | 52.88 | 1.05 | 52.86 | 1.5 | - | - |
+| `rqa_meanL` | characterized | 1000 | 14.24 | 0.0931 | 14.26 | 0.154 | - | - |
+| `rqa_maxL` | characterized | 1000 | 283.5 | 30.5 | 291 | 47.6 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 283.5 | 30.5 | 291 | 47.6 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.901 | 0.0169 | 4.903 | 0.0264 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.1624 | 0.00544 | 0.1627 | 0.00846 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.689 | 0.0106 | 3.689 | 0.0152 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2835 | 0.00313 | 0.2836 | 0.00439 | - | - |
+| `ent_ap` | characterized | 1000 | 0.2845 | 0.00334 | 0.2845 | 0.00468 | - | - |
+| `ent_permu` | characterized | 1000 | 1.94 | 0.00437 | 1.94 | 0.00645 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.2835 | 0.00313 | 0.2836 | 0.00439 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 2.874 | 0.0603 | 2.868 | 0.0855 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4612 | 0.00415 | 0.4608 | 0.00617 | - | - |
+
+## simplest_driven (A.6.2, conservative_flow)
+
+Usable realizations: 1000 of 1000. fs = 12.5.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 8 | 1 | 8.361 | 1.85 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.141 | 0.394 | - | - |
+| `embed_delay` | characterized | 1000 | 8 | 1 | 8.361 | 1.85 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.141 | 0.394 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.2377 | 0.0365 | 0.2283 | 0.0614 | 0.0971 | 2.448 |
+| `lyap_ros` | validated | 1000 | 0.3217 | 0.0318 | 0.309 | 0.0613 | 0.0971 | 3.313 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 82 | 7 | 85.35 | 21.8 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9803 | 0.000209 | 0.9805 | 0.00155 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.546 | 0.00492 | -0.5406 | 0.0412 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09618 | 0.00437 | 0.09551 | 0.00828 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -8.666 | 0.412 | -8.788 | 1.03 | - | - |
+| `corr_dim` | validated | 1000 | 2.55 | 0.163 | 2.593 | 0.242 | 2.634 +/- 0.16 | 0.968 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9992 | 0.000449 | 0.999 | 0.000742 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.08965 | 0.0468 | -0.07938 | 0.073 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.02028 | 0.00536 | 0.01972 | 0.0077 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.336 | 0.268 | -6.247 | 0.477 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 48.5 | 3.5 | 48.37 | 4.25 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.485 | 0.111 | 1.478 | 0.164 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.535 | 0.0317 | 0.5686 | 0.103 | - | - |
+| `rqa_det` | characterized | 1000 | 99.78 | 0.072 | 99.79 | 0.0819 | - | - |
+| `rqa_lam` | characterized | 1000 | 96.85 | 1.92 | 96.83 | 1.87 | - | - |
+| `rqa_meanL` | characterized | 1000 | 18.95 | 0.811 | 20.14 | 5.3 | - | - |
+| `rqa_maxL` | characterized | 1000 | 1204 | 586 | 1605 | 1.06e+03 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 479 | 122 | 576.2 | 340 | - | - |
+| `rqa_entL` | characterized | 1000 | 5.372 | 0.113 | 5.388 | 0.207 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.689 | 0.587 | 2.725 | 0.621 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.741 | 0.0362 | 3.671 | 0.157 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5225 | 0.018 | 0.485 | 0.0658 | - | - |
+| `ent_ap` | characterized | 1000 | 0.543 | 0.0167 | 0.533 | 0.0431 | - | - |
+| `ent_permu` | characterized | 1000 | 1.916 | 0.0466 | 1.906 | 0.0562 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.5225 | 0.018 | 0.485 | 0.0658 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 5.601 | 0.301 | 5.904 | 0.741 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.3989 | 0.0492 | 0.4422 | 0.117 | - | - |
+
+## simplest_piecewise (A.5.19, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 6.25.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 11 | 0 | 10.76 | 0.505 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 11 | 0 | 10.76 | 0.505 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.04197 | 0.00717 | 0.04223 | 0.0105 | 0.0362 | 1.159 |
+| `lyap_ros` | validated | 1000 | 0.05543 | 0.00895 | 0.06309 | 0.0193 | 0.0362 | 1.531 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.084 | 0.457 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 200 | 0 | 150.4 | 69.2 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9825 | 0.00222 | 0.9844 | 0.00412 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.1693 | 0.138 | -0.231 | 0.201 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.09987 | 0.0197 | 0.0989 | 0.0226 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -13.58 | 0.168 | -11.33 | 3.22 | - | - |
+| `corr_dim` | validated | 1000 | 1.626 | 0.108 | 1.634 | 0.15 | 2.131 +/- 0.072 | 0.763 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9993 | 0.000431 | 0.999 | 0.000991 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.04812 | 0.0518 | 0.05202 | 0.0776 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0231 | 0.00756 | 0.02383 | 0.0108 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -7.03 | 0.296 | -6.976 | 0.504 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 59 | 4 | 59.44 | 5.45 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.151 | 0.141 | 2.17 | 0.206 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.4204 | 0.00444 | 0.4196 | 0.00648 | - | - |
+| `rqa_det` | characterized | 1000 | 99.89 | 0.00809 | 99.89 | 0.0135 | - | - |
+| `rqa_lam` | characterized | 1000 | 95.66 | 0.149 | 95.65 | 0.238 | - | - |
+| `rqa_meanL` | characterized | 1000 | 24.54 | 0.265 | 24.33 | 0.743 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3977 | 0 | 3977 | 1.01 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 1207 | 129 | 1233 | 318 | - | - |
+| `rqa_entL` | characterized | 1000 | 5.434 | 0.101 | 5.409 | 0.158 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.89 | 0.0528 | 1.874 | 0.0837 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.717 | 0.0168 | 3.716 | 0.0261 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4225 | 0.00398 | 0.421 | 0.00653 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4253 | 0.00459 | 0.4238 | 0.00735 | - | - |
+| `ent_permu` | characterized | 1000 | 1.995 | 0.00391 | 1.995 | 0.00568 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4225 | 0.00398 | 0.421 | 0.00653 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 4.877 | 0.0629 | 4.869 | 0.0975 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.4659 | 0.0058 | 0.4645 | 0.00854 | - | - |
+
+## simplest_quadratic (A.5.17, autonomous_flow)
+
+Usable realizations: 995 of 1000. fs = 2.94118.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 995 | 11 | 0 | 10.97 | 0.271 | - | - |
+| `fnn_dim` | characterized | 995 | 4 | 0 | 4.018 | 0.133 | - | - |
+| `embed_delay` | characterized | 995 | 11 | 0 | 10.97 | 0.271 | - | - |
+| `embed_dim` | characterized | 995 | 4 | 0 | 4.018 | 0.133 | - | - |
+| `lyap_wolf` | validated | 995 | 0.05122 | 0.00281 | 0.05092 | 0.00397 | 0.0551 | 0.930 |
+| `lyap_ros` | validated | 995 | 0.04983 | 0.00173 | 0.04966 | 0.00258 | 0.0551 | 0.904 |
+| `lyap_ros_fit_start` | characterized | 995 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 995 | 200 | 0 | 200 | 0 | - | - |
+| `lyap_ros_fit_r2` | characterized | 995 | 0.9963 | 0.0017 | 0.9958 | 0.00276 | - | - |
+| `lyap_ros_fit_curv` | characterized | 995 | -0.2229 | 0.0603 | -0.2202 | 0.0948 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 995 | 0.04953 | 0.0107 | 0.04999 | 0.0165 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 995 | -13.89 | 0.00423 | -13.75 | 0.305 | - | - |
+| `corr_dim` | validated | 995 | 1.874 | 0.0436 | 1.867 | 0.0685 | 2.187 +/- 0.075 | 0.857 |
+| `corr_dim_fit_r2` | characterized | 995 | 0.9998 | 0.000153 | 0.9996 | 0.000429 | - | - |
+| `corr_dim_fit_curv` | characterized | 995 | -0.02597 | 0.0361 | -0.02054 | 0.0582 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 995 | 0.01034 | 0.00362 | 0.0115 | 0.00598 | - | - |
+| `corr_dim_fit_runsz` | characterized | 995 | -6.591 | 0.349 | -6.48 | 0.619 | - | - |
+| `corr_dim_fit_len` | characterized | 995 | 54 | 3 | 53.57 | 4.58 | - | - |
+| `corr_dim_fit_span` | characterized | 995 | 2.031 | 0.0663 | 2.036 | 0.0992 | - | - |
+| `rqa_radius` | characterized | 995 | 0.4108 | 0.00696 | 0.4104 | 0.0114 | - | - |
+| `rqa_det` | characterized | 995 | 98.24 | 0.0326 | 98.26 | 0.132 | - | - |
+| `rqa_lam` | characterized | 995 | 87.68 | 0.848 | 87.64 | 1.21 | - | - |
+| `rqa_meanL` | characterized | 995 | 11.4 | 0.0711 | 11.48 | 0.523 | - | - |
+| `rqa_maxL` | characterized | 995 | 418 | 42 | 431.8 | 75.6 | - | - |
+| `rqa_maxL_tw` | characterized | 995 | 418 | 42 | 431.8 | 75.6 | - | - |
+| `rqa_entL` | characterized | 995 | 3.914 | 0.0115 | 3.921 | 0.0572 | - | - |
+| `rqa_entV` | characterized | 995 | 1.215 | 0.0343 | 1.203 | 0.0686 | - | - |
+| `rqa_entW` | characterized | 995 | 3.724 | 0.0214 | 3.716 | 0.0564 | - | - |
+| `ent_samp` | characterized | 995 | 0.2407 | 0.000319 | 0.2407 | 0.000517 | - | - |
+| `ent_ap` | characterized | 995 | 0.2695 | 0.00099 | 0.2692 | 0.00169 | - | - |
+| `ent_permu` | characterized | 995 | 2.116 | 0.00386 | 2.116 | 0.00605 | - | - |
+| `ent_ms_s1` | characterized | 995 | 0.2407 | 0.000319 | 0.2407 | 0.000517 | - | - |
+| `ent_ms_ci` | characterized | 995 | 4.319 | 0.0388 | 4.311 | 0.0612 | - | - |
+| `dfa_alpha` | characterized | 995 | 0.3601 | 0.00812 | 0.3604 | 0.0118 | - | - |
+
+## sinai (A.2.10, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 4 | 1 | 4.492 | 1.06 | - | - |
+| `fnn_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3714 | 0.00366 | 0.3713 | 0.00547 | 0.9595 | 0.387 |
+| `lyap_ros` | validated | 1000 | 0.8437 | 0.00425 | 0.8436 | 0.00608 | 0.9595 | 0.879 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 5 | 0 | 5 | 0 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9819 | 0.000934 | 0.9819 | 0.00142 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4404 | 0.0134 | -0.4407 | 0.02 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.06624 | 0.00161 | 0.06622 | 0.00244 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -0.4364 | 0 | -0.4364 | 2.05e-15 | - | - |
+| `corr_dim` | validated | 1000 | 1.755 | 0.0121 | 1.755 | 0.0176 | 1.779 +/- 0.063 | 0.986 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 4.25e-05 | 0.9999 | 7.11e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.03785 | 0.0076 | -0.03817 | 0.0122 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.007445 | 0.00163 | 0.007665 | 0.00235 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.37 | 0.274 | -6.256 | 0.531 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 50 | 2 | 49.28 | 3.48 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 2.21 | 0.0227 | 2.204 | 0.0413 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.5477 | 0.00205 | 0.5476 | 0.00307 | - | - |
+| `rqa_det` | characterized | 1000 | 65.19 | 0.245 | 65.2 | 0.378 | - | - |
+| `rqa_lam` | characterized | 1000 | 2.6 | 0.382 | 2.64 | 0.586 | - | - |
+| `rqa_meanL` | characterized | 1000 | 2.622 | 0.00419 | 2.622 | 0.00615 | - | - |
+| `rqa_maxL` | characterized | 1000 | 13 | 1 | 13.35 | 1.33 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 1.557 | 0.0058 | 1.558 | 0.00851 | - | - |
+| `rqa_entV` | characterized | 1000 | 0.8508 | 0.127 | 0.8572 | 0.187 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.636 | 0.0133 | 3.635 | 0.0189 | - | - |
+| `ent_samp` | characterized | 1000 | 1.152 | 0.00576 | 1.151 | 0.00896 | - | - |
+| `ent_ap` | characterized | 1000 | 1.123 | 0.00323 | 1.123 | 0.0047 | - | - |
+| `ent_permu` | characterized | 1000 | 6.525 | 0.0164 | 6.525 | 0.0242 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## sine_circle (A.1.12, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 9 | 0 | 9.774 | 1.07 | - | - |
+| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.3236 | 0.00567 | 0.3232 | 0.00875 | 0.3539 | 0.914 |
+| `lyap_ros` | validated | 1000 | 0.3196 | 0.00506 | 0.3192 | 0.00748 | 0.3539 | 0.903 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 25 | 0 | 25.16 | 0.606 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9825 | 0.00122 | 0.9826 | 0.00145 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.466 | 0.0194 | -0.4651 | 0.0254 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.113 | 0.00331 | 0.1132 | 0.00464 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -4.289 | 0 | -4.307 | 0.0689 | - | - |
+| `corr_dim` | validated | 1000 | 0.8989 | 0.0155 | 0.8975 | 0.0237 | 1 | 0.899 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 5.34e-05 | 0.9999 | 9.51e-05 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.02922 | 0.0146 | -0.02891 | 0.0214 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.006216 | 0.00209 | 0.006678 | 0.00293 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.319 | 0.5 | -6.079 | 0.904 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 53 | 3 | 52.61 | 3.98 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 4.314 | 0.081 | 4.321 | 0.132 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.06964 | 0.000597 | 0.06959 | 0.000869 | - | - |
+| `rqa_det` | characterized | 1000 | 92.06 | 0.168 | 92.06 | 0.253 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.188 | 0.0515 | 4.194 | 0.0814 | - | - |
+| `rqa_maxL` | characterized | 1000 | 46 | 4 | 46.43 | 6.64 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.702 | 0.0263 | 2.705 | 0.0411 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.784 | 0.00578 | 3.784 | 0.00873 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2993 | 0.00183 | 0.2992 | 0.0027 | - | - |
+| `ent_ap` | characterized | 1000 | 0.3681 | 0.00201 | 0.368 | 0.00282 | - | - |
+| `ent_permu` | characterized | 1000 | 3.532 | 0.00937 | 3.532 | 0.0132 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## sine_map (A.1.2, noninvertible_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 8 | 1 | 8.238 | 1.36 | - | - |
+| `fnn_dim` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 2 | 0 | 2 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.5558 | 0.00734 | 0.555 | 0.0109 | 0.6891 | 0.807 |
+| `lyap_ros` | validated | 1000 | 0.6098 | 0.00205 | 0.6106 | 0.00608 | 0.6891 | 0.885 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 14 | 0 | 13.97 | 0.165 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9837 | 0.000897 | 0.9839 | 0.002 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4257 | 0.0135 | -0.4216 | 0.0337 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1105 | 0.00307 | 0.1097 | 0.0073 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -2.763 | 0 | -2.759 | 0.0267 | - | - |
+| `corr_dim` | validated | 1000 | 0.9151 | 0.0151 | 0.9111 | 0.025 | 1 | 0.915 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9999 | 3.4e-05 | 0.9999 | 0.000104 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.02319 | 0.0135 | -0.02072 | 0.0227 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.005341 | 0.00162 | 0.005737 | 0.00253 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -5.908 | 0.655 | -5.707 | 0.968 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 3 | 51.03 | 3.9 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 4.246 | 0.0827 | 4.261 | 0.138 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.06397 | 0.00185 | 0.06379 | 0.00281 | - | - |
+| `rqa_det` | characterized | 1000 | 74.44 | 0.151 | 74.45 | 0.235 | - | - |
+| `rqa_lam` | characterized | 1000 | 16.37 | 1.67 | 16.52 | 2.53 | - | - |
+| `rqa_meanL` | characterized | 1000 | 3.072 | 0.00968 | 3.073 | 0.015 | - | - |
+| `rqa_maxL` | characterized | 1000 | 18 | 1 | 18.63 | 1.98 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.07 | 0.00922 | 2.071 | 0.0142 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.951 | 0.102 | 1.954 | 0.152 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.707 | 0.00923 | 3.706 | 0.0138 | - | - |
+| `ent_samp` | characterized | 1000 | 0.6333 | 0.00411 | 0.6329 | 0.00636 | - | - |
+| `ent_ap` | characterized | 1000 | 0.6544 | 0.00234 | 0.6541 | 0.00361 | - | - |
+| `ent_permu` | characterized | 1000 | 4.607 | 0.0152 | 4.606 | 0.0232 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## thomas (A.5.12, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 15 | 1 | 12.12 | 3.55 | - | - |
+| `fnn_dim` | characterized | 1000 | 8 | 1 | 8.151 | 1.33 | - | - |
+| `embed_delay` | characterized | 1000 | 15 | 1 | 12.12 | 3.55 | - | - |
+| `embed_dim` | characterized | 1000 | 8 | 1 | 8.151 | 1.33 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.04186 | 0.00674 | 0.04164 | 0.00927 | 0.0349 | 1.200 |
+| `lyap_ros` | validated | 1000 | 0.01512 | 0.00479 | 0.01672 | 0.00817 | 0.0349 | 0.433 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.461 | 0.725 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 132.5 | 24.5 | 128.7 | 42.5 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9734 | 0.00351 | 0.9708 | 0.00782 | - | - |
+| `lyap_ros_fit_curv` | characterized | 988 | -0.5907 | 0.0213 | -0.597 | 0.0784 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.121 | 0.0225 | 0.1386 | 0.044 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.88 | 1.03 | -10.38 | 2.71 | - | - |
+| `corr_dim` | validated | 1000 | 2.806 | 0.483 | 2.951 | 0.694 | 1.843 +/- 0.075 | 1.523 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9879 | 0.00438 | 0.9872 | 0.00676 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.4042 | 0.0764 | 0.4024 | 0.115 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.072 | 0.0134 | 0.07289 | 0.0199 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.171 | 0.39 | -6.114 | 0.561 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 45 | 5 | 44.6 | 6.66 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.341 | 0.219 | 1.34 | 0.278 | - | - |
+| `rqa_radius` | characterized | 1000 | 1.82 | 0.291 | 1.796 | 0.389 | - | - |
+| `rqa_det` | characterized | 1000 | 94.58 | 0.658 | 94.01 | 1.46 | - | - |
+| `rqa_lam` | characterized | 1000 | 97.32 | 0.267 | 96.99 | 0.768 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.835 | 0.228 | 4.839 | 0.403 | - | - |
+| `rqa_maxL` | characterized | 1000 | 3909 | 30 | 3911 | 33.8 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 259.5 | 46.5 | 272.1 | 75.3 | - | - |
+| `rqa_entL` | characterized | 1000 | 2.791 | 0.108 | 2.763 | 0.161 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.966 | 0.249 | 2.919 | 0.287 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.511 | 0.0663 | 3.51 | 0.0889 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4672 | 0.00571 | 0.4669 | 0.00878 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5451 | 0.00412 | 0.5449 | 0.00628 | - | - |
+| `ent_permu` | characterized | 1000 | 3.999 | 0.0218 | 3.999 | 0.0333 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4672 | 0.00571 | 0.4669 | 0.00878 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.791 | 0.128 | 9.776 | 0.201 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.6922 | 0.0261 | 0.6928 | 0.0357 | - | - |
+
+## tinkerbell (A.2.4, dissipative_map)
+
+Usable realizations: 1000 of 1000. fs = 1.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 7 | 0 | 7.073 | 1.68 | - | - |
+| `fnn_dim` | characterized | 1000 | 3 | 0 | 3.004 | 0.0632 | - | - |
+| `embed_delay` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 3 | 0 | 3 | 0 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.1733 | 0.00309 | 0.1731 | 0.00465 | 0.19 | 0.912 |
+| `lyap_ros` | validated | 1000 | 0.1559 | 0.00261 | 0.1558 | 0.00389 | 0.19 | 0.821 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1 | 0 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 37 | 1 | 37.02 | 1.08 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9816 | 0.000802 | 0.9816 | 0.000934 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5165 | 0.0125 | -0.5166 | 0.0151 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1122 | 0.00256 | 0.1124 | 0.00369 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -5.499 | 0.0872 | -5.498 | 0.0978 | - | - |
+| `corr_dim` | validated | 1000 | 1.129 | 0.0134 | 1.128 | 0.0208 | 1.329 +/- 0.036 | 0.850 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9996 | 0.000149 | 0.9996 | 0.000221 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.06137 | 0.0159 | -0.06045 | 0.0234 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.0176 | 0.00349 | 0.01744 | 0.00514 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.566 | 0.229 | -6.466 | 0.482 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 51 | 2 | 50.9 | 3.75 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 3.387 | 0.0499 | 3.387 | 0.081 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.169 | 0.000903 | 0.1688 | 0.00143 | - | - |
+| `rqa_det` | characterized | 1000 | 94.94 | 0.113 | 94.93 | 0.162 | - | - |
+| `rqa_lam` | characterized | 1000 | 0 | 0 | 0 | 0 | - | - |
+| `rqa_meanL` | characterized | 1000 | 4.693 | 0.025 | 4.696 | 0.0377 | - | - |
+| `rqa_maxL` | characterized | 1000 | 63 | 6 | 63.69 | 9.16 | - | - |
+| `rqa_maxL_tw` | excluded | - | - | - | - | - | - | - |
+| `rqa_entL` | characterized | 1000 | 2.981 | 0.00967 | 2.982 | 0.0157 | - | - |
+| `rqa_entV` | characterized | 1000 | 0 | 0 | -0 | 0 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.49 | 0.00627 | 3.489 | 0.00921 | - | - |
+| `ent_samp` | characterized | 1000 | 0.2671 | 0.00214 | 0.2671 | 0.0031 | - | - |
+| `ent_ap` | characterized | 1000 | 0.3917 | 0.00395 | 0.3913 | 0.00591 | - | - |
+| `ent_permu` | characterized | 1000 | 4.954 | 0.0154 | 4.954 | 0.0229 | - | - |
+| `ent_ms_s1` | excluded | - | - | - | - | - | - | - |
+| `ent_ms_ci` | excluded | - | - | - | - | - | - | - |
+| `dfa_alpha` | excluded | - | - | - | - | - | - | - |
+
+Excluded here: `rqa_maxL_tw` -- a map has no tangential band; the window would delete genuine recurrences. `ent_ms_s1`, `ent_ms_ci`, `dfa_alpha` -- coarse-graining and scaling exponents assume samples of an underlying continuous-time signal; a map's iterates are not that. 
+
+## ueda (A.4.5, driven_flow)
+
+Usable realizations: 1000 of 1000. fs = 6.66667.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `fnn_dim` | characterized | 1000 | 4 | 0 | 4.191 | 0.393 | - | - |
+| `embed_delay` | characterized | 1000 | 4 | 0 | 4 | 0 | - | - |
+| `embed_dim` | characterized | 1000 | 4 | 0 | 4.191 | 0.393 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.108 | 0.0132 | 0.1088 | 0.0194 | 0.1034 | 1.045 |
+| `lyap_ros` | validated | 1000 | 0.07043 | 0.011 | 0.1362 | 0.116 | 0.1034 | 0.681 |
+| `lyap_ros_fit_start` | characterized | 1000 | 2 | 1 | 2.334 | 1.4 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 175 | 25 | 136.1 | 77.3 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.9806 | 0.00065 | 0.982 | 0.00316 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.4404 | 0.0529 | -0.4113 | 0.1 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1547 | 0.0315 | 0.1393 | 0.0457 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -12.71 | 0.9 | -10.09 | 4.57 | - | - |
+| `corr_dim` | validated | 1000 | 2.502 | 0.0782 | 2.487 | 0.125 | 2.675 +/- 0.132 | 0.935 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000154 | 0.9997 | 0.000303 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | -0.0451 | 0.0311 | -0.04103 | 0.0484 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01123 | 0.00395 | 0.012 | 0.00571 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.492 | 0.322 | -6.338 | 0.593 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 52 | 2 | 51.48 | 3.88 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.54 | 0.0529 | 1.548 | 0.0913 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.5943 | 0.0211 | 0.6148 | 0.0703 | - | - |
+| `rqa_det` | characterized | 1000 | 97.55 | 0.232 | 97.67 | 0.459 | - | - |
+| `rqa_lam` | characterized | 1000 | 92.08 | 0.521 | 92.23 | 1.49 | - | - |
+| `rqa_meanL` | characterized | 1000 | 9.417 | 0.5 | 10.01 | 1.55 | - | - |
+| `rqa_maxL` | characterized | 1000 | 502 | 75 | 524.5 | 125 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 500 | 76 | 522 | 125 | - | - |
+| `rqa_entL` | characterized | 1000 | 4.066 | 0.0909 | 4.149 | 0.239 | - | - |
+| `rqa_entV` | characterized | 1000 | 2.269 | 0.0308 | 2.269 | 0.0483 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.473 | 0.0666 | 3.471 | 0.079 | - | - |
+| `ent_samp` | characterized | 1000 | 0.5363 | 0.0127 | 0.5344 | 0.0189 | - | - |
+| `ent_ap` | characterized | 1000 | 0.5685 | 0.00871 | 0.567 | 0.013 | - | - |
+| `ent_permu` | characterized | 1000 | 2.707 | 0.0313 | 2.703 | 0.0489 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.5363 | 0.0127 | 0.5344 | 0.0189 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.612 | 0.401 | 9.545 | 0.585 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.5205 | 0.0123 | 0.521 | 0.0176 | - | - |
+
+## windmi (A.5.16, autonomous_flow)
+
+Usable realizations: 1000 of 1000. fs = 1.96078.
+
+| metric | role | n | median | MAD | mean | SD | reference | ratio |
+|---|---|---|---|---|---|---|---|---|
+| `ami_delay` | characterized | 1000 | 9 | 0 | 8.548 | 0.498 | - | - |
+| `fnn_dim` | characterized | 1000 | 5 | 0 | 4.93 | 0.54 | - | - |
+| `embed_delay` | characterized | 1000 | 9 | 0 | 8.548 | 0.498 | - | - |
+| `embed_dim` | characterized | 1000 | 5 | 0 | 4.93 | 0.54 | - | - |
+| `lyap_wolf` | validated | 1000 | 0.0682 | 0.00509 | 0.06825 | 0.00743 | 0.0755 | 0.903 |
+| `lyap_ros` | validated | 1000 | 0.04799 | 0.00336 | 0.04811 | 0.00529 | 0.0755 | 0.636 |
+| `lyap_ros_fit_start` | characterized | 1000 | 1 | 0 | 1.012 | 0.109 | - | - |
+| `lyap_ros_fit_len` | characterized | 1000 | 127 | 12 | 128.2 | 18.5 | - | - |
+| `lyap_ros_fit_r2` | characterized | 1000 | 0.976 | 0.000924 | 0.9759 | 0.00144 | - | - |
+| `lyap_ros_fit_curv` | characterized | 1000 | -0.5895 | 0.00791 | -0.5908 | 0.0124 | - | - |
+| `lyap_ros_fit_maxdev` | characterized | 1000 | 0.1031 | 0.0047 | 0.1035 | 0.00725 | - | - |
+| `lyap_ros_fit_runsz` | characterized | 1000 | -10.91 | 0.563 | -10.95 | 0.847 | - | - |
+| `corr_dim` | validated | 1000 | 1.93 | 0.0485 | 1.924 | 0.0703 | 2.035 +/- 0.095 | 0.949 |
+| `corr_dim_fit_r2` | characterized | 1000 | 0.9998 | 0.000124 | 0.9997 | 0.000404 | - | - |
+| `corr_dim_fit_curv` | characterized | 1000 | 0.02788 | 0.0348 | 0.03076 | 0.0507 | - | - |
+| `corr_dim_fit_maxdev` | characterized | 1000 | 0.01059 | 0.00442 | 0.01191 | 0.00687 | - | - |
+| `corr_dim_fit_runsz` | characterized | 1000 | -6.566 | 0.416 | -6.45 | 0.691 | - | - |
+| `corr_dim_fit_len` | characterized | 1000 | 55 | 3 | 54.46 | 4.71 | - | - |
+| `corr_dim_fit_span` | characterized | 1000 | 1.987 | 0.0586 | 1.989 | 0.0897 | - | - |
+| `rqa_radius` | characterized | 1000 | 0.7311 | 0.03 | 0.7258 | 0.0917 | - | - |
+| `rqa_det` | characterized | 1000 | 88.65 | 1.03 | 88.5 | 1.77 | - | - |
+| `rqa_lam` | characterized | 1000 | 79.24 | 1.85 | 78.44 | 4.11 | - | - |
+| `rqa_meanL` | characterized | 1000 | 5.511 | 0.335 | 5.502 | 0.376 | - | - |
+| `rqa_maxL` | characterized | 1000 | 265.5 | 28.5 | 273.7 | 49.1 | - | - |
+| `rqa_maxL_tw` | characterized | 1000 | 265.5 | 28.5 | 273.7 | 49.1 | - | - |
+| `rqa_entL` | characterized | 1000 | 2.897 | 0.159 | 2.853 | 0.163 | - | - |
+| `rqa_entV` | characterized | 1000 | 1.111 | 0.0975 | 1.109 | 0.147 | - | - |
+| `rqa_entW` | characterized | 1000 | 3.7 | 0.0342 | 3.694 | 0.0401 | - | - |
+| `ent_samp` | characterized | 1000 | 0.4068 | 0.00363 | 0.4066 | 0.00534 | - | - |
+| `ent_ap` | characterized | 1000 | 0.4601 | 0.00601 | 0.4596 | 0.00835 | - | - |
+| `ent_permu` | characterized | 1000 | 3.052 | 0.0195 | 3.053 | 0.0299 | - | - |
+| `ent_ms_s1` | characterized | 1000 | 0.4068 | 0.00363 | 0.4066 | 0.00534 | - | - |
+| `ent_ms_ci` | characterized | 1000 | 9.556 | 0.199 | 9.546 | 0.294 | - | - |
+| `dfa_alpha` | characterized | 1000 | 0.3139 | 0.0131 | 0.3143 | 0.0188 | - | - |
 
