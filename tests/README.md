@@ -171,10 +171,12 @@ recurrent observable.
 
 A second export keeps every bounded state variable per system, shaped
 `(R, C, N)`, with `obsIndices` and `nChannels` in each manifest entry. It was
-run with `--solver RK45 --R 100 --N 16000 --workers 24`. It holds 126 systems:
-ArnoldBeltramiChildress is skipped because no component is bounded, and HyperLu
-and Sakarya are missing (below). `dysts_catalog.m` still reads only `obsIndex`,
-so MATLAB cannot consume this export yet.
+run with `--solver RK45 --R 100 --N 16000 --workers 24`, except HyperLu and
+Sakarya, which were run with `--solver Radau` (below). Each manifest entry
+records its `solver`, `rtol` and `atol`. It holds 128 systems;
+ArnoldBeltramiChildress is skipped because no component is bounded.
+`dysts_catalog.m` still reads only `obsIndex`, so MATLAB cannot consume this
+export yet.
 
 As with the single-channel set, the bins (~4.6 GB) are gitignored and shared via
 Dropbox, while `manifest.json` and `manifest.jsonl` are committed. Sync them in
@@ -186,10 +188,10 @@ rsync -a ~/Library/CloudStorage/Dropbox/quarc-data/dysts_mc/ \
 ```
 
 `manifest.jsonl` is committed as well as `manifest.json` because the exporter
-rebuilds `manifest.json` from the jsonl. Without it, a run that fills in the
-missing two would write a manifest listing only those two.
+rebuilds `manifest.json` from the jsonl. Without it, a follow-up `--only` run
+would write a manifest listing only the systems it just redid.
 
-**It is incomplete: HyperLu and Sakarya are missing, and the cause is open.**
+**HyperLu and Sakarya needed Radau.** Under RK45 neither would finish:
 
 - The first run got through the other 127 systems in 48 minutes. These two had
   not finished 18 hours later, when the manifest was rebuilt without them. That run
@@ -201,20 +203,34 @@ missing two would write a manifest listing only those two.
   5 s for HyperLu and 6 s for Sakarya. 100 of those should take under 10
   minutes.
 
-So some perturbed initial conditions, not the systems as a whole, drive RK45
-into a crawl, and each such solve then runs until the alarm drops it as
-degenerate. That makes the worst case ~100 x 900 s, about 25 h per system,
-ending mostly degenerate. The likely reason is stiffness along those
-trajectories, which dysts' default Radau is built for, but that is untested.
-Before re-running, time realizations one by one under both RK45 and Radau.
-Whichever solver fills these two in has to be recorded, since the other 126
-used RK45.
+Timing the first 10 realizations of each one by one, with the export's own
+initial conditions and no fallback, settled it:
 
-The 126 existing systems also cannot be regenerated bit-for-bit. They were
-drawn with the salted `hash(name)` seed that `main` has since replaced with
-`crc32`, by an uncommitted version of the exporter that lacked the 900 s alarm;
-commit `c1e21a1` is that version merged onto `main`. Their degenerate
-realizations are all-NaN rows, as in the single-channel set.
+| | RK45, 60 s cap | Radau, 300 s cap |
+|---|---|---|
+| HyperLu | 9 at 2 s; realization 2 timed out | all 10 ok, 13-22 s |
+| Sakarya | 9 at 3 s; realization 4 timed out | all 10 ok, 32-35 s |
+
+So roughly one draw in ten drives RK45 into a crawl while the rest are fast,
+and Radau handles those same draws at its normal speed. With the 900 s alarm
+the RK45 re-run would likely have finished in ~3 h, but with about a tenth of
+each ensemble lost to timeouts, so both systems were re-exported whole under
+Radau instead of mixing solvers within a system. The two solvers do not bias
+the ensemble against each other: these are chaotic trajectories, which diverge
+between any two integrators anyway, and both sample the same attractor.
+
+The Radau run took 34 min for HyperLu (no degenerate realizations) and 112 min
+for Sakarya, which has 4 degenerate realizations (25, 38, 51, 87). Sakarya's
+extra time is about 4 x 900 s, so those four are Radau solves that hit the
+alarm: Radau is not immune on Sakarya, only far less prone.
+
+The 126 RK45 systems cannot be regenerated bit-for-bit. They were drawn with
+the salted `hash(name)` seed that `main` has since replaced with `crc32`, by an
+uncommitted version of the exporter that lacked the 900 s alarm; commit
+`c1e21a1` is that version merged onto `main`. HyperLu and Sakarya were drawn
+with the `crc32` seed, so they can be regenerated, except that which solves
+hit the wall-clock alarm depends on the machine. Degenerate realizations are
+all-NaN rows, as in the single-channel set.
 
 ## Parameter sweeps
 

@@ -140,9 +140,10 @@ def export_one(name, meta, R, N, seed, outdir, solver="", rtol=1e-9, atol=1e-9):
                 #
                 # It only fires when RK45 gives up. An RK45 solve that crawls
                 # instead never returns None, so it runs into the alarm and the
-                # realization is lost without Radau ever being tried. That is
-                # the likely, still untested, reason HyperLu and Sakarya never
-                # finished under --solver RK45 (see tests/README.md).
+                # realization is lost without Radau ever being tried. About one
+                # draw in ten does this on HyperLu and Sakarya, which is why the
+                # multi-channel export ran those two with --solver Radau (see
+                # tests/README.md).
                 out = model.make_trajectory(npts, pts_per_period=TARGET_PTS_PER_PERIOD,
                                             resample=True)
         except _IntegrationTimeout:
@@ -201,6 +202,12 @@ def export_one(name, meta, R, N, seed, outdir, solver="", rtol=1e-9, atol=1e-9):
         "system": name,
         "file": os.path.basename(path),
         "dtype": "float64",
+        # The integrator, per system. An explicit solver can still fall back to
+        # dysts' default Radau on a realization where it returns None; the
+        # field names what was asked for.
+        "solver": solver or "Radau",
+        "rtol": float(rtol) if solver else None,
+        "atol": float(atol) if solver else None,
         "R": R, "N": N,
         "obsIndices": [int(i) for i in obs_list],
         "nChannels": int(C),
