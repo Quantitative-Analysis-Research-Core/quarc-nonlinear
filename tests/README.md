@@ -171,14 +171,28 @@ recurrent observable.
 
 A second export keeps every bounded state variable per system, shaped
 `(R, C, N)`, with `obsIndices` and `nChannels` in each manifest entry. It was
-run with `--solver RK45 --R 100 --N 16000 --workers 24`. The bins (~4.6 GB) are
-gitignored like the single-channel ones. `dysts_catalog.m` still reads only
-`obsIndex`, so MATLAB cannot consume this export yet.
+run with `--solver RK45 --R 100 --N 16000 --workers 24`. It holds 126 systems:
+ArnoldBeltramiChildress is skipped because no component is bounded, and HyperLu
+and Sakarya are missing (below). `dysts_catalog.m` still reads only `obsIndex`,
+so MATLAB cannot consume this export yet.
+
+As with the single-channel set, the bins (~4.6 GB) are gitignored and shared via
+Dropbox, while `manifest.json` and `manifest.jsonl` are committed. Sync them in
+next to the manifest:
+
+```bash
+rsync -a ~/Library/CloudStorage/Dropbox/quarc-data/dysts_mc/ \
+    tests/reports/dysts_mc/ --exclude README.txt
+```
+
+`manifest.jsonl` is committed as well as `manifest.json` because the exporter
+rebuilds `manifest.json` from the jsonl. Without it, a run that fills in the
+missing two would write a manifest listing only those two.
 
 **It is incomplete: HyperLu and Sakarya are missing, and the cause is open.**
 
-- The first run finished the other 127 systems in 48 minutes. These two had not
-  finished 18 hours later, when the manifest was rebuilt without them. That run
+- The first run got through the other 127 systems in 48 minutes. These two had
+  not finished 18 hours later, when the manifest was rebuilt without them. That run
   predates the 900 s per-solve alarm.
 - A re-run of just these two, with the alarm, on 2 workers, had finished neither
   after 92 minutes and was stopped. Both workers were at full CPU inside numpy
@@ -193,12 +207,14 @@ degenerate. That makes the worst case ~100 x 900 s, about 25 h per system,
 ending mostly degenerate. The likely reason is stiffness along those
 trajectories, which dysts' default Radau is built for, but that is untested.
 Before re-running, time realizations one by one under both RK45 and Radau.
-Whichever solver fills these two in has to be recorded, since the other 127
+Whichever solver fills these two in has to be recorded, since the other 126
 used RK45.
 
-The 127 existing systems also cannot be regenerated bit-for-bit: they were
+The 126 existing systems also cannot be regenerated bit-for-bit. They were
 drawn with the salted `hash(name)` seed that `main` has since replaced with
-`crc32`.
+`crc32`, by an uncommitted version of the exporter that lacked the 900 s alarm;
+commit `c1e21a1` is that version merged onto `main`. Their degenerate
+realizations are all-NaN rows, as in the single-channel set.
 
 ## Parameter sweeps
 
