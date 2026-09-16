@@ -118,6 +118,22 @@ Gram-Schmidt/QR orthonormalization, and also publishes a correlation dimension.
 Both come from the linearized equations rather than from a time series, which is
 what makes them usable as references at all.
 
+**The reference exponent is `max(lyapunov_spectrum_estimated)`, not
+`maximum_lyapunov_estimated`.** dysts publishes both. The first is the
+tangent-space value above; the second it obtains by measuring trajectory
+divergence, which is an estimate of the same quantity by the same kind of
+method the library's own estimators use. Comparing against it would be scoring
+one estimator against another, and the two are far apart: across the 126
+systems they agree within 10% on only 31 and differ by more than 50% on 43,
+with the tangent-space value 75.6x the divergence one on ForcedVanDerPol. The manifest carries the tangent-space value as
+`lambdaMax` with `lambdaMaxSource`, and keeps the divergence number as
+`lambdaDivergence` so the two can never be confused. Re-referencing the report
+moved the median Wolf ratio from 0.79 to 0.93 and Rosenstein from 0.73 to 0.84.
+
+Torus is the one system with no usable ratio: its largest tangent-space
+exponent is exactly 0, so it is quasi-periodic rather than chaotic and there is
+no denominator to divide by.
+
 Generate the ensembles first — this is simulation only, no metrics:
 
 ```bash
