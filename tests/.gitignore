@@ -21,3 +21,8 @@ reports/.*.mat
 # float64 is ~1.6 GB of regenerable simulation output; the manifest is small
 # and is kept because it carries the reference values and the protocol.
 reports/dysts/*.bin
+
+# The multi-channel export: every bounded state variable per system, ~4.6 GB.
+# Same rule -- the bins live in Dropbox, the manifest lives here.
+reports/dysts_mc/*.bin
+reports/dysts_mc/*.log
