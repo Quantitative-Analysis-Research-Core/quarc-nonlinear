@@ -325,30 +325,54 @@ Median across the 126 systems of estimate ÷ reference, R=25, ~7 h on 32 workers
 | `corr_dim` | fixed | 1.14 | 1.17 | 1.21 | 1.31 | 1.61 | 1.92 |
 | `corr_dim` | reembed | 1.14 | 1.16 | 1.22 | 1.33 | 1.72 | 2.25 |
 
-Three results, none of them smoothed over:
+Share of the 126 systems whose ensemble median is within a factor of 2 of the
+reference:
+
+| metric | arm | 0% | 0.5% | 1% | 2% | 5% | 10% |
+|---|---|---|---|---|---|---|---|
+| `lyap_wolf` | fixed | 69% | 67% | 66% | 67% | 67% | 47% |
+| `lyap_wolf` | reembed | 69% | 68% | 68% | 67% | 69% | 60% |
+| `lyap_ros` | fixed | 60% | 63% | 59% | 62% | 58% | 49% |
+| `lyap_ros` | reembed | 60% | 64% | 65% | 65% | 62% | 42% |
+
+Four results, none of them smoothed over:
 
 **Below 2% the arms are indistinguishable and every metric holds near its clean
 value.** The embedding question does not arise there; at these levels the
 protocol is simply robust.
 
-**Above 2% re-embedding is the worse arm, in all three metrics.** This is the
-opposite of what the protocol's own reasoning would predict. Re-estimating the
-embedding is the honest procedure -- it is what an analyst without a clean copy
-must do -- and it makes the answer worse, because the inflated dimension
-compounds the noise rather than accommodating it. The gap is not small:
-Rosenstein ends at 0.50 against 0.67, the correlation dimension at 2.25 against
-1.92.
+**Wolf and Rosenstein fail in opposite directions.** With the embedding held
+fixed, Wolf holds near 0.9 to 2%, then overshoots to 1.65 at 10% as noise
+inflates the measured divergence. Rosenstein falls to 0.65 by 5% and levels off
+(0.67 at 10%). Two estimators of the same quantity, degrading opposite ways, is
+worth knowing before choosing between them on noisy data.
 
-**Wolf and Rosenstein fail in opposite directions.** Wolf holds near 0.9 to 2%,
-then overshoots to 1.65 at 10% as noise inflates the measured divergence.
-Rosenstein decays monotonically to 0.50. Two estimators of the same quantity,
-degrading opposite ways, is worth knowing before choosing between them on noisy
-data.
+**Re-embedding shifts both Lyapunov estimates down, which helps or hurts
+depending on the estimator.** From 1% upward, both exponents come out lower
+re-embedded than fixed. For Rosenstein that deepens an existing low bias: 0.50
+against 0.67 at 10%. For Wolf at 5% it moves a near-correct median (1.06) below
+the reference (0.86); at 10% it partly cancels the overshoot (1.40 against
+1.65) -- two errors offsetting, not an improvement. The correlation dimension
+moves the other way and inflates further, 2.25 against 1.92.
+
+**By share within 2x, the arms are closer than the medians suggest.** With the
+embedding fixed, estimates spread more widely upward, so up to 5% re-embedding
+keeps a similar share of systems within a factor of 2 for Wolf and a slightly
+larger one for Rosenstein. At 10% they part: re-embedded Wolf keeps 60% against
+47%, re-embedded Rosenstein 42% against 49%.
+
+Re-embedding on noisy data is therefore not a remedy. It trades the fixed arm's
+wider spread for a downward shift in the median, and whether that shift helps
+depends on which way the estimator was already wrong.
+
+An earlier version of this section said re-embedding was the worse arm in all
+three metrics. That holds for the Rosenstein and correlation-dimension medians
+but not for Wolf at 10%, nor for the within-2x shares, and is corrected here.
 
 The embedding parameters are carried as outcomes rather than assumed. The AMI
 delay barely moves -- a median of 9 samples clean, 10 at 10% noise -- while the
-FNN dimension climbs from 5 to 7. The re-embedding penalty above is a dimension
-effect; the delay is not what breaks.
+FNN dimension climbs from 5 to 7. The re-embedding effect above is a dimension
+effect; the delay is not what changes.
 
 The interquartile bands in `fig_noise_sweep.png` overlap throughout, so these
 are population tendencies across the catalogue, not per-system predictions. A
