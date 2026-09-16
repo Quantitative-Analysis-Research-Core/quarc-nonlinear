@@ -289,6 +289,76 @@ every exponent the library has ever produced, which is a decision for a release
 rather than a test suite. The evidence is documented in `lyapunov`'s help so a
 caller analysing a map can choose deliberately.
 
+### Observational noise
+
+`quarctest.noise_sweep` adds Gaussian noise to each exported series and re-runs the
+three referenced metrics, at 0, 0.5, 1, 2, 5 and 10% of the series' own standard
+deviation. Noise scaled to each series' SD means a level is comparable across
+systems with different units. This is measurement noise on the stored
+observable: the trajectory is untouched and only the view of it is blurred.
+Noise injected into the integration is a different experiment and needs its own
+export.
+
+Every noisy series is analysed twice, because noise damages an estimate by two
+different routes and they are worth separating:
+
+- **fixed** — delay and dimension taken from the clean series and held. What the
+  estimator alone does with a noisier signal.
+- **reembed** — delay and dimension re-estimated on the noisy series, the way a
+  practitioner would. What a real analysis produces.
+
+Both arms see the same noise draw on the same realization, so a difference
+between them is the embedding and nothing else. Level 0 is computed once and
+recorded under both arms, and it is also the harness's own check: at the 0%
+fixed cell every value must equal what `characterize_series` produces for that
+realization. It does, exactly, on all 700 values compared across four systems at
+R=25.
+
+Median across the 126 systems of estimate ÷ reference, R=25, ~7 h on 32 workers:
+
+| metric | arm | 0% | 0.5% | 1% | 2% | 5% | 10% |
+|---|---|---|---|---|---|---|---|
+| `lyap_wolf` | fixed | 0.93 | 0.91 | 0.91 | 0.90 | 1.06 | 1.65 |
+| `lyap_wolf` | reembed | 0.93 | 0.93 | 0.88 | 0.86 | 0.86 | 1.40 |
+| `lyap_ros` | fixed | 0.83 | 0.80 | 0.75 | 0.71 | 0.65 | 0.67 |
+| `lyap_ros` | reembed | 0.83 | 0.79 | 0.74 | 0.68 | 0.58 | 0.50 |
+| `corr_dim` | fixed | 1.14 | 1.17 | 1.21 | 1.31 | 1.61 | 1.92 |
+| `corr_dim` | reembed | 1.14 | 1.16 | 1.22 | 1.33 | 1.72 | 2.25 |
+
+Three results, none of them smoothed over:
+
+**Below 2% the arms are indistinguishable and every metric holds near its clean
+value.** The embedding question does not arise there; at these levels the
+protocol is simply robust.
+
+**Above 2% re-embedding is the worse arm, in all three metrics.** This is the
+opposite of what the protocol's own reasoning would predict. Re-estimating the
+embedding is the honest procedure -- it is what an analyst without a clean copy
+must do -- and it makes the answer worse, because the inflated dimension
+compounds the noise rather than accommodating it. The gap is not small:
+Rosenstein ends at 0.50 against 0.67, the correlation dimension at 2.25 against
+1.92.
+
+**Wolf and Rosenstein fail in opposite directions.** Wolf holds near 0.9 to 2%,
+then overshoots to 1.65 at 10% as noise inflates the measured divergence.
+Rosenstein decays monotonically to 0.50. Two estimators of the same quantity,
+degrading opposite ways, is worth knowing before choosing between them on noisy
+data.
+
+The embedding parameters are carried as outcomes rather than assumed. The AMI
+delay barely moves -- a median of 9 samples clean, 10 at 10% noise -- while the
+FNN dimension climbs from 5 to 7. The re-embedding penalty above is a dimension
+effect; the delay is not what breaks.
+
+The interquartile bands in `fig_noise_sweep.png` overlap throughout, so these
+are population tendencies across the catalogue, not per-system predictions. A
+few systems reach ratios of 100 or return the wrong sign at 10%; they are in
+`noise_sweep.csv` rather than drawn, for the reason the figure's header records.
+
+The RQA family is not included. Its noise sensitivity is worth the same
+treatment, but `line_hist`'s counting fix is not yet on `main`, and sweeping
+before it lands would measure the bug rather than the metrics.
+
 ## Rules the harness follows
 
 - **Base MATLAB only.** `corr` is Statistics Toolbox, so the suite uses
