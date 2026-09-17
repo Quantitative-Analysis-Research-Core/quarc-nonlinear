@@ -1,0 +1,671 @@
+---
+title: "Wolf and Rosenstein Across Two Reference Catalogues"
+subtitle: "A lab report on largest-Lyapunov-exponent estimation: how the data were built, what went wrong along the way, how accurate the estimators are, and how they respond to noise"
+author: "Quantitative Analysis Research Core (QUARC) — QUARC Nonlinear"
+date: 2026-09-16
+format:
+  typst:
+    toc: true
+    toc-depth: 2
+    section-numbering: "1.1"
+    papersize: us-letter
+    margin:
+      x: 0.9in
+      y: 0.9in
+    fontsize: 10pt
+bibliography: references.bib
+bibliographystyle: apa
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(knitr)
+
+repo <- normalizePath(file.path(getwd(), "..", ".."))
+rp <- function(...) file.path(repo, "tests", "reports", ...)
+
+# Typst compiles relative to this directory, so the figures are copied in
+# rather than referenced from tests/reports.
+figs <- c("fig_lyapunov_reference.png", "fig_lyapunov_reference_dysts.png",
+          "fig_scaling_region_lyapunov.png", "fig_evolve_sweep.png",
+          "fig_noise_sweep.png")
+dir.create("figures", showWarnings = FALSE)
+invisible(file.copy(rp("figures", figs), file.path("figures", figs), overwrite = TRUE))
+
+sp  <- read.csv(rp("characterization_full.csv"),  stringsAsFactors = FALSE)
+dy  <- read.csv(rp("characterization_dysts.csv"), stringsAsFactors = FALSE)
+ev  <- read.csv(rp("evolve_sweep.csv"),           stringsAsFactors = FALSE)
+ns  <- read.csv(rp("noise_sweep.csv"),            stringsAsFactors = FALSE)
+man <- jsonlite::fromJSON(rp("dysts", "manifest.json"))$systems
+
+# The dysts report as it stood before the reference exponent was corrected.
+old_dy <- tryCatch(
+  read.csv(text = system2("git", c("-C", repo, "show",
+             "a639c81:tests/reports/characterization_dysts.csv"), stdout = TRUE),
+           stringsAsFactors = FALSE),
+  error = function(e) NULL)
+
+CAT <- c(noninvertible_map = "Noninvertible map", dissipative_map = "Dissipative map",
+         conservative_map = "Conservative map", autonomous_flow = "Autonomous flow",
+         driven_flow = "Driven flow", conservative_flow = "Conservative flow",
+         dysts_flow = "Autonomous flow", dysts_driven_flow = "Driven flow",
+         dysts_conservative_flow = "Conservative flow")
+CATORD <- c("Noninvertible map", "Dissipative map", "Conservative map",
+            "Autonomous flow", "Driven flow", "Conservative flow")
+
+f2  <- function(x, d = 2) ifelse(is.finite(x), formatC(x, format = "f", digits = d), "–")
+f3s <- function(x) ifelse(is.finite(x), formatC(x, format = "g", digits = 3), "–")
+pct <- function(x) ifelse(is.finite(x), paste0(round(100 * x), "%"), "–")
+big <- function(x) formatC(round(x), format = "d", big.mark = ",")
+
+# Pipe table with explicit relative column widths. Pandoc sizes a pipe table's
+# columns from the dash counts once any line is wider than 72 characters, which
+# the separator is made to be.
+ptab <- function(df, w, align = rep("l", ncol(df))) {
+  cell <- function(x) gsub("|", "\\|", as.character(x), fixed = TRUE)
+  hdr <- paste0("| ", paste(cell(names(df)), collapse = " | "), " |")
+  sep <- paste0("|", paste(mapply(function(n, a) {
+    d <- strrep("-", max(3, n))
+    switch(a, r = paste0(d, ":"), c = paste0(":", d, ":"), paste0(":", d))
+  }, w, align), collapse = "|"), "|")
+  m <- as.matrix(df)
+  body <- apply(m, 1, function(r) paste0("| ", paste(cell(r), collapse = " | "), " |"))
+  cat("", hdr, sep, body, "", sep = "\n")
+}
+
+ratios <- function(d, met) {
+  x <- d[d$metric == met, c("system", "category", "medianOverReference")]
+  names(x)[3] <- "ratio"
+  x$cat <- unname(CAT[x$category])
+  x
+}
+
+stat <- function(r) {
+  r <- r[is.finite(r)]
+  pos <- r[r > 0]
+  list(n = length(r), med = median(r),
+       q1 = quantile(r, .25, names = FALSE), q3 = quantile(r, .75, names = FALSE),
+       w2 = mean(r >= .5 & r <= 2),
+       mlog = if (length(pos)) median(abs(log10(pos))) else NA_real_,
+       wrong = sum(r < 0))
+}
+
+# Largest miss among positive ratios, as a fold error in either direction.
+worst <- function(d, met, k = 1) {
+  r <- ratios(d, met); r <- r[is.finite(r$ratio) & r$ratio > 0, ]
+  o <- order(abs(log10(r$ratio)), decreasing = TRUE)[seq_len(k)]
+  data.frame(system = r$system[o], ratio = r$ratio[o],
+             fold = 10^abs(log10(r$ratio[o])), stringsAsFactors = FALSE)
+}
+
+# Systems where |median - reference| exceeds ten ensemble MADs.
+madgap <- function(d, met) {
+  x <- d[d$metric == met & is.finite(d$reference) & is.finite(d$median) & is.finite(d$mad), ]
+  c(k = sum(abs(x$median - x$reference) > 10 * x$mad), n = nrow(x))
+}
+
+sW <- stat(ratios(sp, "lyap_wolf")$ratio); sR <- stat(ratios(sp, "lyap_ros")$ratio)
+dW <- stat(ratios(dy, "lyap_wolf")$ratio); dR <- stat(ratios(dy, "lyap_ros")$ratio)
+
+n_sp <- length(unique(sp$system)); n_dy <- length(unique(dy$system))
+R_sp <- max(sp$R, na.rm = TRUE);   N_sp <- max(sp$N, na.rm = TRUE)
+R_dy <- max(dy$R, na.rm = TRUE);   N_dy <- max(dy$N, na.rm = TRUE)
+
+wWd <- worst(dy, "lyap_wolf", 2); wRd <- worst(dy, "lyap_ros", 1)
+wWs <- worst(sp, "lyap_wolf", 1); wRs <- worst(sp, "lyap_ros", 1)
+gW <- madgap(sp, "lyap_wolf"); gR <- madgap(sp, "lyap_ros")
+
+degen <- setNames(man$degenerate, man$system); degen <- degen[degen > 0]
+degen_txt <- paste(sprintf("%s has %d", names(degen), degen), collapse = " and ")
+
+# Reference exponents: tangent-space spectrum against trajectory divergence.
+relgap <- abs(man$lambdaMax - man$lambdaDivergence) / abs(man$lambdaDivergence)
+ref_n <- sum(is.finite(relgap))
+ref_w10 <- sum(relgap <= .10, na.rm = TRUE)
+ref_o50 <- sum(relgap > .50, na.rm = TRUE)
+ref_worst <- man$system[which.max(relgap)]
+ref_worst_f <- with(man[which.max(relgap), ], lambdaMax / lambdaDivergence)
+zero_ref <- man$system[man$lambdaMax <= 0]
+
+head2head <- function(d) {
+  w <- ratios(d, "lyap_wolf"); r <- ratios(d, "lyap_ros")
+  m <- merge(w[, c("system", "ratio")], r[, c("system", "ratio")],
+             by = "system", suffixes = c(".w", ".r"))
+  m <- m[is.finite(m$ratio.w) & is.finite(m$ratio.r) & m$ratio.w > 0 & m$ratio.r > 0, ]
+  ew <- abs(log10(m$ratio.w)); er <- abs(log10(m$ratio.r))
+  list(n = nrow(m), wolf_closer = sum(ew < er), mw = median(ew), mr = median(er),
+       p = suppressWarnings(wilcox.test(ew, er, paired = TRUE)$p.value))
+}
+hs <- head2head(sp); hd <- head2head(dy)
+
+fitdiag <- function(d) {
+  g <- function(met) setNames(d$median[d$metric == met], d$system[d$metric == met])
+  curv <- g("lyap_ros_fit_curv"); r2 <- g("lyap_ros_fit_r2"); len <- g("lyap_ros_fit_len")
+  rr <- ratios(d, "lyap_ros")
+  err <- setNames(suppressWarnings(abs(log10(rr$ratio))), rr$system)
+  err[!is.finite(err)] <- NA
+  s <- Reduce(intersect, list(names(curv), names(r2), names(err)))
+  list(len = median(len, na.rm = TRUE), r2 = median(r2, na.rm = TRUE),
+       curv = median(curv, na.rm = TRUE), concave = mean(curv < 0, na.rm = TRUE),
+       cap = mean(len >= 200, na.rm = TRUE),
+       rho_curv = suppressWarnings(cor(curv[s], err[s], method = "spearman", use = "complete.obs")),
+       rho_r2 = suppressWarnings(cor(r2[s], err[s], method = "spearman", use = "complete.obs")))
+}
+fs <- fitdiag(sp); fd <- fitdiag(dy)
+
+if (!is.null(old_dy)) {
+  oW <- stat(ratios(old_dy, "lyap_wolf")$ratio)
+  oR <- stat(ratios(old_dy, "lyap_ros")$ratio)
+}
+
+# Noise sweep.
+lv <- sort(unique(ns$noise))
+nsr <- ns[ns$metric %in% c("lyap_wolf", "lyap_ros", "corr_dim") & is.finite(ns$medianOverReference), ]
+nmed <- function(met, arm) sapply(lv, function(L)
+  median(nsr$medianOverReference[nsr$metric == met & nsr$arm == arm & nsr$noise == L]))
+nw2 <- function(met, arm) sapply(lv, function(L) {
+  r <- nsr$medianOverReference[nsr$metric == met & nsr$arm == arm & nsr$noise == L]
+  mean(r >= .5 & r <= 2) })
+emb <- function(met) sapply(lv, function(L)
+  median(ns$median[ns$metric == met & ns$arm == "reembed" & ns$noise == L], na.rm = TRUE))
+n_ns <- length(unique(ns$system)); R_ns <- max(ns$n, na.rm = TRUE)
+
+pick <- function(met, L) {
+  x <- ns[ns$metric == met & ns$arm == "reembed" & ns$noise == L, ]
+  setNames(x$median, x$system)
+}
+dim0 <- pick("embed_dim", 0); dim10 <- pick("embed_dim", max(lv))
+del0 <- pick("embed_delay", 0); del10 <- pick("embed_delay", max(lv))
+sdim <- intersect(names(dim0), names(dim10)); sdel <- intersect(names(del0), names(del10))
+dim_up <- mean(dim10[sdim] > dim0[sdim], na.rm = TRUE)
+del_up <- mean(del10[sdel] > del0[sdel], na.rm = TRUE)
+
+wW <- nmed("lyap_wolf", "fixed"); rW <- nmed("lyap_wolf", "reembed")
+wR <- nmed("lyap_ros",  "fixed"); rR <- nmed("lyap_ros",  "reembed")
+wC <- nmed("corr_dim",  "fixed"); rC <- nmed("corr_dim",  "reembed")
+w2Wf <- nw2("lyap_wolf", "fixed"); w2Wr <- nw2("lyap_wolf", "reembed")
+w2Rf <- nw2("lyap_ros",  "fixed"); w2Rr <- nw2("lyap_ros",  "reembed")
+iL <- length(lv); i5 <- which(abs(lv - 0.05) < 1e-9)
+hi <- lv >= 0.01
+down_lyap <- all(rW[hi] < wW[hi]) && all(rR[hi] < wR[hi])
+up_cd <- all(rC[hi] > wC[hi])
+```
+
+# Summary
+
+This report collects the work done in the QUARC Nonlinear repository to establish how well the two largest-Lyapunov-exponent estimators in the library, Wolf's method [@wolf1985] and Rosenstein's method [@rosenstein1993], recover known exponents across a wide range of dynamical systems, and how that recovery degrades under observational noise. It is written as a lab record. The trial and error is part of the result, not a preamble to it.
+
+**Two reference catalogues, one protocol.** The estimators were run on `r n_sp` usable systems from Appendix A of @sprott2003 (maps and flows, `r R_sp` realizations each, `r N_sp` samples) and `r n_dy` continuous-time systems from the dysts database of @gilpin2021 (`r R_dy` realizations each, `r N_dy` samples). Every system was analysed under the same embedding and fitting protocol, with no per-system tuning.
+
+**Headline accuracy.** Expressed as the ensemble-median estimate divided by the reference exponent, then summarised across systems:
+
+- On Sprott's catalogue, Wolf reads `r f2(sW$med)` (interquartile range `r f2(sW$q1)`–`r f2(sW$q3)`) and Rosenstein `r f2(sR$med)` (`r f2(sR$q1)`–`r f2(sR$q3)`).
+- On dysts, Wolf reads `r f2(dW$med)` (`r f2(dW$q1)`–`r f2(dW$q3)`) and Rosenstein `r f2(dR$med)` (`r f2(dR$q1)`–`r f2(dR$q3)`).
+- Rosenstein reads low by about 16% on *both* catalogues. Its automatically fitted scaling regions are concave in `r pct(fs$concave)` of Sprott systems and `r pct(fd$concave)` of dysts systems, which is what fitting across the knee into saturation looks like. That is a plausible mechanism for the bias.
+- Wolf is closer to the reference than Rosenstein on `r hd$wolf_closer` of `r hd$n` dysts systems and `r hs$wolf_closer` of `r hs$n` Sprott systems. But its worst misses are far larger: about `r big(wWd$fold[1])`-fold on `r wWd$system[1]`, against Rosenstein's worst of about `r big(wRd$fold[1])`-fold on `r wRd$system[1]`.
+
+**Noise.** Both estimators hold near their clean values up to about 2% additive noise (relative to the series' standard deviation). Above that they fail in *opposite* directions. At `r 100*max(lv)`% noise, with the clean embedding held fixed, Wolf overshoots to `r f2(wW[iL])` and Rosenstein falls to `r f2(wR[iL])`.
+
+Re-estimating the embedding on the noisy series — what a practitioner would actually do — pulls both Lyapunov estimates *down*. That deepens Rosenstein's low bias (`r f2(rR[iL])`) and partly offsets Wolf's overshoot (`r f2(rW[iL])`): two errors cancelling, not a fix. The embedding change runs through an inflated FNN dimension, not the AMI delay.
+
+**The most consequential correction** was to the reference values themselves. The dysts reports were first compared against dysts' trajectory-divergence estimate of the exponent, which is itself an estimate, rather than against the tangent-space value that the estimators are estimating. Correcting that moved the median Wolf ratio from `r if (!is.null(old_dy)) f2(oW$med) else "0.79"` to `r f2(dW$med)`.
+
+# Purpose
+
+The largest Lyapunov exponent, $\lambda_1$, measures the average exponential rate at which nearby trajectories of a dynamical system separate [@eckmann1985]. Positive $\lambda_1$ is the operational signature of chaos, and estimating it from a single measured time series is one of the most common nonlinear analyses in movement science and elsewhere. Wolf's and Rosenstein's algorithms are the two most widely used estimators, and both ship in this library.
+
+Published validations of these estimators typically use a handful of textbook systems — Lorenz, Rössler, Hénon, the logistic map. That leaves three questions open:
+
+1. **How accurate are they across a broad, diverse catalogue**, where the reference exponent is known independently of any time-series estimator?
+2. **Where and why do they fail**, and are the failures sampling noise or systematic bias?
+3. **How robust are they to observational noise**, and how much of the damage comes from the estimator versus from the embedding step that precedes it?
+
+The work reported here was built as a *characterization* instrument, not a pass/fail test suite. Nothing in it asserts a tolerance. It records how each estimator behaves on each system, with the spread across an ensemble of initial conditions, so that changes to the library can be judged by diffing two reports.
+
+# Reference systems
+
+## Sprott (2003), Appendix A
+
+Appendix A of @sprott2003 catalogues 62 low-dimensional chaotic systems, each with equations, standard parameters, an initial condition, and a published largest Lyapunov exponent in nats per unit time (or per iteration, for maps). Four were unusable and say why:
+
+- **Spence map:** the exponent diverges.
+- **Tent map and Kaplan–Yorke map:** these are exact binary shifts, so double precision exhausts the mantissa in about 52 iterations regardless of the initial condition.
+- **Gaussian white chaotic map:** its transcription could not be verified.
+
+That leaves `r n_sp` systems, spanning noninvertible, dissipative and conservative maps and autonomous, driven and conservative flows. Building the catalogue surfaced three transcription errors, which were fixed:
+
+- Chua's bracketed terms are added, not subtracted. Subtracting them drives the system to a fixed point.
+- Burke–Shaw needs $+Uxy$ in $\dot z$. The other sign diverges at every step size.
+- The Gauss map cannot start at Sprott's $x_0 = 0.1$, because $1/0.1$ rounds to exactly 10 in binary and the orbit dies immediately.
+
+## dysts [@gilpin2021]
+
+The dysts database catalogues 135 continuous-time chaotic systems in a Python package; version 0.96 was used here. For each system it publishes a Lyapunov spectrum computed by integrating the tangent space along a trajectory with Gram–Schmidt/QR re-orthonormalization [@benettin1980; @christiansen1997], along with a correlation dimension and other invariants.
+
+Six of the 135 are delay-differential equations (IkedaDelay, MackeyGlass, PiecewiseCircuit, ScrollDelay, SprottDelay, VossDelay). They need a history function rather than an initial condition, and were excluded. Of the remaining 129:
+
+- **ArnoldBeltramiChildress** has no bounded state component. Delay embedding requires a bounded, recurrent observable, so it was excluded.
+- **SprottMore** and **StickSlipOscillator** lost every realization to degeneracy during integration.
+
+That leaves `r n_dy` systems: 108 autonomous flows, 9 driven (nonautonomous) flows, and 9 conservative (Hamiltonian) flows.
+
+Trajectories were generated in Python by dysts itself and read from disk in MATLAB, rather than porting the vector fields by hand. Hand-porting `r n_dy` systems would put the data and its reference values on different provenances, and a mistyped coefficient still produces a perfectly plausible chaotic series that nothing downstream would flag.
+
+## What counts as the reference exponent {#sec-reference}
+
+**For Sprott**, the reference is the published $\lambda_1$.
+
+**For dysts**, the reference is the largest element of the tangent-space spectrum, `lyapunov_spectrum_estimated`. dysts also publishes `maximum_lyapunov_estimated`, which it obtains by measuring the divergence of nearby trajectories. That is an estimate of the same quantity by the *same kind of method* the library's estimators use, so comparing against it would score one estimator against another.
+
+The two numbers are far apart. Across the `r ref_n` systems they agree within 10% on only `r ref_w10`, differ by more than 50% on `r ref_o50`, and on `r ref_worst` the tangent-space value is `r f3s(ref_worst_f)` times the divergence value. `r if (length(zero_ref)) paste0(paste(zero_ref, collapse = ", "), " has a largest tangent-space exponent of exactly zero — it is quasi-periodic rather than chaotic — so no ratio can be formed for it.") else ""`
+
+This choice was not made correctly the first time; see @sec-trial.
+
+Both reference sets carry their own uncertainty. The dysts spectra are numerical, and Sprott's values are published to limited precision. The ratios reported here therefore bound the disagreement between estimator and reference together, not estimator error alone.
+
+# Data construction
+
+Both catalogues follow one design. Each system gets an ensemble of initial conditions. Realization 1 always starts from the published initial condition, verbatim, and the rest are drawn *on the attractor*. Every series is sampled at about 40 points per dominant period. The ensemble is what turns a deterministic system into a distribution, so that systematic bias can be told apart from sampling variability.
+
+## Sprott series (generated in MATLAB)
+
+- **Flows** are integrated with a fixed-step fourth-order Runge–Kutta scheme at the catalogue's step size. A 20,000-step transient is discarded. Output is decimated so the dominant spectral period lands near 40 samples.
+- **Maps** are iterated directly after a 1,000-iteration transient.
+- **Ensemble initial conditions:** run 5,000 steps from the published $x_0$ to land on the attractor; measure the attractor's per-component standard deviation; perturb by 1% of it (`Spread = 0.01`); relax the perturbed point for 200 steps.
+- **Decimation is fixed per system**, computed once from the published $x_0$ and applied to every realization.
+- **Size:** `r R_sp` realizations of `r N_sp` samples per system. Base seed 20260810.
+
+The full-catalogue run took 8.95 h on 32 workers. 53 of 58 systems delivered all 1,000 realizations. The cusp map lost 1 and the simplest quadratic flow lost 5. The damped pendulum (460 usable), driven pendulum (387) and labyrinth (440) degenerate from Sprott's own initial condition, because their observable carries an unbounded drift. Where the loss is large, the survivors are a sample conditioned on not degenerating.
+
+## dysts series (generated in Python)
+
+- **Integrator:** dysts' default, SciPy's `solve_ivp` [@virtanen2020] with the implicit Radau IIA method [@hairer1996], chosen by dysts because several catalogue systems are stiff. Trajectories are resampled to 40 points per dominant period.
+- **Ensemble initial conditions** mirror the Sprott design. Integrate 50 dominant periods from the published initial condition; take the per-component standard deviation of that anchor trajectory as the attractor's extent; perturb the final point by 1% of it; relax for 5 periods.
+- **Observable:** the first state component not flagged unbounded.
+- **Size:** `r R_dy` realizations of `r N_dy` samples (400 dominant periods) per system, stored as float64. The corpus is about 1.6 GB.
+- **N is a ceiling.** Truncating a stored series is free and lengthening one means regenerating everything, so series-length experiments are column slices.
+- **float64, not float32.** The correlation-dimension estimator works on inter-point distances at the smallest radii, and disk is cheaper than a question about precision.
+- **A 900 s wall-clock cap per solve.** A solve that has not returned by then is recorded as a degenerate realization (see @sec-trial). `r degen_txt` degenerate realizations of `r R_dy`; every other system is complete.
+
+The export took on the order of 17 h on 30 workers; the characterization battery over it took 10.3 h. The `.bin` files are gitignored and shared via Dropbox (`quarc-data/dysts`). The manifest, which carries reference values and protocol, is committed.
+
+## Protocol side by side
+
+| | Sprott (2003) | dysts [@gilpin2021] |
+|---|---|---|
+| Systems analysed | `r n_sp` (maps and flows) | `r n_dy` (flows only) |
+| Generated in | MATLAB | Python (dysts 0.96) |
+| Integrator | RK4, fixed step | Radau IIA, adaptive (SciPy) |
+| Sampling | ~40 samples per dominant period | 40 points per dominant period |
+| Realizations | `r R_sp` | `r R_dy` |
+| Samples per series | `r N_sp` | `r N_dy` |
+| Realization 1 | Published $x_0$ | Published initial condition |
+| Other realizations | On-attractor, 1% of attractor SD | On-attractor, 1% of attractor SD |
+| Reference $\lambda_1$ | Published value | Max of tangent-space spectrum |
+
+# Estimators and analysis protocol
+
+## Phase-space reconstruction
+
+A scalar series is embedded by delay coordinates [@takens1981]. The embedding is a *protocol*, stated per kind of system, not a per-system tuning:
+
+- **Flows:** the delay is the first minimum of the average mutual information [@fraser1986]. The dimension is chosen by false nearest neighbours [@kennel1992], searched at that delay. If AMI yields no usable minimum, the delay falls back to 1. If FNN returns less than the true state dimension, the dimension falls back to state dimension + 1.
+- **Maps:** delay 1 and dimension = state dimension + 1. A map's iterates are its natural coordinates, so AMI's first minimum on a map is not an embedding delay (see @sec-trial).
+
+AMI and FNN are always reported as metrics in their own right, next to the delay and dimension actually used.
+
+## Wolf's method
+
+Wolf's algorithm [@wolf1985] follows a reference trajectory and its nearest neighbour for a fixed propagation interval (`evolve`, default 10 samples), records the log-stretch, then replaces the neighbour with one near the evolved reference point. The exponent is the average log-stretch per unit time. The library's implementation accumulates $\log_2$ and returns bits; the `lyapunov()` wrapper converts to nats so that both estimators, and all references, share units.
+
+## Rosenstein's method
+
+Rosenstein's algorithm [@rosenstein1993] pairs each reconstructed point with its nearest neighbour, excluding temporally close candidates within a Theiler window [@theiler1986]. The default half-width is $\mathrm{round}(0.8\,\tau)$. It then averages the log distance of every pair as a function of time. The exponent is the slope of that mean log-divergence curve over its initial linear region, before saturation.
+
+That slope depends heavily on *where* it is fitted. On one Lorenz series, samples 2–30 give 1.67 and samples 10–150 give 0.74, from identical data. The library therefore selects the region automatically. It locates saturation, scores every candidate window before it (at least 4 and at most 200 points) by the $R^2$ of a straight-line fit, and takes the *longest* window whose $R^2$ is within 0.02 of the best. The chosen window is returned so it can be audited.
+
+Because $R^2$ does not measure linearity (see @sec-trial), each fit also reports:
+
+- **curvature:** the quadratic coefficient scaled by the window's extent, read as the fraction of the window's rise contributed by the bend;
+- **maximum deviation:** the largest residual as a fraction of the rise;
+- **runs z-score:** a Wald–Wolfowitz statistic on the residual signs [@waldwolfowitz1940], which detects systematic departure from a line without assuming it is quadratic.
+
+## Summary statistics
+
+For each system and estimator, the ensemble is summarised by its median and median absolute deviation. Accuracy is the ratio of the ensemble median to the reference. Across systems, the ratio is summarised by its median and interquartile range, the share of systems within a factor of 2 of the reference, and the median $|\log_{10}\text{ratio}|$. The last is symmetric in over- and under-estimation. A negative ratio means the estimator returned the wrong sign for a system whose reference is positive.
+
+**Software:** MATLAB R2025b (Update 5); Python with dysts 0.96, SciPy 1.18.0 and NumPy 2.5.2; R 4.5.0 with ggplot2 4.0.0 for figures; Quarto 1.9.38 for this report.
+
+# Trial and error {#sec-trial}
+
+Most of what makes these numbers trustworthy came from finding things that were wrong. The table below lists every material correction, in roughly chronological order, with the evidence that exposed it. Several produced *plausible* numbers while wrong — the dangerous kind of defect.
+
+| # | What was wrong | How it showed up | What changed |
+|---|------------------------|------------------------------|------------------------------|
+| 1 | Wolf returned bits; references are in nats | A correct answer looked like a 44% error (factor ln 2 = 0.693) | The `lyapunov()` wrapper converts both estimators to nats |
+| 2 | Rosenstein's temporal-neighbour exclusion used a literal distance of 1e5 | Not scale invariant: once real distances exceeded 1e5, every point paired with its own time neighbour | Exclusion by index (Theiler window), exposed as a parameter |
+| 3 | A fixed Rosenstein fitting window | Samples 2–30 gave 1.67 and 10–150 gave 0.74 on identical Lorenz data | Automatic scaling-region selection, returned for audit |
+| 4 | $R^2$ used as evidence a fit was straight | A real bend scored $R^2$ = 0.999926 and straight-plus-noise 0.999933, while their curvatures differed sixteenfold | Curvature, maximum deviation and runs statistics added to every fit |
+| 5 | Maps embedded with AMI/FNN, like flows | Logistic-map correlation dimension 3.09 against a published 1.0 | Maps use delay 1, dimension = state dimension + 1 |
+| 6 | Ensemble initial conditions perturbed around the published $x_0$ | 47% of delayed-logistic, 42% of simplest-quadratic and 30% of simplest-cubic realizations escaped the basin | Draw on the attractor, then relax |
+| 7 | Flow decimation derived per realization | A perturbed $x_0$ could shift the period estimate and change the sampling rate between realizations | Decimation fixed once per system |
+| 8 | Suspected transient contamination in heavily decimated flows | Some flows got only ~5 dominant periods of transient | Tested, not assumed: a 10× longer transient moved `corr_dim` ≤ 1.5% and Rosenstein ≤ 3.5%, inside ensemble spread. Unchanged |
+| 9 | Wolf's `evolve` = 10 applied to maps | 0.33× on Arnold's cat, 0.63× on Ikeda; 12–36% error on simple maps | Swept (@sec-evolve). Default left at 10, documented for callers |
+| 10 | Hand-porting 129 dysts vector fields was the first plan | Data and references would have had different provenances | Generate with dysts itself; read from disk |
+| 11 | float32 storage | Precision at the smallest radii used by `corr_dim` | float64 |
+| 12 | One perturbed Sakarya solve never returned | 110 CPU-hours on a single solve; the export blocked for 44 h | 900 s wall-clock cap; wedged solves recorded as degenerate |
+| 13 | IC seeds used Python's salted `hash()` | The same `--seed` drew different initial conditions in every process | `crc32` of the system name |
+| 14 | The manifest was written only on completion | The interrupted export left 125 binaries that no longer described themselves | Manifest rebuilt from the binaries; the exporter now appends each entry as it lands |
+| 15 | dysts compared against its divergence estimate, not the tangent-space value | The code's own documentation said tangent-space; the data did not match | Reference switched (@sec-reference, @sec-refswitch) |
+| 16 | Noise figure drew one line per system | At 126 systems a few outliers (ratios of 100 and −150) set the axis | Interquartile bands across systems |
+| 17 | Noise-sweep validation against an older per-realization file | Only about 75% of perturbed realizations matched | Validated against live code instead: 700 of 700 values exact |
+| 18 | The noise result was first written up as "re-embedding is the worse arm in all three metrics" | At 10% noise Wolf's re-embedded median is closer to the reference than its fixed one, and the share of systems within 2× is similar between arms up to 5% | Stated per estimator and per criterion here (@sec-noise); the repository README was corrected to match (commit `f9419b1`) |
+
+Row 17 deserves a note. The older per-realization table (`quarc-data/derived/characterization_dysts_per_realization.csv`, dated 13 September) matches current results exactly for realization 1 but for only about three quarters of the perturbed realizations. Its provenance has not been established. It should not be used as a reference until it has.
+
+# Results
+
+## Accuracy across both catalogues
+
+```{r tbl-overall}
+#| tbl-cap: "Accuracy by catalogue and estimator. Ratio = ensemble-median estimate ÷ reference. IQR and 'within 2×' are across systems."
+#| output: asis
+tab <- data.frame(
+  Catalogue = c("Sprott", "Sprott", "dysts", "dysts"),
+  Estimator = c("Wolf", "Rosenstein", "Wolf", "Rosenstein"),
+  Systems = c(sW$n, sR$n, dW$n, dR$n),
+  `Median ratio` = f2(c(sW$med, sR$med, dW$med, dR$med)),
+  IQR = paste0(f2(c(sW$q1, sR$q1, dW$q1, dR$q1)), "–", f2(c(sW$q3, sR$q3, dW$q3, dR$q3))),
+  `Within 2×` = pct(c(sW$w2, sR$w2, dW$w2, dR$w2)),
+  `Median |log10 ratio|` = f2(c(sW$mlog, sR$mlog, dW$mlog, dR$mlog), 3),
+  `Wrong sign` = c(sW$wrong, sR$wrong, dW$wrong, dR$wrong),
+  check.names = FALSE)
+ptab(tab, c(11, 13, 9, 10, 12, 9, 13, 9), c("l", "l", "r", "r", "r", "r", "r", "r"))
+```
+
+Both estimators centre slightly below the reference on both catalogues. The dysts catalogue is harder: its interquartile ranges are at least twice as wide as Sprott's, and fewer systems fall within a factor of 2. Part of that is composition. Sprott's appendix favours minimal low-dimensional forms, while dysts adds stiff, hyperchaotic and higher-dimensional systems.
+
+```{r tbl-category}
+#| tbl-cap: "Accuracy by category: median ratio and share of systems within a factor of 2. Systems counts those with a finite ratio."
+#| output: asis
+out <- list()
+for (tag in c("Sprott", "dysts")) {
+  d <- if (tag == "Sprott") sp else dy
+  w <- ratios(d, "lyap_wolf"); r <- ratios(d, "lyap_ros")
+  for (c in CATORD) {
+    sw <- stat(w$ratio[w$cat == c]); sr <- stat(r$ratio[r$cat == c])
+    if (sw$n == 0 && sr$n == 0) next
+    out[[length(out) + 1]] <- data.frame(
+      Catalogue = tag, Category = c, Systems = max(sw$n, sr$n),
+      `Wolf ratio` = f2(sw$med), `Wolf within 2×` = pct(sw$w2),
+      `Rosenstein ratio` = f2(sr$med), `Rosenstein within 2×` = pct(sr$w2),
+      check.names = FALSE)
+  }
+}
+ptab(do.call(rbind, out), c(10, 18, 8, 10, 11, 12, 13), c("l", "l", "r", "r", "r", "r", "r"))
+```
+
+The category breakdown shows where each estimator struggles. **Conservative flows** are the consistent weak point on both catalogues: their exponents are small, and the noise floor of a finite-length estimate dominates. On dysts, **driven flows** are nearly as hard. **Conservative maps** are hard for Wolf but not for Rosenstein. On Sprott's other maps, Wolf's accuracy depends strongly on its renormalisation interval (@sec-evolve).
+
+![Sprott (2003) catalogue: largest Lyapunov exponent from each estimator divided by the published value, one row per system. Points are ensemble means, whiskers 95% confidence intervals; the log axis spans three orders of magnitude.](figures/fig_lyapunov_reference.png){#fig-sprott width=66%}
+
+![dysts catalogue: largest Lyapunov exponent from each estimator divided by the tangent-space reference, one row per system, ordered by Rosenstein's ratio. Systems whose mean estimate is negative are pinned to the left edge and labelled.](figures/fig_lyapunov_reference_dysts.png){#fig-dysts width=50%}
+
+On most systems in @fig-sprott the confidence interval is smaller than the marker, which is the point of the ensemble design. The offset from the reference is *systematic*, not sampling noise. In the full Sprott run, the gap between the ensemble median and the reference exceeded ten times the ensemble MAD on `r gW["k"]` of `r gW["n"]` systems for Wolf and `r gR["k"]` of `r gR["n"]` for Rosenstein.
+
+## Wolf versus Rosenstein, head to head
+
+```{r tbl-h2h}
+#| tbl-cap: "Head-to-head comparison on systems where both estimators return a positive ratio. p is a paired Wilcoxon signed-rank test on |log10 ratio|."
+#| output: asis
+tab <- data.frame(
+  Catalogue = c("Sprott", "dysts"),
+  Systems = c(hs$n, hd$n),
+  `Wolf closer` = c(paste0(hs$wolf_closer, " (", pct(hs$wolf_closer / hs$n), ")"),
+                    paste0(hd$wolf_closer, " (", pct(hd$wolf_closer / hd$n), ")")),
+  `Median |log10 ratio|, Wolf` = f2(c(hs$mw, hd$mw), 3),
+  `Median |log10 ratio|, Rosenstein` = f2(c(hs$mr, hd$mr), 3),
+  p = f3s(c(hs$p, hd$p)),
+  check.names = FALSE)
+ptab(tab, c(12, 10, 14, 18, 20, 10), c("l", "r", "r", "r", "r", "r"))
+```
+
+Neither estimator dominates. On Sprott's catalogue they are at near parity. On dysts, Wolf is closer on about two systems in three, and its median error is smaller.
+
+The difference is in the tails. Wolf's worst dysts misses are about `r big(wWd$fold[1])`-fold on `r wWd$system[1]` and `r big(wWd$fold[2])`-fold on `r wWd$system[2]`, both far below the reference. Rosenstein's worst is about `r big(wRd$fold[1])`-fold, on `r wRd$system[1]`. On Sprott's catalogue the worst misses are about `r big(wWs$fold[1])`-fold for Wolf (`r wWs$system[1]`) and `r big(wRs$fold[1])`-fold for Rosenstein (`r wRs$system[1]`).
+
+## Rosenstein's scaling regions
+
+```{r tbl-fit}
+#| tbl-cap: "Rosenstein fit diagnostics, summarised across systems (medians of per-system ensemble medians). ρ is the Spearman correlation with |log10 ratio|."
+#| output: asis
+tab <- data.frame(
+  Catalogue = c("Sprott", "dysts"),
+  `Fit length (samples)` = c(f2(fs$len, 0), f2(fd$len, 0)),
+  `At 200-sample cap` = c(pct(fs$cap), pct(fd$cap)),
+  `R²` = c(f2(fs$r2, 3), f2(fd$r2, 3)),
+  Curvature = c(f2(fs$curv), f2(fd$curv)),
+  Concave = c(pct(fs$concave), pct(fd$concave)),
+  `ρ, curvature` = c(f2(fs$rho_curv), f2(fd$rho_curv)),
+  `ρ, R²` = c(f2(fs$rho_r2), f2(fd$rho_r2)),
+  check.names = FALSE)
+ptab(tab, c(11, 12, 11, 8, 11, 10, 11, 9), c("l", "r", "r", "r", "r", "r", "r", "r"))
+```
+
+Rosenstein's fitted regions are bent by about half their own rise, and concave in the large majority of systems on both catalogues. A concave fit across the knee of the divergence curve into saturation underestimates the initial slope, which matches the estimator's catalogue-wide low bias. The regions look excellent by $R^2$ — median about 0.98 — and that is exactly why $R^2$ was not trusted as the diagnostic.
+
+On these smooth, low-noise curves, curvature is *not* a better predictor of error than $R^2$. The two largely coincide, because nearly all of $R^2$'s shortfall *is* curvature. The case for curvature is interpretability, and robustness when noise is present, not better correlation on this set.
+
+On dysts, with series four times longer, the selected windows are much longer and a substantial share hit the 200-sample cap. The cap itself is a protocol choice worth revisiting.
+
+![Rosenstein divergence curves for a panel of Sprott systems, with the automatically selected scaling region highlighted, ordered by curvature.](figures/fig_scaling_region_lyapunov.png){#fig-scaling width=72%}
+
+## Wolf's renormalisation interval {#sec-evolve}
+
+```{r tbl-evolve}
+#| tbl-cap: "Wolf's method: median |log10 ratio| across systems, by renormalisation interval (evolve, in samples). Lower is better. 200 realizations per system."
+#| output: asis
+ev$group <- ifelse(ev$kind == "flow", "Flows", unname(CAT[ev$category]))
+ev$err <- suppressWarnings(abs(log10(ev$ratio))); ev$err[!is.finite(ev$err)] <- NA
+tabm <- tapply(ev$err, list(ev$group, ev$evolve), median, na.rm = TRUE)
+ord <- intersect(c("Noninvertible map", "Dissipative map", "Conservative map", "Flows"), rownames(tabm))
+tabm <- tabm[ord, , drop = FALSE]
+nsys <- tapply(ev$system, ev$group, function(s) length(unique(s)))[ord]
+tab <- data.frame(Group = ord, Systems = as.integer(nsys), check.names = FALSE)
+for (j in colnames(tabm)) tab[[j]] <- f2(tabm[, j], 3)
+ptab(tab, c(20, 9, rep(8, ncol(tabm))), c("l", "r", rep("r", ncol(tabm))))
+```
+
+Wolf's method assumes a neighbouring pair stays in the linear regime over the propagation interval. On a flow sampled at about 40 points per orbit, 10 samples is a quarter turn and the estimate barely depends on it. On a map, 10 samples is 10 iterations: on the logistic map a pair separates by $2^{10}$ before replacement, far outside any linear regime.
+
+The sweep bears this out:
+
+- Noninvertible and dissipative maps are roughly an order of magnitude more accurate at `evolve` = 1 than at the default.
+- Flows are flat across the whole range, which is what separates "maps need a shorter interval" from "the default is wrong everywhere".
+- Conservative maps do not follow the pattern. Their small exponents are dominated by the estimation noise floor, and the chaotic web is not estimable this way at any interval.
+
+The library default was deliberately left at 10: changing it would silently alter every exponent the library has produced. The evidence is in `lyapunov()`'s documentation so a caller analysing a map can choose deliberately.
+
+![Wolf's estimate against its renormalisation interval, by system group.](figures/fig_evolve_sweep.png){#fig-evolve width=85%}
+
+## The effect of the reference choice {#sec-refswitch}
+
+```{r tbl-refswitch}
+#| tbl-cap: "dysts accuracy before and after correcting the reference exponent. Only the reference changed; every estimate is identical."
+#| output: asis
+if (!is.null(old_dy)) {
+  tab <- data.frame(
+    Estimator = c("Wolf", "Rosenstein"),
+    `Median ratio, divergence reference` = c(f2(oW$med), f2(oR$med)),
+    `Median ratio, tangent-space reference` = c(f2(dW$med), f2(dR$med)),
+    `Within 2×, before` = c(pct(oW$w2), pct(oR$w2)),
+    `Within 2×, after` = c(pct(dW$w2), pct(dR$w2)),
+    check.names = FALSE)
+  ptab(tab, c(14, 20, 22, 14, 14), c("l", "r", "r", "r", "r"))
+}
+```
+
+Re-referencing changed only the `reference` and `medianOverReference` columns of the report. The report was rebuilt from the existing table rather than by re-running the battery. The rebuild was validated first by regenerating the unchanged report from its own table and confirming it was byte-identical. Agreement improved on both estimators, which is what one would expect if the new reference is the right one.
+
+## Sensitivity to observational noise {#sec-noise}
+
+**Design.** Gaussian noise was added to each stored dysts series at 0, 0.5, 1, 2, 5 and 10% of that series' own standard deviation. `lyap_wolf`, `lyap_ros` and `corr_dim` were then re-run. This is measurement noise on the observable: the trajectory is unchanged, only the view of it is blurred. Every noisy series was analysed twice:
+
+- **fixed:** delay and dimension taken from the clean series and held. What the estimator alone does with a noisier signal.
+- **reembed:** delay and dimension re-estimated on the noisy series, as a practitioner would. What a real analysis produces.
+
+Both arms see the same noise draw on the same realization, so any difference between them is the embedding and nothing else. The sweep covered `r n_ns` systems at R = `r R_ns`, about 7 h on 32 workers.
+
+**Validation.** At the 0% fixed cell, every value must equal what the battery produces for that realization. Across four systems at R = 25, all 700 compared values matched exactly.
+
+```{r tbl-noise}
+#| tbl-cap: "Median across systems of estimate ÷ reference, by noise level (% of series SD) and embedding arm."
+mk <- function(lbl, arm, v) c(lbl, arm, f2(v))
+tab <- as.data.frame(rbind(
+  mk("Wolf", "fixed", wW), mk("Wolf", "reembed", rW),
+  mk("Rosenstein", "fixed", wR), mk("Rosenstein", "reembed", rR),
+  mk("Corr. dimension", "fixed", wC), mk("Corr. dimension", "reembed", rC)))
+names(tab) <- c("Metric", "Arm", paste0(100 * lv, "%"))
+kable(tab, align = paste0("ll", strrep("r", length(lv))))
+```
+
+```{r tbl-noise-w2}
+#| tbl-cap: "Share of systems whose ensemble-median estimate is within a factor of 2 of the reference, by noise level."
+mk <- function(lbl, arm, v) c(lbl, arm, pct(v))
+tab <- as.data.frame(rbind(
+  mk("Wolf", "fixed", w2Wf), mk("Wolf", "reembed", w2Wr),
+  mk("Rosenstein", "fixed", w2Rf), mk("Rosenstein", "reembed", w2Rr)))
+names(tab) <- c("Metric", "Arm", paste0(100 * lv, "%"))
+kable(tab, align = paste0("ll", strrep("r", length(lv))))
+```
+
+![Noise sweep across all dysts systems. Line: median across systems. Band: interquartile range across systems. Blue holds the clean embedding; orange re-estimates it on the noisy series.](figures/fig_noise_sweep.png){#fig-noise width=100%}
+
+Four results stand out.
+
+**Below about 2% noise, nothing much happens.** The two arms are indistinguishable and every metric stays close to its clean value. At these levels the protocol is robust and the embedding question does not arise.
+
+**Above 2%, the estimators fail in opposite directions.** With the embedding held fixed, Wolf dips slightly and then overshoots, reaching `r f2(wW[iL])` at `r 100*max(lv)`%: noise inflates the measured stretch of neighbouring pairs. Rosenstein falls to `r f2(wR[i5])` by 5% and levels off (`r f2(wR[iL])` at `r 100*max(lv)`%), as noise lifts the floor of the divergence curve and flattens its initial slope. Two estimators of the same quantity degrading in opposite directions is worth knowing before choosing between them on noisy data. Averaging them would hide the problem rather than solve it.
+
+**Re-estimating the embedding shifts the Lyapunov estimates down, which helps or hurts depending on the estimator.** Re-embedded, both exponents come out below their fixed-embedding values `r if (down_lyap) "at every level from 1% upward" else "at most levels from 1% upward"`. For Rosenstein that deepens an existing low bias: `r f2(rR[iL])` against `r f2(wR[iL])` at `r 100*max(lv)`%. For Wolf at 5% it moves a near-correct median (`r f2(wW[i5])`) below the reference (`r f2(rW[i5])`). At `r 100*max(lv)`% it partly cancels the overshoot (`r f2(rW[iL])` against `r f2(wW[iL])`): two errors offsetting, not an improvement. The correlation dimension moves the other way, inflating further when re-embedded (`r f2(rC[iL])` against `r f2(wC[iL])`)`r if (up_cd) "" else ", though not at every level"`.
+
+**By share of systems within 2×, the arms are closer than the medians suggest.** With the embedding fixed, estimates spread more widely upward — the blue bands in @fig-noise — so up to 5% re-embedding keeps a similar share of systems within a factor of 2 for Wolf, and a slightly larger one for Rosenstein. At `r 100*max(lv)`% the two estimators part: re-embedded Wolf keeps `r pct(w2Wr[iL])` of systems within 2× against `r pct(w2Wf[iL])` fixed, while re-embedded Rosenstein keeps `r pct(w2Rr[iL])` against `r pct(w2Rf[iL])`.
+
+Re-embedding on noisy data is therefore not a remedy. It trades the fixed arm's wider spread for a downward shift in the median, and whether that shift helps depends on which way the estimator was already wrong. Noise and embedding dimension interact in reconstruction generally [@casdagli1991], and this is one concrete consequence.
+
+```{r tbl-embed}
+#| tbl-cap: "Embedding parameters chosen on the noisy series (reembed arm): median across systems."
+tab <- as.data.frame(rbind(
+  c("AMI delay (samples)", f2(emb("ami_delay"), 1)),
+  c("FNN dimension", f2(emb("fnn_dim"), 1)),
+  c("Delay used", f2(emb("embed_delay"), 1)),
+  c("Dimension used", f2(emb("embed_dim"), 1))))
+names(tab) <- c("Parameter", paste0(100 * lv, "%"))
+kable(tab, align = paste0("l", strrep("r", length(lv))))
+```
+
+The embedding parameters were measured as outcomes rather than assumed. The AMI delay barely moves: it increased on `r pct(del_up)` of systems between 0% and `r 100*max(lv)`% noise. The FNN dimension climbed on `r pct(dim_up)` of systems. The re-embedding effect is a dimension effect, and the delay is not what changes. The design's opening premise was that noise inflates *both* parameters. The data corrected that.
+
+# Discussion
+
+**Which estimator to use.** Neither is uniformly better. Wolf is closer to the reference on more dysts systems and has the smaller median error there. But its worst misses are orders of magnitude larger than Rosenstein's — roughly `r big(wWd$fold[1])`-fold against `r big(wRd$fold[1])`-fold on dysts — and it has a consequential tuning parameter. Rosenstein carries a consistent low bias of about 16% that its fit diagnostics help explain. Where a single catastrophic miss matters more than a small systematic bias, Rosenstein is the safer default. Where the dynamics are a map, Wolf should be run with `evolve` = 1.
+
+**Report the fit, not only the exponent.** A Rosenstein exponent is a slope over a chosen window, and the window can move the answer by more than a factor of 2. Any analysis should report the fitted region and its curvature alongside $\lambda_1$.
+
+**Conservative, driven and weakly chaotic systems are hard for both.** Small exponents sit near the estimation noise floor. A near-zero or wrong-sign estimate on such a system is not evidence against chaos.
+
+**Noise.** Both estimators are usable up to about 2% observational noise relative to signal SD. Beyond that, the direction of the error depends on the estimator, and re-estimating the embedding on the noisy data shifts estimates rather than correcting them. For noisy data, embedding choices made on a smoothed or denoised copy, or methods designed for robustness to noise [@kantz1994], deserve a direct test.
+
+**The reference matters as much as the estimator.** The single largest change to the dysts results came from choosing the right reference value. Any benchmark of this kind should state exactly which published number it treats as ground truth and why.
+
+# Limitations and open issues
+
+- **Reference uncertainty.** The dysts spectra are numerical estimates themselves, and Sprott's values are published to limited precision. Ratios bound estimator-plus-reference disagreement.
+- **One observable, one sampling rate.** Each system is observed through a single scalar component at about 40 samples per period. Sensitivity to the choice of observable and to sampling rate was not tested here.
+- **One embedding protocol.** Results are conditional on AMI/FNN for flows and the fixed rule for maps.
+- **Heuristic scaling-region selection.** The Rosenstein region selector is a simple, uniform default, not a solved problem. The 200-sample cap binds often on dysts.
+- **Conditioned ensembles.** A few systems (the damped and driven pendulums, labyrinth, Sakarya, HyperLu) lost realizations, and their survivors are conditioned on non-degeneracy.
+- **Noise sweep scope.** Additive white Gaussian observational noise only, at R = 25. Dynamical noise, coloured noise, quantization and missing samples are untested. The RQA family was excluded pending a separate counting fix.
+- **Wolf's default.** `evolve` = 10 remains the library default despite the evidence on maps. That is a release decision, not a test-suite one.
+- **Unexplained per-realization file.** The 13 September per-realization table in Dropbox does not reproduce current values for about a quarter of perturbed realizations, and its provenance is open.
+- **Reproducibility of draws.** The single-channel dysts ensembles, except Sakarya, were drawn before the `crc32` seeding fix, so they cannot be regenerated bit for bit. The stored series are the record.
+
+# Data assets and how they can be reused
+
+The corpora were built to be written once and read many times. Integration costs 2–4× what the whole metric battery costs per realization, so regenerating data per experiment would dominate every study.
+
+| Asset | Where | What it holds | Tracked in git |
+|------------------|--------------------------------|------------------------------------|-----------|
+| Sprott catalogue | `tests/matlab/+quarctest/sprott_catalog.m` | Equations, parameters, $x_0$, published $\lambda_1$; series generated on demand | Yes |
+| dysts ensembles | `tests/reports/dysts/*.bin`; Dropbox `quarc-data/dysts` | `r n_dy` systems × `r R_dy` × `r N_dy` float64 samples (~1.6 GB) | No (manifest yes) |
+| dysts manifest | `tests/reports/dysts/manifest.json` | Protocol, sampling rates, tangent-space and divergence exponents, spectra | Yes |
+| Characterization reports | `characterization_full` and `characterization_dysts` (`.csv`, `.md`) in `tests/reports/` | Per-system, per-metric ensemble summaries | Yes |
+| Per-realization tables | Local (Sprott, ~129 MB); Dropbox `derived/` (dysts, 27 MB) | Every realization × metric | No |
+| Rosenstein fit curves | `tests/reports/curves_lyapunov.csv` | Divergence curves and fitted regions for a Sprott panel | Yes |
+| Wolf `evolve` sweep | `tests/reports/evolve_sweep.csv` | 33 systems × 9 intervals, 200 realizations | Yes |
+| Noise sweep | `tests/reports/noise_sweep.csv` (per-realization table, 15 MB, untracked) | `r n_ns` systems × 6 levels × 2 arms | Summary yes |
+
+Because the series are stored, many further experiments cost only analysis time:
+
+- **Series length:** truncate to any $N \le$ `r N_dy`. This is a column slice, and the within-realization comparison is exact.
+- **Sampling rate:** decimate stored series to test coarser sampling (upsampling needs regeneration).
+- **Alternative estimators** — for example Kantz's method [@kantz1994] or neural estimators — on literally identical data, for paired comparisons.
+- **Embedding studies:** delay and dimension choices, Theiler windows, or denoised embeddings, evaluated against the same references.
+- **Other noise models:** coloured noise, quantization, outliers, or missing samples, using the noise-sweep driver as a template.
+- **Uncertainty quantification:** the per-realization tables give full distributions, not just medians, for every system and metric.
+
+# Reproducing this report
+
+Every number in this document is computed at render time from the committed tables and manifest, so the report cannot drift from the data. The before/after reference comparison additionally reads the earlier report from git.
+
+```
+# Characterization (MATLAB)
+matlab -batch "addpath('tests/matlab'); \
+  [S,p] = quarctest.characterize(R=1000, N=4000); \
+  quarctest.write_characterization(S, p, Tag='full')"
+matlab -batch "addpath('tests/matlab'); \
+  [S,p] = quarctest.characterize_series(R=100); \
+  quarctest.write_characterization(S, p, Tag='dysts')"
+
+# Sweeps (MATLAB); write the returned tables to tests/reports/
+T = quarctest.evolve_sweep();
+[S, per] = quarctest.noise_sweep(R=25);
+
+# Figures and this report
+Rscript R/make_figures.R
+quarto render docs/lab-report/lyapunov_estimators_lab_report.qmd
+```
+
+*Compiled on 2026-09-16 from the QUARC Nonlinear repository record: commits, committed tables, figures and the dysts manifest. Drafted with assistance from Claude (Anthropic).*
+
+# Appendix A: per-system results, Sprott catalogue
+
+Ensemble-median estimate ÷ published $\lambda_1$, with Rosenstein's fit $R^2$ and curvature.
+
+```{r app-sprott}
+app <- function(d) {
+  w <- ratios(d, "lyap_wolf"); r <- ratios(d, "lyap_ros")
+  g <- function(met) setNames(d$median[d$metric == met], d$system[d$metric == met])
+  r2 <- g("lyap_ros_fit_r2"); cv <- g("lyap_ros_fit_curv")
+  m <- merge(w[, c("system", "cat", "ratio")], r[, c("system", "ratio")], by = "system",
+             suffixes = c(".w", ".r"), all = TRUE)
+  m$cat <- factor(m$cat, levels = CATORD)
+  m <- m[order(m$cat, m$system), ]
+  data.frame(System = m$system, Category = as.character(m$cat),
+             Wolf = f3s(m$ratio.w), Rosenstein = f3s(m$ratio.r),
+             `Fit R²` = f3s(r2[m$system]), Curvature = f2(cv[m$system]),
+             check.names = FALSE)
+}
+kable(app(sp), align = "llrrrr", row.names = FALSE)
+```
+
+# Appendix B: per-system results, dysts catalogue
+
+Ensemble-median estimate ÷ tangent-space reference, with Rosenstein's fit $R^2$ and curvature.
+
+```{r app-dysts}
+kable(app(dy), align = "llrrrr", row.names = FALSE)
+```

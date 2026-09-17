@@ -1,0 +1,7 @@
+# Quarto's render cache.
+.quarto/
+
+# Figure copies. The render pulls these from tests/reports/figures, which is
+# where they are committed; keeping a second copy in history would mean every
+# figure change showed up as two binary diffs.
+figures/
