@@ -96,8 +96,17 @@ def main():
             print(f"{r['name']:26}{r['source']:8}{r['lambdaMax']:10.5f}   {', '.join(w)}")
     print()
 
-    # ---- 2. against the published values
-    sp = [r for r in recs if r["source"] == "sprott" and r.get("published")]
+    n_icdep = sum(1 for r in recs if r.get("icDependent"))
+    n_cons = sum(1 for r in recs if r.get("conservative"))
+    notch = [r["name"] for r in recs if r.get("chaoticAtIC") is False]
+    print(f"REFERENCE FLAGS: {n_icdep} icDependent ({n_cons} by divergence), "
+          f"{len(notch)} not chaotic at their initial condition: {', '.join(notch)}\n")
+
+    # ---- 2. against the published values. A system whose recorded initial
+    # condition is not chaotic has a reference of essentially zero, and a ratio
+    # against it says nothing about either value; those are left out here.
+    scorable = [r for r in recs if r.get("chaoticAtIC", True)]
+    sp = [r for r in scorable if r["source"] == "sprott" and r.get("published")]
     if sp:
         ratio = np.array([r["publishedRatio"] for r in sp])
         err = np.array([r["lambdaMax"] - r["published"] for r in sp])
@@ -112,7 +121,7 @@ def main():
                   f"  ratio {r['publishedRatio']:6.3f}")
         print()
 
-    dy = {r["name"]: r for r in recs if r["source"] == "dysts"}
+    dy = {r["name"]: r for r in scorable if r["source"] == "dysts"}
     if dy and os.path.exists(a.manifest):
         with open(a.manifest) as fh:
             man = {s["system"]: s for s in json.load(fh)["systems"]}

@@ -71,6 +71,10 @@ def main():
                 ratioRecomputed=(med / new if np.isfinite(new) and new else np.nan),
                 referenceShift=(new / pub if np.isfinite(pub) and pub else np.nan),
                 icDependent=bool(s and s.get("icDependent")),
+                # False where the corpus found the recorded initial condition
+                # not chaotic: the reference is essentially zero there and the
+                # ratio is noise.
+                chaoticAtIC=bool(s and s.get("chaoticAtIC", True)),
                 inCorpus=bool(s),
             ))
 
@@ -85,13 +89,13 @@ def main():
         for metric in LYAP_METRICS:
             sel = [r for r in out_rows
                    if r["catalogue"] == source and r["metric"] == metric
-                   and r["inCorpus"] and not r["icDependent"]]
-            print(f"{source:7}{metric:10}  (dissipative systems in corpus)")
+                   and r["inCorpus"] and not r["icDependent"] and r["chaoticAtIC"]]
+            print(f"{source:7}{metric:10}  (dissipative, chaotic-at-IC systems in corpus)")
             print(f"   published  refs: {_stats([r['ratioPublished'] for r in sel])}")
             print(f"   recomputed refs: {_stats([r['ratioRecomputed'] for r in sel])}")
         shift = [r["referenceShift"] for r in out_rows
                  if r["catalogue"] == source and r["metric"] == "lyap_wolf"
-                 and r["inCorpus"] and not r["icDependent"]]
+                 and r["inCorpus"] and not r["icDependent"] and r["chaoticAtIC"]]
         print(f"   reference itself (recomputed/published): {_stats(shift)}\n")
     return 0
 

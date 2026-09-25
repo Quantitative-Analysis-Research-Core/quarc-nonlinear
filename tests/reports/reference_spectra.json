@@ -2,2318 +2,8 @@
  "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
  "spread": 1e-09,
  "budget": "full",
- "built": "2026-09-24T19:06:59",
+ "built": "2026-09-24T19:06:59 (+14 dysts systems built 2026-09-25 with the rhs-transposed adapter)",
  "systems": [
-  {
-   "name": "logistic",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.6931475469130172
-   ],
-   "lambdaMax": 0.6931475469130172,
-   "sem": [
-    1.5843370697165068e-07
-   ],
-   "divergence": 0.6965682207600369,
-   "traceError": -0.0034206738470197173,
-   "zeroExponent": 0.6931475469130172,
-   "nEscaped": 1,
-   "nDied": 5,
-   "nCollapsed": 16,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.6931471805599453,
-   "publishedSource": "Sprott (2003) A.1.1",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 41.2484450340271,
-   "publishedRatio": 1.00000052853576
-  },
-  {
-   "name": "sine_map",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.6890677338385087
-   ],
-   "lambdaMax": 0.6890677338385087,
-   "sem": [
-    3.7145773645121564e-06
-   ],
-   "divergence": 0.6886065167154839,
-   "traceError": 0.0004612171230248263,
-   "zeroExponent": 0.6890677338385087,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 13,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.689067,
-   "publishedSource": "Sprott (2003) A.1.2",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 45.638200998306274,
-   "publishedRatio": 1.000001064974101
-  },
-  {
-   "name": "lcg",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    8.873608102087275
-   ],
-   "lambdaMax": 8.873608102087275,
-   "sem": [
-    4.430506805588284e-09
-   ],
-   "divergence": 8.90738643639595,
-   "traceError": -0.03377833430867483,
-   "zeroExponent": 8.873608102087275,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 8.87360810154911,
-   "publishedSource": "Sprott (2003) A.1.4",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 77.37951493263245,
-   "publishedRatio": 1.000000000060648
-  },
-  {
-   "name": "cubic_map",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    1.098612414731329
-   ],
-   "lambdaMax": 1.098612414731329,
-   "sem": [
-    7.008825488062437e-08
-   ],
-   "divergence": 1.0988419363774806,
-   "traceError": -0.0002295216461516425,
-   "zeroExponent": 1.098612414731329,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 3,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 1.0986122883,
-   "publishedSource": "Sprott (2003) A.1.5",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 42.79222774505615,
-   "publishedRatio": 1.000000115082755
-  },
-  {
-   "name": "ricker",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.38489520342487626
-   ],
-   "lambdaMax": 0.38489520342487626,
-   "sem": [
-    1.6736338544139693e-05
-   ],
-   "divergence": 0.3855099604287814,
-   "traceError": -0.0006147570039051198,
-   "zeroExponent": 0.38489520342487626,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 1,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.384846,
-   "publishedSource": "Sprott (2003) A.1.6",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 44.02103805541992,
-   "publishedRatio": 1.0001278522444725
-  },
-  {
-   "name": "gauss_map",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.3141592653589793
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    2.372938513864185
-   ],
-   "lambdaMax": 2.372938513864185,
-   "sem": [
-    7.359581466199986e-05
-   ],
-   "divergence": 2.3690373853521187,
-   "traceError": 0.0039011285120662542,
-   "zeroExponent": 2.372938513864185,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 2.373445,
-   "publishedSource": "Sprott (2003) A.1.7",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 61.35852003097534,
-   "publishedRatio": 0.9997866029607533
-  },
-  {
-   "name": "cusp",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.5
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.500104809514788
-   ],
-   "lambdaMax": 0.500104809514788,
-   "sem": [
-    0.00014785683184451601
-   ],
-   "divergence": 0.5003664012500688,
-   "traceError": -0.0002615917352808417,
-   "zeroExponent": 0.500104809514788,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.5,
-   "publishedSource": "Sprott (2003) A.1.8",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 43.62340497970581,
-   "publishedRatio": 1.000209619029576
-  },
-  {
-   "name": "pinchers",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.4679487915077193
-   ],
-   "lambdaMax": 0.4679487915077193,
-   "sem": [
-    4.435639965103441e-06
-   ],
-   "divergence": 0.467847034247221,
-   "traceError": 0.00010175726049826972,
-   "zeroExponent": 0.4679487915077193,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.467944,
-   "publishedSource": "Sprott (2003) A.1.10",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 46.58677792549133,
-   "publishedRatio": 1.0000102394895956
-  },
-  {
-   "name": "sine_circle",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 1,
-   "x0": [
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.35395126057417714
-   ],
-   "lambdaMax": 0.35395126057417714,
-   "sem": [
-    1.6614617987128475e-05
-   ],
-   "divergence": 1.0370145570902216,
-   "traceError": -0.6830632965160445,
-   "zeroExponent": 0.35395126057417714,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 129,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.353863,
-   "publishedSource": "Sprott (2003) A.1.12",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 68.89677214622498,
-   "publishedRatio": 1.0002494201828875
-  },
-  {
-   "name": "henon",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.9
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.41919359665093553,
-    -1.6231664009671156
-   ],
-   "lambdaMax": 0.41919359665093553,
-   "sem": [
-    1.665762491983233e-05,
-    1.665762479323941e-05
-   ],
-   "divergence": -1.2039728043145583,
-   "traceError": -1.6218137943724287e-12,
-   "zeroExponent": 0.41919359665093553,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.41922,
-   "publishedSource": "Sprott (2003) A.2.1",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 120.84687495231628,
-   "publishedRatio": 0.9999370179164533
-  },
-  {
-   "name": "lozi",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    -0.1,
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.4702281020230158,
-    -1.1633752825853434
-   ],
-   "lambdaMax": 0.4702281020230158,
-   "sem": [
-    1.1877468429539774e-05,
-    1.1877477937703877e-05
-   ],
-   "divergence": -0.6931471805533285,
-   "traceError": -8.999134770704131e-12,
-   "zeroExponent": 0.4702281020230158,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.47023,
-   "publishedSource": "Sprott (2003) A.2.2",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 121.27284026145935,
-   "publishedRatio": 0.9999959637262953
-  },
-  {
-   "name": "delayed_logistic",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.001,
-    0.001
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.1831108620000635,
-    -1.241971890200424
-   ],
-   "lambdaMax": 0.1831108620000635,
-   "sem": [
-    1.347933663124284e-05,
-    0.00010210856697579217
-   ],
-   "divergence": -1.0569718730645825,
-   "traceError": -0.0018891551357780312,
-   "zeroExponent": 0.1831108620000635,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.18312,
-   "publishedSource": "Sprott (2003) A.2.3",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 117.68418407440186,
-   "publishedRatio": 0.9999500982965459
-  },
-  {
-   "name": "tinkerbell",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.5
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.18995362817881742,
-    -0.5208137059767427
-   ],
-   "lambdaMax": 0.18995362817881742,
-   "sem": [
-    1.0216656396268092e-05,
-    4.016746753868269e-05
-   ],
-   "divergence": -0.3310255781178775,
-   "traceError": 0.00016550031995221648,
-   "zeroExponent": 0.18995362817881742,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.18997,
-   "publishedSource": "Sprott (2003) A.2.4",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 139.26923298835754,
-   "publishedRatio": 0.9999138189125516
-  },
-  {
-   "name": "burgers",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    -0.1,
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.12075671824775054,
-    -0.22133664491428306
-   ],
-   "lambdaMax": 0.12075671824775054,
-   "sem": [
-    1.2032112791123291e-05,
-    1.833019831450281e-05
-   ],
-   "divergence": -0.10034485522611386,
-   "traceError": -0.00023507144041866324,
-   "zeroExponent": 0.12075671824775054,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.12076,
-   "publishedSource": "Sprott (2003) A.2.5",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 124.7787709236145,
-   "publishedRatio": 0.9999728241781263
-  },
-  {
-   "name": "holmes_cubic",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    1.6,
-    0.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.594565675714314,
-    -2.2040035880702478
-   ],
-   "lambdaMax": 0.594565675714314,
-   "sem": [
-    1.7379140981984476e-05,
-    1.73791375368138e-05
-   ],
-   "divergence": -1.6094379124062759,
-   "traceError": 5.034217487320802e-11,
-   "zeroExponent": 0.594565675714314,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.59458,
-   "publishedSource": "Sprott (2003) A.2.6",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 134.27486419677734,
-   "publishedRatio": 0.9999759085645564
-  },
-  {
-   "name": "dissipative_standard",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.1,
-    0.1
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    1.4700397977985906,
-    -3.772624890349072
-   ],
-   "lambdaMax": 1.4700397977985906,
-   "sem": [
-    4.457259880932811e-05,
-    4.4572591393997426e-05
-   ],
-   "divergence": -2.30238441524966,
-   "traceError": -0.00020067730082118374,
-   "zeroExponent": 1.4700397977985906,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 1.46995,
-   "publishedSource": "Sprott (2003) A.2.8",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 188.8928680419922,
-   "publishedRatio": 1.0000610890156743
-  },
-  {
-   "name": "ikeda",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.5076286505359134,
-    -0.7183496818652324
-   ],
-   "lambdaMax": 0.5076286505359134,
-   "sem": [
-    2.28294544406677e-05,
-    2.2829452277799598e-05
-   ],
-   "divergence": -0.21072103130893738,
-   "traceError": -2.0381585308371086e-11,
-   "zeroExponent": 0.5076286505359134,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.5076,
-   "publishedSource": "Sprott (2003) A.2.9",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 172.30021929740906,
-   "publishedRatio": 1.0000564431361572
-  },
-  {
-   "name": "sinai",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.5,
-    0.5
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.9594642533291587,
-    -1.0771368193214867
-   ],
-   "lambdaMax": 0.9594642533291587,
-   "sem": [
-    3.189483079616265e-06,
-    2.3974867097500343e-05
-   ],
-   "divergence": -0.11763385808269014,
-   "traceError": -3.870790963786397e-05,
-   "zeroExponent": 0.9594642533291587,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.95946,
-   "publishedSource": "Sprott (2003) A.2.10",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 187.05942702293396,
-   "publishedRatio": 1.0000044330447948
-  },
-  {
-   "name": "predator_prey",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.5,
-    0.5
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.19665697805487914,
-    0.03271724254275259
-   ],
-   "lambdaMax": 0.19665697805487914,
-   "sem": [
-    1.0405873932258949e-05,
-    1.9888026317848325e-05
-   ],
-   "divergence": 0.22961653892579129,
-   "traceError": -0.00024231832815954646,
-   "zeroExponent": 0.03271724254275259,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.19664,
-   "publishedSource": "Sprott (2003) A.2.11",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 143.91039729118347,
-   "publishedRatio": 1.0000863407998328
-  },
-  {
-   "name": "chirikov",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    6.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.11153655582047262,
-    -0.11153655582251075
-   ],
-   "lambdaMax": 0.11153655582047262,
-   "sem": [
-    0.0011137588487871537,
-    0.001113758849465277
-   ],
-   "divergence": 4.1834203592082544e-05,
-   "traceError": -4.1834205630216095e-05,
-   "zeroExponent": 0.11153655582047262,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.10497,
-   "publishedSource": "Sprott (2003) A.3.1",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 179.57269620895386,
-   "publishedRatio": 1.0625565001474004
-  },
-  {
-   "name": "henon_area",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.6,
-    0.13
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.007017050410829568,
-    -0.007017050403284962
-   ],
-   "lambdaMax": 0.007017050410829568,
-   "sem": [
-    0.00011015646064570786,
-    0.00011015645999240728
-   ],
-   "divergence": -1.3839649864170752e-11,
-   "traceError": 2.1384255429461326e-11,
-   "zeroExponent": 0.007017050403284962,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.00643,
-   "publishedSource": "Sprott (2003) A.3.2",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 133.66655802726746,
-   "publishedRatio": 1.0912986642036653
-  },
-  {
-   "name": "arnold_cat",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.7071067811865475
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.962423648882632,
-    -0.9624236607379661
-   ],
-   "lambdaMax": 0.962423648882632,
-   "sem": [
-    2.7291207866594826e-09,
-    1.137000183805113e-08
-   ],
-   "divergence": 7.688889648189522e-05,
-   "traceError": -7.690075181605403e-05,
-   "zeroExponent": 0.962423648882632,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.9624236501192069,
-   "publishedSource": "Sprott (2003) A.3.3",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 172.03352403640747,
-   "publishedRatio": 0.9999999987151449
-  },
-  {
-   "name": "gingerbreadman",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.5,
-    3.7
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.07379054868533187,
-    -0.0737905486309134
-   ],
-   "lambdaMax": 0.07379054868533187,
-   "sem": [
-    0.00011452562111869201,
-    0.00011452562244066867
-   ],
-   "divergence": 2.4119584558079155e-11,
-   "traceError": 3.0298885172342593e-11,
-   "zeroExponent": 0.0737905486309134,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.07339,
-   "publishedSource": "Sprott (2003) A.3.4",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 117.5540840625763,
-   "publishedRatio": 1.0054578101285172
-  },
-  {
-   "name": "chaotic_web",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    3.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.04845505429067399,
-    -0.04845505428442772
-   ],
-   "lambdaMax": 0.04845505429067399,
-   "sem": [
-    0.00034805241748309075,
-    0.00034805241594638146
-   ],
-   "divergence": 6.220165888537688e-14,
-   "traceError": 6.18406573332164e-12,
-   "zeroExponent": 0.04845505428442772,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.04847,
-   "publishedSource": "Sprott (2003) A.3.5",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 139.56013917922974,
-   "publishedRatio": 0.9996916503130594
-  },
-  {
-   "name": "lorenz3d_map",
-   "source": "sprott",
-   "kind": "map",
-   "stateDim": 3,
-   "x0": [
-    0.5,
-    0.5,
-    -1.0
-   ],
-   "dt": null,
-   "dtCatalogue": null,
-   "dtMultiple": 1,
-   "horizon": 2000000,
-   "params": null,
-   "spectrum": [
-    0.07535470133536809,
-    7.263494637209311e-09,
-    -0.07535470859798604
-   ],
-   "lambdaMax": 0.07535470133536809,
-   "sem": [
-    0.00039585096758728905,
-    1.970806409278619e-08,
-    0.000395849390461359
-   ],
-   "divergence": 1.2776685895746618e-11,
-   "traceError": -1.1899998284351363e-11,
-   "zeroExponent": 7.263494637209311e-09,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 2000000,
-   "elapsed": 2000000.0,
-   "published": 0.07456,
-   "publishedSource": "Sprott (2003) A.3.6",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 180.27572298049927,
-   "publishedRatio": 1.0106585479528982
-  },
-  {
-   "name": "damped_pendulum",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.14121172076121757,
-    -0.1912117195750987
-   ],
-   "lambdaMax": 0.14121172076121757,
-   "sem": [
-    0.00011097959539355516,
-    0.00011097989313333925
-   ],
-   "divergence": -0.05000000000017367,
-   "traceError": 1.1862925503036692e-09,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.1414,
-   "publishedSource": "Sprott (2003) A.4.1",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 97.75602602958679,
-   "publishedRatio": 0.9986684636578329
-  },
-  {
-   "name": "driven_vdp",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    -1.9,
-    0.0
-   ],
-   "dt": 0.005,
-   "dtCatalogue": 0.005,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.1935281844410528,
-    -2.0710313803094738
-   ],
-   "lambdaMax": 0.1935281844410528,
-   "sem": [
-    0.00021469028298377318,
-    0.002334612883689976
-   ],
-   "divergence": -1.8774210858388405,
-   "traceError": -8.211002958047331e-05,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 7500.0,
-   "published": 0.1933,
-   "publishedSource": "Sprott (2003) A.4.2",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 99.08852505683899,
-   "publishedRatio": 1.0011804678792178
-  },
-  {
-   "name": "shaw_vdp",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    1.3,
-    0.0
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.11805610370999549,
-    -1.2732969652519723
-   ],
-   "lambdaMax": 0.11805610370999549,
-   "sem": [
-    0.00015183088178551636,
-    0.0007875326201490754
-   ],
-   "divergence": -1.1552223149786007,
-   "traceError": -1.854656337618721e-05,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.118,
-   "publishedSource": "Sprott (2003) A.4.3",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 99.5841760635376,
-   "publishedRatio": 1.0004754551694532
-  },
-  {
-   "name": "brusselator",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.3,
-    2.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.014042179968446217,
-    -0.2618788867493174
-   ],
-   "lambdaMax": 0.014042179968446217,
-   "sem": [
-    1.476598223212773e-05,
-    1.3079936776501964e-05
-   ],
-   "divergence": -0.24788036357216953,
-   "traceError": 4.365679129833544e-05,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.014,
-   "publishedSource": "Sprott (2003) A.4.4",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 122.95430397987366,
-   "publishedRatio": 1.0030128548890156
-  },
-  {
-   "name": "ueda",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    2.5,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 4,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.10333166793385462,
-    -0.15333495365218863
-   ],
-   "lambdaMax": 0.10333166793385462,
-   "sem": [
-    7.980586847130161e-05,
-    7.98058391815654e-05
-   ],
-   "divergence": -0.05000000000017354,
-   "traceError": -3.285718160474238e-06,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.1034,
-   "publishedSource": "Sprott (2003) A.4.5",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 115.77411818504333,
-   "publishedRatio": 0.9993391482964663
-  },
-  {
-   "name": "duffing_two_well",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.2,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.15730138289118795,
-    -0.40730127414647943
-   ],
-   "lambdaMax": 0.15730138289118795,
-   "sem": [
-    0.00010033594618775513,
-    0.00010033593531199942
-   ],
-   "divergence": -0.25000000000176875,
-   "traceError": 1.0874647726755171e-07,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.1572,
-   "publishedSource": "Sprott (2003) A.4.6",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 126.31408905982971,
-   "publishedRatio": 1.0006449293332567
-  },
-  {
-   "name": "duffing_vdp",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.2,
-    -0.2
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.09637830013583845,
-    -0.2777971329496382
-   ],
-   "lambdaMax": 0.09637830013583845,
-   "sem": [
-    7.506117513402075e-05,
-    0.00011021336320179326
-   ],
-   "divergence": -0.1813973284179895,
-   "traceError": -2.150439581025121e-05,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0963,
-   "publishedSource": "Sprott (2003) A.4.7",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 144.3811309337616,
-   "publishedRatio": 1.0008130855227253
-  },
-  {
-   "name": "rayleigh_duffing",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.3,
-    0.0
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.09125677751200402,
-    -0.2755897987414739
-   ],
-   "lambdaMax": 0.09125677751200402,
-   "sem": [
-    8.433235621235369e-05,
-    0.00011013105641266849
-   ],
-   "divergence": -0.18432427011710462,
-   "traceError": -8.751112365257274e-06,
-   "zeroExponent": null,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0912,
-   "publishedSource": "Sprott (2003) A.4.8",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 143.18991804122925,
-   "publishedRatio": 1.0006225604386405
-  },
-  {
-   "name": "lorenz",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    -0.01,
-    9.0
-   ],
-   "dt": 0.003,
-   "dtCatalogue": 0.003,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.9055039832084996,
-    1.3202932126242635e-05,
-    -14.572183047203543
-   ],
-   "lambdaMax": 0.9055039832084996,
-   "sem": [
-    0.0001329524293297378,
-    1.0257004998883215e-05,
-    0.0001326134732038575
-   ],
-   "divergence": -13.666666666675738,
-   "traceError": 8.056128208977498e-07,
-   "zeroExponent": 1.3202932126242635e-05,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 4500.0,
-   "published": 0.9056,
-   "publishedSource": "Sprott (2003) A.5.1",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 144.57977294921875,
-   "publishedRatio": 0.999893974391011
-  },
-  {
-   "name": "rossler",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    -9.0,
-    0.0,
-    0.0
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.07143073778556665,
-    1.0744966686137616e-05,
-    -5.394753811442863
-   ],
-   "lambdaMax": 0.07143073778556665,
-   "sem": [
-    7.49172061095455e-05,
-    3.822049598998163e-06,
-    6.322643459387188e-05
-   ],
-   "divergence": -5.3232053552761025,
-   "traceError": -0.00010697341450782716,
-   "zeroExponent": 1.0744966686137616e-05,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.0714,
-   "publishedSource": "Sprott (2003) A.5.2",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 121.9992287158966,
-   "publishedRatio": 1.0004305011984123
-  },
-  {
-   "name": "diffusionless_lorenz",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    1.0,
-    -1.0,
-    0.01
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.21013725413939224,
-    3.997396060915914e-06,
-    -1.2101412444460478
-   ],
-   "lambdaMax": 0.21013725413939224,
-   "sem": [
-    5.117116742151574e-05,
-    2.204943789885928e-06,
-    5.15390497108789e-05
-   ],
-   "divergence": -1.0000000000069174,
-   "traceError": 7.096322751642958e-09,
-   "zeroExponent": 3.997396060915914e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.2101,
-   "publishedSource": "Sprott (2003) A.5.3",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 108.4456160068512,
-   "publishedRatio": 1.0001773162274739
-  },
-  {
-   "name": "complex_butterfly",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.2,
-    0.0,
-    0.0
-   ],
-   "dt": 0.08,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 8,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.16832856939705748,
-    0.14770769404407896,
-    -0.8660188087563803
-   ],
-   "lambdaMax": 0.16832856939705748,
-   "sem": [
-    2.897762200092379e-05,
-    2.819066146230776e-05,
-    4.354017451604725e-05
-   ],
-   "divergence": -0.5500000000004384,
-   "traceError": 1.7454685194540076e-05,
-   "zeroExponent": 0.14770769404407896,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 120000.0,
-   "published": 0.169,
-   "publishedSource": "Sprott (2003) A.5.4",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 111.81214499473572,
-   "publishedRatio": 0.9960270378524111
-  },
-  {
-   "name": "chen",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    -10.0,
-    0.0,
-    37.0
-   ],
-   "dt": 0.002,
-   "dtCatalogue": 0.001,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    2.02689459249,
-    4.089394033385194e-05,
-    -12.026935937023934
-   ],
-   "lambdaMax": 2.02689459249,
-   "sem": [
-    0.0007187833696414782,
-    2.526503537018e-05,
-    0.0007206959921172894
-   ],
-   "divergence": -10.000000000004466,
-   "traceError": -4.5058913400453093e-07,
-   "zeroExponent": 4.089394033385194e-05,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 3000.0,
-   "published": 2.0272,
-   "publishedSource": "Sprott (2003) A.5.5",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 144.35545992851257,
-   "publishedRatio": 0.9998493451509471
-  },
-  {
-   "name": "hadley",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    0.0,
-    1.3
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.16607070139738053,
-    5.486074765477688e-06,
-    -0.3856585582276
-   ],
-   "lambdaMax": 0.16607070139738053,
-   "sem": [
-    0.00025298650392770725,
-    6.867350885877658e-06,
-    0.00022883776370974333
-   ],
-   "divergence": -0.2196417174712189,
-   "traceError": 5.934671576493522e-05,
-   "zeroExponent": 5.486074765477688e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.1665,
-   "publishedSource": "Sprott (2003) A.5.6",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 200.5629518032074,
-   "publishedRatio": 0.9974216300142974
-  },
-  {
-   "name": "act",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.5,
-    0.0,
-    0.0
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.16239480778703436,
-    1.1997113098121562e-05,
-    -9.205088328026108
-   ],
-   "lambdaMax": 0.16239480778703436,
-   "sem": [
-    5.7876624482161904e-05,
-    1.134369776454008e-05,
-    0.00011750121476556435
-   ],
-   "divergence": -9.042895746512349,
-   "traceError": 0.00021422338637400173,
-   "zeroExponent": 1.1997113098121562e-05,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.1634,
-   "publishedSource": "Sprott (2003) A.5.7",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 212.31208610534668,
-   "publishedRatio": 0.9938482728704674
-  },
-  {
-   "name": "rabinovich_fabrikant",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    -1.0,
-    0.0,
-    0.5
-   ],
-   "dt": 0.08,
-   "dtCatalogue": 0.005,
-   "dtMultiple": 16,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.19905996147630783,
-    -3.223646966220022e-07,
-    -0.6590538424381652
-   ],
-   "lambdaMax": 0.19905996147630783,
-   "sem": [
-    6.247000711249513e-05,
-    8.664100608026545e-07,
-    6.252944240454006e-05
-   ],
-   "divergence": -0.4600000000051478,
-   "traceError": 5.796678593739113e-06,
-   "zeroExponent": 3.223646966220022e-07,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 120000.0,
-   "published": 0.1981,
-   "publishedSource": "Sprott (2003) A.5.8",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 181.88537406921387,
-   "publishedRatio": 1.0048458428889846
-  },
-  {
-   "name": "rigid_body",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.6,
-    0.0,
-    0.0
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.14197386311189655,
-    -4.680560954332244e-06,
-    -0.7669696634469236
-   ],
-   "lambdaMax": 0.14197386311189655,
-   "sem": [
-    0.00010903598678944417,
-    2.4763942589182712e-06,
-    0.00010923000979216963
-   ],
-   "divergence": -0.6249999999992538,
-   "traceError": -4.80896727661495e-07,
-   "zeroExponent": 4.680560954332244e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.1421,
-   "publishedSource": "Sprott (2003) A.5.9",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 183.74433207511902,
-   "publishedRatio": 0.9991123371702784
-  },
-  {
-   "name": "chua",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    0.0,
-    0.6
-   ],
-   "dt": 0.005,
-   "dtCatalogue": 0.005,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.32707720549380276,
-    0.00012961066974194734,
-    -2.519714256047344
-   ],
-   "lambdaMax": 0.32707720549380276,
-   "sem": [
-    0.0002566785627090723,
-    6.293068039615722e-05,
-    0.000965139750322972
-   ],
-   "divergence": -2.1923195164206413,
-   "traceError": -0.00018792346315787967,
-   "zeroExponent": 0.00012961066974194734,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 7500.0,
-   "published": 0.3271,
-   "publishedSource": "Sprott (2003) A.5.10",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 168.45794892311096,
-   "publishedRatio": 0.9999303133408828
-  },
-  {
-   "name": "moore_spiegel",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.1,
-    0.0,
-    0.0
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.005,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.09334995564456533,
-    -6.241792321280407e-06,
-    -1.0933431920817156
-   ],
-   "lambdaMax": 0.09334995564456533,
-   "sem": [
-    0.00015918697155160375,
-    8.976921737210992e-06,
-    0.00015918091655895236
-   ],
-   "divergence": -1.000000000000647,
-   "traceError": 5.217711754879062e-07,
-   "zeroExponent": 6.241792321280407e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.1119,
-   "publishedSource": "Sprott (2003) A.5.11",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 121.67316699028015,
-   "publishedRatio": 0.8342265919979028
-  },
-  {
-   "name": "thomas",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.1,
-    0.0,
-    0.0
-   ],
-   "dt": 0.1,
-   "dtCatalogue": 0.05,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.03503544332437832,
-    6.715852947786552e-07,
-    -0.5750420118207512
-   ],
-   "lambdaMax": 0.03503544332437832,
-   "sem": [
-    4.0993227673239804e-05,
-    1.2801352005519396e-06,
-    4.1162012476813124e-05
-   ],
-   "divergence": -0.5400000000007569,
-   "traceError": -5.896910321268045e-06,
-   "zeroExponent": 6.715852947786552e-07,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 150000.0,
-   "published": 0.0349,
-   "publishedSource": "Sprott (2003) A.5.12",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 189.90348482131958,
-   "publishedRatio": 1.0038808975466569
-  },
-  {
-   "name": "halvorsen",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    -5.0,
-    0.0,
-    0.0
-   ],
-   "dt": 0.01,
-   "dtCatalogue": 0.005,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.788626350910313,
-    5.730361011791351e-06,
-    -4.598636563806544
-   ],
-   "lambdaMax": 0.788626350910313,
-   "sem": [
-    0.00025682942379233573,
-    5.243890496121093e-06,
-    0.0002571236970373663
-   ],
-   "divergence": -3.8100000000029612,
-   "traceError": -4.482532257821248e-06,
-   "zeroExponent": 5.730361011791351e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 15000.0,
-   "published": 0.7899,
-   "publishedSource": "Sprott (2003) A.5.13",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 218.37646198272705,
-   "publishedRatio": 0.9983875818588592
-  },
-  {
-   "name": "burke_shaw",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.6,
-    0.0,
-    0.0
-   ],
-   "dt": 0.002,
-   "dtCatalogue": 0.001,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    2.2490419375923807,
-    1.1077511944575265e-06,
-    -13.249042935146576
-   ],
-   "lambdaMax": 2.2490419375923807,
-   "sem": [
-    0.0006053031077107761,
-    2.2021349319911747e-05,
-    0.0006039643929791677
-   ],
-   "divergence": -11.000000000056136,
-   "traceError": 1.1025313462198483e-07,
-   "zeroExponent": 1.1077511944575265e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 3000.0,
-   "published": 2.2499,
-   "publishedSource": "Sprott (2003) A.5.14",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 135.0810751914978,
-   "publishedRatio": 0.9996186219798129
-  },
-  {
-   "name": "rucklidge",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    1.0,
-    0.0,
-    4.5
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.19162941695630695,
-    8.670430425864429e-07,
-    -3.1916295529647813
-   ],
-   "lambdaMax": 0.19162941695630695,
-   "sem": [
-    4.3084015014530874e-05,
-    2.4552582285764674e-06,
-    4.303615339712436e-05
-   ],
-   "divergence": -3.0000000000049267,
-   "traceError": 7.310394947168675e-07,
-   "zeroExponent": 8.670430425864429e-07,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0643,
-   "publishedSource": "Sprott (2003) A.5.15",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 120.68660712242126,
-   "publishedRatio": 2.9802397660389883
-  },
-  {
-   "name": "windmi",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    0.8,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 4,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.07570724049363751,
-    -1.5242325592950078e-06,
-    -0.7757057559713815
-   ],
-   "lambdaMax": 0.07570724049363751,
-   "sem": [
-    6.365129000047182e-05,
-    1.683699116813247e-06,
-    6.369454744695085e-05
-   ],
-   "divergence": -0.7000000000012453,
-   "traceError": -3.9709057930714664e-08,
-   "zeroExponent": 1.5242325592950078e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.0755,
-   "publishedSource": "Sprott (2003) A.5.16",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 113.07751512527466,
-   "publishedRatio": 1.002744907200497
-  },
-  {
-   "name": "simplest_quadratic",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    -0.9,
-    0.0,
-    0.5
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.055152474524822644,
-    -5.537385164288723e-07,
-    -2.0721518191691795
-   ],
-   "lambdaMax": 0.055152474524822644,
-   "sem": [
-    1.695685802046693e-05,
-    4.597299038689112e-06,
-    1.8001528327724027e-05
-   ],
-   "divergence": -2.0169999999846056,
-   "traceError": 1.0160173236073433e-07,
-   "zeroExponent": 5.537385164288723e-07,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0551,
-   "publishedSource": "Sprott (2003) A.5.17",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 94.11199617385864,
-   "publishedRatio": 1.000952350722734
-  },
-  {
-   "name": "simplest_cubic",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    0.96,
-    0.0
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.01,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.08367753976465979,
-    -3.9412495075481444e-06,
-    -2.111673312565067
-   ],
-   "lambdaMax": 0.08367753976465979,
-   "sem": [
-    1.790644659017858e-05,
-    4.016759793496803e-06,
-    1.8188143968322143e-05
-   ],
-   "divergence": -2.0280000000012657,
-   "traceError": 2.8595135104225733e-07,
-   "zeroExponent": 3.9412495075481444e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0837,
-   "publishedSource": "Sprott (2003) A.5.18",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 101.36719107627869,
-   "publishedRatio": 0.9997316578812401
-  },
-  {
-   "name": "simplest_piecewise",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    -0.7,
-    0.0
-   ],
-   "dt": 0.16,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 8,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.0407965645158066,
-    -0.002529550803208178,
-    -0.6382615644305303
-   ],
-   "lambdaMax": 0.0407965645158066,
-   "sem": [
-    3.329221514042337e-05,
-    1.2623884502892662e-05,
-    3.678713134466938e-05
-   ],
-   "divergence": -0.6000000000031852,
-   "traceError": 5.4492852533671865e-06,
-   "zeroExponent": 0.002529550803208178,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 240000.0,
-   "published": 0.0362,
-   "publishedSource": "Sprott (2003) A.5.19",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 96.62848401069641,
-   "publishedRatio": 1.126976920326149
-  },
-  {
-   "name": "double_scroll",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.01,
-    0.01,
-    0.0
-   ],
-   "dt": 0.16,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 8,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.04971960342545218,
-    0.049719823000195805,
-    -0.899446252384202
-   ],
-   "lambdaMax": 0.04971960342545218,
-   "sem": [
-    5.071747559970648e-07,
-    3.37557987397078e-07,
-    6.542679969939147e-07
-   ],
-   "divergence": -0.7999999999993774,
-   "traceError": -6.825959176559593e-06,
-   "zeroExponent": 0.04971960342545218,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 240000.0,
-   "published": 0.0497,
-   "publishedSource": "Sprott (2003) A.5.20",
-   "icDependent": false,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 96.60447001457214,
-   "publishedRatio": 1.0003944351197622
-  },
-  {
-   "name": "driven_pendulum",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.16830281511311973,
-    -0.16830277877817806
-   ],
-   "lambdaMax": 0.16830281511311973,
-   "sem": [
-    0.0007684614719368025,
-    0.0007684617410605626
-   ],
-   "divergence": 0.0,
-   "traceError": 3.633494166654927e-08,
-   "zeroExponent": 0.16830277877817806,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.1633,
-   "publishedSource": "Sprott (2003) A.6.1",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 84.77209877967834,
-   "publishedRatio": 1.0306357324747075
-  },
-  {
-   "name": "simplest_driven",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 2,
-   "x0": [
-    0.0,
-    0.0
-   ],
-   "dt": 0.04,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 2,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.09234315384506402,
-    -0.09234540095146829
-   ],
-   "lambdaMax": 0.09234315384506402,
-   "sem": [
-    0.0014498118401472379,
-    0.0014497971538429103
-   ],
-   "divergence": 0.0,
-   "traceError": -2.247106404271171e-06,
-   "zeroExponent": 0.09234315384506402,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 60000.0,
-   "published": 0.0971,
-   "publishedSource": "Sprott (2003) A.6.2",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 104.81271314620972,
-   "publishedRatio": 0.9510108531932442
-  },
-  {
-   "name": "nose_hoover",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.0,
-    5.0,
-    0.0
-   ],
-   "dt": 0.02,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.014310133362877708,
-    7.373336999662834e-06,
-    -0.01429466409652056
-   ],
-   "lambdaMax": 0.014310133362877708,
-   "sem": [
-    0.00015393287265983886,
-    3.854035257955511e-06,
-    0.00015465035650210723
-   ],
-   "divergence": -0.00017085517648936173,
-   "traceError": 0.00019369777984617277,
-   "zeroExponent": 7.373336999662834e-06,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 30000.0,
-   "published": 0.0138,
-   "publishedSource": "Sprott (2003) A.6.3",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 101.29792213439941,
-   "publishedRatio": 1.036966185715776
-  },
-  {
-   "name": "labyrinth",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 3,
-   "x0": [
-    0.1,
-    0.0,
-    0.0
-   ],
-   "dt": 0.05,
-   "dtCatalogue": 0.05,
-   "dtMultiple": 1,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.09212296094573957,
-    -5.069843697745473e-07,
-    -0.09212246400344634
-   ],
-   "lambdaMax": 0.09212296094573957,
-   "sem": [
-    0.0001523298158301819,
-    1.432024710584494e-06,
-    0.00015220653842679818
-   ],
-   "divergence": 0.0,
-   "traceError": -1.0042076545313527e-08,
-   "zeroExponent": 5.069843697745473e-07,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 75000.0,
-   "published": 0.1402,
-   "publishedSource": "Sprott (2003) A.6.4",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 153.82631707191467,
-   "publishedRatio": 0.6570824603833065
-  },
-  {
-   "name": "henon_heiles",
-   "source": "sprott",
-   "kind": "flow",
-   "stateDim": 4,
-   "x0": [
-    0.499,
-    0.0,
-    0.0,
-    0.03160676
-   ],
-   "dt": 0.16,
-   "dtCatalogue": 0.02,
-   "dtMultiple": 8,
-   "horizon": 1500000,
-   "params": null,
-   "spectrum": [
-    0.0041480696434450706,
-    1.1835464593661691e-05,
-    -1.605711757463676e-05,
-    -0.004151084722126702
-   ],
-   "lambdaMax": 0.0041480696434450706,
-   "sem": [
-    0.00023480838400003235,
-    2.444136626587759e-07,
-    2.502844026373784e-07,
-    0.00023481133446634768
-   ],
-   "divergence": 0.0,
-   "traceError": -7.236731662606244e-06,
-   "zeroExponent": 1.1835464593661691e-05,
-   "nEscaped": 0,
-   "nDied": 0,
-   "nCollapsed": 0,
-   "nSaturated": 0,
-   "nSteps": 1500000,
-   "elapsed": 240000.0,
-   "published": 0.045,
-   "publishedSource": "Sprott (2003) A.6.5",
-   "icDependent": true,
-   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 144.85759019851685,
-   "publishedRatio": 0.09217932540989046
-  },
   {
    "name": "Aizawa",
    "source": "dysts",
@@ -2360,7 +50,55 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 404.382071018219
+   "wallclock": 404.382071018219,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "AnishchenkoAstakhov",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    3.6225814,
+    3.3226339,
+    1.9973142
+   ],
+   "dt": 0.001363027171195199,
+   "dtCatalogue": 0.001363027171195199,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "eta": 0.5,
+    "mu": 1.2
+   },
+   "spectrum": [
+    0.04171397156326519,
+    -0.0005473031967214011,
+    -0.45712826437757653
+   ],
+   "lambdaMax": 0.04171397156326519,
+   "sem": [
+    0.0003641320945194779,
+    4.3684802701080325e-05,
+    0.00021315918174304106
+   ],
+   "divergence": -0.41594888288888676,
+   "traceError": -1.2713122146013056e-05,
+   "zeroExponent": 0.0005473031967214011,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 2044.5407567927984,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 176.7175920009613
   },
   {
    "name": "Arneodo",
@@ -2406,7 +144,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 184.1580138206482
+   "wallclock": 184.1580138206482,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ArnoldBeltramiChildress",
@@ -2449,9 +189,11 @@
    "elapsed": 13686.121020168683,
    "published": null,
    "publishedSource": null,
-   "icDependent": false,
+   "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 307.5439736843109
+   "wallclock": 307.5439736843109,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "ArnoldWeb",
@@ -2501,7 +243,9 @@
    "publishedSource": null,
    "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 407.94157099723816
+   "wallclock": 407.94157099723816,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "AtmosphericRegime",
@@ -2549,7 +293,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 272.10374307632446
+   "wallclock": 272.10374307632446,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Blasius",
@@ -2599,7 +345,107 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 324.40368366241455
+   "wallclock": 324.40368366241455,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "BlinkingRotlet",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -0.08541919,
+    -0.05204435,
+    0.0
+   ],
+   "dt": 0.0005905109184863022,
+   "dtCatalogue": 0.0005905109184863022,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "a": 1.0,
+    "b": 0.5298833894399929,
+    "bc": 1,
+    "sigma": -1.0,
+    "tau": 3
+   },
+   "spectrum": [
+    0.5674425223623515,
+    -0.566443415004266,
+    -8.422490220770818e-07
+   ],
+   "lambdaMax": 0.5674425223623515,
+   "sem": [
+    0.00840983308244345,
+    0.008474708517144273,
+    2.978221966461456e-08
+   ],
+   "divergence": 0.000540437884681587,
+   "traceError": 0.00045782722438184064,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 885.7663777294533,
+   "published": null,
+   "publishedSource": null,
+   "conservative": true,
+   "icDependent": true,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 1245.7558426856995
+  },
+  {
+   "name": "BlinkingVortex",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -0.08541919,
+    -0.05204435,
+    0.0
+   ],
+   "dt": 0.0005524254042340715,
+   "dtCatalogue": 0.0005524254042340715,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "a": 1.0,
+    "b": 0.5,
+    "bc": 0,
+    "sigma": -1.0,
+    "tau": 3
+   },
+   "spectrum": [
+    0.7186821897146308,
+    -0.7201703250044746,
+    9.754770431409075e-08
+   ],
+   "lambdaMax": 0.7186821897146308,
+   "sem": [
+    0.00682048914779422,
+    0.006920735742266911,
+    9.260946855350412e-08
+   ],
+   "divergence": -0.00534023005759008,
+   "traceError": 0.003852192315450577,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 828.6381063511072,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": true,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 1238.1414270401
   },
   {
    "name": "Bouali",
@@ -2648,7 +494,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 222.01598405838013
+   "wallclock": 222.01598405838013,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Bouali2",
@@ -2697,7 +545,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 225.80368876457214
+   "wallclock": 225.80368876457214,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "BurkeShaw",
@@ -2741,7 +591,247 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 157.87000703811646
+   "wallclock": 157.87000703811646,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "CaTwoPlus",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.26162904,
+    1.0055612,
+    0.14407867
+   ],
+   "dt": 0.000268644774129001,
+   "dtCatalogue": 0.000268644774129001,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "K2": 0.1,
+    "K5": 0.3194,
+    "Ka": 0.1,
+    "Kd": 1,
+    "Ky": 0.3,
+    "Kz": 0.6,
+    "V0": 2,
+    "V1": 2,
+    "V4": 3,
+    "Vm2": 6,
+    "Vm3": 30,
+    "Vm5": 50,
+    "beta": 0.65,
+    "eps": 13,
+    "k": 10,
+    "kf": 1,
+    "m": 2,
+    "n": 4,
+    "p": 1
+   },
+   "spectrum": [
+    0.3755863134188351,
+    0.003071295114599872,
+    -9.143866159188457
+   ],
+   "lambdaMax": 0.3755863134188351,
+   "sem": [
+    0.001094238134237683,
+    0.00018466948914225441,
+    0.0007978921173312845
+   ],
+   "divergence": -8.765238322021672,
+   "traceError": 2.9771366650166442e-05,
+   "zeroExponent": 0.003071295114599872,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 402.96716119350145,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 560.2974960803986
+  },
+  {
+   "name": "CaTwoPlusQuasiperiodic",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.26321067,
+    0.87886607,
+    0.3148781
+   ],
+   "dt": 0.00013124987497917573,
+   "dtCatalogue": 0.00013124987497917573,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "K2": 0.1,
+    "K5": 0.3,
+    "Ka": 0.2,
+    "Kd": 0.5,
+    "Ky": 0.2,
+    "Kz": 0.5,
+    "V0": 2,
+    "V1": 2,
+    "V4": 5,
+    "Vm2": 6,
+    "Vm3": 20,
+    "Vm5": 30,
+    "beta": 0.51,
+    "eps": 0.1,
+    "k": 10,
+    "kf": 1,
+    "m": 2,
+    "n": 4,
+    "p": 2
+   },
+   "spectrum": [
+    -0.002172198684183155,
+    -0.0021112871508591766,
+    -0.043239305427269004
+   ],
+   "lambdaMax": -0.002172198684183155,
+   "sem": [
+    6.151755185024338e-08,
+    7.03659199942028e-08,
+    6.407255614991002e-08
+   ],
+   "divergence": -0.04793469261557763,
+   "traceError": 0.0004119013532662974,
+   "zeroExponent": 0.0021112871508591766,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 196.8748124687636,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 542.7419040203094
+  },
+  {
+   "name": "CellCycle",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 6,
+   "x0": [
+    0.71565329,
+    0.9489355,
+    0.98910371,
+    0.72138631,
+    0.94987035,
+    0.98912572
+   ],
+   "dt": 0.04094882480413617,
+   "dtCatalogue": 0.04094882480413617,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "K": 0.01,
+    "Kc": 0.5,
+    "Kd1": 0.02,
+    "Kim": 0.65,
+    "V2": 0.15,
+    "V4": 0.05,
+    "Vm1": 0.3,
+    "Vm3": 0.1,
+    "kd1": 0.001,
+    "vd": 0.025,
+    "vi": 0.05
+   },
+   "spectrum": [
+    0.004355914550899561,
+    -1.124702320988049e-06,
+    -0.17348153364776836,
+    -0.36024549079239027,
+    -1.1462939158518712,
+    -1.9310798801845432
+   ],
+   "lambdaMax": 0.004355914550899561,
+   "sem": [
+    1.1039021663651078e-05,
+    1.4782193167322812e-06,
+    0.00010469953936006397,
+    0.00025641862899127276,
+    0.00031519228520572167,
+    0.0005638240741838251
+   ],
+   "divergence": -3.606747889061819,
+   "traceError": 1.8584338246085963e-06,
+   "zeroExponent": 1.124702320988049e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 61423.237206204256,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 725.3281672000885
+  },
+  {
+   "name": "CellularNeuralNetwork",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -0.26574016,
+    -0.36754928,
+    -0.073094132
+   ],
+   "dt": 0.0006401066844473746,
+   "dtCatalogue": 0.0006401066844473746,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "a": 4.4,
+    "b": 3.21,
+    "c": 1.1,
+    "d": 1.24
+   },
+   "spectrum": [
+    0.10579954129733432,
+    -0.0016375552021868237,
+    -0.6089686985803001
+   ],
+   "lambdaMax": 0.10579954129733432,
+   "sem": [
+    0.0006475508652054429,
+    0.000203853376292653,
+    0.00047713028740012397
+   ],
+   "divergence": -0.5048488077172196,
+   "traceError": 4.20952320669965e-05,
+   "zeroExponent": 0.0016375552021868237,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 960.1600266710619,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 560.9438779354095
   },
   {
    "name": "Chen",
@@ -2786,7 +876,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 167.85226893424988
+   "wallclock": 167.85226893424988,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ChenLee",
@@ -2831,7 +923,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 158.8698079586029
+   "wallclock": 158.8698079586029,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Chua",
@@ -2877,7 +971,75 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 197.41300702095032
+   "wallclock": 197.41300702095032,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "CircadianRhythm",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 5,
+   "x0": [
+    1.5401187,
+    5.3707921,
+    41.054266,
+    11.619073,
+    2004.0233
+   ],
+   "dt": 0.005400900150025336,
+   "dtCatalogue": 0.005400900150025336,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "Ki": 1,
+    "k": 0.5,
+    "k1": 0.3,
+    "k2": 0.15,
+    "kd": 1.4,
+    "kdn": 0.4,
+    "km": 0.4,
+    "ks": 1,
+    "n": 4,
+    "ps": 24,
+    "vc": 2.5,
+    "vd": 6,
+    "vdn": 1.5,
+    "vm": 0.7,
+    "vmax": 4.7,
+    "vmin": 1.0
+   },
+   "spectrum": [
+    7.013767130680521e-05,
+    -0.08847166519922203,
+    -0.3294522189312835,
+    -1.0337542356703884,
+    -1.9389252485089255e-07
+   ],
+   "lambdaMax": 7.013767130680521e-05,
+   "sem": [
+    3.9920647966812247e-10,
+    1.5896291337393453e-09,
+    1.58482750041586e-09,
+    2.4245940623526163e-10,
+    3.432397553983765e-09
+   ],
+   "divergence": -1.4516100142574042,
+   "traceError": 1.8382352922063916e-06,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 8101.350225038004,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 543.2995088100433
   },
   {
    "name": "CoevolvingPredatorPrey",
@@ -2931,7 +1093,58 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 631.6465468406677
+   "wallclock": 631.6465468406677,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "Colpitts",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    8.9389043,
+    0.64637337,
+    8.7869304
+   ],
+   "dt": 0.013658596432737796,
+   "dtCatalogue": 0.0008536622770461122,
+   "dtMultiple": 16,
+   "horizon": 1500000,
+   "params": {
+    "a": 30,
+    "b": 0.8,
+    "c": 20,
+    "d": 0.08,
+    "e": 10
+   },
+   "spectrum": [
+    0.11027951667250707,
+    -0.00044388014829401716,
+    -0.9898357628497564
+   ],
+   "lambdaMax": 0.11027951667250707,
+   "sem": [
+    9.838962194101813e-05,
+    4.184806450912411e-05,
+    0.00010042313566689164
+   ],
+   "divergence": -0.880000000000649,
+   "traceError": -1.26324894322849e-07,
+   "zeroExponent": 0.00044388014829401716,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 20487.894649106693,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 185.00255179405212
   },
   {
    "name": "Coullet",
@@ -2977,7 +1190,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 185.70671224594116
+   "wallclock": 185.70671224594116,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Dadras",
@@ -3024,7 +1239,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 190.5218629837036
+   "wallclock": 190.5218629837036,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "DequanLi",
@@ -3072,7 +1289,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 226.76123714447021
+   "wallclock": 226.76123714447021,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "DoubleGyre",
@@ -3115,9 +1334,11 @@
    "elapsed": 66985.56426072173,
    "published": null,
    "publishedSource": null,
-   "icDependent": false,
+   "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 375.7487688064575
+   "wallclock": 375.7487688064575,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "DoublePendulum",
@@ -3167,7 +1388,9 @@
    "publishedSource": null,
    "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 580.588995218277
+   "wallclock": 580.588995218277,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Duffing",
@@ -3214,7 +1437,84 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 232.719877243042
+   "wallclock": 232.719877243042,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "ExcitableCell",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -44.57779976420271,
+    0.13121643614884418,
+    0.4658533583951385
+   ],
+   "dt": 0.00011057842973826836,
+   "dtCatalogue": 0.00011057842973826836,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "aho": 2.5,
+    "ahr": 0.05,
+    "ahs": 0.07,
+    "ams": 0.1,
+    "amvb": 25,
+    "amvo": 2.5,
+    "ans": 0.01,
+    "anvb": 20,
+    "anvo": 2,
+    "ar": 0.1,
+    "bho": 2.0,
+    "bhr": 0.1,
+    "bmo": 2.7777777777777777,
+    "bmr": 0.05555555555555555,
+    "bms": 4.0,
+    "bno": 0.375,
+    "bnr": 0.0125,
+    "bns": 0.125,
+    "gi": 1800,
+    "gkc": 11,
+    "gkv": 1700,
+    "gl": 7,
+    "kc": 0.183333,
+    "rho": 0.27,
+    "tscl": 230,
+    "vc": 100,
+    "vi": 100,
+    "vk": -75,
+    "vl": -40,
+    "vm": -50,
+    "vn": -30
+   },
+   "spectrum": [
+    0.48183752509672273,
+    -0.014511244101105629,
+    -29.148737703934366
+   ],
+   "lambdaMax": 0.48183752509672273,
+   "sem": [
+    0.0027494006067000664,
+    0.00027678890857143416,
+    0.003796126512210914
+   ],
+   "divergence": -28.68143771498185,
+   "traceError": 2.6292043102671414e-05,
+   "zeroExponent": 0.014511244101105629,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 165.86764460740255,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 822.100338935852
   },
   {
    "name": "Finance",
@@ -3259,7 +1559,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 167.6036548614502
+   "wallclock": 167.6036548614502,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "FluidTrampoline",
@@ -3304,7 +1606,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 217.11550092697144
+   "wallclock": 217.11550092697144,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ForcedBrusselator",
@@ -3350,7 +1654,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 227.12799096107483
+   "wallclock": 227.12799096107483,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ForcedFitzHughNagumo",
@@ -3398,7 +1704,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 275.68876218795776
+   "wallclock": 275.68876218795776,
+   "conservative": false,
+   "chaoticAtIC": false
   },
   {
    "name": "ForcedVanDerPol",
@@ -3443,7 +1751,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 196.01069283485413
+   "wallclock": 196.01069283485413,
+   "conservative": false,
+   "chaoticAtIC": false
   },
   {
    "name": "GenesioTesi",
@@ -3488,7 +1798,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 131.220929145813
+   "wallclock": 131.220929145813,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "GlycolyticOscillation",
@@ -3539,7 +1851,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 371.8303380012512
+   "wallclock": 371.8303380012512,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "GuckenheimerHolmes",
@@ -3587,7 +1901,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 415.26834511756897
+   "wallclock": 415.26834511756897,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Hadley",
@@ -3633,7 +1949,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 253.23265099525452
+   "wallclock": 253.23265099525452,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Halvorsen",
@@ -3677,7 +1995,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 260.1994688510895
+   "wallclock": 260.1994688510895,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HastingsPowell",
@@ -3725,7 +2045,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 377.5080590248108
+   "wallclock": 377.5080590248108,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HenonHeiles",
@@ -3769,9 +2091,11 @@
    "elapsed": 30581.096849473393,
    "published": null,
    "publishedSource": null,
-   "icDependent": false,
+   "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 220.8825478553772
+   "wallclock": 220.8825478553772,
+   "conservative": true,
+   "chaoticAtIC": false
   },
   {
    "name": "HindmarshRose",
@@ -3820,7 +2144,115 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 418.0581576824188
+   "wallclock": 418.0581576824188,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "Hopfield",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 6,
+   "x0": [
+    -0.67127393,
+    -0.2420173,
+    -0.055676628,
+    0.34697948,
+    0.45273118,
+    0.78389688
+   ],
+   "dt": 0.008693448908152277,
+   "dtCatalogue": 0.002173362227038069,
+   "dtMultiple": 4,
+   "horizon": 1500000,
+   "params": {
+    "beta": 0.5,
+    "eps": 10,
+    "k": [
+     [
+      0,
+      -1,
+      0,
+      0,
+      -1,
+      -1
+     ],
+     [
+      0,
+      0,
+      0,
+      -1,
+      -1,
+      -1
+     ],
+     [
+      -1,
+      -1,
+      0,
+      0,
+      -1,
+      0
+     ],
+     [
+      -1,
+      -1,
+      -1,
+      0,
+      0,
+      0
+     ],
+     [
+      -1,
+      -1,
+      0,
+      -1,
+      0,
+      0
+     ],
+     [
+      0,
+      -1,
+      -1,
+      -1,
+      0,
+      0
+     ]
+    ],
+    "tau": 2.5
+   },
+   "spectrum": [
+    0.07299076587900674,
+    7.168241214899569e-06,
+    -0.2873913659467386,
+    -0.368846020166555,
+    -0.39059500382650053,
+    -1.426165542756544
+   ],
+   "lambdaMax": 0.07299076587900674,
+   "sem": [
+    0.00019515595406920862,
+    9.311845619299528e-06,
+    0.0001259456853998497,
+    8.087463148594662e-05,
+    6.669857464835264e-05,
+    0.0002514036199874327
+   ],
+   "divergence": -2.4000000000231028,
+   "traceError": 1.4469865305954954e-09,
+   "zeroExponent": 7.168241214899569e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 13040.173362228415,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 652.5150249004364
   },
   {
    "name": "HyperBao",
@@ -3870,7 +2302,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 277.0885262489319
+   "wallclock": 277.0885262489319,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperCai",
@@ -3920,7 +2354,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 259.05525183677673
+   "wallclock": 259.05525183677673,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperJha",
@@ -3969,7 +2405,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 287.47318720817566
+   "wallclock": 287.47318720817566,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperLorenz",
@@ -4018,7 +2456,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 281.232097864151
+   "wallclock": 281.232097864151,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperLu",
@@ -4067,7 +2507,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 485.8107268810272
+   "wallclock": 485.8107268810272,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperPang",
@@ -4116,7 +2558,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 276.97505807876587
+   "wallclock": 276.97505807876587,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperQi",
@@ -4167,7 +2611,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 328.72700119018555
+   "wallclock": 328.72700119018555,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperRossler",
@@ -4216,7 +2662,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 251.35337495803833
+   "wallclock": 251.35337495803833,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperWang",
@@ -4266,7 +2714,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 265.6422519683838
+   "wallclock": 265.6422519683838,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperXu",
@@ -4316,7 +2766,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 277.44609689712524
+   "wallclock": 277.44609689712524,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperYan",
@@ -4365,7 +2817,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 357.4022789001465
+   "wallclock": 357.4022789001465,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "HyperYangChen",
@@ -4414,7 +2868,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 250.0638930797577
+   "wallclock": 250.0638930797577,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "IsothermalChemical",
@@ -4460,7 +2916,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 235.84535884857178
+   "wallclock": 235.84535884857178,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ItikBanksTumor",
@@ -4510,7 +2968,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 340.0106780529022
+   "wallclock": 340.0106780529022,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "JerkCircuit",
@@ -4554,7 +3014,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 193.73844408988953
+   "wallclock": 193.73844408988953,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "KawczynskiStrizhak",
@@ -4600,7 +3062,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 300.89054107666016
+   "wallclock": 300.89054107666016,
+   "conservative": false,
+   "chaoticAtIC": false
   },
   {
    "name": "Laser",
@@ -4648,7 +3112,58 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 236.4369809627533
+   "wallclock": 236.4369809627533,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "LidDrivenCavityFlow",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    3.966790341130254,
+    0.18425981346720144,
+    0.0
+   ],
+   "dt": 0.008748061192786736,
+   "dtCatalogue": 0.000546753824549171,
+   "dtMultiple": 16,
+   "horizon": 1500000,
+   "params": {
+    "a": 6.0,
+    "b": 1.0,
+    "tau": 1.1,
+    "u1": 9.92786,
+    "u2": 8.34932
+   },
+   "spectrum": [
+    0.6874076343079578,
+    -0.6874144586994416,
+    -9.174045911328665e-09
+   ],
+   "lambdaMax": 0.6874076343079578,
+   "sem": [
+    0.000885341885736082,
+    0.0008854164016514267,
+    1.251689898407202e-08
+   ],
+   "divergence": 2.0309317568261657e-13,
+   "traceError": -6.833565732810706e-06,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 13122.091789180104,
+   "published": null,
+   "publishedSource": null,
+   "conservative": true,
+   "icDependent": true,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 1746.7693231105804
   },
   {
    "name": "LiuChen",
@@ -4698,7 +3213,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 267.85380601882935
+   "wallclock": 267.85380601882935,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Lorenz",
@@ -4743,7 +3260,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 200.5049810409546
+   "wallclock": 200.5049810409546,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Lorenz84",
@@ -4789,7 +3308,57 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 278.65694999694824
+   "wallclock": 278.65694999694824,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "Lorenz96",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 4,
+   "x0": [
+    -2.46820633,
+    0.09570264,
+    1.59270902,
+    10.21372147
+   ],
+   "dt": 0.007031251875312137,
+   "dtCatalogue": 0.00043945324220700854,
+   "dtMultiple": 16,
+   "horizon": 1500000,
+   "params": {
+    "f": 20.0
+   },
+   "spectrum": [
+    1.200525252188876,
+    -6.42555106568894e-06,
+    -1.5856969003096777,
+    -3.6148252671108754
+   ],
+   "lambdaMax": 1.200525252188876,
+   "sem": [
+    0.0006260524009777598,
+    1.6716933948014263e-05,
+    0.0006042658177106589,
+    0.0005872004202708249
+   ],
+   "divergence": -4.000000000004182,
+   "traceError": -3.3407785604566698e-06,
+   "zeroExponent": 6.42555106568894e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 10546.877812968205,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 291.6603457927704
   },
   {
    "name": "LorenzBounded",
@@ -4835,7 +3404,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 1334.5053696632385
+   "wallclock": 1334.5053696632385,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "LorenzCoupled",
@@ -4892,7 +3463,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 481.79155111312866
+   "wallclock": 481.79155111312866,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "LorenzStenflo",
@@ -4941,7 +3514,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 286.4375741481781
+   "wallclock": 286.4375741481781,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "LuChen",
@@ -4986,7 +3561,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 203.39748311042786
+   "wallclock": 203.39748311042786,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "LuChenCheng",
@@ -5031,7 +3608,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 195.84715509414673
+   "wallclock": 195.84715509414673,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "MooreSpiegel",
@@ -5076,7 +3655,71 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 189.0465989112854
+   "wallclock": 189.0465989112854,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "MultiChua",
+   "source": "dysts",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -21.160123,
+    1.0322356,
+    27.405269
+   ],
+   "dt": 0.00045179529921654196,
+   "dtCatalogue": 0.00045179529921654196,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": {
+    "a": 9,
+    "b": 14.286,
+    "c": [
+     0.0,
+     1.0,
+     2.15,
+     3.6,
+     8.2,
+     13.0
+    ],
+    "m": [
+     -0.14285714,
+     0.28571429,
+     -0.57142857,
+     0.28571429,
+     -0.57142857,
+     0.28571429
+    ]
+   },
+   "spectrum": [
+    0.2812085151906784,
+    -0.002428756683702669,
+    -2.970672412642016
+   ],
+   "lambdaMax": 0.2812085151906784,
+   "sem": [
+    0.0017491483678872134,
+    0.00013076535680270853,
+    0.0030948577364053194
+   ],
+   "divergence": -2.6921280103382124,
+   "traceError": 0.0002353562031718326,
+   "zeroExponent": 0.002428756683702669,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 677.6929488248129,
+   "published": null,
+   "publishedSource": null,
+   "conservative": false,
+   "icDependent": false,
+   "chaoticAtIC": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 383.55246591567993
   },
   {
    "name": "NewtonLiepnik",
@@ -5120,7 +3763,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 246.47498989105225
+   "wallclock": 246.47498989105225,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "NoseHoover",
@@ -5163,7 +3808,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 155.47136783599854
+   "wallclock": 155.47136783599854,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "NuclearQuadrupole",
@@ -5211,7 +3858,9 @@
    "publishedSource": null,
    "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 551.10640001297
+   "wallclock": 551.10640001297,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "OscillatingFlow",
@@ -5255,9 +3904,11 @@
    "elapsed": 114532.68878147355,
    "published": null,
    "publishedSource": null,
-   "icDependent": false,
+   "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 369.3891792297363
+   "wallclock": 369.3891792297363,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "PanXuZhou",
@@ -5305,7 +3956,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 507.4335517883301
+   "wallclock": 507.4335517883301,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "PehlivanWei",
@@ -5346,7 +3999,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 209.2368860244751
+   "wallclock": 209.2368860244751,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Qi",
@@ -5395,7 +4050,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 329.15183901786804
+   "wallclock": 329.15183901786804,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "QiChen",
@@ -5440,7 +4097,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 212.35526514053345
+   "wallclock": 212.35526514053345,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "RabinovichFabrikant",
@@ -5484,7 +4143,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 336.18978691101074
+   "wallclock": 336.18978691101074,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "RayleighBenard",
@@ -5529,7 +4190,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 191.20632696151733
+   "wallclock": 191.20632696151733,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "RikitakeDynamo",
@@ -5573,7 +4236,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 191.72908306121826
+   "wallclock": 191.72908306121826,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Rossler",
@@ -5618,7 +4283,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 192.27895307540894
+   "wallclock": 192.27895307540894,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Rucklidge",
@@ -5662,7 +4329,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 168.83385610580444
+   "wallclock": 168.83385610580444,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Sakarya",
@@ -5712,7 +4381,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 252.2898509502411
+   "wallclock": 252.2898509502411,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SaltonSea",
@@ -5762,7 +4433,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 338.3024561405182
+   "wallclock": 338.3024561405182,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SanUmSrisuchinwong",
@@ -5805,7 +4478,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 193.59291577339172
+   "wallclock": 193.59291577339172,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ShimizuMorioka",
@@ -5849,7 +4524,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 165.17290997505188
+   "wallclock": 165.17290997505188,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottA",
@@ -5888,9 +4565,11 @@
    "elapsed": 1912.1725415777746,
    "published": null,
    "publishedSource": null,
-   "icDependent": false,
+   "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 156.28230714797974
+   "wallclock": 156.28230714797974,
+   "conservative": true,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottB",
@@ -5931,7 +4610,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 142.9652771949768
+   "wallclock": 142.9652771949768,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottC",
@@ -5972,7 +4653,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 141.14986395835876
+   "wallclock": 141.14986395835876,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottD",
@@ -6013,7 +4696,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 169.56115579605103
+   "wallclock": 169.56115579605103,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottE",
@@ -6054,7 +4739,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 157.93373489379883
+   "wallclock": 157.93373489379883,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottF",
@@ -6097,7 +4784,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 157.0102620124817
+   "wallclock": 157.0102620124817,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottG",
@@ -6140,7 +4829,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 160.24448800086975
+   "wallclock": 160.24448800086975,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottH",
@@ -6183,7 +4874,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 155.60120916366577
+   "wallclock": 155.60120916366577,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottI",
@@ -6226,7 +4919,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 151.9844527244568
+   "wallclock": 151.9844527244568,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottJ",
@@ -6267,7 +4962,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 169.9757068157196
+   "wallclock": 169.9757068157196,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottJerk",
@@ -6310,7 +5007,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 146.25049901008606
+   "wallclock": 146.25049901008606,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottK",
@@ -6353,7 +5052,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 166.62720942497253
+   "wallclock": 166.62720942497253,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottL",
@@ -6397,7 +5098,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 167.12535500526428
+   "wallclock": 167.12535500526428,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottM",
@@ -6440,7 +5143,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 163.49556922912598
+   "wallclock": 163.49556922912598,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottMore",
@@ -6481,7 +5186,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 201.45792889595032
+   "wallclock": 201.45792889595032,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottN",
@@ -6522,7 +5229,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 168.50511384010315
+   "wallclock": 168.50511384010315,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottO",
@@ -6565,7 +5274,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 161.83036303520203
+   "wallclock": 161.83036303520203,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottP",
@@ -6608,7 +5319,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 167.35060286521912
+   "wallclock": 167.35060286521912,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottQ",
@@ -6652,7 +5365,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 162.48838186264038
+   "wallclock": 162.48838186264038,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottR",
@@ -6696,7 +5411,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 146.28845310211182
+   "wallclock": 146.28845310211182,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottS",
@@ -6737,7 +5454,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 160.8040792942047
+   "wallclock": 160.8040792942047,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SprottTorus",
@@ -6778,7 +5497,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 244.15568828582764
+   "wallclock": 244.15568828582764,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "StickSlipOscillator",
@@ -6829,7 +5550,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 434.47756695747375
+   "wallclock": 434.47756695747375,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "SwingingAtwood",
@@ -6876,7 +5599,9 @@
    "publishedSource": null,
    "icDependent": true,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 418.2840738296509
+   "wallclock": 418.2840738296509,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Thomas",
@@ -6920,7 +5645,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 287.24995493888855
+   "wallclock": 287.24995493888855,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ThomasLabyrinth",
@@ -6964,7 +5691,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 291.9557557106018
+   "wallclock": 291.9557557106018,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "Tsucs2",
@@ -7012,7 +5741,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 277.80767607688904
+   "wallclock": 277.80767607688904,
+   "conservative": false,
+   "chaoticAtIC": false
   },
   {
    "name": "TurchinHanski",
@@ -7062,7 +5793,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 426.4741768836975
+   "wallclock": 426.4741768836975,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "VallisElNino",
@@ -7107,7 +5840,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 199.45733404159546
+   "wallclock": 199.45733404159546,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "WangSun",
@@ -7155,7 +5890,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 224.3868670463562
+   "wallclock": 224.3868670463562,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "WindmiReduced",
@@ -7203,7 +5940,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 347.85495114326477
+   "wallclock": 347.85495114326477,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "YuWang",
@@ -7249,7 +5988,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 206.10238003730774
+   "wallclock": 206.10238003730774,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "YuWang2",
@@ -7295,7 +6036,9 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 207.7940230369568
+   "wallclock": 207.7940230369568,
+   "conservative": false,
+   "chaoticAtIC": true
   },
   {
    "name": "ZhouChen",
@@ -7342,8 +6085,2437 @@
    "publishedSource": null,
    "icDependent": false,
    "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
-   "wallclock": 227.61594486236572
+   "wallclock": 227.61594486236572,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "act",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.5,
+    0.0,
+    0.0
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.16239480778703436,
+    1.1997113098121562e-05,
+    -9.205088328026108
+   ],
+   "lambdaMax": 0.16239480778703436,
+   "sem": [
+    5.7876624482161904e-05,
+    1.134369776454008e-05,
+    0.00011750121476556435
+   ],
+   "divergence": -9.042895746512349,
+   "traceError": 0.00021422338637400173,
+   "zeroExponent": 1.1997113098121562e-05,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.1634,
+   "publishedSource": "Sprott (2003) A.5.7",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 212.31208610534668,
+   "publishedRatio": 0.9938482728704674,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "arnold_cat",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.7071067811865475
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.962423648882632,
+    -0.9624236607379661
+   ],
+   "lambdaMax": 0.962423648882632,
+   "sem": [
+    2.7291207866594826e-09,
+    1.137000183805113e-08
+   ],
+   "divergence": 7.688889648189522e-05,
+   "traceError": -7.690075181605403e-05,
+   "zeroExponent": 0.962423648882632,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.9624236501192069,
+   "publishedSource": "Sprott (2003) A.3.3",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 172.03352403640747,
+   "publishedRatio": 0.9999999987151449,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "brusselator",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.3,
+    2.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.014042179968446217,
+    -0.2618788867493174
+   ],
+   "lambdaMax": 0.014042179968446217,
+   "sem": [
+    1.476598223212773e-05,
+    1.3079936776501964e-05
+   ],
+   "divergence": -0.24788036357216953,
+   "traceError": 4.365679129833544e-05,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.014,
+   "publishedSource": "Sprott (2003) A.4.4",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 122.95430397987366,
+   "publishedRatio": 1.0030128548890156,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "burgers",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    -0.1,
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.12075671824775054,
+    -0.22133664491428306
+   ],
+   "lambdaMax": 0.12075671824775054,
+   "sem": [
+    1.2032112791123291e-05,
+    1.833019831450281e-05
+   ],
+   "divergence": -0.10034485522611386,
+   "traceError": -0.00023507144041866324,
+   "zeroExponent": 0.12075671824775054,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.12076,
+   "publishedSource": "Sprott (2003) A.2.5",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 124.7787709236145,
+   "publishedRatio": 0.9999728241781263,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "burke_shaw",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.6,
+    0.0,
+    0.0
+   ],
+   "dt": 0.002,
+   "dtCatalogue": 0.001,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    2.2490419375923807,
+    1.1077511944575265e-06,
+    -13.249042935146576
+   ],
+   "lambdaMax": 2.2490419375923807,
+   "sem": [
+    0.0006053031077107761,
+    2.2021349319911747e-05,
+    0.0006039643929791677
+   ],
+   "divergence": -11.000000000056136,
+   "traceError": 1.1025313462198483e-07,
+   "zeroExponent": 1.1077511944575265e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 3000.0,
+   "published": 2.2499,
+   "publishedSource": "Sprott (2003) A.5.14",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 135.0810751914978,
+   "publishedRatio": 0.9996186219798129,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "chaotic_web",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    3.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.04845505429067399,
+    -0.04845505428442772
+   ],
+   "lambdaMax": 0.04845505429067399,
+   "sem": [
+    0.00034805241748309075,
+    0.00034805241594638146
+   ],
+   "divergence": 6.220165888537688e-14,
+   "traceError": 6.18406573332164e-12,
+   "zeroExponent": 0.04845505428442772,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.04847,
+   "publishedSource": "Sprott (2003) A.3.5",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 139.56013917922974,
+   "publishedRatio": 0.9996916503130594,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "chen",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -10.0,
+    0.0,
+    37.0
+   ],
+   "dt": 0.002,
+   "dtCatalogue": 0.001,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    2.02689459249,
+    4.089394033385194e-05,
+    -12.026935937023934
+   ],
+   "lambdaMax": 2.02689459249,
+   "sem": [
+    0.0007187833696414782,
+    2.526503537018e-05,
+    0.0007206959921172894
+   ],
+   "divergence": -10.000000000004466,
+   "traceError": -4.5058913400453093e-07,
+   "zeroExponent": 4.089394033385194e-05,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 3000.0,
+   "published": 2.0272,
+   "publishedSource": "Sprott (2003) A.5.5",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 144.35545992851257,
+   "publishedRatio": 0.9998493451509471,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "chirikov",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    6.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.11153655582047262,
+    -0.11153655582251075
+   ],
+   "lambdaMax": 0.11153655582047262,
+   "sem": [
+    0.0011137588487871537,
+    0.001113758849465277
+   ],
+   "divergence": 4.1834203592082544e-05,
+   "traceError": -4.1834205630216095e-05,
+   "zeroExponent": 0.11153655582047262,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.10497,
+   "publishedSource": "Sprott (2003) A.3.1",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 179.57269620895386,
+   "publishedRatio": 1.0625565001474004,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "chua",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    0.0,
+    0.6
+   ],
+   "dt": 0.005,
+   "dtCatalogue": 0.005,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.32707720549380276,
+    0.00012961066974194734,
+    -2.519714256047344
+   ],
+   "lambdaMax": 0.32707720549380276,
+   "sem": [
+    0.0002566785627090723,
+    6.293068039615722e-05,
+    0.000965139750322972
+   ],
+   "divergence": -2.1923195164206413,
+   "traceError": -0.00018792346315787967,
+   "zeroExponent": 0.00012961066974194734,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 7500.0,
+   "published": 0.3271,
+   "publishedSource": "Sprott (2003) A.5.10",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 168.45794892311096,
+   "publishedRatio": 0.9999303133408828,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "complex_butterfly",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.2,
+    0.0,
+    0.0
+   ],
+   "dt": 0.08,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 8,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.16832856939705748,
+    0.14770769404407896,
+    -0.8660188087563803
+   ],
+   "lambdaMax": 0.16832856939705748,
+   "sem": [
+    2.897762200092379e-05,
+    2.819066146230776e-05,
+    4.354017451604725e-05
+   ],
+   "divergence": -0.5500000000004384,
+   "traceError": 1.7454685194540076e-05,
+   "zeroExponent": 0.14770769404407896,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 120000.0,
+   "published": 0.169,
+   "publishedSource": "Sprott (2003) A.5.4",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 111.81214499473572,
+   "publishedRatio": 0.9960270378524111,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "cubic_map",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    1.098612414731329
+   ],
+   "lambdaMax": 1.098612414731329,
+   "sem": [
+    7.008825488062437e-08
+   ],
+   "divergence": 1.0988419363774806,
+   "traceError": -0.0002295216461516425,
+   "zeroExponent": 1.098612414731329,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 3,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 1.0986122883,
+   "publishedSource": "Sprott (2003) A.1.5",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 42.79222774505615,
+   "publishedRatio": 1.000000115082755,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "cusp",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.5
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.500104809514788
+   ],
+   "lambdaMax": 0.500104809514788,
+   "sem": [
+    0.00014785683184451601
+   ],
+   "divergence": 0.5003664012500688,
+   "traceError": -0.0002615917352808417,
+   "zeroExponent": 0.500104809514788,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.5,
+   "publishedSource": "Sprott (2003) A.1.8",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 43.62340497970581,
+   "publishedRatio": 1.000209619029576,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "damped_pendulum",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.14121172076121757,
+    -0.1912117195750987
+   ],
+   "lambdaMax": 0.14121172076121757,
+   "sem": [
+    0.00011097959539355516,
+    0.00011097989313333925
+   ],
+   "divergence": -0.05000000000017367,
+   "traceError": 1.1862925503036692e-09,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.1414,
+   "publishedSource": "Sprott (2003) A.4.1",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 97.75602602958679,
+   "publishedRatio": 0.9986684636578329,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "delayed_logistic",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.001,
+    0.001
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.1831108620000635,
+    -1.241971890200424
+   ],
+   "lambdaMax": 0.1831108620000635,
+   "sem": [
+    1.347933663124284e-05,
+    0.00010210856697579217
+   ],
+   "divergence": -1.0569718730645825,
+   "traceError": -0.0018891551357780312,
+   "zeroExponent": 0.1831108620000635,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.18312,
+   "publishedSource": "Sprott (2003) A.2.3",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 117.68418407440186,
+   "publishedRatio": 0.9999500982965459,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "diffusionless_lorenz",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    1.0,
+    -1.0,
+    0.01
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.21013725413939224,
+    3.997396060915914e-06,
+    -1.2101412444460478
+   ],
+   "lambdaMax": 0.21013725413939224,
+   "sem": [
+    5.117116742151574e-05,
+    2.204943789885928e-06,
+    5.15390497108789e-05
+   ],
+   "divergence": -1.0000000000069174,
+   "traceError": 7.096322751642958e-09,
+   "zeroExponent": 3.997396060915914e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.2101,
+   "publishedSource": "Sprott (2003) A.5.3",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 108.4456160068512,
+   "publishedRatio": 1.0001773162274739,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "dissipative_standard",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.1,
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    1.4700397977985906,
+    -3.772624890349072
+   ],
+   "lambdaMax": 1.4700397977985906,
+   "sem": [
+    4.457259880932811e-05,
+    4.4572591393997426e-05
+   ],
+   "divergence": -2.30238441524966,
+   "traceError": -0.00020067730082118374,
+   "zeroExponent": 1.4700397977985906,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 1.46995,
+   "publishedSource": "Sprott (2003) A.2.8",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 188.8928680419922,
+   "publishedRatio": 1.0000610890156743,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "double_scroll",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.01,
+    0.01,
+    0.0
+   ],
+   "dt": 0.16,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 8,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.04971960342545218,
+    0.049719823000195805,
+    -0.899446252384202
+   ],
+   "lambdaMax": 0.04971960342545218,
+   "sem": [
+    5.071747559970648e-07,
+    3.37557987397078e-07,
+    6.542679969939147e-07
+   ],
+   "divergence": -0.7999999999993774,
+   "traceError": -6.825959176559593e-06,
+   "zeroExponent": 0.04971960342545218,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 240000.0,
+   "published": 0.0497,
+   "publishedSource": "Sprott (2003) A.5.20",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 96.60447001457214,
+   "publishedRatio": 1.0003944351197622,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "driven_pendulum",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.16830281511311973,
+    -0.16830277877817806
+   ],
+   "lambdaMax": 0.16830281511311973,
+   "sem": [
+    0.0007684614719368025,
+    0.0007684617410605626
+   ],
+   "divergence": 0.0,
+   "traceError": 3.633494166654927e-08,
+   "zeroExponent": 0.16830277877817806,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.1633,
+   "publishedSource": "Sprott (2003) A.6.1",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 84.77209877967834,
+   "publishedRatio": 1.0306357324747075,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "driven_vdp",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    -1.9,
+    0.0
+   ],
+   "dt": 0.005,
+   "dtCatalogue": 0.005,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.1935281844410528,
+    -2.0710313803094738
+   ],
+   "lambdaMax": 0.1935281844410528,
+   "sem": [
+    0.00021469028298377318,
+    0.002334612883689976
+   ],
+   "divergence": -1.8774210858388405,
+   "traceError": -8.211002958047331e-05,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 7500.0,
+   "published": 0.1933,
+   "publishedSource": "Sprott (2003) A.4.2",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 99.08852505683899,
+   "publishedRatio": 1.0011804678792178,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "duffing_two_well",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.2,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.15730138289118795,
+    -0.40730127414647943
+   ],
+   "lambdaMax": 0.15730138289118795,
+   "sem": [
+    0.00010033594618775513,
+    0.00010033593531199942
+   ],
+   "divergence": -0.25000000000176875,
+   "traceError": 1.0874647726755171e-07,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.1572,
+   "publishedSource": "Sprott (2003) A.4.6",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 126.31408905982971,
+   "publishedRatio": 1.0006449293332567,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "duffing_vdp",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.2,
+    -0.2
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.09637830013583845,
+    -0.2777971329496382
+   ],
+   "lambdaMax": 0.09637830013583845,
+   "sem": [
+    7.506117513402075e-05,
+    0.00011021336320179326
+   ],
+   "divergence": -0.1813973284179895,
+   "traceError": -2.150439581025121e-05,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0963,
+   "publishedSource": "Sprott (2003) A.4.7",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 144.3811309337616,
+   "publishedRatio": 1.0008130855227253,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "gauss_map",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.3141592653589793
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    2.372938513864185
+   ],
+   "lambdaMax": 2.372938513864185,
+   "sem": [
+    7.359581466199986e-05
+   ],
+   "divergence": 2.3690373853521187,
+   "traceError": 0.0039011285120662542,
+   "zeroExponent": 2.372938513864185,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 2.373445,
+   "publishedSource": "Sprott (2003) A.1.7",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 61.35852003097534,
+   "publishedRatio": 0.9997866029607533,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "gingerbreadman",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.5,
+    3.7
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.07379054868533187,
+    -0.0737905486309134
+   ],
+   "lambdaMax": 0.07379054868533187,
+   "sem": [
+    0.00011452562111869201,
+    0.00011452562244066867
+   ],
+   "divergence": 2.4119584558079155e-11,
+   "traceError": 3.0298885172342593e-11,
+   "zeroExponent": 0.0737905486309134,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.07339,
+   "publishedSource": "Sprott (2003) A.3.4",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 117.5540840625763,
+   "publishedRatio": 1.0054578101285172,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "hadley",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    0.0,
+    1.3
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.16607070139738053,
+    5.486074765477688e-06,
+    -0.3856585582276
+   ],
+   "lambdaMax": 0.16607070139738053,
+   "sem": [
+    0.00025298650392770725,
+    6.867350885877658e-06,
+    0.00022883776370974333
+   ],
+   "divergence": -0.2196417174712189,
+   "traceError": 5.934671576493522e-05,
+   "zeroExponent": 5.486074765477688e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.1665,
+   "publishedSource": "Sprott (2003) A.5.6",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 200.5629518032074,
+   "publishedRatio": 0.9974216300142974,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "halvorsen",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -5.0,
+    0.0,
+    0.0
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.005,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.788626350910313,
+    5.730361011791351e-06,
+    -4.598636563806544
+   ],
+   "lambdaMax": 0.788626350910313,
+   "sem": [
+    0.00025682942379233573,
+    5.243890496121093e-06,
+    0.0002571236970373663
+   ],
+   "divergence": -3.8100000000029612,
+   "traceError": -4.482532257821248e-06,
+   "zeroExponent": 5.730361011791351e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.7899,
+   "publishedSource": "Sprott (2003) A.5.13",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 218.37646198272705,
+   "publishedRatio": 0.9983875818588592,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "henon",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.9
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.41919359665093553,
+    -1.6231664009671156
+   ],
+   "lambdaMax": 0.41919359665093553,
+   "sem": [
+    1.665762491983233e-05,
+    1.665762479323941e-05
+   ],
+   "divergence": -1.2039728043145583,
+   "traceError": -1.6218137943724287e-12,
+   "zeroExponent": 0.41919359665093553,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.41922,
+   "publishedSource": "Sprott (2003) A.2.1",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 120.84687495231628,
+   "publishedRatio": 0.9999370179164533,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "henon_area",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.6,
+    0.13
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.007017050410829568,
+    -0.007017050403284962
+   ],
+   "lambdaMax": 0.007017050410829568,
+   "sem": [
+    0.00011015646064570786,
+    0.00011015645999240728
+   ],
+   "divergence": -1.3839649864170752e-11,
+   "traceError": 2.1384255429461326e-11,
+   "zeroExponent": 0.007017050403284962,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.00643,
+   "publishedSource": "Sprott (2003) A.3.2",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 133.66655802726746,
+   "publishedRatio": 1.0912986642036653,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "henon_heiles",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 4,
+   "x0": [
+    0.499,
+    0.0,
+    0.0,
+    0.03160676
+   ],
+   "dt": 0.16,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 8,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.0041480696434450706,
+    1.1835464593661691e-05,
+    -1.605711757463676e-05,
+    -0.004151084722126702
+   ],
+   "lambdaMax": 0.0041480696434450706,
+   "sem": [
+    0.00023480838400003235,
+    2.444136626587759e-07,
+    2.502844026373784e-07,
+    0.00023481133446634768
+   ],
+   "divergence": 0.0,
+   "traceError": -7.236731662606244e-06,
+   "zeroExponent": 1.1835464593661691e-05,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 240000.0,
+   "published": 0.045,
+   "publishedSource": "Sprott (2003) A.6.5",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 144.85759019851685,
+   "publishedRatio": 0.09217932540989046,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "holmes_cubic",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    1.6,
+    0.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.594565675714314,
+    -2.2040035880702478
+   ],
+   "lambdaMax": 0.594565675714314,
+   "sem": [
+    1.7379140981984476e-05,
+    1.73791375368138e-05
+   ],
+   "divergence": -1.6094379124062759,
+   "traceError": 5.034217487320802e-11,
+   "zeroExponent": 0.594565675714314,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.59458,
+   "publishedSource": "Sprott (2003) A.2.6",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 134.27486419677734,
+   "publishedRatio": 0.9999759085645564,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "ikeda",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.5076286505359134,
+    -0.7183496818652324
+   ],
+   "lambdaMax": 0.5076286505359134,
+   "sem": [
+    2.28294544406677e-05,
+    2.2829452277799598e-05
+   ],
+   "divergence": -0.21072103130893738,
+   "traceError": -2.0381585308371086e-11,
+   "zeroExponent": 0.5076286505359134,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.5076,
+   "publishedSource": "Sprott (2003) A.2.9",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 172.30021929740906,
+   "publishedRatio": 1.0000564431361572,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "labyrinth",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.1,
+    0.0,
+    0.0
+   ],
+   "dt": 0.05,
+   "dtCatalogue": 0.05,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.09212296094573957,
+    -5.069843697745473e-07,
+    -0.09212246400344634
+   ],
+   "lambdaMax": 0.09212296094573957,
+   "sem": [
+    0.0001523298158301819,
+    1.432024710584494e-06,
+    0.00015220653842679818
+   ],
+   "divergence": 0.0,
+   "traceError": -1.0042076545313527e-08,
+   "zeroExponent": 5.069843697745473e-07,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 75000.0,
+   "published": 0.1402,
+   "publishedSource": "Sprott (2003) A.6.4",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 153.82631707191467,
+   "publishedRatio": 0.6570824603833065,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "lcg",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    8.873608102087275
+   ],
+   "lambdaMax": 8.873608102087275,
+   "sem": [
+    4.430506805588284e-09
+   ],
+   "divergence": 8.90738643639595,
+   "traceError": -0.03377833430867483,
+   "zeroExponent": 8.873608102087275,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 8.87360810154911,
+   "publishedSource": "Sprott (2003) A.1.4",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 77.37951493263245,
+   "publishedRatio": 1.000000000060648,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "logistic",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.6931475469130172
+   ],
+   "lambdaMax": 0.6931475469130172,
+   "sem": [
+    1.5843370697165068e-07
+   ],
+   "divergence": 0.6965682207600369,
+   "traceError": -0.0034206738470197173,
+   "zeroExponent": 0.6931475469130172,
+   "nEscaped": 1,
+   "nDied": 5,
+   "nCollapsed": 16,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.6931471805599453,
+   "publishedSource": "Sprott (2003) A.1.1",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 41.2484450340271,
+   "publishedRatio": 1.00000052853576,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "lorenz",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    -0.01,
+    9.0
+   ],
+   "dt": 0.003,
+   "dtCatalogue": 0.003,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.9055039832084996,
+    1.3202932126242635e-05,
+    -14.572183047203543
+   ],
+   "lambdaMax": 0.9055039832084996,
+   "sem": [
+    0.0001329524293297378,
+    1.0257004998883215e-05,
+    0.0001326134732038575
+   ],
+   "divergence": -13.666666666675738,
+   "traceError": 8.056128208977498e-07,
+   "zeroExponent": 1.3202932126242635e-05,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 4500.0,
+   "published": 0.9056,
+   "publishedSource": "Sprott (2003) A.5.1",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 144.57977294921875,
+   "publishedRatio": 0.999893974391011,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "lorenz3d_map",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 3,
+   "x0": [
+    0.5,
+    0.5,
+    -1.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.07535470133536809,
+    7.263494637209311e-09,
+    -0.07535470859798604
+   ],
+   "lambdaMax": 0.07535470133536809,
+   "sem": [
+    0.00039585096758728905,
+    1.970806409278619e-08,
+    0.000395849390461359
+   ],
+   "divergence": 1.2776685895746618e-11,
+   "traceError": -1.1899998284351363e-11,
+   "zeroExponent": 7.263494637209311e-09,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.07456,
+   "publishedSource": "Sprott (2003) A.3.6",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 180.27572298049927,
+   "publishedRatio": 1.0106585479528982,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "lozi",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    -0.1,
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.4702281020230158,
+    -1.1633752825853434
+   ],
+   "lambdaMax": 0.4702281020230158,
+   "sem": [
+    1.1877468429539774e-05,
+    1.1877477937703877e-05
+   ],
+   "divergence": -0.6931471805533285,
+   "traceError": -8.999134770704131e-12,
+   "zeroExponent": 0.4702281020230158,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.47023,
+   "publishedSource": "Sprott (2003) A.2.2",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 121.27284026145935,
+   "publishedRatio": 0.9999959637262953,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "moore_spiegel",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.1,
+    0.0,
+    0.0
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.005,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.09334995564456533,
+    -6.241792321280407e-06,
+    -1.0933431920817156
+   ],
+   "lambdaMax": 0.09334995564456533,
+   "sem": [
+    0.00015918697155160375,
+    8.976921737210992e-06,
+    0.00015918091655895236
+   ],
+   "divergence": -1.000000000000647,
+   "traceError": 5.217711754879062e-07,
+   "zeroExponent": 6.241792321280407e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.1119,
+   "publishedSource": "Sprott (2003) A.5.11",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 121.67316699028015,
+   "publishedRatio": 0.8342265919979028,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "nose_hoover",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    5.0,
+    0.0
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.014310133362877708,
+    7.373336999662834e-06,
+    -0.01429466409652056
+   ],
+   "lambdaMax": 0.014310133362877708,
+   "sem": [
+    0.00015393287265983886,
+    3.854035257955511e-06,
+    0.00015465035650210723
+   ],
+   "divergence": -0.00017085517648936173,
+   "traceError": 0.00019369777984617277,
+   "zeroExponent": 7.373336999662834e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0138,
+   "publishedSource": "Sprott (2003) A.6.3",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 101.29792213439941,
+   "publishedRatio": 1.036966185715776,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "pinchers",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.0
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.4679487915077193
+   ],
+   "lambdaMax": 0.4679487915077193,
+   "sem": [
+    4.435639965103441e-06
+   ],
+   "divergence": 0.467847034247221,
+   "traceError": 0.00010175726049826972,
+   "zeroExponent": 0.4679487915077193,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.467944,
+   "publishedSource": "Sprott (2003) A.1.10",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 46.58677792549133,
+   "publishedRatio": 1.0000102394895956,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "predator_prey",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.5,
+    0.5
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.19665697805487914,
+    0.03271724254275259
+   ],
+   "lambdaMax": 0.19665697805487914,
+   "sem": [
+    1.0405873932258949e-05,
+    1.9888026317848325e-05
+   ],
+   "divergence": 0.22961653892579129,
+   "traceError": -0.00024231832815954646,
+   "zeroExponent": 0.03271724254275259,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.19664,
+   "publishedSource": "Sprott (2003) A.2.11",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 143.91039729118347,
+   "publishedRatio": 1.0000863407998328,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "rabinovich_fabrikant",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -1.0,
+    0.0,
+    0.5
+   ],
+   "dt": 0.08,
+   "dtCatalogue": 0.005,
+   "dtMultiple": 16,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.19905996147630783,
+    -3.223646966220022e-07,
+    -0.6590538424381652
+   ],
+   "lambdaMax": 0.19905996147630783,
+   "sem": [
+    6.247000711249513e-05,
+    8.664100608026545e-07,
+    6.252944240454006e-05
+   ],
+   "divergence": -0.4600000000051478,
+   "traceError": 5.796678593739113e-06,
+   "zeroExponent": 3.223646966220022e-07,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 120000.0,
+   "published": 0.1981,
+   "publishedSource": "Sprott (2003) A.5.8",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 181.88537406921387,
+   "publishedRatio": 1.0048458428889846,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "rayleigh_duffing",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.3,
+    0.0
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.09125677751200402,
+    -0.2755897987414739
+   ],
+   "lambdaMax": 0.09125677751200402,
+   "sem": [
+    8.433235621235369e-05,
+    0.00011013105641266849
+   ],
+   "divergence": -0.18432427011710462,
+   "traceError": -8.751112365257274e-06,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0912,
+   "publishedSource": "Sprott (2003) A.4.8",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 143.18991804122925,
+   "publishedRatio": 1.0006225604386405,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "ricker",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.38489520342487626
+   ],
+   "lambdaMax": 0.38489520342487626,
+   "sem": [
+    1.6736338544139693e-05
+   ],
+   "divergence": 0.3855099604287814,
+   "traceError": -0.0006147570039051198,
+   "zeroExponent": 0.38489520342487626,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 1,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.384846,
+   "publishedSource": "Sprott (2003) A.1.6",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 44.02103805541992,
+   "publishedRatio": 1.0001278522444725,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "rigid_body",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.6,
+    0.0,
+    0.0
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.14197386311189655,
+    -4.680560954332244e-06,
+    -0.7669696634469236
+   ],
+   "lambdaMax": 0.14197386311189655,
+   "sem": [
+    0.00010903598678944417,
+    2.4763942589182712e-06,
+    0.00010923000979216963
+   ],
+   "divergence": -0.6249999999992538,
+   "traceError": -4.80896727661495e-07,
+   "zeroExponent": 4.680560954332244e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.1421,
+   "publishedSource": "Sprott (2003) A.5.9",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 183.74433207511902,
+   "publishedRatio": 0.9991123371702784,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "rossler",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -9.0,
+    0.0,
+    0.0
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.07143073778556665,
+    1.0744966686137616e-05,
+    -5.394753811442863
+   ],
+   "lambdaMax": 0.07143073778556665,
+   "sem": [
+    7.49172061095455e-05,
+    3.822049598998163e-06,
+    6.322643459387188e-05
+   ],
+   "divergence": -5.3232053552761025,
+   "traceError": -0.00010697341450782716,
+   "zeroExponent": 1.0744966686137616e-05,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.0714,
+   "publishedSource": "Sprott (2003) A.5.2",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 121.9992287158966,
+   "publishedRatio": 1.0004305011984123,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "rucklidge",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    1.0,
+    0.0,
+    4.5
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.19162941695630695,
+    8.670430425864429e-07,
+    -3.1916295529647813
+   ],
+   "lambdaMax": 0.19162941695630695,
+   "sem": [
+    4.3084015014530874e-05,
+    2.4552582285764674e-06,
+    4.303615339712436e-05
+   ],
+   "divergence": -3.0000000000049267,
+   "traceError": 7.310394947168675e-07,
+   "zeroExponent": 8.670430425864429e-07,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0643,
+   "publishedSource": "Sprott (2003) A.5.15",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 120.68660712242126,
+   "publishedRatio": 2.9802397660389883,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "shaw_vdp",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    1.3,
+    0.0
+   ],
+   "dt": 0.01,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 1,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.11805610370999549,
+    -1.2732969652519723
+   ],
+   "lambdaMax": 0.11805610370999549,
+   "sem": [
+    0.00015183088178551636,
+    0.0007875326201490754
+   ],
+   "divergence": -1.1552223149786007,
+   "traceError": -1.854656337618721e-05,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 15000.0,
+   "published": 0.118,
+   "publishedSource": "Sprott (2003) A.4.3",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 99.5841760635376,
+   "publishedRatio": 1.0004754551694532,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "simplest_cubic",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    0.96,
+    0.0
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.08367753976465979,
+    -3.9412495075481444e-06,
+    -2.111673312565067
+   ],
+   "lambdaMax": 0.08367753976465979,
+   "sem": [
+    1.790644659017858e-05,
+    4.016759793496803e-06,
+    1.8188143968322143e-05
+   ],
+   "divergence": -2.0280000000012657,
+   "traceError": 2.8595135104225733e-07,
+   "zeroExponent": 3.9412495075481444e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0837,
+   "publishedSource": "Sprott (2003) A.5.18",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 101.36719107627869,
+   "publishedRatio": 0.9997316578812401,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "simplest_driven",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.09234315384506402,
+    -0.09234540095146829
+   ],
+   "lambdaMax": 0.09234315384506402,
+   "sem": [
+    0.0014498118401472379,
+    0.0014497971538429103
+   ],
+   "divergence": 0.0,
+   "traceError": -2.247106404271171e-06,
+   "zeroExponent": 0.09234315384506402,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.0971,
+   "publishedSource": "Sprott (2003) A.6.2",
+   "icDependent": true,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 104.81271314620972,
+   "publishedRatio": 0.9510108531932442,
+   "conservative": true,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "simplest_piecewise",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    -0.7,
+    0.0
+   ],
+   "dt": 0.16,
+   "dtCatalogue": 0.02,
+   "dtMultiple": 8,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.0407965645158066,
+    -0.002529550803208178,
+    -0.6382615644305303
+   ],
+   "lambdaMax": 0.0407965645158066,
+   "sem": [
+    3.329221514042337e-05,
+    1.2623884502892662e-05,
+    3.678713134466938e-05
+   ],
+   "divergence": -0.6000000000031852,
+   "traceError": 5.4492852533671865e-06,
+   "zeroExponent": 0.002529550803208178,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 240000.0,
+   "published": 0.0362,
+   "publishedSource": "Sprott (2003) A.5.19",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 96.62848401069641,
+   "publishedRatio": 1.126976920326149,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "simplest_quadratic",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    -0.9,
+    0.0,
+    0.5
+   ],
+   "dt": 0.02,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.055152474524822644,
+    -5.537385164288723e-07,
+    -2.0721518191691795
+   ],
+   "lambdaMax": 0.055152474524822644,
+   "sem": [
+    1.695685802046693e-05,
+    4.597299038689112e-06,
+    1.8001528327724027e-05
+   ],
+   "divergence": -2.0169999999846056,
+   "traceError": 1.0160173236073433e-07,
+   "zeroExponent": 5.537385164288723e-07,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 30000.0,
+   "published": 0.0551,
+   "publishedSource": "Sprott (2003) A.5.17",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 94.11199617385864,
+   "publishedRatio": 1.000952350722734,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "sinai",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.5,
+    0.5
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.9594642533291587,
+    -1.0771368193214867
+   ],
+   "lambdaMax": 0.9594642533291587,
+   "sem": [
+    3.189483079616265e-06,
+    2.3974867097500343e-05
+   ],
+   "divergence": -0.11763385808269014,
+   "traceError": -3.870790963786397e-05,
+   "zeroExponent": 0.9594642533291587,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.95946,
+   "publishedSource": "Sprott (2003) A.2.10",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 187.05942702293396,
+   "publishedRatio": 1.0000044330447948,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "sine_circle",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.35395126057417714
+   ],
+   "lambdaMax": 0.35395126057417714,
+   "sem": [
+    1.6614617987128475e-05
+   ],
+   "divergence": 1.0370145570902216,
+   "traceError": -0.6830632965160445,
+   "zeroExponent": 0.35395126057417714,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 129,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.353863,
+   "publishedSource": "Sprott (2003) A.1.12",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 68.89677214622498,
+   "publishedRatio": 1.0002494201828875,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "sine_map",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 1,
+   "x0": [
+    0.1
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.6890677338385087
+   ],
+   "lambdaMax": 0.6890677338385087,
+   "sem": [
+    3.7145773645121564e-06
+   ],
+   "divergence": 0.6886065167154839,
+   "traceError": 0.0004612171230248263,
+   "zeroExponent": 0.6890677338385087,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 13,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.689067,
+   "publishedSource": "Sprott (2003) A.1.2",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 45.638200998306274,
+   "publishedRatio": 1.000001064974101,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "thomas",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.1,
+    0.0,
+    0.0
+   ],
+   "dt": 0.1,
+   "dtCatalogue": 0.05,
+   "dtMultiple": 2,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.03503544332437832,
+    6.715852947786552e-07,
+    -0.5750420118207512
+   ],
+   "lambdaMax": 0.03503544332437832,
+   "sem": [
+    4.0993227673239804e-05,
+    1.2801352005519396e-06,
+    4.1162012476813124e-05
+   ],
+   "divergence": -0.5400000000007569,
+   "traceError": -5.896910321268045e-06,
+   "zeroExponent": 6.715852947786552e-07,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 150000.0,
+   "published": 0.0349,
+   "publishedSource": "Sprott (2003) A.5.12",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 189.90348482131958,
+   "publishedRatio": 1.0038808975466569,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "tinkerbell",
+   "source": "sprott",
+   "kind": "map",
+   "stateDim": 2,
+   "x0": [
+    0.0,
+    0.5
+   ],
+   "dt": null,
+   "dtCatalogue": null,
+   "dtMultiple": 1,
+   "horizon": 2000000,
+   "params": null,
+   "spectrum": [
+    0.18995362817881742,
+    -0.5208137059767427
+   ],
+   "lambdaMax": 0.18995362817881742,
+   "sem": [
+    1.0216656396268092e-05,
+    4.016746753868269e-05
+   ],
+   "divergence": -0.3310255781178775,
+   "traceError": 0.00016550031995221648,
+   "zeroExponent": 0.18995362817881742,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 2000000,
+   "elapsed": 2000000.0,
+   "published": 0.18997,
+   "publishedSource": "Sprott (2003) A.2.4",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 139.26923298835754,
+   "publishedRatio": 0.9999138189125516,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "ueda",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 2,
+   "x0": [
+    2.5,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 4,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.10333166793385462,
+    -0.15333495365218863
+   ],
+   "lambdaMax": 0.10333166793385462,
+   "sem": [
+    7.980586847130161e-05,
+    7.98058391815654e-05
+   ],
+   "divergence": -0.05000000000017354,
+   "traceError": -3.285718160474238e-06,
+   "zeroExponent": null,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.1034,
+   "publishedSource": "Sprott (2003) A.4.5",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 115.77411818504333,
+   "publishedRatio": 0.9993391482964663,
+   "conservative": false,
+   "chaoticAtIC": true
+  },
+  {
+   "name": "windmi",
+   "source": "sprott",
+   "kind": "flow",
+   "stateDim": 3,
+   "x0": [
+    0.0,
+    0.8,
+    0.0
+   ],
+   "dt": 0.04,
+   "dtCatalogue": 0.01,
+   "dtMultiple": 4,
+   "horizon": 1500000,
+   "params": null,
+   "spectrum": [
+    0.07570724049363751,
+    -1.5242325592950078e-06,
+    -0.7757057559713815
+   ],
+   "lambdaMax": 0.07570724049363751,
+   "sem": [
+    6.365129000047182e-05,
+    1.683699116813247e-06,
+    6.369454744695085e-05
+   ],
+   "divergence": -0.7000000000012453,
+   "traceError": -3.9709057930714664e-08,
+   "zeroExponent": 1.5242325592950078e-06,
+   "nEscaped": 0,
+   "nDied": 0,
+   "nCollapsed": 0,
+   "nSaturated": 0,
+   "nSteps": 1500000,
+   "elapsed": 60000.0,
+   "published": 0.0755,
+   "publishedSource": "Sprott (2003) A.5.16",
+   "icDependent": false,
+   "method": "nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
+   "wallclock": 113.07751512527466,
+   "publishedRatio": 1.002744907200497,
+   "conservative": false,
+   "chaoticAtIC": true
   }
  ],
- "failed": []
+ "failed": [],
+ "flagsRule": "reference_flags in python/build_reference_corpus.py, applied 2026-09-25 to the 2026-09-24 build"
 }

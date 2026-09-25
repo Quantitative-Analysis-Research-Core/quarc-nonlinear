@@ -108,19 +108,45 @@ def _make_vector_field(S):
             out = out.T
         return out.reshape(y.shape)
 
+    def transposed(t, y):
+        # The _rhs(X, t) form unpacks X along its first axis -- `x, y, z = X`
+        # -- so a batch has to arrive as (D, N) for each component to come out
+        # as an (N,) array. Systems that instead do a matrix product on X
+        # fail this too, and are left out.
+        flat = y.reshape(-1, y.shape[-1])
+        cols = S._rhs(flat.T, t)
+        cols = np.broadcast_arrays(*[np.asarray(c, dtype=np.float64) for c in cols])
+        return np.stack(cols, axis=-1).reshape(y.shape)
+
     # Reference values from dysts itself, one state at a time.
     rng = np.random.default_rng(0)
     probes = np.stack([ic] + [ic * (1 + 0.01 * rng.standard_normal(D))
                               for _ in range(3)], axis=0)
+    def scalar_rhs(p):
+        # The base-class rhs unpacks the state into _rhs(x, y, z, t, ...),
+        # which raises on the _rhs(X, t) systems; those answer to _rhs directly.
+        try:
+            return np.asarray(S.rhs(p, 0.0), dtype=np.float64).ravel()
+        except (TypeError, ValueError):
+            return np.asarray(S._rhs(p, 0.0), dtype=np.float64).ravel()
+
     try:
-        want = np.stack([np.asarray(S.rhs(p, 0.0), dtype=np.float64).ravel()
-                         for p in probes], axis=0)
+        want = np.stack([scalar_rhs(p) for p in probes], axis=0)
     except Exception:                             # noqa: BLE001
         return None
     if not np.isfinite(want).all():
         return None
 
-    for cand in (unpacked, flattened):
+    def rhs_transposed(t, y):
+        # Classes that override rhs itself (Colpitts, Lorenz96, the cell
+        # models) unpack the state along its first axis there, and return the
+        # components as a (D, N) tuple.
+        flat = y.reshape(-1, y.shape[-1])
+        cols = S.rhs(flat.T, t)
+        cols = np.broadcast_arrays(*[np.asarray(c, dtype=np.float64) for c in cols])
+        return np.stack(cols, axis=-1).reshape(y.shape)
+
+    for cand in (unpacked, flattened, transposed, rhs_transposed):
         try:
             got = cand(0.0, probes)
         except Exception:                         # noqa: BLE001
@@ -138,6 +164,42 @@ def _make_vector_field(S):
                     batched[0], want, rtol=1e-10, atol=1e-12):
                 return cand
     return None
+
+
+def reference_flags(spectrum, divergence, catalogue_flag, exact=False):
+    """Whether a computed spectrum can stand as a system's reference.
+
+    Two things disqualify a number from being *the* exponent of a system, and
+    both are read off the spectrum itself rather than trusted to catalogue
+    metadata:
+
+    conservative  |div f| and |sum(lambda)| both near zero: the flow preserves
+                  volume, its state space is a patchwork of chaotic regions and
+                  regular islands, and the exponent belongs to the starting
+                  point. dysts' `hamiltonian` field marks some of these but
+                  not all -- Henon-Heiles and the Nose-Hoover-type SprottA are
+                  volume-preserving and unmarked -- so the divergence is the
+                  criterion and the catalogue flag only a supplement.
+    chaoticAtIC   lambda1 clear of zero. A dissipative system whose recorded
+                  initial condition sits on a limit cycle or torus has a
+                  reference of essentially zero, and a ratio against it is
+                  noise; KawczynskiStrizhak is the case in the corpus.
+
+    icDependent is the union of conservative and the catalogue flag. Thresholds
+    are absolute, in nats per unit time; both quantities are O(1) for the
+    systems that are genuinely dissipative and chaotic.
+    """
+    lam = np.asarray(spectrum, dtype=np.float64)
+    conservative = bool(np.isfinite(divergence) and abs(divergence) < 1e-3
+                        and abs(lam.sum()) < 1e-3)
+    # A uniformly hyperbolic system is volume-preserving without any islands:
+    # every orbit has the same exponent, and it is a closed form. Arnold's cat
+    # map is the case, reproduced here to 3e-9, and `exact` exempts it.
+    return dict(
+        conservative=conservative,
+        icDependent=bool(catalogue_flag) or (conservative and not exact),
+        chaoticAtIC=bool(lam[0] > 1e-3),
+    )
 
 
 def _dysts_entries(names=None):
@@ -192,7 +254,8 @@ def _sprott_entries(names=None):
                         wrap=s["wrap"], published=s["lam1"],
                         published_source=f"Sprott (2003) {s['section']}",
                         nonautonomous="driven" in s["category"],
-                        icDependent=ss.ic_dependent(s)))
+                        icDependent=ss.ic_dependent(s),
+                        exact=s["tier"] == "exact"))
     return out
 
 
@@ -276,9 +339,12 @@ def run_one(args):
         elapsed=float(r.elapsed),
         # The external comparison, recorded but not used as a gate.
         published=entry["published"], publishedSource=entry["published_source"],
-        # True where the exponent belongs to the initial condition rather than
-        # to the system. See sprott_systems.ic_dependent.
-        icDependent=bool(entry.get("icDependent")),
+        # Whether this number can stand as the system's reference. See
+        # reference_flags: icDependent covers conservative systems, from the
+        # divergence and the catalogue flag; chaoticAtIC is false where the
+        # recorded initial condition gives an exponent of essentially zero.
+        **reference_flags(lam, r.divergence, entry.get("icDependent"),
+                          exact=bool(entry.get("exact"))),
         method="nearby-trajectory Gram-Schmidt (Sprott 2003 ch. 5)",
         wallclock=time.time() - t0,
     )
