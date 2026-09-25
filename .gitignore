@@ -9,3 +9,9 @@ slprj/
 # test output
 tests/artifacts/
 __pycache__/
+
+# python virtualenv for the reference-corpus tooling
+.venv/
+
+# per-run build log for the reference corpus; the json is the artefact
+tests/reports/reference_spectra.jsonl
