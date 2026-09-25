@@ -44,6 +44,7 @@ arguments
     opts.Parallel   (1,1) logical = true
     opts.Verbose    (1,1) logical = true
     opts.Checkpoint (1,1) string = ""
+    opts.RecTarget  (1,1) double = 2.5   % percent recurrence for RQA, as in metric_battery
 end
 
 quarctest.require_library();
@@ -90,11 +91,11 @@ for i = 1:numel(c)
 
     if opts.Parallel
         parfor r = 1:R
-            [V(r,:), ok(r)] = localOne(X(r,:), fs, M, E); %#ok<PFBNS>
+            [V(r,:), ok(r)] = localOne(X(r,:), fs, M, E, opts.RecTarget); %#ok<PFBNS>
         end
     else
         for r = 1:R
-            [V(r,:), ok(r)] = localOne(X(r,:), fs, M, E);
+            [V(r,:), ok(r)] = localOne(X(r,:), fs, M, E, opts.RecTarget);
         end
     end
 
@@ -159,14 +160,14 @@ raw = fread(fid, [sys.N, sys.R], sys.dtype);   % written row-major from numpy
 X = double(raw');
 end
 
-function [v, ok] = localOne(x, fs, M, E)
+function [v, ok] = localOne(x, fs, M, E, recTarget)
 v = nan(1, numel(M));
 ok = false;
 x = x(:);
 if any(~isfinite(x)) || std(x) <= 0
     return
 end
-v = quarctest.metric_battery(x, fs, M, E);
+v = quarctest.metric_battery(x, fs, M, E, RecTarget=recTarget);
 ok = true;
 end
 
