@@ -44,10 +44,19 @@ arguments
     opts.Parallel   (1,1) logical = true
     opts.Verbose    (1,1) logical = true
     opts.Checkpoint (1,1) string = ""
+    % "published" scores against the dysts manifest's QR spectra, as every
+    % committed table was. "recomputed" scores against
+    % tests/reports/reference_spectra.json, where both catalogues were
+    % recomputed under one method; the choice is written into every row's
+    % referenceSource and referenceStatus.
+    opts.Reference  (1,1) string {mustBeMember(opts.Reference, ["published", "recomputed"])} = "published"
 end
 
 quarctest.require_library();
 c = quarctest.dysts_catalog(opts.Manifest);
+if opts.Reference == "recomputed"
+    c = quarctest.recomputed_reference(c, "dysts");
+end
 if ~(isscalar(opts.Systems) && opts.Systems == "all")
     keep = ismember([c.name], opts.Systems);
     missing = setdiff(opts.Systems, [c.name]);
@@ -178,12 +187,22 @@ else
     mu = mean(vals); sd = std(vals); lo = min(vals); hi = max(vals);
 end
 
-refVal = NaN; refErr = NaN; refSrc = "";
+refVal = NaN; refErr = NaN; refSrc = ""; refStatus = "none";
 switch m.reference
     case "lambda"
         refVal = sys.lambda; refSrc = "dysts, tangent-space spectrum";
+        refStatus = "published";
+        % quarctest.recomputed_reference stamps the entry with where its
+        % lambda now comes from; carry that into the row so the two scorings
+        % can never be confused in the data.
+        if isfield(sys, 'lambdaSource') && strlength(sys.lambdaSource) > 0 ...
+                && ~startsWith(sys.lambdaSource, "published")
+            refSrc = sys.lambdaSource;
+            refStatus = "recomputed";
+        end
     case "d2"
         refVal = sys.d2;     refSrc = "dysts, correlation dimension";
+        refStatus = "published";
 end
 if isfinite(refVal) && isfinite(med) && refVal ~= 0
     ratio = med/refVal;
@@ -197,7 +216,7 @@ row = {sys.name, sys.section, sys.category, string(sys.kind), ...
        m.reason, N, R, nUsable, fs, n, ...
        med, mad_, mu, sd, lo, hi, ...
        refVal, refErr, refSrc, ratio, ...
-       string(ternary(m.reference == "", "none", "published")), ...
+       refStatus, ...
        NaN, NaN};
 end
 

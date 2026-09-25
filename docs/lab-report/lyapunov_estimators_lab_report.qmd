@@ -2,7 +2,7 @@
 title: "Wolf and Rosenstein Across Two Reference Catalogues"
 subtitle: "A lab report on largest-Lyapunov-exponent estimation: how the data were built, what went wrong along the way, how accurate the estimators are, and how they respond to noise"
 author: "Quantitative Analysis Research Core (QUARC) — QUARC Nonlinear"
-date: 2026-09-16
+date: 2026-09-24
 format:
   typst:
     toc: true
@@ -194,6 +194,84 @@ down_lyap <- all(rW[hi] < wW[hi]) && all(rR[hi] < wR[hi])
 up_cd <- all(rC[hi] > wC[hi])
 ```
 
+```{r onemethod}
+# The recomputed reference corpus (python/build_reference_corpus.py): every
+# system in both catalogues under one method, with the three internal checks
+# and the published value it replaces. Bands match python/audit_corpus.py.
+cor <- jsonlite::fromJSON(rp("reference_spectra.json"))$systems
+cor$sem1 <- vapply(cor$sem, function(s) if (length(s)) s[[1]] else NA_real_, numeric(1))
+cor$key  <- paste(cor$source, tolower(cor$name), sep = "/")
+n_cor    <- nrow(cor)
+n_cor_sp <- sum(cor$source == "sprott")
+n_cor_dy <- sum(cor$source == "dysts")
+n_icdep  <- sum(cor$icDependent %in% TRUE)
+
+tr_tol    <- pmax(1e-6, 1e-4 * pmax(abs(cor$divergence), 1))
+bad_trace <- cor$kind == "flow" & is.finite(cor$traceError) & abs(cor$traceError) > tr_tol
+bad_zero  <- cor$kind == "flow" & is.finite(cor$zeroExponent) & cor$zeroExponent > 1e-3
+bad_sem   <- is.finite(cor$sem1) & cor$lambdaMax > 0 & cor$sem1 > 0.01 * cor$lambdaMax
+bad_run   <- cor$nDied > 0 | cor$nEscaped > 0 | cor$nSaturated > 0
+n_clean   <- sum(!(bad_trace | bad_zero | bad_sem | bad_run))
+
+# Sprott side: how closely one method reproduces the printed appendix.
+csp      <- cor[cor$source == "sprott" & is.finite(cor$published), ]
+sp_err   <- abs(csp$lambdaMax - csp$published)
+sp_n     <- nrow(csp)
+sp_w15   <- sum(sp_err < 1.5e-4)
+sp_w2e3  <- sum(sp_err < 2e-3)
+sp_mederr <- median(sp_err)
+
+# dysts side: the published spectrum against the recomputed one.
+mm       <- setNames(man$lambdaMax, man$system)
+cdy      <- cor[cor$source == "dysts", ]
+cdy$pub  <- unname(mm[cdy$name])
+dy_shift <- (cdy$pub / cdy$lambdaMax)[is.finite(cdy$pub) & cdy$lambdaMax > 0]
+dy_shift_n   <- length(dy_shift)
+dy_shift_med <- median(dy_shift)
+dy_shift_w10 <- sum(abs(dy_shift - 1) < 0.10)
+
+# The 13 systems both catalogues hold.
+SHARED <- c(lorenz = "Lorenz", rossler = "Rossler", chen = "Chen", hadley = "Hadley",
+            rabinovich_fabrikant = "RabinovichFabrikant", chua = "Chua",
+            moore_spiegel = "MooreSpiegel", thomas = "Thomas", halvorsen = "Halvorsen",
+            burke_shaw = "BurkeShaw", rucklidge = "Rucklidge", nose_hoover = "NoseHoover",
+            henon_heiles = "HenonHeiles")
+shared <- do.call(rbind, lapply(names(SHARED), function(s) {
+  a <- cor[cor$key == paste0("sprott/", s), ]
+  b <- cor[cor$key == paste0("dysts/", tolower(SHARED[[s]])), ]
+  if (!nrow(a) || !nrow(b)) return(NULL)
+  data.frame(system = s, sp_pub = a$published, dy_pub = unname(mm[SHARED[[s]]]),
+             sp_new = a$lambdaMax, dy_new = b$lambdaMax, stringsAsFactors = FALSE)
+}))
+shared$before <- shared$dy_pub / shared$sp_pub
+shared$after  <- shared$dy_new / shared$sp_new
+# Systems whose control parameters match in both catalogues, checked against
+# the appendix and the dysts source. Halvorsen is not among them: dysts uses
+# a = 1.4 where the appendix has a = 1.27. The rest differ in at least one
+# parameter.
+same_par <- c("lorenz", "rossler", "chen", "rabinovich_fabrikant", "burke_shaw",
+              "rucklidge")
+sh_same  <- shared[shared$system %in% same_par, ]
+
+# Every committed ratio re-divided by the recomputed reference
+# (python/rescore_ratios.py). The estimates are unchanged.
+rs <- read.csv(rp("reference_rescoring.csv"), stringsAsFactors = FALSE)
+rs$icDependent <- rs$icDependent %in% c("True", TRUE)
+rs$inCorpus    <- rs$inCorpus    %in% c("True", TRUE)
+rsx <- rs[rs$inCorpus & !rs$icDependent, ]
+rstat <- function(cat, met) {
+  x <- rsx[rsx$catalogue == cat & rsx$metric == met, ]
+  list(pub = stat(x$ratioPublished), new = stat(x$ratioRecomputed), n = nrow(x))
+}
+rs_sw <- rstat("sprott", "lyap_wolf"); rs_sr <- rstat("sprott", "lyap_ros")
+rs_dw <- rstat("dysts",  "lyap_wolf"); rs_dr <- rstat("dysts",  "lyap_ros")
+
+act   <- cor[cor$key == "sprott/act", ]
+ruck  <- cor[cor$key == "sprott/rucklidge", ]
+ruckd <- cor[cor$key == "dysts/rucklidge", ]
+moore <- cor[cor$key == "sprott/moore_spiegel", ]
+```
+
 # Summary
 
 This report collects the work done in the QUARC Nonlinear repository to establish how well the two largest-Lyapunov-exponent estimators in the library, Wolf's method [@wolf1985] and Rosenstein's method [@rosenstein1993], recover known exponents across a wide range of dynamical systems, and how that recovery degrades under observational noise. It is written as a lab record. The trial and error is part of the result, not a preamble to it.
@@ -212,6 +290,8 @@ This report collects the work done in the QUARC Nonlinear repository to establis
 Re-estimating the embedding on the noisy series — what a practitioner would actually do — pulls both Lyapunov estimates *down*. That deepens Rosenstein's low bias (`r f2(rR[iL])`) and partly offsets Wolf's overshoot (`r f2(rW[iL])`): two errors cancelling, not a fix. The embedding change runs through an inflated FNN dimension, not the AMI delay.
 
 **The most consequential correction** was to the reference values themselves. The dysts reports were first compared against dysts' trajectory-divergence estimate of the exponent, which is itself an estimate, rather than against the tangent-space value that the estimators are estimating. Correcting that moved the median Wolf ratio from `r if (!is.null(old_dy)) f2(oW$med) else "0.79"` to `r f2(dW$med)`.
+
+**One method for both references.** The two catalogues' published exponents come from different procedures, and on the `r nrow(shared)` systems both hold they disagree by a median of `r pct(median(abs(shared$before - 1)))`. Recomputing every reference under one method (@sec-onemethod) collapses that to within `r pct(max(abs(sh_same$after - 1)))` wherever the two catalogues use the same control parameters, and shows the published dysts spectra to be `r pct(dy_shift_med - 1)` high at the median. Re-dividing the committed estimates by the recomputed references leaves the Sprott results unchanged and moves the dysts ones: Rosenstein's dysts median goes from `r f2(rs_dr$pub$med)` to `r f2(rs_dr$new$med)`, so most of its apparent low bias on that catalogue was the reference, while Wolf's goes from `r f2(rs_dw$pub$med)` to `r f2(rs_dw$new$med)`. The same comparison exposed one transcription error in the Sprott catalogue (ACT) that no internal check could have caught.
 
 # Purpose
 
@@ -265,6 +345,8 @@ The two numbers are far apart. Across the `r ref_n` systems they agree within 10
 This choice was not made correctly the first time; see @sec-trial.
 
 Both reference sets carry their own uncertainty. The dysts spectra are numerical, and Sprott's values are published to limited precision. The ratios reported here therefore bound the disagreement between estimator and reference together, not estimator error alone.
+
+They also come from two different procedures, which is a confound of its own: a ratio against a Sprott value and a ratio against a dysts value are not measuring the same thing. @sec-onemethod recomputes every reference in both catalogues under one method and re-divides the committed estimates by the result. The tables in the rest of this report keep the published references, so that they remain comparable with the earlier record; the recomputed ones are the better reference going forward.
 
 # Data construction
 
@@ -510,6 +592,58 @@ if (!is.null(old_dy)) {
 
 Re-referencing changed only the `reference` and `medianOverReference` columns of the report. The report was rebuilt from the existing table rather than by re-running the battery. The rebuild was validated first by regenerating the unchanged report from its own table and confirming it was byte-identical. Agreement improved on both estimators, which is what one would expect if the new reference is the right one.
 
+## One method for both catalogues {#sec-onemethod}
+
+The switch above corrected *which* dysts number was used. A larger problem remained: the two catalogues' references come from different procedures. Sprott computed his by trajectory separation with periodic renormalisation; dysts integrates the tangent space with QR orthonormalisation. Whether the two agree had never been checked, and the `r nrow(shared)` systems that appear in both catalogues make the check direct.
+
+```{r tbl-shared}
+#| tbl-cap: "The systems both catalogues hold. Before: ratio of the two published exponents (dysts ÷ Sprott). After: the same ratio with both sides recomputed under one method from each catalogue's own initial condition and parameters. Where the parameters match, the disagreement was the procedure; where they differ, what remains is the parameters."
+#| output: asis
+sh <- shared[order(abs(log(shared$before)), decreasing = TRUE), ]
+tab <- data.frame(
+  System = gsub("_", " ", sh$system),
+  `Same parameters` = ifelse(sh$system %in% same_par, "yes", "no"),
+  `Sprott published` = f3s(sh$sp_pub), `dysts published` = f3s(sh$dy_pub),
+  `Ratio, published` = f2(sh$before), `Ratio, one method` = f2(sh$after),
+  check.names = FALSE)
+ptab(tab, c(18, 16, 14, 14, 14, 16), c("l", "l", "r", "r", "r", "r"))
+```
+
+The published exponents disagree by a median of `r pct(median(abs(shared$before - 1)))`; for `r sh$system[1]` the dysts value is `r f2(sh$before[1], 1)` times Sprott's. Under one method, every system whose control parameters match in both catalogues agrees to within `r pct(max(abs(sh_same$after - 1)))`. The rest differ because the parameters differ — Sprott's Thomas uses $b = 0.18$ against a smaller dysts value, his Hadley $a = 0.25, F = 8$ against dysts' $a = 0.2, F = 9$ — which is why the corpus records both parameterisations rather than choosing one.
+
+**The method.** `python/lyap_spectrum.py` implements Sprott's own procedure from chapter 5 of @sprott2003: a fiducial trajectory advanced alongside $k$ perturbed copies, modified Gram–Schmidt orthonormalisation of the separation vectors at each renormalisation, and the log of each vector's growth accumulated into the corresponding exponent. No Jacobian is needed, so one engine covers Sprott's 62 hand-written vector fields and the dysts catalogue alike. The 62 Sprott systems were ported to Python for the purpose and read line by line against the printed appendix. Every entry records the initial condition, control parameters, integration step and horizon it was computed from.
+
+**How an entry is judged.** Three checks travel with every spectrum, none of which consults a published number: the sum of the exponents against the time-averaged divergence of the vector field, read straight off $f$ by central differences; the exponent that theory requires to be exactly zero for an autonomous flow; and the standard error across independent ensemble members. The trace identity turned out to do double duty — integration error breaks it as surely as a faulty Gram–Schmidt does, which is how the integration step was calibrated per system rather than assumed. The corpus holds `r n_cor` systems (`r n_cor_sp` Sprott, `r n_cor_dy` dysts), of which `r n_clean` pass all three checks; the rest are named with their reasons by `python/audit_corpus.py`. Nineteen dysts systems whose vector fields could not be vectorised without guessing at their calling convention are left out rather than risked: a wrong vector field produces a perfectly plausible exponent, which is the failure this corpus exists to remove.
+
+**Against Sprott's appendix.** The recomputed values reproduce the printed appendix to a median absolute error of `r formatC(sp_mederr, format = "e", digits = 1)`: `r sp_w15` of `r sp_n` usable systems within $1.5 \times 10^{-4}$ of the published value, `r sp_w2e3` within $2 \times 10^{-3}$, and every closed-form case at machine precision. That agreement is what licenses the corpus as a reference. Three systems resist it, and each was resolved differently:
+
+- *ACT* (A.5.7) was a transcription error in the MATLAB catalogue: $dz/dt$ takes $-\delta\alpha z$, and the $\alpha$ had been dropped, giving $-1.5z$ in place of $-2.7z$. The wrong system passed every internal check, because it is a perfectly good dynamical system; only the published comparison caught it, at 31% error. Corrected, it reads `r f3s(act$lambdaMax)` against the published `r f3s(act$published)`, with the third exponent `r f3s(act$spectrum[[1]][3])` against $-9.2060$.
+- *Rucklidge* (A.5.15) reads `r f3s(ruck$lambdaMax)` against the published `r f3s(ruck$published)`, a factor of `r f2(ruck$lambdaMax / ruck$published, 1)`. The transcription matches the appendix and matches dysts' independent implementation; 25 different initial conditions all give `r f2(ruck$lambdaMax, 2)`; and recomputing from dysts' own parameters gives `r f3s(ruckd$lambdaMax)`. The published value does not reproduce.
+- *Moore–Spiegel* (A.5.11) reads `r f3s(moore$lambdaMax)` against `r f3s(moore$published)`. Transcription, parameters and initial condition all match the appendix. Sixteen initial conditions spanning the basin, each with a 32-member ensemble, all land within 2% of `r f2(moore$lambdaMax, 3)`; there is no second attractor to account for the difference.
+
+**Conservative systems carry a warning rather than a number.** A dissipative system draws every trajectory onto one attractor, so its exponent belongs to the system. A conservative one does not: its state space is a patchwork of chaotic regions and regular islands that a trajectory never crosses between, so the exponent belongs to the starting point. Hénon–Heiles gave 0.0042 and 0.0449 in this work under nothing more than a different integration step, because the step moved the trajectory into a different region. Both are correct measurements of different things. The `r n_icdep` such entries — Sprott's conservative maps and flows, and dysts' Hamiltonian systems — are flagged `icDependent` in the corpus and excluded from the summaries below. Arnold's cat map is deliberately not among them: it is conservative but uniformly hyperbolic, and the recomputation reproduces its closed form to $3 \times 10^{-9}$.
+
+**What it does to the results.** Because the estimates do not depend on the reference, every ratio in this report can be re-divided by the recomputed reference without re-running the battery (`python/rescore_ratios.py`). @tbl-rescore does that for the dissipative systems the corpus covers.
+
+```{r tbl-rescore}
+#| tbl-cap: "Median estimate ÷ reference across dissipative systems, with the published reference and with the recomputed one. The estimates are identical in both columns; only the denominator changes."
+#| output: asis
+tab <- data.frame(
+  Catalogue = c("Sprott", "Sprott", "dysts", "dysts"),
+  Estimator = c("Wolf", "Rosenstein", "Wolf", "Rosenstein"),
+  n = c(rs_sw$n, rs_sr$n, rs_dw$n, rs_dr$n),
+  `Median, published` = f2(c(rs_sw$pub$med, rs_sr$pub$med, rs_dw$pub$med, rs_dr$pub$med)),
+  `Median, recomputed` = f2(c(rs_sw$new$med, rs_sr$new$med, rs_dw$new$med, rs_dr$new$med)),
+  `Within 2×, published` = pct(c(rs_sw$pub$w2, rs_sr$pub$w2, rs_dw$pub$w2, rs_dr$pub$w2)),
+  `Within 2×, recomputed` = pct(c(rs_sw$new$w2, rs_sr$new$w2, rs_dw$new$w2, rs_dr$new$w2)),
+  check.names = FALSE)
+ptab(tab, c(10, 12, 4, 14, 14, 14, 14), c("l", "l", "r", "r", "r", "r", "r"))
+```
+
+The Sprott results do not move: the recomputed references agree with the appendix, so every Sprott ratio in this report stands. The dysts results do. The published dysts spectra are `r pct(dy_shift_med - 1)` high at the median across the `r dy_shift_n` systems in common, with only `r dy_shift_w10` within 10% of the recomputed value, and dividing by the corrected references changes what the estimators appear to be doing on that catalogue. Rosenstein's dysts median rises from `r f2(rs_dr$pub$med)` to `r f2(rs_dr$new$med)`, so most of the low bias reported for it on dysts was the reference; Wolf's rises from `r f2(rs_dw$pub$med)` to `r f2(rs_dw$new$med)`, so its apparent accuracy there was partly the same error in the other direction. On Sprott, Rosenstein's low bias survives the correction unchanged, at `r f2(rs_sr$new$med)`.
+
+The corpus is `tests/reports/reference_spectra.json`. `quarctest.characterize` and `quarctest.characterize_series` take `Reference="recomputed"` to score against it directly, and record the choice in every row's `referenceSource` and `referenceStatus`; the default remains `"published"`, so no committed table changes without saying so.
+
 ## Sensitivity to observational noise {#sec-noise}
 
 **Design.** Gaussian noise was added to each stored dysts series at 0, 0.5, 1, 2, 5 and 10% of that series' own standard deviation. `lyap_wolf`, `lyap_ros` and `corr_dim` were then re-run. This is measurement noise on the observable: the trajectory is unchanged, only the view of it is blurred. Every noisy series was analysed twice:
@@ -583,7 +717,8 @@ The embedding parameters were measured as outcomes rather than assumed. The AMI 
 
 # Limitations and open issues
 
-- **Reference uncertainty.** The dysts spectra are numerical estimates themselves, and Sprott's values are published to limited precision. Ratios bound estimator-plus-reference disagreement.
+- **Reference uncertainty.** The dysts spectra are numerical estimates themselves, and Sprott's values are published to limited precision. Ratios bound estimator-plus-reference disagreement. @sec-onemethod recomputes both catalogues under one method and quantifies the gap — the published dysts spectra run `r pct(dy_shift_med - 1)` high at the median — but the tables in this report still use the published values, and 19 dysts systems are not yet in the recomputed corpus. Two Sprott entries (Rucklidge, Moore–Spiegel) reproduce neither from the appendix's own initial condition nor from any other, and stand in the corpus at the recomputed value with the disagreement recorded.
+- **IC-dependent references.** Conservative systems have no single exponent to score against; `r n_icdep` entries are flagged and excluded from the recomputed summaries. The flag on the dysts side follows dysts' own `hamiltonian` field, which misses a few systems that behave the same way (SprottA, KawczynskiStrizhak), so the recomputed dysts spread is wider than it should be.
 - **One observable, one sampling rate.** Each system is observed through a single scalar component at about 40 samples per period. Sensitivity to the choice of observable and to sampling rate was not tested here.
 - **One embedding protocol.** Results are conditional on AMI/FNN for flows and the fixed rule for maps.
 - **Heuristic scaling-region selection.** The Rosenstein region selector is a simple, uniform default, not a solved problem. The 200-sample cap binds often on dysts.
@@ -639,7 +774,7 @@ Rscript R/make_figures.R
 quarto render docs/lab-report/lyapunov_estimators_lab_report.qmd
 ```
 
-*Compiled on 2026-09-16 from the QUARC Nonlinear repository record: commits, committed tables, figures and the dysts manifest. Drafted with assistance from Claude (Anthropic).*
+*Compiled on 2026-09-24 from the QUARC Nonlinear repository record: commits, committed tables, figures and the dysts manifest. Drafted with assistance from Claude (Anthropic).*
 
 # Appendix A: per-system results, Sprott catalogue
 

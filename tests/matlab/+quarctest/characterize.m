@@ -91,10 +91,18 @@ arguments
     opts.Verbose  (1,1) logical = true
     opts.Checkpoint (1,1) string = ""
     opts.Metrics  (1,:) string = "all"
+    % "published" scores against Sprott's Appendix A values, as every committed
+    % table was. "recomputed" scores against tests/reports/reference_spectra.json,
+    % where both catalogues were recomputed under one method; the choice is
+    % written into every row's referenceSource and referenceStatus.
+    opts.Reference (1,1) string {mustBeMember(opts.Reference, ["published", "recomputed"])} = "published"
 end
 
 quarctest.require_library();
 c = quarctest.sprott_catalog();
+if opts.Reference == "recomputed"
+    c = quarctest.recomputed_reference(c, "sprott");
+end
 c = c([c.usable]);
 
 if opts.Fast
@@ -271,16 +279,26 @@ else
     hi = max(vals);
 end
 
-refVal = NaN; refErr = NaN; refSrc = "";
+refVal = NaN; refErr = NaN; refSrc = ""; refStatus = "none";
 switch m.reference
     case "lambda"
         refVal = sys.lambda;
         refErr = NaN;                    % tier says exact or numerical
         refSrc = "Sprott A, lambda (" + sys.tier + ")";
+        refStatus = "published";
+        % quarctest.recomputed_reference stamps the entry with where its
+        % lambda now comes from; carry that into the row so the two scorings
+        % can never be confused in the data.
+        if isfield(sys, 'lambdaSource') && strlength(sys.lambdaSource) > 0 ...
+                && ~startsWith(sys.lambdaSource, "published")
+            refSrc = sys.lambdaSource;
+            refStatus = "recomputed";
+        end
     case "d2"
         refVal = sys.d2;
         refErr = sys.d2_err;
         refSrc = "Sprott A, D2";
+        refStatus = "published";
 end
 
 if isfinite(refVal) && isfinite(med) && refVal ~= 0
@@ -295,7 +313,7 @@ row = {sys.name, sys.section, sys.category, string(sys.kind), ...
        m.reason, opts.N, opts.R, nUsable, fs, n, ...
        med, mad_, mu, sd, lo, hi, ...
        refVal, refErr, refSrc, ratio, ...
-       string(ternary(m.reference == "", "none", "published")), ...
+       refStatus, ...
        opts.Seed, opts.Spread};
 end
 
