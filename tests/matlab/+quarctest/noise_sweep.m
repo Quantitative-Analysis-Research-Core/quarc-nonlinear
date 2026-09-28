@@ -75,6 +75,10 @@ arguments
     opts.Parallel   (1,1) logical = true
     opts.Verbose    (1,1) logical = true
     opts.Checkpoint (1,1) string  = ""
+    % Which metric family to sweep. "lyapunov" is the committed 16 September
+    % record; "rqa" is the pass that record deferred until line_hist counted
+    % lines correctly. The embedding metrics come along with either.
+    opts.Family     (1,1) string {mustBeMember(opts.Family, ["lyapunov", "rqa", "all"])} = "lyapunov"
 end
 
 quarctest.require_library();
@@ -92,8 +96,24 @@ end
 % The metrics this sweep reports. The embedding pair is nearly free -- the
 % battery computes ami and fnn whatever drives it -- and they are the outcome
 % of the second experiment, so they are kept rather than discarded.
-WANT = ["ami_delay", "fnn_dim", "embed_delay", "embed_dim", ...
-        "lyap_wolf", "lyap_ros", "corr_dim"];
+% The first sweep (16 September) covered the Lyapunov estimators and the
+% correlation dimension and left the RQA family out on purpose: line_hist's
+% counting fix was not yet on main, and sweeping before it landed would have
+% measured the bug rather than the metric. That fix is on main now, so the RQA
+% family is swept here. The families run as separate passes rather than one,
+% because the Lyapunov pass is the committed record and would be identical.
+EMBED = ["ami_delay", "fnn_dim", "embed_delay", "embed_dim"];
+switch opts.Family
+    case "lyapunov"
+        WANT = [EMBED, "lyap_wolf", "lyap_ros", "corr_dim"];
+    case "rqa"
+        WANT = [EMBED, "rqa_radius", "rqa_det", "rqa_lam", "rqa_maxL", ...
+                "rqa_maxL_tw", "rqa_meanL", "rqa_entL", "rqa_entV", "rqa_entW"];
+    case "all"
+        WANT = [EMBED, "lyap_wolf", "lyap_ros", "corr_dim", ...
+                "rqa_radius", "rqa_det", "rqa_lam", "rqa_maxL", ...
+                "rqa_maxL_tw", "rqa_meanL", "rqa_entL", "rqa_entV", "rqa_entW"];
+end
 
 levels = opts.Noise(:)';
 nL = numel(levels);
