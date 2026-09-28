@@ -1,4 +1,10 @@
-function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_start,radius_end,threshold,type,iter)
+function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_start,radius_end,threshold,type,iter,theiler)
+        % THEILER is passed through to line_hist; the radius is then found
+        % against the %REC that excludes the Theiler band, so the target
+        % means the same thing with and without a window.
+        if nargin < 8
+            theiler = 0;
+        end
         % Find the radius to provide target percent recurrence
         % If radius_start is too small
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,
@@ -10,7 +16,7 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
         % categorical series, for instance -- so a target between two steps is
         % unreachable and the search would otherwise never terminate.
         maxAdjust = 200;
-        [rec, ~, ~, ~] = line_hist(x,a,radius_start,type);
+        [rec, ~, ~, ~] = line_hist(x,a,radius_start,type,theiler);
         k = 0;
         while rec == 0 || rec > threshold
             k = k + 1;
@@ -29,11 +35,11 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
             elseif rec > threshold
                 radius_start = radius_start / 1.5;
             end
-            [rec, ~, ~, ~] = line_hist(x,a,radius_start,type);
+            [rec, ~, ~, ~] = line_hist(x,a,radius_start,type,theiler);
         end
 
         % if radius_end is too large
-        [rec, ~, ~, ~] = line_hist(x,a,radius_end,type);
+        [rec, ~, ~, ~] = line_hist(x,a,radius_end,type,theiler);
         k = 0;
         while rec < threshold
             k = k + 1;
@@ -44,7 +50,7 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
                     threshold, maxAdjust, radius_end, rec);
             end
             radius_end = radius_end*2;
-            [rec, ~, ~, ~] = line_hist(x,a,radius_end,type);
+            [rec, ~, ~, ~] = line_hist(x,a,radius_end,type,theiler);
         end
 
         % Search for radius with target percent recurrence
@@ -56,7 +62,7 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
             rad(i1) = mid(i1); % new radius for this iteration
 
             % Compute recurrence matrix with new radius
-            [rec, diag_hist, vertical_hist,A] = line_hist(x,a, rad(i1),type);
+            [rec, diag_hist, vertical_hist,A] = line_hist(x,a, rad(i1),type,theiler);
             rec_iter(i1) = rec;  % set percent recurrence
             if rec_iter(i1) < target
                 % if percent recurrence is below target percent recurrence,
