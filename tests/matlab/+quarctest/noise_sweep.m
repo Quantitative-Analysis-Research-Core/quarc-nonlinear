@@ -120,6 +120,18 @@ nL = numel(levels);
 perBlocks = {};
 t0 = tic;
 
+% ONE PARFOR OVER EVERY (SYSTEM, REALIZATION), NOT ONE PER SYSTEM. The first
+% version looped over systems and ran a parfor over that system's R
+% realizations inside. With R equal to the pool size each worker got exactly
+% one realization, and the system finished only when its slowest one did --
+% the RQA battery on a 16000-sample series varies from ten to thirty minutes
+% with the radius search -- so most of the pool idled through every tail.
+% Measured on the RQA family: 47% utilization, 3.05 h for six systems. Pooling
+% all realizations of all systems into one task list lets the scheduler fill
+% the gaps, and the result is identical: each task's seed, series, policies
+% and embedding are what they were, only the order of execution changes.
+tasks = struct('i', {}, 'r', {}, 'x', {}, 'fs', {}, 'M', {}, 'E', {}, 'seed', {});
+meta  = struct('ids', {}, 'wantIdx', {}, 'R', {});
 for i = 1:numel(c)
     sys = c(i);
     M = quarctest.metric_policy(sys);
@@ -133,41 +145,52 @@ for i = 1:numel(c)
         M(q).reason  = "not requested in this pass";
     end
     ids = [M.id];
-    wantIdx = find(ismember(ids, WANT));
 
     X = localRead(sys);
     R = min(opts.R, size(X, 1));
-    X = X(1:R, :);
-    fs = sys.fs;
-
-    % One cell per realization, each holding a (level x arm x metric) page.
-    cells = cell(R, 1);
     base = opts.Seed + i * 100000;
-
-    if opts.Parallel
-        parfor r = 1:R
-            cells{r} = localOne(X(r,:), fs, M, E, levels, base + r); %#ok<PFBNS>
-        end
-    else
-        for r = 1:R
-            cells{r} = localOne(X(r,:), fs, M, E, levels, base + r);
-        end
+    meta(i) = struct('ids', ids, 'wantIdx', find(ismember(ids, WANT)), 'R', R);
+    for r = 1:R
+        tasks(end+1) = struct('i', i, 'r', r, 'x', X(r,:), 'fs', sys.fs, ...
+                              'M', M, 'E', E, 'seed', base + r); %#ok<AGROW>
     end
+end
 
-    perBlocks{end+1} = localPer(sys, cells, ids, wantIdx, levels); %#ok<AGROW>
+nT = numel(tasks);
+results = cell(nT, 1);
+if opts.Parallel
+    parfor k = 1:nT
+        t = tasks(k);
+        results{k} = localOne(t.x, t.fs, t.M, t.E, levels, t.seed);
+    end
+else
+    for k = 1:nT
+        t = tasks(k);
+        results{k} = localOne(t.x, t.fs, t.M, t.E, levels, t.seed);
+    end
+end
+
+% Regroup by system, in realization order, exactly as the per-system loop
+% would have produced them.
+for i = 1:numel(c)
+    sys = c(i);
+    sel = find([tasks.i] == i);
+    [~, order] = sort([tasks(sel).r]);
+    cells = results(sel(order));
+
+    perBlocks{end+1} = localPer(sys, cells, meta(i).ids, meta(i).wantIdx, levels); %#ok<AGROW>
 
     if opts.Verbose
         usable = sum(cellfun(@(z) ~isempty(z) && z.ok, cells));
         fprintf('%-28s R=%d usable=%d levels=%d  %.1f s\n', ...
-                sys.name, R, usable, nL, toc(t0));
+                sys.name, meta(i).R, usable, nL, toc(t0));
     end
+end
 
-    if opts.Checkpoint ~= ""
-        ckpt = struct('perBlocks', {perBlocks}, 'systemsDone', i, ...
-                      'systemsTotal', numel(c), 'lastSystem', sys.name, ...
-                      'elapsed', toc(t0)); %#ok<NASGU>
-        save(opts.Checkpoint, '-struct', 'ckpt');
-    end
+if opts.Checkpoint ~= ""
+    ckpt = struct('perBlocks', {perBlocks}, 'systemsDone', numel(c), ...
+                  'systemsTotal', numel(c), 'elapsed', toc(t0)); %#ok<NASGU>
+    save(opts.Checkpoint, '-struct', 'ckpt');
 end
 
 if isempty(perBlocks)
