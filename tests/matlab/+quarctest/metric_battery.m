@@ -51,6 +51,7 @@ arguments
     opts.EntRadius (1,1) double = 0.2   % r for the entropy family, in SD
     opts.PermuDim  (1,1) double = 5     % order for permutation entropy
     opts.MaxLag    (1,1) double = 100   % lag cap for AMI
+    opts.TheilerWindow (1,1) double = 10  % band, in samples, for rqa_maxL_tw
 end
 
 ids = [M.id];
@@ -237,7 +238,7 @@ end
 % ---- recurrence quantification, one call feeding every RQA column
 
 rqaIds = ["rqa_radius","rqa_det","rqa_lam","rqa_meanL","rqa_maxL", ...
-          "rqa_entL","rqa_entV","rqa_entW"];
+          "rqa_entL","rqa_entV","rqa_entW","rqa_maxL_tw"];
 if any(ismember(rqaIds, ids(logical([M.applies]))))
     try
         [~, r] = rqa(x, delay, dim, "rec", opts.RecTarget);
@@ -248,6 +249,14 @@ if any(ismember(rqaIds, ids(logical([M.applies]))))
             if want(pairs{k,1})
                 [v, status] = put(v, status, pairs{k,1}, double(pairs{k,2}), "ok");
             end
+        end
+        if want("rqa_maxL_tw")
+            % Same radius the search above already found -- param="rad"
+            % skips the bisection, so the windowed pass costs one line
+            % extraction, not twenty. See metric_policy for why the window
+            % exists and why maps sit this one out.
+            [~, rw] = rqa(x, delay, dim, "rad", r.RADIUS, theiler=opts.TheilerWindow);
+            [v, status] = put(v, status, "rqa_maxL_tw", double(rw.MaxL), "ok");
         end
     catch err
         for k = 1:numel(rqaIds)
