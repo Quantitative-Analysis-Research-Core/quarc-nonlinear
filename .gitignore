@@ -1,6 +1,10 @@
 # macOS
 .DS_Store
 
+# R session artefacts; the .R sources under R/ are tracked
+.RData
+.Rhistory
+
 # MATLAB
 *.asv
 *.autosave
