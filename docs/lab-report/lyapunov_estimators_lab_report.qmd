@@ -2,7 +2,7 @@
 title: "Wolf and Rosenstein Across Two Reference Catalogues"
 subtitle: "A lab report on largest-Lyapunov-exponent estimation: how the data were built, what went wrong along the way, how accurate the estimators are, and how they respond to noise"
 author: "Quantitative Analysis Research Core (QUARC) — QUARC Nonlinear"
-date: 2026-09-24
+date: 2026-10-12
 format:
   typst:
     toc: true
@@ -31,7 +31,7 @@ rp <- function(...) file.path(repo, "tests", "reports", ...)
 # rather than referenced from tests/reports.
 figs <- c("fig_lyapunov_reference.png", "fig_lyapunov_reference_dysts.png",
           "fig_scaling_region_lyapunov.png", "fig_evolve_sweep.png",
-          "fig_noise_sweep.png")
+          "fig_noise_sweep.png", "fig_noise_sweep_rqa.png")
 dir.create("figures", showWarnings = FALSE)
 invisible(file.copy(rp("figures", figs), file.path("figures", figs), overwrite = TRUE))
 
@@ -39,6 +39,7 @@ sp  <- read.csv(rp("characterization_full.csv"),  stringsAsFactors = FALSE)
 dy  <- read.csv(rp("characterization_dysts.csv"), stringsAsFactors = FALSE)
 ev  <- read.csv(rp("evolve_sweep.csv"),           stringsAsFactors = FALSE)
 ns  <- read.csv(rp("noise_sweep.csv"),            stringsAsFactors = FALSE)
+nq  <- read.csv(rp("noise_sweep_rqa.csv"),        stringsAsFactors = FALSE)
 man <- jsonlite::fromJSON(rp("dysts", "manifest.json"))$systems
 
 # The dysts report as it stood before the reference exponent was corrected.
@@ -192,6 +193,68 @@ iL <- length(lv); i5 <- which(abs(lv - 0.05) < 1e-9)
 hi <- lv >= 0.01
 down_lyap <- all(rW[hi] < wW[hi]) && all(rR[hi] < wR[hi])
 up_cd <- all(rC[hi] > wC[hi])
+```
+
+```{r rqanoise}
+# The RQA arm of the same sweep (tests/reports/noise_sweep_rqa.csv). The RQA
+# metrics have no published reference, so the quantity is each system's value at
+# a noise level divided by its own clean value, exactly as fig_noise_sweep_rqa.R
+# draws it. The clean value is taken from the fixed arm at zero noise; the two
+# arms are identical there by construction.
+qd <- nq[is.finite(nq$median), ]
+qc <- qd[qd$noise == 0 & qd$arm == "fixed", c("system", "metric", "median")]
+names(qc)[3] <- "clean"
+qd <- merge(qd, qc, by = c("system", "metric"))
+qd <- qd[is.finite(qd$clean) & qd$clean != 0, ]
+qd$ratio <- qd$median / qd$clean
+
+lq <- sort(unique(qd$noise))
+iqL <- length(lq)
+qmed <- function(met, arm) sapply(lq, function(L)
+  median(qd$ratio[qd$metric == met & qd$arm == arm & qd$noise == L], na.rm = TRUE))
+
+RQMET <- c(rqa_det = "Determinism", rqa_lam = "Laminarity",
+           rqa_meanL = "Mean line", rqa_maxL = "Max line",
+           rqa_maxL_tw = "Max line (Theiler)", rqa_entL = "Line entropy",
+           rqa_entV = "Vertical entropy", rqa_entW = "Weighted entropy",
+           rqa_radius = "Radius")
+
+n_nq  <- length(unique(nq$system))
+R_nq  <- max(nq$n, na.rm = TRUE)
+# Systems contributing a ratio for the diagonal-line metrics: the RQA battery
+# returns nothing at all for PanXuZhou, whose radius never reaches the target.
+n_nq_rqa <- length(unique(qd$system[qd$metric == "rqa_maxL"]))
+n_nq_drop <- n_nq - n_nq_rqa
+
+# Level-0 check: sweep medians over R_nq realizations against the committed
+# characterization medians over 100.
+v0 <- merge(
+  setNames(nq[nq$noise == 0 & nq$arm == "fixed", c("system", "metric", "median")],
+           c("system", "metric", "sweep0")),
+  setNames(dy[, c("system", "metric", "median")], c("system", "metric", "committed")),
+  by = c("system", "metric"))
+v0 <- v0[is.finite(v0$sweep0) & is.finite(v0$committed) & v0$committed != 0 &
+           grepl("^rqa_", v0$metric), ]
+v0$r <- v0$sweep0 / v0$committed
+v0_med <- sapply(names(RQMET), function(m) median(v0$r[v0$metric == m], na.rm = TRUE))
+v0_ok  <- all(abs(v0_med - 1) < 0.005)
+
+# Radius and FNN dimension on the noisy series, the mechanism behind the
+# re-embedding result.
+qrad <- qmed("rqa_radius", "reembed")
+qfnn <- function(L) {
+  x <- nq[nq$metric == "fnn_dim" & nq$arm == "reembed" & nq$noise == L, ]
+  setNames(x$median, x$system)
+}
+qfa <- qfnn(0); qfb <- qfnn(max(lq)); qfs <- intersect(names(qfa), names(qfb))
+qfs <- qfs[is.finite(qfa[qfs]) & is.finite(qfb[qfs])]
+q_dim_up <- mean(qfb[qfs] > qfa[qfs])
+
+qf <- function(met) qmed(met, "fixed")
+qr <- function(met) qmed(met, "reembed")
+# The two line-length statistics that carry the re-embedding result.
+mxf <- qf("rqa_maxL");    mxr <- qr("rqa_maxL")
+twf <- qf("rqa_maxL_tw"); twr <- qr("rqa_maxL_tw")
 ```
 
 ```{r onemethod}
@@ -708,6 +771,36 @@ kable(tab, align = paste0("l", strrep("r", length(lv))))
 
 The embedding parameters were measured as outcomes rather than assumed. The AMI delay barely moves: it increased on `r pct(del_up)` of systems between 0% and `r 100*max(lv)`% noise. The FNN dimension climbed on `r pct(dim_up)` of systems. The re-embedding effect is a dimension effect, and the delay is not what changes. The design's opening premise was that noise inflates *both* parameters. The data corrected that.
 
+## The RQA family under the same noise {#sec-noise-rqa}
+
+The sweep above left the recurrence-quantification metrics out, pending a fix to how diagonal lines were counted (`line_hist` counted a line once per point rather than once per line). With that fix in, the same design was run over the RQA family: the same `r n_nq` systems, the same R = `r R_nq`, the same six levels and the same two arms, so that the two families are compared on identical noise draws. The RQA battery is far more expensive than the Lyapunov one — about 100 s per 16 000-sample series, dominated by the recurrence matrix — and the pass took 58 h on 32 workers, run as 21 restartable chunks of six systems and reassembled by `python/merge_noise_sweep_chunks.py`, which refuses to write unless every manifest system is present exactly once.
+
+**No reference, so each system is its own control.** Unlike $\lambda_1$, the RQA metrics have no published value to score against, and their scales differ by orders of magnitude across systems (determinism runs 60 to 100, maximal line length from tens to thousands of samples). The quantity reported is therefore each system's value at a noise level divided by **its own clean value** at the same realization: how far noise moves the measurement from what the same series gave without it. Every system starts at 1 by construction. `r n_nq_rqa` of the `r n_nq` systems contribute; the RQA battery returns nothing at all for `r if (n_nq_drop == 1) "PanXuZhou" else paste(n_nq_drop, "systems")`, whose radius never reaches the target recurrence rate on any realization — clean or noisy — so there is no clean value to divide by.
+
+**Validation.** At the 0% cell, the sweep's median over `r R_nq` realizations `r if (v0_ok) "reproduces the committed characterization median over 100 to within half a percent for every RQA metric" else "tracks the committed characterization median over 100 for every RQA metric"`. The agreement is at the median across systems; individual systems can sit well off it for the two max-line statistics, as a maximum over 25 draws must relative to one over 100, and for the radius, which is re-selected per series to hit the recurrence target.
+
+```{r tbl-noise-rqa}
+#| tbl-cap: "RQA metrics under observational noise: median across systems of value ÷ that system's own clean value, by noise level (% of series SD) and embedding arm."
+rows <- do.call(rbind, lapply(names(RQMET), function(m)
+  rbind(c(RQMET[[m]], "fixed", f2(qf(m))),
+        c(RQMET[[m]], "reembed", f2(qr(m))))))
+tab <- as.data.frame(rows)
+names(tab) <- c("Metric", "Arm", paste0(100 * lq, "%"))
+kable(tab, align = paste0("ll", strrep("r", length(lq))))
+```
+
+![RQA metrics against observational noise, under the same two embedding arms. Line: median across systems of value ÷ clean value. Band: interquartile range. Blue holds the clean embedding; orange re-estimates it on the noisy series.](figures/fig_noise_sweep_rqa.png){#fig-noise-rqa width=100%}
+
+Three results stand out, and the third is the one that matters for this report.
+
+**The same 2% threshold.** With the embedding fixed, no RQA metric moves more than about 1% from its clean value up to 2% noise. That is the same threshold the Lyapunov estimators showed, arrived at by a different route, which makes it a property of the data at this length and sampling rate rather than of either estimator family.
+
+**Past 2%, the family degrades gracefully and in a readable order.** Nothing fails the way Wolf overshoots or Rosenstein loses its sign. At `r 100*max(lq)`% noise and a fixed embedding, determinism is at `r f2(qf("rqa_det")[iqL])` of clean and laminarity at `r f2(qf("rqa_lam")[iqL])`, while the vertical-line metrics do not move at all (vertical entropy `r f2(qf("rqa_entV")[iqL])`, weighted entropy `r f2(qf("rqa_entW")[iqL])`). The diagonal-line-length statistics are the sensitive ones, and in the expected order: the raw maximum first (`r f2(mxf[iqL])`), then the mean (`r f2(qf("rqa_meanL")[iqL])`), then the entropy (`r f2(qf("rqa_entL")[iqL])`). The mechanism is visible in the ordering — noise breaks long diagonals into short ones before it changes how many points recur at all, so a statistic that depends on the longest line moves before one that counts lines, and one that counts lines moves before one that counts recurrent points.
+
+**Re-embedding helps RQA, and this is where the two families part.** Re-estimating delay and dimension on the noisy series, noise inflates the FNN dimension on `r pct(q_dim_up)` of systems, and the radius has to grow to hold the 2.5% recurrence target — `r f2(qrad[iqL])`× its clean value at `r 100*max(lq)`%. That larger radius re-joins the diagonals noise had broken. The raw maximum line recovers from `r f2(mxf[iqL])` of clean to `r f2(mxr[iqL])`, and the Theiler-windowed one from `r f2(twf[iqL])` to `r f2(twr[iqL])`; determinism recovers from `r f2(qf("rqa_det")[iqL])` to `r f2(qr("rqa_det")[iqL])`. For Wolf and Rosenstein, @sec-noise found the same re-embedding step *deepened* the error.
+
+The practical consequence is sharp, because it is one decision with opposite signs. A practitioner who re-estimates the embedding on a noisy series — the ordinary, defensible thing to do — is protecting the RQA measurements and damaging the Lyapunov ones in the same step. An analysis that reports both families off one embedding pass cannot be right about both. Whether the embedding was chosen on the clean or the noisy signal therefore belongs in the methods section of any study that reports RQA and $\lambda_1$ together, and the two families may warrant separate embedding decisions.
+
 # Discussion
 
 **Which estimator to use.** Neither is uniformly better. Wolf is closer to the reference on more dysts systems and has the smaller median error there. But its worst misses are orders of magnitude larger than Rosenstein's — roughly `r big(wWd$fold[1])`-fold against `r big(wRd$fold[1])`-fold on dysts — and it has a consequential tuning parameter. Rosenstein carries a consistent low bias of about 16% that its fit diagnostics help explain. Where a single catastrophic miss matters more than a small systematic bias, Rosenstein is the safer default. Where the dynamics are a map, Wolf should be run with `evolve` = 1.
@@ -717,6 +810,8 @@ The embedding parameters were measured as outcomes rather than assumed. The AMI 
 **Conservative, driven and weakly chaotic systems are hard for both.** Small exponents sit near the estimation noise floor. A near-zero or wrong-sign estimate on such a system is not evidence against chaos.
 
 **Noise.** Both estimators are usable up to about 2% observational noise relative to signal SD. Beyond that, the direction of the error depends on the estimator, and re-estimating the embedding on the noisy data shifts estimates rather than correcting them. For noisy data, embedding choices made on a smoothed or denoised copy, or methods designed for robustness to noise [@kantz1994], deserve a direct test.
+
+**Do not re-embed a noisy series for one family and report both.** The RQA metrics share the Lyapunov estimators' 2% threshold (@sec-noise-rqa) and degrade gracefully past it, but they respond to re-embedding in the opposite direction: the inflated radius that a re-estimated embedding brings with it repairs the diagonals noise had broken, recovering the maximal line length from `r f2(mxf[iqL])` of its clean value to `r f2(mxr[iqL])`, while the same step deepens the error in Wolf and Rosenstein. One embedding decision, opposite signs. A study reporting RQA and $\lambda_1$ from a single embedding pass on noisy data is getting one of the two wrong, and which one depends on a choice that usually goes unstated.
 
 **The reference matters as much as the estimator.** The single largest change to the dysts results came from choosing the right reference value. Any benchmark of this kind should state exactly which published number it treats as ground truth and why.
 
@@ -728,7 +823,8 @@ The embedding parameters were measured as outcomes rather than assumed. The AMI 
 - **One embedding protocol.** Results are conditional on AMI/FNN for flows and the fixed rule for maps.
 - **Heuristic scaling-region selection.** The Rosenstein region selector is a simple, uniform default, not a solved problem. The 200-sample cap binds often on dysts.
 - **Conditioned ensembles.** A few systems (the damped and driven pendulums, labyrinth, Sakarya, HyperLu) lost realizations, and their survivors are conditioned on non-degeneracy.
-- **Noise sweep scope.** Additive white Gaussian observational noise only, at R = 25. Dynamical noise, coloured noise, quantization and missing samples are untested. The RQA family was excluded pending a separate counting fix.
+- **Noise sweep scope.** Additive white Gaussian observational noise only, at R = 25, for both the Lyapunov family (@sec-noise) and the RQA family (@sec-noise-rqa). Dynamical noise, coloured noise, quantization and missing samples are untested.
+- **RQA without a reference.** The RQA results are self-referential by necessity: with no published values to score against, each system is compared to its own clean measurement. The sweep can therefore say how far noise moves an RQA measurement, but not whether the clean measurement was right to begin with. The `r n_nq_drop` system the RQA battery cannot characterize at all (`r if (n_nq_drop == 1) "PanXuZhou" else "see the characterization table"`) is excluded rather than imputed.
 - **Wolf's default.** `evolve` = 10 remains the library default despite the evidence on maps. That is a release decision, not a test-suite one.
 - **Unexplained per-realization file.** The 13 September per-realization table in Dropbox does not reproduce current values for about a quarter of perturbed realizations, and its provenance is open.
 - **Reproducibility of draws.** The single-channel dysts ensembles, except Sakarya, were drawn before the `crc32` seeding fix, so they cannot be regenerated bit for bit. The stored series are the record.
@@ -746,7 +842,8 @@ The corpora were built to be written once and read many times. Integration costs
 | Per-realization tables | Local (Sprott, ~129 MB); Dropbox `derived/` (dysts, 27 MB) | Every realization × metric | No |
 | Rosenstein fit curves | `tests/reports/curves_lyapunov.csv` | Divergence curves and fitted regions for a Sprott panel | Yes |
 | Wolf `evolve` sweep | `tests/reports/evolve_sweep.csv` | 33 systems × 9 intervals, 200 realizations | Yes |
-| Noise sweep | `tests/reports/noise_sweep.csv` (per-realization table, 15 MB, untracked) | `r n_ns` systems × 6 levels × 2 arms | Summary yes |
+| Noise sweep (Lyapunov) | `tests/reports/noise_sweep.csv` (per-realization table, 15 MB, untracked) | `r n_ns` systems × 6 levels × 2 arms | Summary yes |
+| Noise sweep (RQA) | `tests/reports/noise_sweep_rqa.csv`; per-chunk tables in `tests/reports/noise_sweep_rqa/` | `r n_nq` systems × 6 levels × 2 arms, nine RQA metrics | Yes |
 
 Because the series are stored, many further experiments cost only analysis time:
 
@@ -772,14 +869,16 @@ matlab -batch "addpath('tests/matlab'); \
 
 # Sweeps (MATLAB); write the returned tables to tests/reports/
 T = quarctest.evolve_sweep();
-[S, per] = quarctest.noise_sweep(R=25);
+[S, per] = quarctest.noise_sweep(R=25);                     % Family="lyapunov" (default)
+[S, per] = quarctest.noise_sweep(R=25, Family="rqa");       % run in chunks; see tests/README.md
+python python/merge_noise_sweep_chunks.py                   % assemble the RQA chunks
 
 # Figures and this report
 Rscript R/make_figures.R
 quarto render docs/lab-report/lyapunov_estimators_lab_report.qmd
 ```
 
-*Compiled on 2026-09-24 from the QUARC Nonlinear repository record: commits, committed tables, figures and the dysts manifest. Drafted with assistance from Claude (Anthropic).*
+*Compiled on 2026-10-12 from the QUARC Nonlinear repository record: commits, committed tables, figures and the dysts manifest. Drafted with assistance from Claude (Anthropic).*
 
 # Appendix A: per-system results, Sprott catalogue
 

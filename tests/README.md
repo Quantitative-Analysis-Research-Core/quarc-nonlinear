@@ -391,26 +391,32 @@ as its figure.
 
 The RQA metrics have no published reference, so the quantity reported is each
 system's value at a noise level divided by its own clean value, summarised
-across systems. Level 0 is the harness's check: its medians over 25
+across systems. 125 of the 126 contribute: the RQA battery returns nothing for
+PanXuZhou at any level, clean included, because its radius never reaches the
+target recurrence rate, so there is no clean value to divide by. Level 0 is the harness's check: its medians over 25
 realizations match the committed `characterization_dysts.csv` medians over 100
-at 1.000 for every RQA metric, with determinism, laminarity and the line
-entropies inside 2-8% on every system and the two max-line statistics wider,
-as a maximum over a smaller sample must be.
+at 1.000 for every RQA metric. The agreement is at the median across systems.
+Per system, determinism, laminarity and the two line entropies stay inside 8%
+(worst 2.3%, 7.9%, 6.6% and 7.3%), but four metrics run wider: the two max-line
+statistics, as a maximum over a smaller sample must; the mean line (worst 32%);
+the radius, which is re-selected per series to hit the recurrence target (worst
+205%); and vertical entropy, which is 0 on DoublePendulum against 0.20 in the
+committed table. The median is the claim here, not the per-system value.
 
 | value ÷ clean, median across systems | 2%, fixed | 10%, fixed | 10%, re-embedded |
 |---|---|---|---|
 | Determinism | 0.99 | 0.87 | 0.91 |
 | Laminarity | 1.00 | 0.94 | 0.97 |
-| Max line (raw) | 1.00 | 0.56 | 0.97 |
-| Max line (Theiler window) | 1.00 | 0.78 | 0.97 |
-| Mean line | 0.97 | 0.60 | 0.72 |
+| Max line (raw) | 1.00 | 0.53 | 0.97 |
+| Max line (Theiler window) | 1.00 | 0.77 | 0.97 |
+| Mean line | 0.97 | 0.59 | 0.72 |
 | Line entropy | 0.99 | 0.77 | 0.82 |
 | Vertical / white-line entropy | 1.00 | 0.99 | 1.0 |
 | Radius chosen | 1.00 | 1.06 | 1.49 |
 
 Three things the table says. First, the family is **untouched to 2% noise**,
 the same threshold the Lyapunov estimators showed, and degrades gracefully
-after it: the worst median loss at 10% is 44% (raw max line), and nothing fails
+after it: the worst median loss at 10% is 47% (raw max line), and nothing fails
 the way Wolf overshoots or Rosenstein loses sign. The vertical-line metrics do
 not move at all. Second, the line-length statistics are the sensitive ones and
 in the expected order -- the maximum first, then the mean, then the entropy --
@@ -419,7 +425,7 @@ points recur. Third, and the finding that distinguishes this family from the
 Lyapunov one: **re-embedding helps RQA.** Noise inflates the FNN dimension, the
 radius has to grow to hold the 2.5% recurrence target (1.49x at 10%), and that
 larger radius re-joins the diagonals noise had broken: raw max line recovers
-from 0.56 of clean to 0.97, the Theiler-windowed one from 0.78 to 0.97. For
+from 0.53 of clean to 0.97, the Theiler-windowed one from 0.77 to 0.97. For
 Wolf and Rosenstein the same re-embedding deepened the error. A practitioner
 re-embedding a noisy series is therefore protecting the RQA measurements and
 damaging the Lyapunov ones in the same step.
