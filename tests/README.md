@@ -379,9 +379,61 @@ are population tendencies across the catalogue, not per-system predictions. A
 few systems reach ratios of 100 or return the wrong sign at 10%; they are in
 `noise_sweep.csv` rather than drawn, for the reason the figure's header records.
 
-The RQA family is not included. Its noise sensitivity is worth the same
-treatment, but `line_hist`'s counting fix is not yet on `main`, and sweeping
-before it lands would measure the bug rather than the metrics.
+#### The RQA family
+
+The RQA metrics were left out of the first sweep on purpose: `line_hist`'s
+counting fix was not yet on `main`, and sweeping before it landed would have
+measured the bug rather than the metrics. With the fix merged, they were swept
+as their own pass -- `quarctest.noise_sweep(Family="rqa")`, same 126 systems,
+same R=25, same six levels and two arms -- and the result is
+`noise_sweep_rqa.csv` beside the Lyapunov table, with `fig_noise_sweep_rqa.png`
+as its figure.
+
+The RQA metrics have no published reference, so the quantity reported is each
+system's value at a noise level divided by its own clean value, summarised
+across systems. Level 0 is the harness's check: its medians over 25
+realizations match the committed `characterization_dysts.csv` medians over 100
+at 1.000 for every RQA metric, with determinism, laminarity and the line
+entropies inside 2-8% on every system and the two max-line statistics wider,
+as a maximum over a smaller sample must be.
+
+| value ÷ clean, median across systems | 2%, fixed | 10%, fixed | 10%, re-embedded |
+|---|---|---|---|
+| Determinism | 0.99 | 0.87 | 0.91 |
+| Laminarity | 1.00 | 0.94 | 0.97 |
+| Max line (raw) | 1.00 | 0.56 | 0.97 |
+| Max line (Theiler window) | 1.00 | 0.78 | 0.97 |
+| Mean line | 0.97 | 0.60 | 0.72 |
+| Line entropy | 0.99 | 0.77 | 0.82 |
+| Vertical / white-line entropy | 1.00 | 0.99 | 1.0 |
+| Radius chosen | 1.00 | 1.06 | 1.49 |
+
+Three things the table says. First, the family is **untouched to 2% noise**,
+the same threshold the Lyapunov estimators showed, and degrades gracefully
+after it: the worst median loss at 10% is 44% (raw max line), and nothing fails
+the way Wolf overshoots or Rosenstein loses sign. The vertical-line metrics do
+not move at all. Second, the line-length statistics are the sensitive ones and
+in the expected order -- the maximum first, then the mean, then the entropy --
+because noise breaks long diagonals into short ones before it changes how many
+points recur. Third, and the finding that distinguishes this family from the
+Lyapunov one: **re-embedding helps RQA.** Noise inflates the FNN dimension, the
+radius has to grow to hold the 2.5% recurrence target (1.49x at 10%), and that
+larger radius re-joins the diagonals noise had broken: raw max line recovers
+from 0.56 of clean to 0.97, the Theiler-windowed one from 0.78 to 0.97. For
+Wolf and Rosenstein the same re-embedding deepened the error. A practitioner
+re-embedding a noisy series is therefore protecting the RQA measurements and
+damaging the Lyapunov ones in the same step.
+
+The run took 58 hours on 32 workers (28-30 September), in 21 restartable
+chunks of six systems.
+The RQA battery costs about 100 s per 16000-sample series, dominated by the
+recurrence matrix, and a per-system `parfor` left most of the pool idle in
+each system's tail; `noise_sweep` now pools every (system, realization) pair
+into one `parfor`, which is why the committed function differs from the one the
+Lyapunov pass ran under, and why the chunk driver rather than a per-system
+checkpoint is where restartability lives. `python/merge_noise_sweep_chunks.py`
+assembles the chunks and refuses to write unless every manifest system is
+present exactly once.
 
 ## Rules the harness follows
 

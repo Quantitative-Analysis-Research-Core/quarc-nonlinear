@@ -22,6 +22,7 @@ for (f in c("fig_corr_dim_reference.R",
             "fig_rqa_vmin_sweep.R",
             "fig_scaling_regions.R",
             "fig_evolve_sweep.R",
-            "fig_noise_sweep.R")) {
+            "fig_noise_sweep.R",
+            "fig_noise_sweep_rqa.R")) {
   source(file.path(repo, "R", "figures", f))
 }
