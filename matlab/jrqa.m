@@ -120,9 +120,14 @@ else
     DIM = size(x, 2);
 
     % Embed the x onto phase space
+    data2 = cell(1, DIM);
     for i = 1:DIM
         if dim(i) > 1
             data2{i} = psr(x(:,i), delay(i), dim(i));
+        else
+            % Unembedded channel. Previously left unassigned, so the default
+            % call (dim = [1 1]) failed and a mixed call returned NaN.
+            data2{i} = x(:,i);
         end
     end
 end
@@ -135,9 +140,14 @@ end
 
 % Normalize distance matrix
 if contains(options.norm, 'euc')
+    if numel(dim) > 1 && ~isscalar(unique(dim))
+        error('jrqa:eucNeedsEqualDims', ...
+            ['Norm="euc" scales by DIM, which is per channel here and differs ' ...
+             'between channels. Use Norm="none", "min" or "max".']);
+    end
     for i = 1:length(a)
         b = mean(a{i}(a{i}<0));
-        b = -sqrt(abs(((b^2)+2*(DIM*dim))));
+        b = -sqrt(abs(((b^2)+2*(DIM*dim(1)))));
         a{i} = a{i}/abs(b);
     end
 elseif contains(options.norm, 'min')

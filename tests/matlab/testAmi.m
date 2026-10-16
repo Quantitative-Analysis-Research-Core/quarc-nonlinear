@@ -284,7 +284,7 @@ tc.verifyEqual(a, b, 'AbsTol', 1e-12, 'chunk changed the knn result.');
 end
 
 function testKnnIsDeterministicAndLeavesTheGlobalStreamAlone(tc)
-% The tie-breaking jitter comes from a private seeded stream. Repeated calls
+% The tie-breaking perturbation is deterministic, not random. Repeated calls
 % must agree exactly, and the caller's random state must not move.
 x = tc.TestData.lorenz;
 rng(123);

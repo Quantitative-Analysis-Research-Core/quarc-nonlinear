@@ -69,6 +69,16 @@ rcmse = ent_ms_plus(x, 20, dim, 0.2);
 Every function documents its arguments and returns in its own help text
 (`help rqa`, `doc lyapunov`).
 
+## R
+
+An R port of the whole library is in `rpkg/`. Every function is checked
+against MATLAB's answers on shared fixtures; see `PORTING.md`.
+
+```r
+devtools::install("rpkg")
+library(quarcnonlinear)
+```
+
 ## TESTS
 
 ```bash

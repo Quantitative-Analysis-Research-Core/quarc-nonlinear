@@ -95,4 +95,30 @@ or three depending on the data.
 - **MATLAB** — reference implementation, active.
 - **Python** — port exists in the deprecated NONAN repository, has known
   defects, not moved here. Needs rework rather than a move.
-- **R** — planned.
+- **R** — complete for the current library, in `rpkg/` (package
+  `quarcnonlinear`), plain R with no compiled code yet. Every deterministic
+  function matches MATLAB to rounding on the shared fixtures; random ones
+  (surrogates, `fgn_sim`) are tested by contract. Not ported: `rqa_plot`
+  and plotting options, and the legacy `ami_stergiou`/`ami_thomas`
+  (superseded by `ami`).
+
+## R conventions
+
+- Same function names, argument names and defaults as MATLAB.
+- Where MATLAB returns several outputs, R returns a named list whose names
+  are the MATLAB output names: `[tau, curve, info] = ami(...)` becomes
+  `out$tau`, `out$curve`, `out$info`. A single output is returned as is.
+- MATLAB name-value options become ordinary named arguments.
+- Plotting arguments (`dfa`'s `showPlot`) are left out; plotting belongs in
+  separate functions.
+- `stats::sd` uses the N-1 denominator, as MATLAB's `std` does, so the
+  `ddof` trap above does not arise in R.
+- Random draws cannot match: MATLAB and R have different generators.
+  Where a deterministic perturbation will do (`ami_knn`'s tie-breaking),
+  the MATLAB code uses one so the port can match exactly.
+- ODEs: `ode45` and `ode23` in R follow Shampine and Reichelt's description
+  of MATLAB's solvers, so `chaos_library` flows take the same steps and
+  agree to rounding over short horizons. On a chaotic attractor any
+  difference grows exponentially; long trajectories will not agree.
+- Tests: `cd rpkg && Rscript -e 'devtools::test()'`. The agreement tests read
+  `tests/fixtures/` from the repository and skip when it is not there.

@@ -22,12 +22,20 @@ if si_max == si_min
 end
 
 bin_size = (si_max - si_min)/49; % compute bin size
-count = 1;
 S = sum(si);
-for s = si_min:bin_size:si_max
-    P = sum(si(si>= s&si<(s+bin_size)));
-    p1(count) = P / S;
-    count = count+1;
+% Bins are [si_min + (k-1)*bin_size, si_min + k*bin_size) for k = 1..49,
+% and bin 50 holds the maximum alone: the layout the original loop over
+% si_min:bin_size:si_max intended. That loop built its starts by repeated
+% addition, so whether the maximum got its own bin, shared bin 49, or (when
+% the last start rounded above it) fell in no bin at all depended on the
+% last bit. Two distinct column sums once scored above ln 2, which is
+% impossible. Assigning by index, with the maximum placed explicitly, gives
+% the same bins in any language.
+bin = min(floor((si - si_min) / bin_size), 48) + 1;
+bin(si == si_max) = 50;
+p1 = zeros(1, 50);
+for k = 1:50
+    p1(k) = sum(si(bin == k)) / S;
 end
 
 % Compute weighted entropy

@@ -102,7 +102,7 @@ for i = 1:maxDRP
         end
     end
 end
-set(gca,'XLim',[1 length(DRP)]); set(gca,'YTick',0:360:360*DRP); set(gca,'YLim',[0 360*maxDRP]);
+set(gca,'XLim',[1 length(DRP)]); set(gca,'YTick',0:360:360*maxDRP); set(gca,'YLim',[0 360*maxDRP]);
 %Find half integers
 DRPfirst(1,1) = Raw{1,4};
 i1 = 2;

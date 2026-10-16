@@ -64,6 +64,12 @@ end
 epsilon =linspace(log(epsilon2),log(epsilon1),bins);
 %using natural log
 epsilon=exp(1).^epsilon;
+% Pin the end radii to the extreme distances themselves. exp(log(d)) can
+% round to just above d (first edge) or just below it (last edge), and then
+% the closest or farthest pair is not counted at all; which way it rounds
+% differs between maths libraries, so ports disagreed by that one pair.
+epsilon(1) = epsilon2;
+epsilon(end) = epsilon1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   CORRELATION SUM

@@ -42,10 +42,12 @@ function [tau, curve, info] = ami_knn(x, maxlag, opts)
 %   is close to unbiased for independent data, so unlike AMI_HISTOGRAM it
 %   can return small negative values where the true AMI is zero.
 %
-%   The series is standardised, then perturbed by Gaussian noise of 1e-10
-%   standard deviations to break ties, as Kraskov et al. advise. The noise
-%   is drawn from a fixed seed, so repeated calls return identical results
-%   and the global random stream is untouched.
+%   The series is standardised, then perturbed by 1e-10 standard deviations
+%   to break ties, as Kraskov et al. advise. The perturbation is not random:
+%   sample i moves by 1e-10*(mod(i*g, 1) - 0.5), g the golden-ratio
+%   conjugate, an evenly spread sequence that every language computes
+%   bit for bit. Repeated calls return identical results, the global random
+%   stream is untouched, and ports reproduce the result exactly.
 %
 %   Every lag uses the same number of pairs, N-maxlag, as in AMI_HISTOGRAM.
 %   Cost is O(maxlag*N^2) by brute-force neighbour search; peak memory is
@@ -94,8 +96,7 @@ s = std(x);
 if s > 0
     x = (x - mean(x)) / s;
 end
-stream = RandStream('mt19937ar', 'Seed', 0);
-x = x + 1e-10 * randn(stream, N, 1);
+x = x + 1e-10 * (mod((1:N).' * 0.6180339887498949, 1) - 0.5);
 
 curve = zeros(maxlag + 1, 2);
 for lag = 0:maxlag
