@@ -85,7 +85,7 @@ for lag = 0:maxlag
     curve(lag + 1, :) = [lag, mutualInformationBits(a, b, edges)];
 end
 
-[tau, info] = firstMinimum(curve, opts.fraction);
+[tau, info] = ami_first_minimum(curve, opts.fraction, "ami_histogram");
 info.bins = nBins;
 info.samplesPerLag = m;
 info.estimator = "histogram";
@@ -129,36 +129,4 @@ pB = sum(pAB, 1);
 
 outer = pA * pB;              % implicit expansion, no repmat
 I = sum(pAB(nz) .* log2(pAB(nz) ./ outer(nz)));
-end
-
-function [tau, info] = firstMinimum(curve, fraction)
-%FIRSTMINIMUM Lag of the first strict local minimum of the AMI curve.
-% Strict on the left, so a plateau contributes at most its first point.
-v = curve(:, 2);
-isMin = [false; v(2:end-1) < v(1:end-2) & v(2:end-1) <= v(3:end); false];
-idx = find(isMin);
-
-info = struct();
-info.allMinima = curve(idx, :);
-info.usedFallback = false;
-info.fractionLag = NaN;
-
-% Fallback for weakly periodic series with no clear minimum (Abarbanel 1993).
-below = find(v <= fraction * v(1), 1, 'first');
-if ~isempty(below)
-    info.fractionLag = curve(below, 1);
-end
-
-if ~isempty(idx)
-    tau = curve(idx(1), 1);
-else
-    tau = info.fractionLag;              % NaN if that also failed
-    info.usedFallback = true;
-    if isnan(tau)
-        warning('ami_histogram:noMinimum', ...
-                ['No local minimum in AMI over lags 0:%d and the curve never fell to ' ...
-                 '%.0f%% of its lag-0 value. Increase L, or inspect the curve directly.'], ...
-                curve(end, 1), 100 * fraction);
-    end
-end
 end

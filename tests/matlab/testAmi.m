@@ -1,5 +1,7 @@
 function tests = testAmi
-%TESTAMI Contract and known-answer tests for ami / ami_histogram / ami_kde.
+%TESTAMI Contract and known-answer tests for ami and its estimators:
+%   ami_histogram, ami_kde (fixed and adaptive bandwidth), ami_partition,
+%   ami_knn and ami_copula.
 %
 %   Mutual information has real analytic properties to test against, which is
 %   more than most estimators in this library offer:
@@ -18,7 +20,7 @@ function setupOnce(tc)
 % ami/ami_histogram/ami_kde arrive on a separate branch from this harness, so
 % on a tree that has the tests but not yet the refactor these must SKIP rather
 % than fail. A missing function is not a defect in the function.
-for f = ["ami", "ami_histogram", "ami_kde"]
+for f = ["ami", "ami_histogram", "ami_kde", "ami_partition", "ami_knn", "ami_copula"]
     tc.assumeTrue(exist(f, 'file') == 2, sprintf( ...
         '%s is not on the path; skipping (expected on branches without the AMI refactor).', f));
 end
@@ -34,7 +36,10 @@ end
 % Analytic properties.
 % ------------------------------------------------------------------
 function testMutualInformationIsNonNegative(tc)
-for algo = ["histogram", "kde"]
+% "knn" is left out on purpose: it is nearly unbiased, so where the true AMI
+% is zero it returns small negative values half the time. That is correct
+% behaviour; testKnnIsNearlyUnbiasedOnIndependentData covers it.
+for algo = ["histogram", "kde", "kde-adaptive", "adaptive", "copula"]
     [~, curve] = ami(tc.TestData.lorenz, 20, algorithm=algo);
     tc.verifyGreaterThanOrEqual(min(curve(:,2)), -1e-9, sprintf( ...
         '%s produced a negative mutual information (%.4g).', algo, min(curve(:,2))));
@@ -115,6 +120,83 @@ fprintf('    [known answer] AR(1) phi=0.7 lag 1: exact %.4f  kde %.4f  histogram
     exact(1), ck(2,2), ch(2,2));
 end
 
+function testNewEstimatorsRecoverTheExactGaussianMutualInformation(tc)
+% Same known answer as above, for the estimators added after it. Each of
+% them is closer to the exact value than the histogram on the same series,
+% which is the reason for having them.
+%
+% Measured, AR(1) phi=0.7, N=3000, lag 1 (exact 0.4857):
+%   histogram 0.6121  kde 0.5411  kde-adaptive 0.5238
+%   adaptive 0.5023   knn 0.5212 (k=10)  copula 0.5155
+phi = 0.7;
+exact = @(k) -0.5 * log2(1 - phi^(2*k));
+x = quarctest.signals('ar1', 3000, phi);
+[~, ch] = ami(x, 2, algorithm="histogram");
+
+tol = struct('kde_adaptive', 0.25, 'adaptive', 0.15, 'knn', 0.15, 'copula', 0.15);
+for algo = ["kde-adaptive", "adaptive", "knn", "copula"]
+    [~, c] = ami(x, 2, algorithm=algo);
+    rt = tol.(strrep(algo, '-', '_'));
+    for k = 1:2
+        tc.verifyEqual(c(k+1,2), exact(k), 'RelTol', rt, sprintf( ...
+            '%s AMI at lag %d = %.4f, exact %.4f', algo, k, c(k+1,2), exact(k)));
+    end
+    tc.verifyLessThan(abs(c(2,2) - exact(1)), abs(ch(2,2) - exact(1)), sprintf( ...
+        '%s (%.4f) should be closer than the histogram (%.4f) to the exact %.4f.', ...
+        algo, c(2,2), ch(2,2), exact(1)));
+    fprintf('    [known answer] AR(1) lag 1: %-12s %.4f (exact %.4f)\n', algo, c(2,2), exact(1));
+end
+
+% Abramson's bandwidth should improve on the fixed one it is built from.
+[~, cf] = ami(x, 1, algorithm="kde");
+[~, ca] = ami(x, 1, algorithm="kde-adaptive");
+tc.verifyLessThan(abs(ca(2,2) - exact(1)), abs(cf(2,2) - exact(1)), sprintf( ...
+    'kde-adaptive (%.4f) is no closer to %.4f than kde (%.4f).', ca(2,2), exact(1), cf(2,2)));
+end
+
+function testNewEstimatorsAreNearlyUnbiasedOnIndependentData(tc)
+% The histogram's floor on white noise is about 0.17 bits at N=2000 (see the
+% bias test above). The newer estimators are built to avoid that floor.
+% Measured mean over lags 1-10: adaptive 0.0003, knn 0.0029 (k=3),
+% copula 0.0004, kde-adaptive 0.0115.
+w = tc.TestData.white;
+for algo = ["kde-adaptive", "adaptive", "knn", "copula"]
+    [~, c] = ami(w, 10, algorithm=algo);
+    m = mean(c(2:end, 2));
+    tc.verifyLessThan(abs(m), 0.03, sprintf( ...
+        '%s: mean AMI on white noise is %.4f bits; expected near 0.', algo, m));
+end
+end
+
+function testRankEstimatorsIgnoreMonotoneTransforms(tc)
+% Mutual information is invariant under any strictly monotone change of
+% variables. The partition and copula estimators work on ranks, so for them
+% the invariance is exact, not approximate.
+x = tc.TestData.lorenz;
+y = exp(x / std(x));
+for algo = ["adaptive", "copula"]
+    [~, cx] = ami(x, 15, algorithm=algo);
+    [~, cy] = ami(y, 15, algorithm=algo);
+    tc.verifyEqual(cy, cx, 'AbsTol', 1e-12, sprintf( ...
+        '%s changed under a monotone transform of the data.', algo));
+end
+end
+
+function testCopulaIsBlindToNonMonotonicDependence(tc)
+% The documented limitation, pinned so it stays documented. A noiseless sine
+% at a quarter-period lag traces a circle: X(t+lag) is fully determined by
+% X(t) up to a sign, so the true AMI is large, but the normal-score
+% correlation is zero and so is the copula estimate.
+P = 40;
+x = quarctest.signals('sine', 2000, P);
+[~, cc] = ami(x, P/4, algorithm="copula");
+[~, ck] = ami(x, P/4, algorithm="knn");
+tc.verifyLessThan(cc(end, 2), 0.05, sprintf( ...
+    'copula AMI at the quarter period is %.3f; expected near 0.', cc(end, 2)));
+tc.verifyGreaterThan(ck(end, 2), 1, sprintf( ...
+    'knn AMI at the quarter period is %.3f; the dependence is strong.', ck(end, 2)));
+end
+
 function testNoisySineMinimumIsNearQuarterPeriod(tc)
 % For a noisy sinusoid the first AMI minimum sits near the quarter period --
 % a standard heuristic, not an identity, so the tolerance is wide.
@@ -134,6 +216,32 @@ tau = ami_histogram(x, 60);
 tc.verifyEqual(tau, P/4, 'AbsTol', 4, sprintf( ...
     'first AMI minimum of a noisy period-%d sine at lag %g, expected near %g.', ...
     P, tau, P/4));
+end
+
+function testNoisySineMinimumAcrossDrawsForEveryEstimator(tc)
+% One draw is not enough for the lower-bias estimators: their curves are
+% rougher than the histogram's, so the first minimum moves between draws.
+% Measured over ten draws (N=2000, maxlag 20):
+%   histogram 8-11  kde 9-11  adaptive 7-11  knn (k=10) 8-11
+% and knn with k=3 at 4-9, which is why its default is k=10.
+% Copula is excluded: its minimum follows the rank autocorrelation, not
+% Fraser and Swinney's criterion (see testCopulaIsBlindTo...).
+P = 40;
+t = (0:1999).';
+stream = RandStream('mt19937ar', 'Seed', 1);
+draws = zeros(2000, 10);
+for i = 1:10
+    draws(:, i) = sin(2*pi*t/P) + 0.15 * randn(stream, 2000, 1);
+end
+for algo = ["histogram", "kde", "kde-adaptive", "adaptive", "knn"]
+    taus = zeros(1, 10);
+    for i = 1:10
+        taus(i) = ami(draws(:, i), 20, algorithm=algo);
+    end
+    tc.verifyEqual(median(taus), P/4, 'AbsTol', 2, sprintf( ...
+        '%s: median first minimum over ten draws at lag %g, expected near %g (%s).', ...
+        algo, median(taus), P/4, mat2str(taus)));
+end
 end
 
 % ------------------------------------------------------------------
@@ -167,6 +275,25 @@ x = quarctest.signals('lorenz', 600);
 [~, b] = ami_kde(x, 10, chunk=4096);
 tc.verifyEqual(a, b, 'AbsTol', 1e-12, ...
     'ChunkSize is a memory control and must not affect the result.');
+[~, a] = ami_kde(x, 10, chunk=64, bandwidth="adaptive");
+[~, b] = ami_kde(x, 10, chunk=4096, bandwidth="adaptive");
+tc.verifyEqual(a, b, 'AbsTol', 1e-12, 'chunk changed the adaptive kde result.');
+[~, a] = ami_knn(x, 10, chunk=64);
+[~, b] = ami_knn(x, 10, chunk=4096);
+tc.verifyEqual(a, b, 'AbsTol', 1e-12, 'chunk changed the knn result.');
+end
+
+function testKnnIsDeterministicAndLeavesTheGlobalStreamAlone(tc)
+% The tie-breaking jitter comes from a private seeded stream. Repeated calls
+% must agree exactly, and the caller's random state must not move.
+x = tc.TestData.lorenz;
+rng(123);
+before = rng;
+[~, a] = ami_knn(x, 10);
+after = rng;
+[~, b] = ami_knn(x, 10);
+tc.verifyEqual(a, b, 'two identical calls to ami_knn disagreed.');
+tc.verifyEqual(after.State, before.State, 'ami_knn advanced the global random stream.');
 end
 
 % ------------------------------------------------------------------
@@ -180,6 +307,24 @@ x = tc.TestData.lorenz;
 tc.verifyEqual(i1.estimator, "histogram");
 tc.verifyEqual(i2.estimator, "histogram", '"stergiou" must alias "histogram"');
 tc.verifyEqual(i3.estimator, "kde",       '"thomas" must alias "kde"');
+
+pairs = ["kde-adaptive", "kde-adaptive"; "adaptive", "adaptive"; "partition", "adaptive"; ...
+         "knn", "knn"; "ksg", "knn"; "copula", "copula"; "gcmi", "copula"];
+for i = 1:size(pairs, 1)
+    [~, ~, info] = ami(x, 10, algorithm=pairs(i, 1));
+    tc.verifyEqual(info.estimator, pairs(i, 2), sprintf( ...
+        '"%s" must run the "%s" estimator.', pairs(i, 1), pairs(i, 2)));
+end
+end
+
+function testOptionsForOtherEstimatorsWarn(tc)
+% bins and k each belong to one estimator. Passing one to another is almost
+% certainly a mistake, so say so rather than silently ignoring it.
+x = tc.TestData.lorenz;
+tc.verifyWarning(@() ami(x, 10, algorithm="kde", bins=16), 'ami:binsIgnored');
+tc.verifyWarning(@() ami(x, 10, algorithm="histogram", k=5), 'ami:kIgnored');
+[~, ~, info] = ami(x, 10, algorithm="knn", k=5);
+tc.verifyEqual(info.k, 5, 'k was not passed through to ami_knn.');
 end
 
 function testUnknownAlgorithmIsRejected(tc)
@@ -205,11 +350,18 @@ x = tc.TestData.lorenz;
 x(17) = NaN;
 tc.verifyError(@() ami_histogram(x, 10), 'ami_histogram:nanInput');
 tc.verifyError(@() ami_kde(x, 10),       'ami_kde:nanInput');
+tc.verifyError(@() ami_partition(x, 10), 'ami_partition:nanInput');
+tc.verifyError(@() ami_knn(x, 10),       'ami_knn:nanInput');
+tc.verifyError(@() ami_copula(x, 10),    'ami_copula:nanInput');
 end
 
 function testLagTooLargeIsRejected(tc)
-tc.verifyError(@() ami_histogram(quarctest.signals('white', 50), 60), ...
-    'ami_histogram:lagTooLarge');
+w = quarctest.signals('white', 50);
+tc.verifyError(@() ami_histogram(w, 60), 'ami_histogram:lagTooLarge');
+tc.verifyError(@() ami_partition(w, 60), 'ami_partition:lagTooLarge');
+tc.verifyError(@() ami_knn(w, 60),       'ami_knn:lagTooLarge');
+tc.verifyError(@() ami_copula(w, 60),    'ami_copula:lagTooLarge');
+tc.verifyError(@() ami_knn(w, 40, k=10), 'ami_knn:kTooLarge');
 end
 
 function testTauIsAScalarLag(tc)
@@ -230,7 +382,8 @@ function testRunsOnBaseMatlabOnly(tc)
 % AMI_Stergiou needed range + nanstd; AMI_Thomas needed corr, mvnpdf and
 % normpdf. All five are Statistics and Machine Learning Toolbox, for a bin
 % count and three closed-form densities.
-for f = ["ami.m", "ami_histogram.m", "ami_kde.m"]
+for f = ["ami.m", "ami_histogram.m", "ami_kde.m", "ami_partition.m", ...
+         "ami_knn.m", "ami_copula.m"]
     [~, products] = matlab.codetools.requiredFilesAndProducts(f);
     names = string({products.Name});
     extra = setdiff(names, "MATLAB");
