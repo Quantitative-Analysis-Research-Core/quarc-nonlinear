@@ -108,3 +108,26 @@ test_that("chaos_library names its failures and the solvers reach tfinal", {
   s3 <- ode23(function(t, y) -y, seq(0, 1, by = 0.1), 1, rtol = 1e-6, atol = 1e-9)
   expect_equal(s3$y[, 1], exp(-seq(0, 1, by = 0.1)), tolerance = 1e-5)
 })
+
+test_that("fnn agrees with a brute-force false-neighbour count across leaves", {
+  # N > 512 so the k-d tree has several leaves; see tests/matlab/testFnn.m.
+  brute <- function(x, delay, maxdim, Rtol, Atol) {
+    n <- length(x) - delay * maxdim
+    RA <- stats::sd(x)
+    vapply(seq_len(maxdim), function(j) {
+      y <- matrix(sapply(0:(j - 1), function(q) x[(1 + q * delay):(n + q * delay)]), n)
+      z <- x[(1 + delay * j):(n + delay * j)]
+      D <- as.matrix(stats::dist(y))
+      diag(D) <- Inf
+      nn <- apply(D, 1, which.min)
+      dn <- sqrt(rowSums((y - y[nn, , drop = FALSE])^2))
+      dz <- z - z[nn]
+      mean(abs(dz) > dn * Rtol | sqrt(dn^2 + dz^2) / RA > Atol)
+    }, numeric(1))
+  }
+  set.seed(11)
+  x <- sin(1:1500 / 6) + 0.4 * sin(1:1500 / 2.3) + 0.05 * rnorm(1500)
+  expect_equal(suppressMessages(fnn(x, 6, 4, 15, 2, 0))$dE, brute(x, 6, 4, 15, 2), tolerance = 1e-12)
+  w <- rnorm(1200)
+  expect_equal(suppressMessages(fnn(w, 1, 4, 15, 2, 0))$dE, brute(w, 1, 4, 15, 2), tolerance = 1e-12)
+})
