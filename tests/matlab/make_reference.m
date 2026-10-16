@@ -192,6 +192,13 @@ ref.lyapunov.henon_rosenstein = struct('lambda', lam, 'scalingRegion', ex.scalin
 lam = lyapunov(lz, 100, algorithm="wolf", delay=10, dim=3, evolve=10);
 ref.lyapunov.lorenz_wolf = struct('lambda', lam);
 
+% ---- Continuous relative phase (Signal Processing Toolbox for hilbert).
+if exist('hilbert', 'file')
+    lz = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
+    [crp, crpH] = rel_phase_cont(lz(1:800), lz(21:820), 100);
+    ref.rel_phase_cont.lorenz = struct('crp', crp', 'crpH', crpH');
+end
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));

@@ -266,3 +266,13 @@ test_that("lyapunov matches MATLAB for both methods", {
   w <- lyapunov(lz, 100, algorithm = "wolf", delay = 10, dim = 3, evolve = 10)
   expect_equal(w$lambda, ref$lorenz_wolf$lambda, tolerance = TOL)
 })
+
+test_that("rel_phase_cont matches MATLAB, Hilbert transform included", {
+  skip_without_fixtures()
+  ref <- reference()$rel_phase_cont
+  skip_if(is.null(ref), "MATLAB reference made without the Signal Processing Toolbox")
+  lz <- fixture("lorenz_2048")
+  out <- rel_phase_cont(lz[1:800], lz[21:820], 100)
+  expect_equal(out$crp, ref$lorenz$crp, tolerance = TOL)
+  expect_equal(out$crpH, ref$lorenz$crpH, tolerance = TOL)
+})
