@@ -32,7 +32,7 @@ cases = { ...
     'Hennon',   [0.1 0.1], [1.4 0.3], 2};
 for k = 1:size(cases,1)
     name = cases{k,1};
-    s = nonantest.sideEffects(@() chaos_library(name, 500, cases{k,2}, cases{k,3}));
+    s = quarctest.sideEffects(@() chaos_library(name, 500, cases{k,2}, cases{k,3}));
     tc.verifyFalse(s.errored, sprintf('chaos_library(''%s'', ...) errored: %s', ...
         name, localMsg(s)));
     tc.verifyEqual(s.figures, 0, sprintf('%s opened a figure', name));
@@ -125,7 +125,7 @@ function testMapsAcceptAVectorT(tc)
 tvec = (0:0.5:99.5)';
 for c = {{'Logistic', 0.2, 3.7, 1}, {'Hennon', [0.1 0.1], [1.4 0.3], 2}}
     a = c{1};
-    s = nonantest.sideEffects(@() chaos_library(a{1}, tvec, a{2}, a{3}));
+    s = quarctest.sideEffects(@() chaos_library(a{1}, tvec, a{2}, a{3}));
     tc.verifyFalse(s.errored, sprintf('%s rejected a vector t: %s', a{1}, localMsg(s)));
     if s.errored, continue, end
 
@@ -155,7 +155,7 @@ end
 % A flow, to hold the shared output contract across both kinds of system.
 % ------------------------------------------------------------------
 function testLorenzIsUnchanged(tc)
-s = nonantest.sideEffects(@() chaos_library('Lorenz', 0:0.01:20, [0 -0.01 9], [10 28 8/3]));
+s = quarctest.sideEffects(@() chaos_library('Lorenz', 0:0.01:20, [0 -0.01 9], [10 28 8/3]));
 tc.verifyFalse(s.errored, sprintf('Lorenz errored: %s', localMsg(s)));
 tc.verifyEqual(s.figures, 0, 'Lorenz opened a figure');
 
