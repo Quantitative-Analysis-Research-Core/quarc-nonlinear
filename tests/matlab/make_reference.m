@@ -104,6 +104,27 @@ y = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
 [tau, curve] = ami_kde(y, 10, bandwidth="adaptive");
 ref.ami_kde_adaptive.lorenz_2048 = struct('tau', tau, 'curve', curve(:,2)');
 
+% ---- Entropy family.
+a = readmatrix(fullfile(fx, 'ar1_phi70_512.csv'));
+h = readmatrix(fullfile(fx, 'henon_512.csv'));
+ref.ent_xsamp.ar1_henon = [ent_xsamp(a, h, 2, 0.2, 0), ent_xsamp(a, h, 2, 0.2, 1), ...
+                           ent_xsamp(a, h, 2, 0.2, 2), ent_xsamp(a, h, 1, 0.3, 2)];
+ref.ent_xap.ar1_henon = [ent_xap(a, h, 2, 0.2, 1), ent_xap(a, h, 1, 0.3, 1), ...
+                         ent_xap(a, h, 2, 0.25, 2)];
+b = double(a > median(a));
+ref.ent_symbolic.ar1_median = [ent_symbolic(b, 2), ent_symbolic(b, 3), ent_symbolic(b, 4)];
+y = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
+Y = psr(y(1:400), 10, 3);
+D = sqrt((Y(:,1) - Y(:,1)').^2 + (Y(:,2) - Y(:,2)').^2 + (Y(:,3) - Y(:,3)').^2);
+ref.ent_weighted.lorenz_400 = ent_weighted(exp(-D / std(y)));
+msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
+for i = 1:size(msCases, 1)
+    y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));
+    [rc, c, m, f, g] = ent_ms_plus(y, msCases{i,2}, msCases{i,3}, msCases{i,4});
+    ref.ent_ms_plus.(msCases{i,1}) = struct('scale', msCases{i,2}, 'dim', msCases{i,3}, ...
+        'radius', msCases{i,4}, 'rcmse', rc', 'cmse', c', 'mse', m', 'msfe', f', 'gmse', g');
+end
+
 ref.generated_by = version;
 out = fullfile(fx, 'matlab_reference.json');
 fid = fopen(out, 'w');

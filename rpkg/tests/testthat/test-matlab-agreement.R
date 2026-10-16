@@ -118,3 +118,35 @@ test_that("ami_kde with adaptive bandwidth matches MATLAB", {
     expect_equal(out$tau, ref[[s]]$tau, label = s)
   }
 })
+
+test_that("cross, symbolic and weighted entropies match MATLAB", {
+  skip_without_fixtures()
+  ref <- reference()
+  a <- fixture("ar1_phi70_512")
+  h <- fixture("henon_512")
+  expect_equal(c(ent_xsamp(a, h, 2, 0.2, 0), ent_xsamp(a, h, 2, 0.2, 1),
+                 ent_xsamp(a, h, 2, 0.2, 2), ent_xsamp(a, h, 1, 0.3, 2)),
+               ref$ent_xsamp$ar1_henon, tolerance = TOL)
+  expect_equal(c(ent_xap(a, h, 2, 0.2, 1), ent_xap(a, h, 1, 0.3, 1), ent_xap(a, h, 2, 0.25, 2)),
+               ref$ent_xap$ar1_henon, tolerance = TOL)
+  b <- as.numeric(a > stats::median(a))
+  expect_equal(c(ent_symbolic(b, 2), ent_symbolic(b, 3), ent_symbolic(b, 4)),
+               ref$ent_symbolic$ar1_median, tolerance = TOL)
+  y <- fixture("lorenz_2048")
+  Y <- psr(y[1:400], 10, 3)
+  D <- as.matrix(stats::dist(Y))
+  expect_equal(ent_weighted(exp(-D / stats::sd(y))), ref$ent_weighted$lorenz_400,
+               tolerance = TOL)
+})
+
+test_that("ent_ms_plus matches MATLAB on all five outputs", {
+  skip_without_fixtures()
+  ref <- reference()$ent_ms_plus
+  for (s in names(ref)) {
+    r <- ref[[s]]
+    out <- ent_ms_plus(fixture(s), r$scale, r$dim, r$radius)
+    for (f in c("rcmse", "cmse", "mse", "msfe", "gmse")) {
+      expect_equal(out[[toupper(f)]], r[[f]], tolerance = TOL, label = paste(s, f))
+    }
+  }
+})

@@ -61,3 +61,18 @@ test_that("ami_knn leaves the global random stream alone", {
   ami_knn(sin(1:300 / 5) + 0.2 * cos(1:300 / 1.7), 15)
   expect_identical(.Random.seed, before)
 })
+
+test_that("ent dispatches to each estimator and guards its inputs", {
+  x <- sin(1:300 / 4) + 0.3 * cos(1:300 / 1.3)
+  y <- cos(1:300 / 4)
+  expect_equal(ent(x)$value, ent_samp(x, 2, 0.2))
+  expect_equal(ent(x, "approximate")$value, ent_ap(x, 2, 0.2))
+  expect_equal(ent(x, "permutation", dim = 3)$value, ent_permu(x, 3, 1)$permEnt)
+  expect_equal(ent(x, y = y)$value, ent_xsamp(x, y, 2, 0.2, 1))
+  expect_equal(ent(x, "multiscale", scale = 3)$value, ent_ms_plus(x, 3, 2, 0.2)$RCMSE)
+  expect_error(ent(x, "permutation", y = y), "no cross-entropy form")
+  expect_error(ent(x, "symbolic"), "binary")
+  expect_error(ent(x, y = y[-1]), "equal lengths")
+  expect_error(ent(c(1, NA, 3, 4, 5)), "contains NA")
+  expect_error(ent(x, "fuzzy"), "Unknown algorithm")
+})
