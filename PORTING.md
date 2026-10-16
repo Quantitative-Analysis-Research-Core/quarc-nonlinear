@@ -95,4 +95,21 @@ or three depending on the data.
 - **MATLAB** — reference implementation, active.
 - **Python** — port exists in the deprecated NONAN repository, has known
   defects, not moved here. Needs rework rather than a move.
-- **R** — planned.
+- **R** — in progress, in `rpkg/` (package `quarcnonlinear`), plain R with
+  no compiled code yet. Ported and matching MATLAB to rounding (largest
+  relative gap 7e-15): `psr`, `ent_samp`, `ent_ap`, `ent_permu`, `dfa`,
+  `ami` with `ami_histogram` and `ami_kde`.
+
+## R conventions
+
+- Same function names, argument names and defaults as MATLAB.
+- Where MATLAB returns several outputs, R returns a named list whose names
+  are the MATLAB output names: `[tau, curve, info] = ami(...)` becomes
+  `out$tau`, `out$curve`, `out$info`. A single output is returned as is.
+- MATLAB name-value options become ordinary named arguments.
+- Plotting arguments (`dfa`'s `showPlot`) are left out; plotting belongs in
+  separate functions.
+- `stats::sd` uses the N-1 denominator, as MATLAB's `std` does, so the
+  `ddof` trap above does not arise in R.
+- Tests: `cd rpkg && Rscript -e 'devtools::test()'`. The agreement tests read
+  `tests/fixtures/` from the repository and skip when it is not there.

@@ -1,0 +1,20 @@
+Package: quarcnonlinear
+Type: Package
+Title: Nonlinear Time Series Analysis
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Aaron D.", "Likens", email = "alikens@unomaha.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-6535-5772")),
+    person("Quantitative Analysis Research Core", role = "cph"))
+Description: R port of the QUARC Nonlinear library from the Quantitative
+    Analysis Research Core at the Center for Human Movement Variability,
+    University of Nebraska at Omaha. The MATLAB implementation is the
+    specification; every ported function is tested against MATLAB's answers
+    on shared fixtures.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1)
+Imports: stats
+Suggests: testthat (>= 3.0.0), jsonlite
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3
