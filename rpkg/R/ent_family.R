@@ -122,27 +122,15 @@ ent_weighted <- function(wrp) {
   lo <- min(si)
   hi <- max(si)
   if (hi == lo) return(0)
-  bin <- (hi - lo) / 49
+  width <- (hi - lo) / 49
   S <- sum(si)
-  starts <- matlab_colon(lo, bin, hi)
-  p1 <- vapply(starts, function(s) sum(si[si >= s & si < (s + bin)]) / S, numeric(1))
+  # Bins 1-49 by index; bin 50 holds the maximum alone, as in MATLAB.
+  bin <- pmin(floor((si - lo) / width), 48) + 1
+  bin[si == hi] <- 50
+  p1 <- vapply(1:50, function(k) sum(si[bin == k]) / S, numeric(1))
   pp <- p1 * log(p1)
   pp[is.nan(pp)] <- 0
   -sum(pp)
-}
-
-# MATLAB's a:d:b. Elements are computed from both ends toward the middle, so
-# the last element is b exactly rather than a + n*d with rounding error.
-matlab_colon <- function(a, d, b) {
-  n <- floor((b - a) / d + 2 * .Machine$double.eps * max(abs(a), abs(b)) / abs(d))
-  k <- 0:n
-  out <- a + k * d
-  back <- k > n / 2
-  out[back] <- (a + n * d) - (n - k[back]) * d
-  if (abs(a + n * d - b) < 2 * .Machine$double.eps * max(abs(a), abs(b))) {
-    out[back] <- b - (n - k[back]) * d
-  }
-  out
 }
 
 #' Multiscale entropies: refined composite, composite, standard, fuzzy and

@@ -181,3 +181,43 @@ test_that("corr_dim matches MATLAB: curve, fitted region and slope", {
     expect_equal(out$extra$r2, r$r2, tolerance = TOL, label = s)
   }
 })
+
+test_that("the RQA family matches MATLAB: plot and every measure", {
+  skip_without_fixtures()
+  ref <- reference()
+  lz <- fixture("lorenz_2048")
+  hn <- fixture("henon_512")
+  ar <- fixture("ar1_phi70_512")
+  q <- function(f) suppressMessages(f)
+  cases <- list(
+    rqa = list(
+      lorenz_rec = q(rqa(lz[1:600], 10, 3, "rec", 2.5)),
+      lorenz_rad_euc_theiler = rqa(lz[1:600], 10, 3, "rad", 0.3, norm = "euc", theiler = 3),
+      henon_rec_max = q(rqa(hn, 1, 2, "rec", 5, norm = "max")),
+      ar1_rad_min = rqa(ar, 1, 1, "rad", 0.5, norm = "min", dmin = 3, vmin = 3, zscore = 0)),
+    crqa = list(
+      ar1_henon_rec = q(crqa(cbind(ar[1:400], hn[1:400]), 1, 2, "rec", 3)),
+      lorenz_rad_euc = crqa(cbind(lz[1:400], lz[6:405]), 4, 3, "rad", 0.4, norm = "euc")),
+    jrqa = list(
+      lorenz_rec = q(jrqa(cbind(lz[1:300], lz[11:310]), c(5, 5), c(2, 2), "rec", 5)),
+      ar1_henon_rad = jrqa(cbind(ar[1:300], hn[1:300]), c(1, 1), c(1, 1), "rad", 0.5, norm = "max")),
+    mdrqa = list(
+      lorenz_henon_rec = q(mdrqa(cbind(lz[1:400], hn[1:400]), 1, 1, "rec", 4)),
+      lorenz_henon_rad = mdrqa(cbind(lz[1:400], hn[1:400]), 2, 2, "rad", 0.5, norm = "max")))
+  fields <- c("REC", "RADIUS", "Size", "DET", "MeanL", "MaxL", "EntrL", "LAM", "MeanV",
+              "MaxV", "EntrV", "EntrW")
+  na_is_nan <- function(v) { v[is.null(v)] <- NaN; if (is.null(v) || is.na(v)) NaN else v }
+  for (fam in names(cases)) for (s in names(cases[[fam]])) {
+    out <- cases[[fam]][[s]]
+    r <- ref[[fam]][[s]]
+    lab <- paste(fam, s)
+    expect_equal(rowSums(out$RP), as.numeric(r$rowsum), label = paste(lab, "RP rows"))
+    expect_equal(colSums(out$RP), as.numeric(r$colsum), label = paste(lab, "RP cols"))
+    for (f in fields) {
+      got <- out$RESULTS[[f]]
+      want <- if (is.null(r[[f]])) NaN else r[[f]]
+      if (is.null(got)) got <- NaN                    # jrqa has no EntrW
+      expect_equal(got, want, tolerance = TOL, label = paste(lab, f))
+    }
+  }
+})

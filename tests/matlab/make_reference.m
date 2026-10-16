@@ -137,6 +137,35 @@ for i = 1:size(cdCases, 1)
         'r2', ex.r2, 'bounds', ex.bounds);
 end
 
+% ---- RQA family. RP is summarised by its row and column sums.
+rqaPack = @(RP, R) struct('rowsum', sum(RP, 2)', 'colsum', sum(RP, 1), ...
+    'REC', R.REC, 'RADIUS', R.RADIUS, 'Size', R.Size, 'DET', R.DET, 'MeanL', R.MeanL, ...
+    'MaxL', R.MaxL, 'EntrL', R.EntrL, 'LAM', R.LAM, 'MeanV', R.MeanV, 'MaxV', R.MaxV, ...
+    'EntrV', R.EntrV, 'EntrW', localField(R, 'EntrW'));
+lz = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
+hn = readmatrix(fullfile(fx, 'henon_512.csv'));
+ar = readmatrix(fullfile(fx, 'ar1_phi70_512.csv'));
+[RP, R] = rqa(lz(1:600), 10, 3, "rec", 2.5);
+ref.rqa.lorenz_rec = rqaPack(RP, R);
+[RP, R] = rqa(lz(1:600), 10, 3, "rad", 0.3, norm="euc", theiler=3);
+ref.rqa.lorenz_rad_euc_theiler = rqaPack(RP, R);
+[RP, R] = rqa(hn, 1, 2, "rec", 5, norm="max");
+ref.rqa.henon_rec_max = rqaPack(RP, R);
+[RP, R] = rqa(ar, 1, 1, "rad", 0.5, norm="min", dmin=3, vmin=3, zscore=0);
+ref.rqa.ar1_rad_min = rqaPack(RP, R);
+[RP, R] = crqa([ar(1:400), hn(1:400)], 1, 2, "rec", 3);
+ref.crqa.ar1_henon_rec = rqaPack(RP, R);
+[RP, R] = crqa([lz(1:400), lz(6:405)], 4, 3, "rad", 0.4, norm="euc");
+ref.crqa.lorenz_rad_euc = rqaPack(RP, R);
+[RP, R] = jrqa([lz(1:300), lz(11:310)], [5 5], [2 2], "rec", 5);
+ref.jrqa.lorenz_rec = rqaPack(RP, R);
+[RP, R] = jrqa([ar(1:300), hn(1:300)], [1 1], [1 1], "rad", 0.5, norm="max");
+ref.jrqa.ar1_henon_rad = rqaPack(RP, R);
+[RP, R] = mdrqa([lz(1:400), hn(1:400)], 1, 1, "rec", 4);
+ref.mdrqa.lorenz_henon_rec = rqaPack(RP, R);
+[RP, R] = mdrqa([lz(1:400), hn(1:400)], 2, 2, "rad", 0.5, norm="max");
+ref.mdrqa.lorenz_henon_rad = rqaPack(RP, R);
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));
@@ -160,5 +189,13 @@ try
 catch ME
     v = NaN;
     fprintf('AMI_Thomas unavailable for reference: %s\n', ME.message);
+end
+end
+
+function v = localField(S, name)
+if isfield(S, name)
+    v = S.(name);
+else
+    v = NaN;
 end
 end

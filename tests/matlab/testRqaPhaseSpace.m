@@ -229,3 +229,19 @@ expectedM = psr(zscore([x tc.TestData.y]), tau, dim);
 tc.verifyEqual(rpSpaceM, rpSeriesM, ...
     'mdrqa embedded differently from psr(x, tau, dim)');
 end
+
+function testJrqaUnembeddedChannelsAndEucNorm(tc)
+% dim = 1 used to leave the channel unassigned: the default call failed
+% with "Unrecognized function or variable 'data2'" and dim = [1 2] gave NaN.
+% An unembedded channel is now used as is, as rqa does.
+x = quarctest.signals('lorenz', 300);
+X = [x, circshift(x, 10)];
+[~, r1] = jrqa(X);
+tc.verifyTrue(isfinite(r1.REC) && r1.REC > 0, 'default jrqa call must run');
+[~, r2] = jrqa(X, [5 5], [1 2], "rec", 5);
+tc.verifyTrue(isfinite(r2.DET), 'mixed dims must not return NaN');
+% "euc" scales by DIM; with different dims per channel that is undefined.
+tc.verifyError(@() jrqa(X, [5 5], [1 2], "rec", 5, norm="euc"), 'jrqa:eucNeedsEqualDims');
+[~, r3] = jrqa(X, [5 5], [2 2], "rec", 5, norm="euc");
+tc.verifyEqual(r3.REC, 5, 'AbsTol', 0.5);
+end

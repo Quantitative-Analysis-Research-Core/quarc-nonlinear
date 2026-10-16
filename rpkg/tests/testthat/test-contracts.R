@@ -76,3 +76,14 @@ test_that("ent dispatches to each estimator and guards its inputs", {
   expect_error(ent(c(1, NA, 3, 4, 5)), "contains NA")
   expect_error(ent(x, "fuzzy"), "Unknown algorithm")
 })
+
+test_that("rqa hits its recurrence target and guards its inputs", {
+  x <- sin(1:400 / 6) + 0.2 * cos(1:400 / 1.9)
+  out <- suppressMessages(rqa(x, 6, 3, "rec", 2.5))
+  expect_equal(out$RESULTS$REC, 2.5, tolerance = 0.02)
+  expect_equal(dim(out$RP), rep(400 - 12, 2))
+  expect_error(rqa(cbind(x, x)), "single column")
+  expect_error(crqa(x), "two column")
+  expect_error(jrqa(x), "at least two")
+  expect_error(jrqa(cbind(x, x), c(1, 1), c(1, 2), "rad", 0.5, norm = "euc"), "differs between")
+})
