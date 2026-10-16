@@ -71,8 +71,8 @@ Every function documents its arguments and returns in its own help text
 
 ## R
 
-An R port is under way in `rpkg/`. It is not yet complete; see `PORTING.md`
-for what has been ported and how it is checked against MATLAB.
+An R port of the whole library is in `rpkg/`. Every function is checked
+against MATLAB's answers on shared fixtures; see `PORTING.md`.
 
 ```r
 devtools::install("rpkg")

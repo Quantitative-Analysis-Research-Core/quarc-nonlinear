@@ -299,3 +299,29 @@ test_that("chaos_library matches MATLAB: maps exactly, flows to rounding", {
     expect_lt(max(abs(out$y - want(nm, 3))), 1e-10, label = nm)
   }
 })
+
+test_that("rel_phase_disc matches MATLAB: DRP, frequency ratios, coupling", {
+  skip_without_fixtures()
+  ref <- reference()$rel_phase_disc
+  skip_if(is.null(ref), "MATLAB reference made without the Signal Processing Toolbox")
+  tt <- 0:1999
+  cases <- list(ratio2 = list(sin(2 * pi * tt / 50), sin(2 * pi * tt / 25 + 0.4 * sin(2 * pi * tt / 300))),
+                ratio1_lag = list(sin(2 * pi * tt / 40), sin(2 * pi * tt / 40 - 0.8 + 0.6 * sin(2 * pi * tt / 500))),
+                ratio1 = list(sin(2 * pi * tt / 40), sin(2 * pi * tt / 40 + 0.8 + 0.6 * sin(2 * pi * tt / 500))))
+  for (s in names(cases)) {
+    r <- ref[[s]]
+    if (!is.null(r$error)) {
+      # MATLAB cannot tabulate this case; the port must refuse it too.
+      expect_error(rel_phase_disc(cases[[s]][[1]], cases[[s]][[2]]), "same number of rows",
+                   label = s)
+      next
+    }
+    out <- rel_phase_disc(cases[[s]][[1]], cases[[s]][[2]])
+    for (f in c("t", "n", "T", "DRP")) expect_equal(out$DRP[[f]], as.numeric(r[[f]]), tolerance = TOL, label = paste(s, f))
+    for (f in c("Ratio", "Occurances", "Percentage_of_Total")) {
+      expect_equal(out$FR[[f]], as.numeric(r[[f]]), tolerance = TOL, label = paste(s, f))
+    }
+    expect_equal(out$PC$n, as.numeric(r$n_pc), label = paste(s, "PC n"))
+    expect_equal(out$PC$PC, as.numeric(r$PC), tolerance = TOL, label = paste(s, "PC"))
+  }
+})

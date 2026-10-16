@@ -213,6 +213,31 @@ for i = 1:size(flows, 1)
     ref.chaos_library.(lower(flows{i,1})) = struct('y', reshape(y', 1, []));
 end
 
+% ---- Discrete relative phase (opens figures; output tables only).
+if exist('findpeaks', 'file')
+    tt = (0:1999)';
+    % 'ratio1' has y leading x, which rel_phase_disc cannot tabulate (its
+    % event counts come out one apart); it is recorded as an error so a port
+    % is held to failing the same way.
+    drpCases = {'ratio2', sin(2*pi*tt/50), sin(2*pi*tt/25 + 0.4*sin(2*pi*tt/300)); ...
+                'ratio1_lag', sin(2*pi*tt/40), sin(2*pi*tt/40 - 0.8 + 0.6*sin(2*pi*tt/500)); ...
+                'ratio1', sin(2*pi*tt/40), sin(2*pi*tt/40 + 0.8 + 0.6*sin(2*pi*tt/500))};
+    for i = 1:size(drpCases, 1)
+        try
+            evalc('[FR, PCt, DRPt] = rel_phase_disc(drpCases{i,2}, drpCases{i,3});');
+        catch ME
+            close all
+            ref.rel_phase_disc.(drpCases{i,1}) = struct('error', ME.message);
+            continue
+        end
+        close all
+        ref.rel_phase_disc.(drpCases{i,1}) = struct( ...
+            'Ratio', FR.Ratio', 'Occurances', FR.Occurances', ...
+            'Percentage_of_Total', FR.Percentage_of_Total', 'n_pc', PCt.n', 'PC', PCt.PC', ...
+            't', DRPt.t', 'n', DRPt.n', 'T', DRPt.T', 'DRP', DRPt.DRP');
+    end
+end
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));
