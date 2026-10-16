@@ -59,7 +59,7 @@ end
 function testBothMethodsCanShareOneReconstruction(tc)
 Y = psr(tc.TestData.lorenz, 10, 5);
 [~, er] = lyapunov(Y, tc.TestData.fs, algorithm="rosenstein", delay=10);
-[~, ew] = lyapunov(Y, tc.TestData.fs, algorithm="wolf", delay=10);
+[~, ew] = lyapunov(Y, tc.TestData.fs, algorithm="wolf", delay=10, evolve=10);
 tc.verifyEqual(er.phaseSpace, ew.phaseSpace, ...
     'both estimators must run on the identical phase space');
 end
@@ -128,8 +128,20 @@ x = tc.TestData.lorenz; fs = tc.TestData.fs;
 a = lyapunov(x, fs, algorithm="rosenstein", delay=10, dim=5);
 b = lyapunov(x, fs, algorithm="r", delay=10, dim=5);
 tc.verifyEqual(b, a, 'RelTol', 1e-12, '"r" must alias "rosenstein"');
-[~, ew] = lyapunov(x, fs, algorithm="w", delay=10, dim=5);
+[~, ew] = lyapunov(x, fs, algorithm="w", delay=10, dim=5, evolve=10);
 tc.verifyEqual(ew.estimator, "wolf", '"w" must alias "wolf"');
+end
+
+function testWolfRequiresEvolve(tc)
+% No default: 10 is right for a flow at ~40 samples per orbit and badly
+% wrong for a map (12-36% error on the simple maps; see help lyapunov).
+% Rosenstein does not use it and must not ask for it.
+x = tc.TestData.lorenz; fs = tc.TestData.fs;
+tc.verifyError(@() lyapunov(x, fs, algorithm="wolf", delay=10, dim=5), ...
+    'lyapunov:evolveRequired');
+tc.verifyWarningFree(@() lyapunov(x, fs, algorithm="rosenstein", delay=10, dim=5));
+[~, ew] = lyapunov(x, fs, algorithm="wolf", delay=10, dim=5, evolve=7);
+tc.verifyEqual(ew.evolve, 7, 'evolve must be recorded in EXTRA.');
 end
 
 function testInvalidInputsAreRejected(tc)
