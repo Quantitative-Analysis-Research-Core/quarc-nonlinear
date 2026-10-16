@@ -54,6 +54,7 @@ switch stage
 
     case 'full'
         C = quarctest.sprott_catalog();
+        C = C([C.usable]);                 % as characterize filters them
         [S, p] = localChunks(work, string({C.name}), 5, ...
             @(names) localPair(@() quarctest.characterize(R=1000, N=4000, Systems=names)));
         quarctest.write_characterization(S, p, Tag='full');
