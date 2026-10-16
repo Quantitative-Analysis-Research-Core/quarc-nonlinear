@@ -35,3 +35,29 @@ test_that("psr refuses a series too short to embed", {
 test_that("ent_samp is Inf when no template matches", {
   expect_equal(ent_samp(c(1, 100, 1e4, 1e6, 1e8), 2, 1e-9, flag = "abs"), Inf)
 })
+
+test_that("new AMI estimators dispatch through ami, with aliases", {
+  x <- sin(1:600 / 7) + 0.1 * cos(1:600 / 3)
+  pairs <- c("kde-adaptive" = "kde-adaptive", adaptive = "adaptive",
+             partition = "adaptive", knn = "knn", ksg = "knn",
+             copula = "copula", gcmi = "copula")
+  for (a in names(pairs)) {
+    expect_equal(ami(x, 8, algorithm = a)$info$estimator, unname(pairs[a]), label = a)
+  }
+  expect_equal(ami(x, 8, algorithm = "knn", k = 5)$info$k, 5)
+  expect_warning(ami(x, 8, algorithm = "histogram", k = 5), "ignored")
+})
+
+test_that("rank-based estimators ignore monotone transforms exactly", {
+  x <- sin(1:800 / 9) + 0.3 * sin(1:800 / 2.3)
+  for (f in list(ami_partition, ami_copula)) {
+    expect_equal(f(exp(x), 10)$curve, f(x, 10)$curve, tolerance = 1e-12)
+  }
+})
+
+test_that("ami_knn leaves the global random stream alone", {
+  set.seed(42)
+  before <- .Random.seed
+  ami_knn(sin(1:300 / 5) + 0.2 * cos(1:300 / 1.7), 15)
+  expect_identical(.Random.seed, before)
+})

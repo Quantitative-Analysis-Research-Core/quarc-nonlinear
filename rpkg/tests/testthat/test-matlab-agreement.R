@@ -88,3 +88,33 @@ test_that("ami_kde matches MATLAB: curve and tau", {
   expect_equal(ami(fixture("lorenz_2048"), 20, algorithm = "kde")$tau,
                ref$ami_thomas$lorenz_2048)
 })
+
+test_that("ami_partition, ami_knn and ami_copula match MATLAB", {
+  skip_without_fixtures()
+  ref <- reference()
+  cases <- list(
+    ami_partition     = function(x) ami_partition(x, 15),
+    ami_partition_a01 = function(x) ami_partition(x, 15, alpha = 0.01),
+    ami_knn           = function(x) ami_knn(x, 10),
+    ami_knn_k3        = function(x) ami_knn(x, 6, k = 3),
+    ami_copula        = function(x) ami_copula(x, 30))
+  for (key in names(cases)) {
+    for (s in names(ref[[key]])) {
+      out <- cases[[key]](fixture(s))
+      lab <- paste(key, s)
+      expect_equal(out$curve[, 2], ref[[key]][[s]]$curve, tolerance = TOL, label = lab)
+      expect_equal(out$tau, ref[[key]][[s]]$tau, label = lab)
+    }
+  }
+})
+
+test_that("ami_kde with adaptive bandwidth matches MATLAB", {
+  skip_without_fixtures()
+  ref <- reference()$ami_kde_adaptive
+  for (s in names(ref)) {
+    maxlag <- length(ref[[s]]$curve) - 1
+    out <- ami_kde(fixture(s), maxlag, bandwidth = "adaptive")
+    expect_equal(out$curve[, 2], ref[[s]]$curve, tolerance = TOL, label = s)
+    expect_equal(out$tau, ref[[s]]$tau, label = s)
+  }
+})

@@ -4,37 +4,68 @@
 \alias{ami}
 \alias{ami_histogram}
 \alias{ami_kde}
+\alias{ami_partition}
+\alias{ami_knn}
+\alias{ami_copula}
 \title{Average mutual information versus lag}
 \usage{
-ami(x, maxlag, algorithm = "histogram", bins = NULL, fraction = 0.2)
+ami(x, maxlag, algorithm = "histogram", bins = NULL, k = NULL, fraction = 0.2)
 
 ami_histogram(x, maxlag, bins = NULL, fraction = 0.2)
 
-ami_kde(x, maxlag, fraction = 0.2, chunk = 512)
+ami_kde(
+  x,
+  maxlag,
+  fraction = 0.2,
+  chunk = 512,
+  bandwidth = c("fixed", "adaptive")
+)
+
+ami_partition(x, maxlag, alpha = 0.05, fraction = 0.2)
+
+ami_knn(x, maxlag, k = 10, fraction = 0.2, chunk = 512)
+
+ami_copula(x, maxlag, fraction = 0.2)
 }
 \arguments{
 \item{x}{Numeric vector, no `NA`.}
 
 \item{maxlag}{Maximum lag, positive integer, less than `length(x)`.}
 
-\item{algorithm}{`"histogram"` (default; alias `"stergiou"`), an
-equal-width joint histogram, or `"kde"` (alias `"thomas"`), a bivariate
-Gaussian kernel density estimate: slower, less biased.}
+\item{algorithm}{The estimator:
+* `"histogram"` (default; alias `"stergiou"`): equal-width joint
+  histogram. Fast, biased upward.
+* `"kde"` (alias `"thomas"`): bivariate Gaussian kernel density.
+* `"kde-adaptive"`: as `"kde"`, kernel widths set by local density
+  (Abramson's square-root law).
+* `"adaptive"` (alias `"partition"`): Darbellay-Vajda adaptive partition.
+* `"knn"` (alias `"ksg"`): Kraskov-Stoegbauer-Grassberger.
+* `"copula"` (alias `"gcmi"`): Gaussian copula. Blind to non-monotonic
+  dependence; see [ami_copula()] before using it to choose a delay.}
 
 \item{bins}{Histogram bins per axis. Default `NULL` selects by Scott's
 rule. Used only by `"histogram"`.}
 
+\item{k}{Number of neighbours. Default `NULL` uses 10. Used only by
+`"knn"`.}
+
 \item{fraction}{Fallback threshold, as a fraction of AMI at lag 0, used
 when the curve has no local minimum. Default 0.2.}
 
-\item{chunk}{Rows of the pairwise kernel evaluated at once. Changes peak
-memory, not the result. Default 512.}
+\item{chunk}{Rows of the pairwise kernel or distance matrix evaluated at
+once. Changes peak memory, not the result. Default 512.}
+
+\item{bandwidth}{`"fixed"` (default) or `"adaptive"`: each kernel scaled
+by `sqrt(g / pilot_i)`, `g` the geometric mean of a fixed-bandwidth
+pilot (Abramson 1982). About twice the cost.}
+
+\item{alpha}{Significance level of the splitting test. Default 0.05.}
 }
 \value{
 A list with `tau`, the selected lag; `curve`, a
   `(maxlag + 1)`-by-2 matrix of lag and AMI in bits; and `info`, with
   `allMinima`, `usedFallback`, `fractionLag`, `estimator` and `algorithm`
-  (plus `bins` and `samplesPerLag` for `"histogram"`).
+  plus estimator-specific fields.
 }
 \description{
 Returns the lag of the first local minimum of the average mutual
@@ -50,6 +81,25 @@ changing sample size. Biased upward; adequate for locating a minimum.
 \item \code{ami_kde()}: Gaussian kernel density estimator (Thomas et al. 2014).
 Lag `k` uses all `N - k` pairs. Cost is O(maxlag * N^2).
 
+\item \code{ami_partition()}: Adaptive partition of the rank plane (Fraser and Swinney
+1986; Darbellay and Vajda 1999). A cell is cut into four at its median
+ranks when a chi-square test (3 df) rejects a uniform spread; the root
+is always cut. Every lag uses `N - maxlag` pairs.
+
+\item \code{ami_knn()}: Kraskov-Stoegbauer-Grassberger estimator, algorithm 1.
+The series is standardised and moved by `1e-10 * (((1:N) * g) %% 1 -
+0.5)`, `g` the golden-ratio conjugate, to break ties deterministically,
+exactly as in MATLAB. Every lag uses `N - maxlag` pairs. Cost
+O(maxlag * N^2). Can return small negative values where the true AMI
+is zero.
+
+\item \code{ami_copula()}: Gaussian copula estimator (Ince et al. 2017): ranks
+mapped to normal scores, then `-0.5 * log2(1 - r^2)`. Exact for a
+Gaussian copula and a lower bound otherwise. It sees only dependence a
+correlation of normal scores can see: on a sine at a quarter-period lag
+it is near zero although the true AMI is large. `r` is capped at
+`1 - 1e-6`. Every lag uses `N - maxlag` pairs.
+
 }}
 \references{
 Fraser, A. M. and Swinney, H. L. (1986). Independent
@@ -57,5 +107,6 @@ Fraser, A. M. and Swinney, H. L. (1986). Independent
   Review A, 33(2), 1134-1140.
 }
 \seealso{
-[ami_histogram()], [ami_kde()]
+[ami_histogram()], [ami_kde()], [ami_partition()], [ami_knn()],
+  [ami_copula()]
 }
