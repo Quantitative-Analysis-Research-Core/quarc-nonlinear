@@ -325,7 +325,12 @@ if node_list(node,3) == 0 % it's a terminal node, so...
         pqz = pqz(1:m_search,:);
     end
     
-    if any(abs(yq-b_lower)<=pqd(m_search) | abs(yq-b_upper)<=pqd(m_search))
+    % Ball-within-bounds: the search is over only when the ball of radius
+    % pqd(m_search) around yq lies wholly inside this cell, i.e. yq is
+    % farther than that from every bound. The test was inverted (any bound
+    % within reach ended the search), so on series long enough to split
+    % into several leaves (N > 512) 2-10% of neighbours were not the nearest.
+    if all(abs(yq-b_lower) > pqd(m_search) & abs(yq-b_upper) > pqd(m_search))
         L_done = 1;
     end
     

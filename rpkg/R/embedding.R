@@ -26,8 +26,8 @@ embed <- function(z, v = c(0, 1, 2), w = NULL) {
 #'
 #' Kennel, Brown and Abarbanel (1992). For each dimension up to `maxdim`, the
 #' fraction of nearest neighbours that separate when one more delay
-#' coordinate is added. Neighbours are found with a k-d tree of 512-point
-#' leaves, reproduced from the MATLAB implementation step for step.
+#' coordinate is added. Neighbours are found exactly with a k-d tree of
+#' 512-point leaves, reproduced from the MATLAB implementation step for step.
 #'
 #' @param x Numeric vector.
 #' @param delay Embedding delay in samples.
@@ -121,9 +121,8 @@ kd_part <- function(y, z, bin_size) {
   list(y = y, z = z, node_list = node_list, sort_list = sort_list)
 }
 
-# The m_search nearest points to yq, as the MATLAB kdsearch finds them,
-# including its stopping rule: a leaf ends the search as soon as any
-# coordinate of yq lies within the current m-th distance of a cell bound.
+# The m_search nearest points to yq: descend to yq's leaf, then visit
+# neighbouring cells only while the search ball can reach them.
 kd_nearest <- function(tree, yq, m_search) {
   st <- new.env()
   st$pqd <- rep(Inf, m_search)
@@ -152,7 +151,8 @@ kd_search <- function(node, tree, yq, m_search, st) {
     if (length(pqz) > m_search) pqz <- pqz[1:m_search]
     st$pqd <- pqd
     st$pqz <- pqz
-    if (any(abs(yq - st$b_lower) <= pqd[m_search] | abs(yq - st$b_upper) <= pqd[m_search])) {
+    # Ball-within-bounds: stop only when the ball lies wholly inside the cell.
+    if (all(abs(yq - st$b_lower) > pqd[m_search] & abs(yq - st$b_upper) > pqd[m_search])) {
       st$done <- TRUE
     }
     return(invisible())
