@@ -221,3 +221,48 @@ test_that("the RQA family matches MATLAB: plot and every measure", {
     }
   }
 })
+
+test_that("lye_r matches MATLAB: neighbours and divergence curve", {
+  skip_without_fixtures()
+  ref <- reference()$lye_r
+  lz <- fixture("lorenz_2048")
+  cases <- list(lorenz = lye_r(lz, 100, 10, 3),
+                lorenz_theiler25 = lye_r(lz, 100, 10, 3, theiler = 25),
+                henon = lye_r(fixture("henon_512"), 1, 1, 2))
+  for (s in names(cases)) {
+    expect_equal(cases[[s]][, 2], as.numeric(ref[[s]]$pairs), label = s)
+    expect_equal(cases[[s]][, 3], ref[[s]]$divergence, tolerance = TOL, label = s)
+  }
+  sl <- lye_r(lz, 100, 10, 3, slope = c(0, 0.4, 1, 3), MeanPeriod = 0.75)
+  expect_equal(sl$LyES, ref$lorenz_slopes$LyES, tolerance = TOL)
+  expect_equal(sl$LyEL, ref$lorenz_slopes$LyEL, tolerance = TOL)
+})
+
+test_that("lye_w matches MATLAB: every replacement step", {
+  skip_without_fixtures()
+  ref <- reference()$lye_w
+  lz <- fixture("lorenz_2048")
+  cases <- list(lorenz_e10 = lye_w(lz, 100, 10, 3, 10),
+                henon_e1 = lye_w(fixture("henon_512"), 1, 1, 2, 1),
+                lorenz_custom = lye_w(lz[1:1500], 100, 8, 4, 5, 2, 20 * pi / 180, 1))
+  for (s in names(cases)) {
+    want <- matrix(ref[[s]]$out, ncol = ref[[s]]$ncol, byrow = TRUE)
+    expect_equal(cases[[s]]$out, want, tolerance = TOL, label = s)
+    expect_equal(cases[[s]]$LyE, ref[[s]]$LyE, tolerance = TOL, label = s)
+  }
+})
+
+test_that("lyapunov matches MATLAB for both methods", {
+  skip_without_fixtures()
+  ref <- reference()$lyapunov
+  lz <- fixture("lorenz_2048")
+  r <- lyapunov(lz, 100, delay = 10, dim = 3)
+  expect_equal(r$lambda, ref$lorenz_rosenstein$lambda, tolerance = TOL)
+  expect_equal(r$extra$scalingRegion, as.integer(ref$lorenz_rosenstein$scalingRegion))
+  expect_equal(r$extra$fitR2, ref$lorenz_rosenstein$fitR2, tolerance = TOL)
+  h <- lyapunov(fixture("henon_512"), 1, delay = 1, dim = 2)
+  expect_equal(h$lambda, ref$henon_rosenstein$lambda, tolerance = TOL)
+  expect_equal(h$extra$scalingRegion, as.integer(ref$henon_rosenstein$scalingRegion))
+  w <- lyapunov(lz, 100, algorithm = "wolf", delay = 10, dim = 3, evolve = 10)
+  expect_equal(w$lambda, ref$lorenz_wolf$lambda, tolerance = TOL)
+})

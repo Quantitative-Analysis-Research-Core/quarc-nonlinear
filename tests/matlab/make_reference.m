@@ -166,6 +166,32 @@ ref.mdrqa.lorenz_henon_rec = rqaPack(RP, R);
 [RP, R] = mdrqa([lz(1:400), hn(1:400)], 2, 2, "rad", 0.5, norm="max");
 ref.mdrqa.lorenz_henon_rad = rqaPack(RP, R);
 
+% ---- Lyapunov: both estimators and the wrapper.
+lz = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
+hn = readmatrix(fullfile(fx, 'henon_512.csv'));
+o = lye_r(lz, 100, 10, 3);
+ref.lye_r.lorenz = struct('pairs', o(:,2)', 'divergence', o(:,3)');
+o = lye_r(lz, 100, 10, 3, 'theiler', 25);
+ref.lye_r.lorenz_theiler25 = struct('pairs', o(:,2)', 'divergence', o(:,3)');
+[lyS, lyL, o] = lye_r(lz, 100, 10, 3, [0 0.4 1 3], 0.75, 0);
+ref.lye_r.lorenz_slopes = struct('LyES', lyS, 'LyEL', lyL);
+o = lye_r(hn, 1, 1, 2);
+ref.lye_r.henon = struct('pairs', o(:,2)', 'divergence', o(:,3)');
+[o, L] = lye_w(lz, 100, 10, 3, 10);
+ref.lye_w.lorenz_e10 = struct('out', reshape(o', 1, []), 'ncol', size(o,2), 'LyE', L);
+[o, L] = lye_w(hn, 1, 1, 2, 1);
+ref.lye_w.henon_e1 = struct('out', reshape(o', 1, []), 'ncol', size(o,2), 'LyE', L);
+[o, L] = lye_w(lz(1:1500), 100, 8, 4, 5, 2, 20*pi/180, 1);
+ref.lye_w.lorenz_custom = struct('out', reshape(o', 1, []), 'ncol', size(o,2), 'LyE', L);
+[lam, ex] = lyapunov(lz, 100, delay=10, dim=3);
+ref.lyapunov.lorenz_rosenstein = struct('lambda', lam, 'scalingRegion', ex.scalingRegion', ...
+    'fitR2', ex.fitR2);
+[lam, ex] = lyapunov(hn, 1, delay=1, dim=2);
+ref.lyapunov.henon_rosenstein = struct('lambda', lam, 'scalingRegion', ex.scalingRegion', ...
+    'fitR2', ex.fitR2);
+lam = lyapunov(lz, 100, algorithm="wolf", delay=10, dim=3, evolve=10);
+ref.lyapunov.lorenz_wolf = struct('lambda', lam);
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));

@@ -87,3 +87,13 @@ test_that("rqa hits its recurrence target and guards its inputs", {
   expect_error(jrqa(x), "at least two")
   expect_error(jrqa(cbind(x, x), c(1, 1), c(1, 2), "rad", 0.5, norm = "euc"), "differs between")
 })
+
+test_that("lyapunov requires evolve for wolf and guards its inputs", {
+  x <- sin(1:800 / 7) + 0.3 * sin(1:800 / 2.1)
+  expect_error(lyapunov(x, 1, algorithm = "wolf", delay = 5, dim = 3), "needs evolve")
+  expect_error(lyapunov(c(x[1:10], NA), 1), "contains NA")
+  expect_error(lyapunov(x, 1, algorithm = "ftle"), "Unknown algorithm")
+  expect_warning(lyapunov(psr(x, 5, 3), 1), "without theiler")
+  expect_equal(lyapunov(x, 1, algorithm = "w", delay = 5, dim = 3, evolve = 3)$extra$estimator,
+               "wolf")
+})
