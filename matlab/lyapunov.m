@@ -34,9 +34,11 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %   0.7833 with the default window of 1.
 %
 %   ___ = LYAPUNOV(X,FS,evolve=E) sets the propagation length in samples
-%   ("wolf" only). Default 10.
+%   ("wolf" only). REQUIRED for "wolf": there is no default, because no
+%   single value is right for both maps and flows. Use 1 for a map; for a
+%   flow sampled at about 40 samples per orbit, 10 is fine.
 %
-%   EVOLVE MATTERS MORE ON MAPS THAN THE DEFAULT SUGGESTS. It is how long a
+%   EVOLVE MATTERS MORE ON MAPS THAN ON FLOWS. It is how long a
 %   pair is allowed to separate before the neighbour is replaced, and Wolf's
 %   method assumes the pair stays in the linear regime over that interval. On
 %   a flow sampled at roughly 40 samples per orbit, 10 samples is a quarter
@@ -56,8 +58,9 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %
 %   So for a map, prefer evolve=1: the logistic, sine, cubic, delayed logistic
 %   and Ricker maps all recover their published exponents to within 0.3% there
-%   and lose 12-36% at the default. For a flow the default is fine and
-%   slightly larger values are marginally better. Conservative systems are
+%   and lose 12-36% at evolve=10. For a flow 10 is fine and slightly larger
+%   values are marginally better. Until 2026-10 the default was 10; it was
+%   removed so that a map could not be run at it by accident. Conservative systems are
 %   poorly estimated at every interval and the choice does not rescue them.
 %   Regenerate this table with quarctest.evolve_sweep.
 %
@@ -91,7 +94,10 @@ function [lambda, extra] = lyapunov(x, fs, opts)
 %      % Same reconstruction, both methods, no repeated embedding
 %      Y  = psr(x, tau, 5);
 %      lr = lyapunov(Y, 100, algorithm="rosenstein");
-%      lw = lyapunov(Y, 100, algorithm="wolf");
+%      lw = lyapunov(Y, 100, algorithm="wolf", evolve=10);
+%
+%      % A map: fs = 1 and evolve = 1
+%      lw = lyapunov(y, 1, algorithm="wolf", delay=1, dim=2, evolve=1);
 %
 %      % Inspect the fitted scaling region
 %      [lam, extra] = lyapunov(x, 100, delay=tau, dim=5);
@@ -123,7 +129,7 @@ arguments
     opts.delay           (1,1) double {mustBePositive, mustBeInteger} = 1
     opts.dim           (1,1) double {mustBePositive, mustBeInteger} = 3
     opts.theiler double {mustBeScalarOrEmpty} = []
-    opts.evolve        (1,1) double {mustBePositive, mustBeInteger} = 10
+    opts.evolve        double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
 end
 
 if anynan(x)
@@ -186,11 +192,18 @@ switch lower(opts.algorithm)
         extra.estimator     = "rosenstein";
 
     case {"wolf", "w"}
+        if isempty(opts.evolve)
+            error('lyapunov:evolveRequired', ...
+                ['algorithm="wolf" needs evolve, the propagation length in samples. ' ...
+                 'There is no default: use evolve=1 for a map, and about 10 for a flow ' ...
+                 'sampled at ~40 samples per orbit. See "help lyapunov".']);
+        end
         [out, L] = lye_w(Y, fs, tau, size(Y,2), opts.evolve);
         lambda = L * log(2);                  % bits -> nats
         extra.iterations = out;
         extra.bits       = L;
         extra.estimator  = "wolf";
+        extra.evolve     = opts.evolve;
 
     otherwise
         error('lyapunov:unknownAlgorithm', ...

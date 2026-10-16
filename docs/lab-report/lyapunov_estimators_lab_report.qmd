@@ -469,7 +469,7 @@ AMI and FNN are always reported as metrics in their own right, next to the delay
 
 ## Wolf's method
 
-Wolf's algorithm [@wolf1985] follows a reference trajectory and its nearest neighbour for a fixed propagation interval (`evolve`, default 10 samples), records the log-stretch, then replaces the neighbour with one near the evolved reference point. The exponent is the average log-stretch per unit time. The library's implementation accumulates $\log_2$ and returns bits; the `lyapunov()` wrapper converts to nats so that both estimators, and all references, share units.
+Wolf's algorithm [@wolf1985] follows a reference trajectory and its nearest neighbour for a fixed propagation interval (`evolve`, 10 samples here; the library no longer has a default), records the log-stretch, then replaces the neighbour with one near the evolved reference point. The exponent is the average log-stretch per unit time. The library's implementation accumulates $\log_2$ and returns bits; the `lyapunov()` wrapper converts to nats so that both estimators, and all references, share units.
 
 ## Rosenstein's method
 
@@ -503,7 +503,7 @@ Most of what makes these numbers trustworthy came from finding things that were 
 | 6 | Ensemble initial conditions perturbed around the published $x_0$ | 47% of delayed-logistic, 42% of simplest-quadratic and 30% of simplest-cubic realizations escaped the basin | Draw on the attractor, then relax |
 | 7 | Flow decimation derived per realization | A perturbed $x_0$ could shift the period estimate and change the sampling rate between realizations | Decimation fixed once per system |
 | 8 | Suspected transient contamination in heavily decimated flows | Some flows got only ~5 dominant periods of transient | Tested, not assumed: a 10× longer transient moved `corr_dim` ≤ 1.5% and Rosenstein ≤ 3.5%, inside ensemble spread. Unchanged |
-| 9 | Wolf's `evolve` = 10 applied to maps | 0.33× on Arnold's cat, 0.63× on Ikeda; 12–36% error on simple maps | Swept (@sec-evolve). Default left at 10, documented for callers |
+| 9 | Wolf's `evolve` = 10 applied to maps | 0.33× on Arnold's cat, 0.63× on Ikeda; 12–36% error on simple maps | Swept (@sec-evolve). Default removed: callers must now choose `evolve` |
 | 10 | Hand-porting 129 dysts vector fields was the first plan | Data and references would have had different provenances | Generate with dysts itself; read from disk |
 | 11 | float32 storage | Precision at the smallest radii used by `corr_dim` | float64 |
 | 12 | One perturbed Sakarya solve never returned | 110 CPU-hours on a single solve; the export blocked for 44 h | 900 s wall-clock cap; wedged solves recorded as degenerate |
@@ -633,7 +633,7 @@ Wolf's method assumes a neighbouring pair stays in the linear regime over the pr
 
 The sweep bears this out:
 
-- Noninvertible and dissipative maps are roughly an order of magnitude more accurate at `evolve` = 1 than at the default.
+- Noninvertible and dissipative maps are roughly an order of magnitude more accurate at `evolve` = 1 than at `evolve` = 10.
 - Flows are flat across the whole range, which is what separates "maps need a shorter interval" from "the default is wrong everywhere".
 - Conservative maps do not follow the pattern. Their small exponents are dominated by the estimation noise floor, and the chaotic web is not estimable this way at any interval.
 
@@ -825,7 +825,6 @@ The practical consequence is sharp, because it is one decision with opposite sig
 - **Conditioned ensembles.** A few systems (the damped and driven pendulums, labyrinth, Sakarya, HyperLu) lost realizations, and their survivors are conditioned on non-degeneracy.
 - **Noise sweep scope.** Additive white Gaussian observational noise only, at R = 25, for both the Lyapunov family (@sec-noise) and the RQA family (@sec-noise-rqa). Dynamical noise, coloured noise, quantization and missing samples are untested.
 - **RQA without a reference.** The RQA results are self-referential by necessity: with no published values to score against, each system is compared to its own clean measurement. The sweep can therefore say how far noise moves an RQA measurement, but not whether the clean measurement was right to begin with. The `r n_nq_drop` system the RQA battery cannot characterize at all (`r if (n_nq_drop == 1) "PanXuZhou" else "see the characterization table"`) is excluded rather than imputed.
-- **Wolf's default.** `evolve` = 10 remains the library default despite the evidence on maps. That is a release decision, not a test-suite one.
 - **Unexplained per-realization file.** The 13 September per-realization table in Dropbox does not reproduce current values for about a quarter of perturbed realizations, and its provenance is open.
 - **Reproducibility of draws.** The single-channel dysts ensembles, except Sakarya, were drawn before the `crc32` seeding fix, so they cannot be regenerated bit for bit. The stored series are the record.
 

@@ -117,8 +117,9 @@ end
 % ---- Lyapunov exponents, both methods, in nats per unit time
 
 if want("lyap_wolf")
+    % evolve=10, the former library default, so committed results reproduce.
     [v, status] = tryOne(v, status, ids, "lyap_wolf", ...
-        @() lyapunov(x, fs, algorithm="wolf", delay=delay, dim=dim));
+        @() lyapunov(x, fs, algorithm="wolf", delay=delay, dim=dim, evolve=10));
 end
 % Rosenstein is called for its diagnostics as well as its slope: the fitted
 % window and its R^2 are what make the exponent interpretable, so they are
