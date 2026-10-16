@@ -97,3 +97,14 @@ test_that("lyapunov requires evolve for wolf and guards its inputs", {
   expect_equal(lyapunov(x, 1, algorithm = "w", delay = 5, dim = 3, evolve = 3)$extra$estimator,
                "wolf")
 })
+
+test_that("chaos_library names its failures and the solvers reach tfinal", {
+  expect_error(chaos_library("Chua", 1:10, 1, 1), "Unknown system")
+  expect_error(chaos_library("Logistic", 0, 0.2, 3.9), "at least one")
+  # Exponential decay has an exact answer.
+  s <- ode45(function(t, y) -y, c(0, 2), 1, rtol = 1e-8, atol = 1e-10)
+  expect_equal(tail(s$t, 1), 2)
+  expect_equal(tail(s$y[, 1], 1), exp(-2), tolerance = 1e-7)
+  s3 <- ode23(function(t, y) -y, seq(0, 1, by = 0.1), 1, rtol = 1e-6, atol = 1e-9)
+  expect_equal(s3$y[, 1], exp(-seq(0, 1, by = 0.1)), tolerance = 1e-5)
+})

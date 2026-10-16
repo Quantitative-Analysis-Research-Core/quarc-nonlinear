@@ -199,6 +199,20 @@ if exist('hilbert', 'file')
     ref.rel_phase_cont.lorenz = struct('crp', crp', 'crpH', crpH');
 end
 
+% ---- chaos_library: maps are exact arithmetic; flows go through ode45 or
+% ode23, compared over a short horizon before chaos amplifies rounding.
+[~, y] = chaos_library('Hennon', 500, [0.1 0.1], [1.4 0.3]);
+ref.chaos_library.henon = struct('y', reshape(y', 1, []));
+[~, y] = chaos_library('Logistic', 300, 0.2, 3.9);
+ref.chaos_library.logistic = struct('y', y');
+flows = {'Lorenz', [1 1 1], [10 28 8/3]; 'Rossler', [1 1 0], [0.2 0.2 5.7]; ...
+         'Aizawa', [0.1 0 0], [0.7 0.95 0.6 3.5 0.25 0.1]; ...
+         'NoseHoover', [0 5 0], 1; 'Arneodo', [0.2 0.2 -0.75], [-5.5 3.5 -1]};
+for i = 1:size(flows, 1)
+    [~, y] = chaos_library(flows{i,1}, 0:0.01:2, flows{i,2}, flows{i,3});
+    ref.chaos_library.(lower(flows{i,1})) = struct('y', reshape(y', 1, []));
+end
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));

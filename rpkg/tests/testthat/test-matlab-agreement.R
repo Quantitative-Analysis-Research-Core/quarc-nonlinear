@@ -276,3 +276,26 @@ test_that("rel_phase_cont matches MATLAB, Hilbert transform included", {
   expect_equal(out$crp, ref$lorenz$crp, tolerance = TOL)
   expect_equal(out$crpH, ref$lorenz$crpH, tolerance = TOL)
 })
+
+test_that("chaos_library matches MATLAB: maps exactly, flows to rounding", {
+  skip_without_fixtures()
+  ref <- reference()$chaos_library
+  want <- function(nm, k) matrix(ref[[nm]]$y, ncol = k, byrow = TRUE)
+  expect_identical(chaos_library("Hennon", 500, c(0.1, 0.1), c(1.4, 0.3))$y, want("henon", 2))
+  expect_identical(chaos_library("Logistic", 300, 0.2, 3.9)$y, want("logistic", 1))
+  # Flows: ode45/ode23 follow MATLAB's step control, so the steps coincide
+  # and the trajectories agree to rounding over this horizon (measured
+  # within 2e-14). Over a long run on a chaotic attractor they will not.
+  tt <- seq(0, 2, by = 0.01)
+  flows <- list(lorenz = list("Lorenz", c(1, 1, 1), c(10, 28, 8 / 3)),
+                rossler = list("Rossler", c(1, 1, 0), c(0.2, 0.2, 5.7)),
+                aizawa = list("Aizawa", c(0.1, 0, 0), c(0.7, 0.95, 0.6, 3.5, 0.25, 0.1)),
+                nosehoover = list("NoseHoover", c(0, 5, 0), 1),
+                arneodo = list("Arneodo", c(0.2, 0.2, -0.75), c(-5.5, 3.5, -1)))
+  for (nm in names(flows)) {
+    a <- flows[[nm]]
+    out <- chaos_library(a[[1]], tt, a[[2]], a[[3]])
+    expect_equal(out$t, tt)
+    expect_lt(max(abs(out$y - want(nm, 3))), 1e-10, label = nm)
+  }
+})
