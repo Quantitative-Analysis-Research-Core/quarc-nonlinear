@@ -81,6 +81,29 @@ y = readmatrix(fullfile(fx, 'ar1_phi70_512.csv'));
 [tau, curve] = ami_kde(y, 8);
 ref.ami_kde.ar1_phi70_512 = struct('tau', tau, 'curve', curve(:,2)');
 
+% The estimators added after the first R batch. knn breaks ties with a
+% deterministic sequence rather than random noise, so it is comparable too.
+amiNew = {'lorenz_2048', 'ar1_phi70_512', 'henon_512'};
+for i = 1:numel(amiNew)
+    y = readmatrix(fullfile(fx, [amiNew{i} '.csv']));
+    [tau, curve] = ami_partition(y, 15);
+    ref.ami_partition.(amiNew{i}) = struct('tau', tau, 'curve', curve(:,2)');
+    [tau, curve] = ami_partition(y, 15, alpha=0.01);
+    ref.ami_partition_a01.(amiNew{i}) = struct('tau', tau, 'curve', curve(:,2)');
+    [tau, curve] = ami_knn(y, 10);
+    ref.ami_knn.(amiNew{i}) = struct('tau', tau, 'curve', curve(:,2)');
+    [tau, curve] = ami_knn(y, 6, k=3);
+    ref.ami_knn_k3.(amiNew{i}) = struct('tau', tau, 'curve', curve(:,2)');
+    [tau, curve] = ami_copula(y, 30);
+    ref.ami_copula.(amiNew{i}) = struct('tau', tau, 'curve', curve(:,2)');
+end
+y = readmatrix(fullfile(fx, 'ar1_phi70_512.csv'));
+[tau, curve] = ami_kde(y, 8, bandwidth="adaptive");
+ref.ami_kde_adaptive.ar1_phi70_512 = struct('tau', tau, 'curve', curve(:,2)');
+y = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
+[tau, curve] = ami_kde(y, 10, bandwidth="adaptive");
+ref.ami_kde_adaptive.lorenz_2048 = struct('tau', tau, 'curve', curve(:,2)');
+
 ref.generated_by = version;
 out = fullfile(fx, 'matlab_reference.json');
 fid = fopen(out, 'w');
