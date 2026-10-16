@@ -117,6 +117,26 @@ y = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
 Y = psr(y(1:400), 10, 3);
 D = sqrt((Y(:,1) - Y(:,1)').^2 + (Y(:,2) - Y(:,2)').^2 + (Y(:,3) - Y(:,3)').^2);
 ref.ent_weighted.lorenz_400 = ent_weighted(exp(-D / std(y)));
+% ---- Embedding: FNN (k-d tree search, exercised at N > 512) and
+% correlation dimension.
+fnnCases = {'lorenz_2048', 10, 8; 'henon_512', 1, 5; 'white_4096', 1, 6; ...
+            'pseudoperiodic_300', 3, 6};
+for i = 1:size(fnnCases, 1)
+    y = readmatrix(fullfile(fx, [fnnCases{i,1} '.csv']));
+    [d0, e0] = fnn(y, fnnCases{i,2}, fnnCases{i,3}, 15, 2, 0);
+    [d1, e1] = fnn(y, fnnCases{i,2}, fnnCases{i,3}, 10, 2, 1);
+    ref.fnn.(fnnCases{i,1}) = struct('delay', fnnCases{i,2}, 'maxdim', fnnCases{i,3}, ...
+        'dim_speed0', d0, 'dE_speed0', e0', 'dim_speed1', d1, 'dE_speed1', e1');
+end
+cdCases = {'lorenz_2048', 10, 3; 'henon_512', 1, 2; 'ar1_phi70_512', 1, 3};
+for i = 1:size(cdCases, 1)
+    y = readmatrix(fullfile(fx, [cdCases{i,1} '.csv']));
+    [cod, ex] = corr_dim(y, cdCases{i,2}, cdCases{i,3}, 0);
+    ref.corr_dim.(cdCases{i,1}) = struct('delay', cdCases{i,2}, 'dim', cdCases{i,3}, ...
+        'CoD', cod, 'logEps', ex.logEps', 'logC', ex.logC', 'idx', ex.idx', ...
+        'r2', ex.r2, 'bounds', ex.bounds);
+end
+
 msCases = {'ar1_phi70_512', 6, 2, 0.15; 'henon_512', 4, 2, 0.2; 'pseudoperiodic_300', 3, 1, 0.2};
 for i = 1:size(msCases, 1)
     y = readmatrix(fullfile(fx, [msCases{i,1} '.csv']));

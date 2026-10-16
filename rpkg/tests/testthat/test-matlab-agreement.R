@@ -150,3 +150,34 @@ test_that("ent_ms_plus matches MATLAB on all five outputs", {
     }
   }
 })
+
+test_that("fnn matches MATLAB, k-d tree included", {
+  skip_without_fixtures()
+  ref <- reference()$fnn
+  for (s in names(ref)) {
+    r <- ref[[s]]
+    x <- fixture(s)
+    a <- suppressMessages(fnn(x, r$delay, r$maxdim, 15, 2, 0))
+    b <- suppressMessages(fnn(x, r$delay, r$maxdim, 10, 2, 1))
+    expect_equal(a$dE, r$dE_speed0, tolerance = TOL, label = paste(s, "speed 0"))
+    expect_equal(a$dim, r$dim_speed0, label = paste(s, "speed 0"))
+    expect_equal(b$dE, r$dE_speed1, tolerance = TOL, label = paste(s, "speed 1"))
+    expect_equal(b$dim, r$dim_speed1, label = paste(s, "speed 1"))
+  }
+})
+
+test_that("corr_dim matches MATLAB: curve, fitted region and slope", {
+  skip_without_fixtures()
+  ref <- reference()$corr_dim
+  for (s in names(ref)) {
+    r <- ref[[s]]
+    out <- corr_dim(fixture(s), r$delay, r$dim)
+    expect_equal(out$extra$logEps, r$logEps, tolerance = TOL, label = s)
+    expected <- r$logC
+    expected[is.na(expected)] <- -Inf       # MATLAB's jsonencode writes -Inf as null
+    expect_equal(out$extra$logC, expected, tolerance = TOL, label = s)
+    expect_equal(out$extra$idx, r$idx, label = s)
+    expect_equal(out$CoD, r$CoD, tolerance = TOL, label = s)
+    expect_equal(out$extra$r2, r$r2, tolerance = TOL, label = s)
+  }
+})
