@@ -28,8 +28,8 @@ A list with `dim`, the selected embedding dimension, and `dE`,
 \description{
 Kennel, Brown and Abarbanel (1992). For each dimension up to `maxdim`, the
 fraction of nearest neighbours that separate when one more delay
-coordinate is added. Neighbours are found with a k-d tree of 512-point
-leaves, reproduced from the MATLAB implementation step for step.
+coordinate is added. Neighbours are found exactly with a k-d tree of
+512-point leaves, reproduced from the MATLAB implementation step for step.
 }
 \references{
 Kennel, M. B., Brown, R. and Abarbanel, H. D. I. (1992).

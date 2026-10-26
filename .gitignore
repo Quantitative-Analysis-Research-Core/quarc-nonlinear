@@ -22,3 +22,6 @@ tests/reports/reference_spectra.jsonl
 
 # compiled kernels (matlab/mex/build_mex.m)
 matlab/private/*.mex*
+rpkg/src/*.o
+rpkg/src/*.so
+pypkg/build/
