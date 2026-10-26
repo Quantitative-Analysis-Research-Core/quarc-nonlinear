@@ -17,4 +17,4 @@ R and Python build from their own directories, so each holds a copy of this
 folder. Edit here, then run `tools/sync_core.sh`; both test suites fail if a
 copy is stale.
 
-Kernels so far: `ent_samp`.
+Kernels so far: `ent_samp`, `line_hist` (MATLAB only so far).
