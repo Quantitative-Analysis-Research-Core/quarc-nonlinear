@@ -16,7 +16,7 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
         % categorical series, for instance -- so a target between two steps is
         % unreachable and the search would otherwise never terminate.
         maxAdjust = 200;
-        [rec, ~, ~, ~] = line_hist(x,a,radius_start,type,theiler);
+        rec = line_hist(x,a,radius_start,type,theiler);
         k = 0;
         while rec == 0 || rec > threshold
             k = k + 1;
@@ -35,11 +35,11 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
             elseif rec > threshold
                 radius_start = radius_start / 1.5;
             end
-            [rec, ~, ~, ~] = line_hist(x,a,radius_start,type,theiler);
+            rec = line_hist(x,a,radius_start,type,theiler);
         end
 
         % if radius_end is too large
-        [rec, ~, ~, ~] = line_hist(x,a,radius_end,type,theiler);
+        rec = line_hist(x,a,radius_end,type,theiler);
         k = 0;
         while rec < threshold
             k = k + 1;
@@ -50,7 +50,7 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
                     threshold, maxAdjust, radius_end, rec);
             end
             radius_end = radius_end*2;
-            [rec, ~, ~, ~] = line_hist(x,a,radius_end,type,theiler);
+            rec = line_hist(x,a,radius_end,type,theiler);
         end
 
         % Search for radius with target percent recurrence
@@ -61,8 +61,9 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
             mid(i1) = (lv(i1)+hv(i1))/2; % find midpoint between hv and lv
             rad(i1) = mid(i1); % new radius for this iteration
 
-            % Compute recurrence matrix with new radius
-            [rec, diag_hist, vertical_hist,A] = line_hist(x,a, rad(i1),type,theiler);
+            % Percent recurrence at the new radius; the lines are only
+            % needed at the final radius, below.
+            rec = line_hist(x,a, rad(i1),type,theiler);
             rec_iter(i1) = rec;  % set percent recurrence
             if rec_iter(i1) < target
                 % if percent recurrence is below target percent recurrence,
@@ -78,5 +79,6 @@ function [rec, diag_hist, vertical_hist, rad_final,A] = set_radius(x,a,radius_st
         end
         rec_final = rec_iter(end); % set final percent recurrence
         rad_final = rad(end); % set radius for final percent recurrence
+        [rec, diag_hist, vertical_hist,A] = line_hist(x,a, rad_final,type,theiler);
         disp(['% recurrence = ',num2str(rec_final),', radius = ',num2str((rad_final))])
     end

@@ -71,44 +71,53 @@ dim=[];
 
 dE=zeros(maxdim,1);
 
+% Compiled search (cpp/src/fnn.cpp), when built with matlab/mex/build_mex.m.
+% It ports kd_part and kdsearch step for step; the code below is the
+% specification it is tested against.
+useMex = use_mex('quarc_fnn') && isa(x, 'double') && isreal(x) && n >= 2;
+
 for j = 1:maxdim
     
     y = [y,z]; % Adds additional dimension.
     z = x(1+delay*j:n+delay*j);
-    L = zeros(n,1);
+    if useMex
+        dE(j) = quarc_fnn(x, delay, j, n, Rtol, Atol, RA);
+    else
+        L = zeros(n,1);
     
-    [y_model,z_model,sort_list,node_list]=kd_part(y, z, 512); % put the x into 512-point
+        [y_model,z_model,sort_list,node_list]=kd_part(y, z, 512); % put the x into 512-point
     
-    for i = 1:length(indx)
+        for i = 1:length(indx)
         
-        yq = y(indx(i),:); % set up the next point to check
+            yq = y(indx(i),:); % set up the next point to check
         
-        % set up the bounds, which start at +/- infinity
-        b_upper = Inf*ones(size(yq));
-        b_lower = -b_upper;
+            % set up the bounds, which start at +/- infinity
+            b_upper = Inf*ones(size(yq));
+            b_lower = -b_upper;
         
-        % and set up storage for the results
-        pqd = Inf*ones(m_search,1);
-        pqr = [];
-        pqz = [];
-        L_done = 0;
+            % and set up storage for the results
+            pqd = Inf*ones(m_search,1);
+            pqr = [];
+            pqz = [];
+            L_done = 0;
         
-        % [pqd]=kdsearch(1,m_search,yq); % start searching at the root (node 1)
-        [pqd,y_model,z_model,~,~,pqz,~,~,sort_list,node_list] = kdsearch(1,m_search,yq,pqd,y_model,z_model,L_done,pqr,pqz,b_upper,b_lower,sort_list,node_list);
+            % [pqd]=kdsearch(1,m_search,yq); % start searching at the root (node 1)
+            [pqd,y_model,z_model,~,~,pqz,~,~,sort_list,node_list] = kdsearch(1,m_search,yq,pqd,y_model,z_model,L_done,pqr,pqz,b_upper,b_lower,sort_list,node_list);
         
-        distance = pqz(1) - pqz(2);
+            distance = pqz(1) - pqz(2);
         
-        if abs(distance) > pqd(2)*Rtol
-            L(i) = 1;
+            if abs(distance) > pqd(2)*Rtol
+                L(i) = 1;
+            end
+        
+            if sqrt(pqd(2)^2+distance^2)/RA > Atol
+                L(i) = 1;
+            end
+        
         end
-        
-        if sqrt(pqd(2)^2+distance^2)/RA > Atol
-            L(i) = 1;
-        end
-        
+    
+        dE(j) = sum(L)/n; % was FN=[FN sum(L)/n]
     end
-    
-    dE(j) = sum(L)/n; % was FN=[FN sum(L)/n]
     
     if speed==1
         % Stops calculation if %FNN=0

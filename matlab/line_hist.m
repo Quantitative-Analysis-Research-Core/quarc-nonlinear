@@ -46,6 +46,20 @@ else
 end
 
 % Caluculate diagonal line distribution
+% Called for the recurrence rate alone (set_radius's search), skip the lines.
+if nargout <= 1
+    recurrence = local_recurrence(a, type, theiler);
+    return
+end
+
+% Compiled kernel (cpp/src/line_hist.cpp), when built with matlab/mex/build_mex.m.
+% The loops below are the specification it is tested against.
+if use_mex('quarc_line_hist') && size(a, 1) == size(a, 2)
+    [diag_hist, vertical_hist] = quarc_line_hist(logical(a), theiler, contains(type, 'crqa'));
+    recurrence = local_recurrence(a, type, theiler);
+    return
+end
+
 diag_hist = [];
 vertical_hist = [];
 for i4 = -(length(a)-1):length(a)-1
@@ -103,6 +117,11 @@ end
 % Calculate percent recurrence over the pairs that can count: outside the
 % Theiler band for RQA and friends, everywhere for crqa. At theiler=0 the
 % band is exactly the line of identity and this reduces to the old formula.
+recurrence = local_recurrence(a, type, theiler);
+end
+
+function recurrence = local_recurrence(a, type, theiler)
+% Percent recurrence, excluding the Theiler band for auto-recurrence.
 if ~contains(type,'crqa')
     n_ = length(a);
     band = sum(diag(a, 0));

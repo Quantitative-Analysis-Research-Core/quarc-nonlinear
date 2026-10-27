@@ -8,4 +8,6 @@
 #' named list whose element names are the MATLAB output names.
 #'
 #' @keywords internal
+#' @useDynLib quarcnonlinear, .registration = TRUE
+#' @importFrom Rcpp sourceCpp
 "_PACKAGE"
