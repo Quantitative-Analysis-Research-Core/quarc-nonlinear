@@ -58,7 +58,7 @@ end
 
 % Compiled kernel (cpp/src/ent_samp.cpp), when built with matlab/mex/build_mex.m.
 % The MATLAB code below is the specification it is tested against.
-if exist('quarc_ent_samp', 'file') == 3
+if use_mex('quarc_ent_samp') && isa(x, 'double') && isreal(x)
     ent_samp_value = quarc_ent_samp(x, dim, radius);
     return
 end

@@ -10,4 +10,8 @@ find_package(nanobind CONFIG REQUIRED)
 file(GLOB CORE_SOURCES CONFIGURE_DEPENDS src/core/core_*.cpp)
 nanobind_add_module(_core NB_STATIC src/bindings.cpp ${CORE_SOURCES})
 target_include_directories(_core PRIVATE src/core)
+# Keep a*b+c as two roundings, as MATLAB computes it; see cpp/README.md.
+if(NOT MSVC)
+  target_compile_options(_core PRIVATE -ffp-contract=off)
+endif()
 install(TARGETS _core LIBRARY DESTINATION quarcnonlinear)

@@ -54,7 +54,7 @@ end
 
 % Compiled kernel (cpp/src/line_hist.cpp), when built with matlab/mex/build_mex.m.
 % The loops below are the specification it is tested against.
-if exist('quarc_line_hist', 'file') == 3 && size(a, 1) == size(a, 2)
+if use_mex('quarc_line_hist') && size(a, 1) == size(a, 2)
     [diag_hist, vertical_hist] = quarc_line_hist(logical(a), theiler, contains(type, 'crqa'));
     recurrence = local_recurrence(a, type, theiler);
     return

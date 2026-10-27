@@ -1,0 +1,2 @@
+# Keep a*b+c as two roundings, as MATLAB computes it; see cpp/README.md.
+PKG_CXXFLAGS = -ffp-contract=off

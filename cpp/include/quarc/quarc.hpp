@@ -39,4 +39,33 @@ struct LineHist {
 };
 LineHist line_hist(const std::uint8_t* a, std::size_t n, std::size_t theiler, bool cross);
 
+// Correlation dimension, as matlab/corr_dim.m: the pair loop over embedded
+// vectors i < j with j - i > dim*delay. corr_dim_range gives the smallest and
+// largest pair distance; corr_dim_counts the histc counts of all pair
+// distances against `edges` (nb ascending edges; the last bin counts
+// distances equal to the last edge). Embedding as matlab/embed.m.
+void corr_dim_range(const double* x, std::size_t len, int dim, std::size_t delay,
+                    double& dmin, double& dmax);
+std::vector<double> corr_dim_counts(const double* x, std::size_t len, int dim,
+                                    std::size_t delay, const double* edges, std::size_t nb);
+
+// False nearest neighbours at one dimension, as one pass of the j loop in
+// matlab/fnn.m, including its k-d tree (512-point leaves) step for step so
+// that ties resolve as in MATLAB. Returns sum(L)/n, the fraction of the n
+// points that are false neighbours when dimension j+1 is added. ra is std(x).
+double fnn_false_fraction(const double* x, std::size_t len, std::size_t delay, std::size_t j,
+                          std::size_t n, double rtol, double atol, double ra);
+
+// Rosenstein's divergence curve, as the two loops in matlab/lye_r.m. Y is the
+// M-by-D column-major state matrix. nn[i] is the (0-based) nearest neighbour of
+// point i outside the Theiler window; avg[i] the mean log divergence after i+1
+// steps (0 where no pair contributes); count is the length of MATLAB's
+// AveLnDiv, i.e. one past the last i with a contributing pair (0 if none).
+struct LyeR {
+    std::vector<double> nn;
+    std::vector<double> avg;
+    std::size_t count = 0;
+};
+LyeR lye_r_divergence(const double* Y, std::size_t M, std::size_t D, std::size_t theiler);
+
 }  // namespace quarc
