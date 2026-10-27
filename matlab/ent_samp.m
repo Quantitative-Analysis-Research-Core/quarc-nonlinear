@@ -56,6 +56,13 @@ if strcmpi(flag, 'prop')
     radius = radius * std(x);
 end
 
+% Compiled kernel (cpp/src/ent_samp.cpp), when built with matlab/mex/build_mex.m.
+% The MATLAB code below is the specification it is tested against.
+if use_mex('quarc_ent_samp') && isa(x, 'double') && isreal(x)
+    ent_samp_value = quarc_ent_samp(x, dim, radius);
+    return
+end
+
 %% Create embedding vectors of length dim
 % Each row of X is a vector of dim consecutive x points.
 % Richman & Moorman count both A and B over the same N-dim templates, so the

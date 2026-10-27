@@ -51,10 +51,19 @@ epsilon1 = 0;
 epsilon2 = Inf;
 
 k=dim*delay;  % removing temporal correlations
-for i = 1:n-k-1
-    distance = sqrt(sum((y(:,i+k+1:n)-y(:,i)*ones(size(i+k+1:n))).^2));
-    epsilon1 = max(max(distance),epsilon1);
-    epsilon2 = min(min(distance), epsilon2);
+
+% Compiled pair loops (cpp/src/corr_dim.cpp), when built with
+% matlab/mex/build_mex.m. The loops below are the specification.
+useMex = use_mex('quarc_corr_dim') && isa(x, 'double') && isreal(x) ...
+    && n-k-1 >= 1;
+if useMex
+    [epsilon2, epsilon1] = quarc_corr_dim(x, dim, delay);
+else
+    for i = 1:n-k-1
+        distance = sqrt(sum((y(:,i+k+1:n)-y(:,i)*ones(size(i+k+1:n))).^2));
+        epsilon1 = max(max(distance),epsilon1);
+        epsilon2 = min(min(distance), epsilon2);
+    end
 end
 
 if epsilon2==0   % in order to take log of epsilon2
@@ -77,14 +86,18 @@ epsilon(end) = epsilon1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 CI=[];
-for i = 1:n-k-1
-    distance = sqrt(sum((y(:,i+k+1:n)-y(:,i)*ones(size(i+k+1:n))).^2));  %using Eucledian distance
-    Sum_HeaviSide = histc(distance,epsilon);   %Heaviside function H(z)itself returns 1 for positive z and 0 otherwise.
-    %Store the value into CI matrix
-    if i==1
-        CI=[CI; Sum_HeaviSide];
-    else
-        CI=sum([CI; Sum_HeaviSide]);
+if useMex
+    CI = quarc_corr_dim(x, dim, delay, epsilon);
+else
+    for i = 1:n-k-1
+        distance = sqrt(sum((y(:,i+k+1:n)-y(:,i)*ones(size(i+k+1:n))).^2));  %using Eucledian distance
+        Sum_HeaviSide = histc(distance,epsilon);   %Heaviside function H(z)itself returns 1 for positive z and 0 otherwise.
+        %Store the value into CI matrix
+        if i==1
+            CI=[CI; Sum_HeaviSide];
+        else
+            CI=sum([CI; Sum_HeaviSide]);
+        end
     end
 end
 

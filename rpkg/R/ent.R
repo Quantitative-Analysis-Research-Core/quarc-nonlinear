@@ -21,6 +21,13 @@ ent_samp <- function(x, dim, radius = 0.2, flag = "prop") {
   if (N < dim + 1) stop("The time series must have at least m+1 data points.", call. = FALSE)
   if (tolower(flag) == "prop") radius <- radius * stats::sd(x)
 
+  .ent_samp_core(x, dim, radius)
+}
+
+# The R code for ent_samp, kept as the readable reference for the compiled
+# kernel (cpp/src/ent_samp.cpp); the tests check that the two agree.
+ent_samp_r <- function(x, dim, radius) {
+  N <- length(x)
   n <- N - dim
   # Template j of length L starts at sample j; column k holds x[j + k - 1].
   B <- count_matches(x, n, dim, radius)

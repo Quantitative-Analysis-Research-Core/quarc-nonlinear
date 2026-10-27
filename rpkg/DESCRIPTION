@@ -14,7 +14,8 @@ Description: R port of the QUARC Nonlinear library from the Quantitative
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.1)
-Imports: stats
+Imports: stats, Rcpp
+LinkingTo: Rcpp
 Suggests: testthat (>= 3.0.0), jsonlite
 Config/testthat/edition: 3
 RoxygenNote: 7.3.3

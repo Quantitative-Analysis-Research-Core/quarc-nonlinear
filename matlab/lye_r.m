@@ -129,59 +129,71 @@ end
 
 %% Find nearest neighbors
 
-IND2=zeros(M,1);
-for i=1:M
-    % Find nearest neighbor.
-    Yinit=repmat(Y(i,:),M,1);
-    Ydiff=(Yinit-Y(1:M,:)).^2;
-    Ydisti=sqrt(sum(Ydiff,2));
+% Compiled loops (cpp/src/lye_r.cpp), when built with matlab/mex/build_mex.m.
+% The loops below are the specification they are tested against.
+if use_mex('quarc_lye_r') && isa(Y, 'double') && isreal(Y)
+    [IND2, lnDiv, nAve] = quarc_lye_r(Y, theilerWindow);
+    out=[(1:M)',IND2,lnDiv];
+    if nAve > 0
+        AveLnDiv = lnDiv(1:nAve)';
+    end
+else
+
+    IND2=zeros(M,1);
+    for i=1:M
+        % Find nearest neighbor.
+        Yinit=repmat(Y(i,:),M,1);
+        Ydiff=(Yinit-Y(1:M,:)).^2;
+        Ydisti=sqrt(sum(Ydiff,2));
     
-    % Exclude candidates within the Theiler window: these lie on the same
-    % trajectory segment, so matching them measures interpolation rather than
-    % divergence. Inf is used so the exclusion holds at any data scale.
-    range_exclude=i-theilerWindow:i+theilerWindow;
-    range_exclude=range_exclude(range_exclude>=1 & range_exclude<=M);
-    Ydisti(range_exclude)=Inf;
+        % Exclude candidates within the Theiler window: these lie on the same
+        % trajectory segment, so matching them measures interpolation rather than
+        % divergence. Inf is used so the exclusion holds at any data scale.
+        range_exclude=i-theilerWindow:i+theilerWindow;
+        range_exclude=range_exclude(range_exclude>=1 & range_exclude<=M);
+        Ydisti(range_exclude)=Inf;
     
-    % find minimum distance point for first pair
-    [~,IND2(i,1)]=min(Ydisti);
-end
-% Three columns always: column 3 is written conditionally below.
-out=[(1:M)',IND2,zeros(M,1)]; % Matched pairs and average line divergence.
+        % find minimum distance point for first pair
+        [~,IND2(i,1)]=min(Ydisti);
+    end
+    % Three columns always: column 3 is written conditionally below.
+    out=[(1:M)',IND2,zeros(M,1)]; % Matched pairs and average line divergence.
 
-%% Calculate distances between matched pairs.
+    %% Calculate distances between matched pairs.
 
-% Only the per-propagation-step mean of log distance is used, so the full
-% (M-1)-by-(M-1) distance matrix is accumulated rather than stored. Storing
-% it costs 8*(M-1)^2 bytes: 0.9 GB at N=10800 and 3.2 GB at N=20000, which
-% is a ceiling on series length rather than a slowdown.
-sumLogDist=zeros(M-1,1);
-nDist=zeros(M-1,1);
-for i=1:length(IND2)-1
+    % Only the per-propagation-step mean of log distance is used, so the full
+    % (M-1)-by-(M-1) distance matrix is accumulated rather than stored. Storing
+    % it costs 8*(M-1)^2 bytes: 0.9 GB at N=10800 and 3.2 GB at N=20000, which
+    % is a ceiling on series length rather than a slowdown.
+    sumLogDist=zeros(M-1,1);
+    nDist=zeros(M-1,1);
+    for i=1:length(IND2)-1
 
-   % The data can only be propagated so far from the matched pair.
-    EndITL=M-IND2(i);
-    if (M-IND2(i))>(M-i)
-        EndITL=M-i;
+       % The data can only be propagated so far from the matched pair.
+        EndITL=M-IND2(i);
+        if (M-IND2(i))>(M-i)
+            EndITL=M-i;
+        end
+
+        % Finds the distance between the matched paris and their propagated
+        % points to the end of the useable data.
+        d=sqrt(sum((Y(i+1:EndITL+i,:)-Y(IND2(i)+1:EndITL+IND2(i),:)).^2,2));
+
+        % Zero distances are excluded from the mean, as are steps beyond EndITL.
+        pos=find(d>0);
+        sumLogDist(pos)=sumLogDist(pos)+log(d(pos));
+        nDist(pos)=nDist(pos)+1;
+
     end
 
-    % Finds the distance between the matched paris and their propagated
-    % points to the end of the useable data.
-    d=sqrt(sum((Y(i+1:EndITL+i,:)-Y(IND2(i)+1:EndITL+IND2(i),:)).^2,2));
-
-    % Zero distances are excluded from the mean, as are steps beyond EndITL.
-    pos=find(d>0);
-    sumLogDist(pos)=sumLogDist(pos)+log(d(pos));
-    nDist(pos)=nDist(pos)+1;
-
-end
-
-%% Calculaets the average line divergence.
-for i=1:M-1
-    if nDist(i)>0
-        AveLnDiv(i)=sumLogDist(i)/nDist(i);
-        out(i,3)=AveLnDiv(i);
+    %% Calculaets the average line divergence.
+    for i=1:M-1
+        if nDist(i)>0
+            AveLnDiv(i)=sumLogDist(i)/nDist(i);
+            out(i,3)=AveLnDiv(i);
+        end
     end
+
 end
 
 %% Find LyES and LyEL
