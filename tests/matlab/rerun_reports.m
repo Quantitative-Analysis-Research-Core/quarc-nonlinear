@@ -74,6 +74,9 @@ switch stage
         writetable(p, fullfile(reports, 'noise_sweep_per_realization.csv'));
 
     case 'noiserqa'
+        % QUARC_WORKERS caps the pool: each worker holds ~7.5 GB on this stage.
+        nw = str2double(getenv('QUARC_WORKERS'));
+        if ~isnan(nw) && isempty(gcp('nocreate')), parpool('Processes', nw); end
         names = sort(localManifestSystems(reports));
         outDir = fullfile(reports, 'noise_sweep_rqa');
         perDir = fullfile(repo, 'tests', 'artifacts', 'noise_sweep_rqa');
