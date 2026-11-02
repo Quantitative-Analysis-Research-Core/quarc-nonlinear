@@ -34,8 +34,9 @@ function [tau, curve, info] = ami(x, maxlag, opts)
 %                   to non-monotonic dependence: see AMI_COPULA before using
 %                   it to choose a delay. Aliases: "gcmi".
 %
-%   ___ = AMI(X,maxlag,bins=B) sets the number of histogram bins per axis.
-%   Default selects B by Scott's rule. Used only by "histogram".
+%   ___ = AMI(X,maxlag,bins=B) sets the number of histogram bins per axis, or,
+%   if B is a vector, the bin edges (see AMI_HISTOGRAM). Default selects B by
+%   Scott's rule. Used only by "histogram".
 %
 %   ___ = AMI(X,maxlag,k=K) sets the number of neighbours. Default 10. Used
 %   only by "knn".
@@ -91,7 +92,7 @@ arguments
     x  (:,1) double {mustBeNonempty}
     maxlag  (1,1) double {mustBePositive, mustBeInteger}
     opts.algorithm (1,1) string = "histogram"
-    opts.bins      double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
+    opts.bins      double {ami_validate_bins} = []
     opts.k         double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
     opts.fraction  (1,1) double {mustBePositive} = 0.2
 end

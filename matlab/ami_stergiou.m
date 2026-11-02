@@ -7,7 +7,9 @@ function varargout=ami_stergiou(varargin)
 % outputs   - tau, first minimum in the AMI vs lag plot
 %           - v_AMI, vector of AMI values and associated lags
 % [tau,ami]=ami_stergiou(data,L,bins)
-% inputs    - bins, number of bins to use in the calculation
+% inputs    - bins, number of bins to use in the calculation, or a vector
+%             of strictly increasing bin edges spanning the data (each bin
+%             closed on the left, the last also on the right)
 % [ami]=ami_stergiou(x,y)
 % inputs    - x, single column array with the same length as y
 %           - y, single column array with the same length as x
@@ -88,15 +90,25 @@ if (nargin==2 || nargin==3) && numel(varargin{2})==1
         bins = ceil(range(data)/(3.49*nanstd(data)*N^(-1/3))); % Scott 1979
     elseif nargin==3
         bins = varargin{3};
-        if numel(bins)~=1
-            error('input bins must be a single number')
+        ami_validate_bins(bins)
+        if isempty(bins)
+            bins = ceil(range(data)/(3.49*nanstd(data)*N^(-1/3))); % Scott 1979
         end
     end
     
-    epsilon = eps;      %or use epsilon = 1e-10;
-    
-    data = data - min(data); % make all data points positive
-    y = 1+ floor(data/(max(data)/(bins-epsilon))); % scaling the data
+    if isscalar(bins)
+        epsilon = eps;      %or use epsilon = 1e-10;
+        
+        data = data - min(data); % make all data points positive
+        y = 1+ floor(data/(max(data)/(bins-epsilon))); % scaling the data
+    else
+        y = discretize(data, bins); % bin index per sample, from the edges
+        if anynan(y)
+            error('ami_stergiou:edgesTooNarrow', ...
+                'bin edges [%g, %g] do not span the data [%g, %g].', ...
+                bins(1), bins(end), min(data), max(data));
+        end
+    end
     
     ami=zeros(L,1); % preallocate vector
     overlap=N-L;

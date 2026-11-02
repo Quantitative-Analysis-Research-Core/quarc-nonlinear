@@ -131,3 +131,16 @@ test_that("fnn agrees with a brute-force false-neighbour count across leaves", {
   w <- rnorm(1200)
   expect_equal(suppressMessages(fnn(w, 1, 4, 15, 2, 0))$dE, brute(w, 1, 4, 15, 2), tolerance = 1e-12)
 })
+
+test_that("ami_histogram accepts bin edges", {
+  set.seed(3)
+  x <- cumsum(rnorm(800))
+  n24 <- ami(x, 30, bins = 24)
+  e24 <- ami(x, 30, bins = n24$info$edges)
+  expect_equal(e24$curve, n24$curve)
+  expect_equal(e24$info$bins, 24)
+  q <- unname(quantile(x, seq(0, 1, length.out = 25)))
+  expect_gt(max(abs(ami(x, 30, bins = q)$curve[, 2] - n24$curve[, 2])), 1e-3)
+  expect_error(ami(x, 30, bins = q[-1]), "do not span")
+  expect_error(ami(x, 30, bins = c(1, 1, 2)), "strictly increasing")
+})

@@ -16,8 +16,10 @@
 #'   * `"knn"` (alias `"ksg"`): Kraskov-Stoegbauer-Grassberger.
 #'   * `"copula"` (alias `"gcmi"`): Gaussian copula. Blind to non-monotonic
 #'     dependence; see [ami_copula()] before using it to choose a delay.
-#' @param bins Histogram bins per axis. Default `NULL` selects by Scott's
-#'   rule. Used only by `"histogram"`.
+#' @param bins Histogram bins per axis: a positive integer count, or a
+#'   vector of strictly increasing bin edges spanning the data (each bin
+#'   closed on the left, the last also on the right). Default `NULL` selects
+#'   the count by Scott's rule. Used only by `"histogram"`.
 #' @param k Number of neighbours. Default `NULL` uses 10. Used only by
 #'   `"knn"`.
 #' @param fraction Fallback threshold, as a fraction of AMI at lag 0, used
@@ -66,15 +68,26 @@ ami <- function(x, maxlag, algorithm = "histogram", bins = NULL, k = NULL,
 ami_histogram <- function(x, maxlag, bins = NULL, fraction = 0.2) {
   x <- check_ami_input(x, maxlag, "ami_histogram")
   N <- length(x)
-  nBins <- if (is.null(bins)) scott_bins(x) else bins
+  check_ami_bins(bins)
+  if (length(bins) <= 1) {
+    nBins <- if (is.null(bins)) scott_bins(x) else bins
+    edges <- bin_edges(x, nBins)
+  } else {
+    edges <- as.numeric(bins)
+    if (min(x) < edges[1] || max(x) > edges[length(edges)]) {
+      stop(sprintf("ami_histogram: bins edges [%g, %g] do not span the data [%g, %g].",
+                   edges[1], edges[length(edges)], min(x), max(x)), call. = FALSE)
+    }
+    nBins <- length(edges) - 1
+  }
   m <- N - maxlag
-  edges <- bin_edges(x, nBins)
   curve <- cbind(lag = 0:maxlag, ami = 0)
   for (lag in 0:maxlag) {
     curve[lag + 1, 2] <- histogram_mi_bits(x[1:m], x[(1 + lag):(m + lag)], edges)
   }
   out <- ami_first_minimum(curve, fraction, "ami_histogram")
   out$info$bins <- nBins
+  out$info$edges <- edges
   out$info$samplesPerLag <- m
   out$info$estimator <- "histogram"
   out
@@ -195,6 +208,21 @@ check_ami_input <- function(x, maxlag, caller) {
                  caller, as.integer(maxlag), length(x)), call. = FALSE)
   }
   x
+}
+
+# bins is NULL, a positive integer count, or strictly increasing finite edges.
+check_ami_bins <- function(bins) {
+  if (is.null(bins)) return(invisible())
+  ok <- if (length(bins) == 1) {
+    is.numeric(bins) && bins >= 1 && bins == round(bins)
+  } else {
+    is.numeric(bins) && all(is.finite(bins)) && all(diff(bins) > 0)
+  }
+  if (!ok) {
+    stop("bins must be a positive integer count or strictly increasing finite edges.",
+         call. = FALSE)
+  }
+  invisible()
 }
 
 # Scott's rule: bin width h = 3.49 * sd * N^(-1/3).

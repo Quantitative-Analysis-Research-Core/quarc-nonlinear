@@ -77,3 +77,15 @@ tc.verifyEqual(tauB, tauA);
 tc.verifyNotEqual(curve8(:,2), curveA(:,2), 'bins must change the result');
 tc.verifyError(@() ami_stergiou(x, 40, [8 16]), ?MException);
 end
+
+function testBinEdges(tc)
+% Edges matching Scott's equal-width bins reproduce ami_histogram, which
+% has no eps off-by-one; edges that miss a sample are refused, not dropped.
+x = tc.TestData.lorenz;
+edges = linspace(min(x), max(x), 21);
+[~, curve] = ami_stergiou(x, 40, edges);
+[~, curveNew] = ami(x, 40, Algorithm="histogram", bins=20);
+tc.verifyEqual(curve(:,2), curveNew(:,2), 'AbsTol', 1e-12);
+tc.verifyError(@() ami_stergiou(x, 40, edges(2:end)), 'ami_stergiou:edgesTooNarrow');
+tc.verifyError(@() ami_stergiou(x, 40, [0 2 1]), 'ami:badBins');
+end
