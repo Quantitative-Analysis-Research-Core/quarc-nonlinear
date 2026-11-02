@@ -88,7 +88,7 @@ if (nargin==2 || nargin==3) && numel(varargin{2})==1
         bins = ceil(range(data)/(3.49*nanstd(data)*N^(-1/3))); % Scott 1979
     elseif nargin==3
         bins = varargin{3};
-        if numel(bins)==1
+        if numel(bins)~=1
             error('input bins must be a single number')
         end
     end

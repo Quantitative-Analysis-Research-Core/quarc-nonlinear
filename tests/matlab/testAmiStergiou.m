@@ -62,3 +62,18 @@ x = tc.TestData.lorenz;
 y = circshift(x, 9);
 tc.verifyEqual(ami_stergiou(x, y), ami_stergiou(y, x), 'RelTol', 1e-12);
 end
+
+function testExplicitBins(tc)
+% Until 2026-11 the bins check was inverted (numel(bins)==1 -> error), so
+% this form raised for every scalar and never ran.
+x = tc.TestData.lorenz;
+N = numel(x);
+scott = ceil(range(x) / (3.49*std(x)*N^(-1/3)));
+[tauA, curveA] = ami_stergiou(x, 40);
+[tauB, curveB] = ami_stergiou(x, 40, scott);
+tc.verifyEqual(curveB, curveA);
+tc.verifyEqual(tauB, tauA);
+[~, curve8] = ami_stergiou(x, 40, 8);
+tc.verifyNotEqual(curve8(:,2), curveA(:,2), 'bins must change the result');
+tc.verifyError(@() ami_stergiou(x, 40, [8 16]), ?MException);
+end
