@@ -391,3 +391,19 @@ for f = ["ami.m", "ami_histogram.m", "ami_kde.m", "ami_partition.m", ...
         '%s requires beyond base MATLAB: %s', f, strjoin(extra, ", ")));
 end
 end
+
+function testHistogramAcceptsBinEdges(tc)
+x = tc.TestData.lorenz;
+[tauN, curveN, infoN] = ami(x, 40, bins=24);
+[tauE, curveE, infoE] = ami(x, 40, bins=infoN.edges);
+tc.verifyEqual(curveE, curveN);
+tc.verifyEqual(tauE, tauN);
+tc.verifyEqual(infoE.bins, 24);
+% Uneven edges are honoured, not replaced by an equal-width grid.
+q = quantile(x, linspace(0, 1, 25));
+q([1 end]) = [min(x) max(x)];
+[~, curveQ] = ami(x, 40, bins=q);
+tc.verifyGreaterThan(max(abs(curveQ(:,2) - curveN(:,2))), 1e-3);
+tc.verifyError(@() ami(x, 40, bins=q(2:end)), 'ami_histogram:edgesTooNarrow');
+tc.verifyError(@() ami(x, 40, bins=[1 1 2]), 'ami:badBins');
+end

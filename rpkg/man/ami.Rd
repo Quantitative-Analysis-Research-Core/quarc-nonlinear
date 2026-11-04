@@ -44,8 +44,10 @@ ami_partition(x, maxlag, alpha = 0.05, fraction = 0.2)
 * `"copula"` (alias `"gcmi"`): Gaussian copula. Blind to non-monotonic
   dependence; see [ami_copula()] before using it to choose a delay.}
 
-\item{bins}{Histogram bins per axis. Default `NULL` selects by Scott's
-rule. Used only by `"histogram"`.}
+\item{bins}{Histogram bins per axis: a positive integer count, or a
+vector of strictly increasing bin edges spanning the data (each bin
+closed on the left, the last also on the right). Default `NULL` selects
+the count by Scott's rule. Used only by `"histogram"`.}
 
 \item{k}{Number of neighbours. Default `NULL` uses 10. Used only by
 `"knn"`.}

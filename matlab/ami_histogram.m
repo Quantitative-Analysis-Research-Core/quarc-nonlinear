@@ -8,10 +8,14 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 %   (maxlag+1)-by-2 array of [lag, ami], in bits.
 %
 %   [TAU,CURVE,INFO] = AMI_HISTOGRAM(X,maxlag) also returns a struct with fields
-%   allMinima, usedFallback, fractionLag, bins, samplesPerLag and estimator.
+%   allMinima, usedFallback, fractionLag, bins, edges, samplesPerLag and
+%   estimator.
 %
-%   ___ = AMI_HISTOGRAM(X,maxlag,bins=B) sets the number of bins per axis.
-%   Default selects B by Scott's rule.
+%   ___ = AMI_HISTOGRAM(X,maxlag,bins=B) sets the number of equal-width bins
+%   per axis. Default selects B by Scott's rule. B may instead be a vector of
+%   strictly increasing bin edges, used for both axes; the edges must span
+%   every sample, so none is silently dropped. As in HISTCOUNTS, each bin is
+%   closed on the left and the last bin is also closed on the right.
 %
 %   ___ = AMI_HISTOGRAM(X,maxlag,fraction=F) sets the fallback threshold, as a
 %   fraction of AMI at lag 0, used when the curve has no local minimum.
@@ -37,6 +41,7 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 %   Examples
 %      tau = ami_histogram(x, 50);
 %      [tau, curve, info] = ami_histogram(x, 50, bins=32);
+%      tau = ami_histogram(x, 50, bins=linspace(-20, 20, 41));
 %
 %   References
 %      Fraser, A. M. and Swinney, H. maxlag. (1986). Independent coordinates for
@@ -55,7 +60,7 @@ function [tau, curve, info] = ami_histogram(x, maxlag, opts)
 arguments
     x  (:,1) double {mustBeNonempty}
     maxlag  (1,1) double {mustBePositive, mustBeInteger}
-    opts.bins     double {mustBeScalarOrEmpty, mustBePositive, mustBeInteger} = []
+    opts.bins     double {ami_validate_bins} = []
     opts.fraction (1,1) double {mustBePositive} = 0.2
 end
 
@@ -69,15 +74,25 @@ if maxlag >= N
           'L (%d) must be smaller than the number of samples (%d).', maxlag, N);
 end
 
-nBins = opts.bins;
-if isempty(nBins)
-    nBins = scottBins(x);
+if isscalar(opts.bins) || isempty(opts.bins)
+    nBins = opts.bins;
+    if isempty(nBins)
+        nBins = scottBins(x);
+    end
+    edges = binEdges(x, nBins);
+else
+    edges = opts.bins(:)';
+    if min(x) < edges(1) || max(x) > edges(end)
+        error('ami_histogram:edgesTooNarrow', ...
+              'bins edges [%g, %g] do not span the data [%g, %g].', ...
+              edges(1), edges(end), min(x), max(x));
+    end
+    nBins = numel(edges) - 1;
 end
 
 % Constant overlap across lags -- see note above.
 m = N - maxlag;
 
-edges = binEdges(x, nBins);
 curve = zeros(maxlag + 1, 2);
 for lag = 0:maxlag
     a = x(1:m);
@@ -87,6 +102,7 @@ end
 
 [tau, info] = ami_first_minimum(curve, opts.fraction, "ami_histogram");
 info.bins = nBins;
+info.edges = edges;
 info.samplesPerLag = m;
 info.estimator = "histogram";
 end

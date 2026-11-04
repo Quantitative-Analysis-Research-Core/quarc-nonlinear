@@ -16,8 +16,10 @@
 #'   * `"knn"` (alias `"ksg"`): Kraskov-Stoegbauer-Grassberger.
 #'   * `"copula"` (alias `"gcmi"`): Gaussian copula. Blind to non-monotonic
 #'     dependence; see [ami_copula()] before using it to choose a delay.
-#' @param bins Histogram bins per axis. Default `NULL` selects by Scott's
-#'   rule. Used only by `"histogram"`.
+#' @param bins Histogram bins per axis: a positive integer count, or a
+#'   vector of strictly increasing bin edges spanning the data (each bin
+#'   closed on the left, the last also on the right). Default `NULL` selects
+#'   the count by Scott's rule. Used only by `"histogram"`.
 #' @param k Number of neighbours. Default `NULL` uses 10. Used only by
 #'   `"knn"`.
 #' @param fraction Fallback threshold, as a fraction of AMI at lag 0, used
