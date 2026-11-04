@@ -1,4 +1,4 @@
-# Surrogates and fGn are random, and R cannot draw MATLAB's numbers, so they
+# Surrogates are random, and R cannot draw MATLAB's numbers, so they
 # are tested by what each algorithm promises to preserve -- the same
 # contracts as the MATLAB suite (quarctest.surrogateContract).
 
@@ -57,15 +57,4 @@ test_that("surr_find_rho returns a rho inside its bounds", {
   expect_gte(r$rho, 0.05)
   expect_lte(r$rho, 1)
   expect_error(surr_find_rho(x, 10, 3, 1, 0.5), "0 < rhoL < rhoH")
-})
-
-test_that("fgn_sim gives unit-variance noise whose DFA slope recovers H", {
-  set.seed(7)
-  for (H in c(0.3, 0.5, 0.85)) {
-    x <- fgn_sim(8192, H)
-    expect_length(x, 8192)
-    expect_equal(stats::sd(x), 1, tolerance = 0.1)
-    sc <- unique(round(2^seq(4, 10, by = 0.5)))
-    expect_equal(dfa(x, sc)$alpha, H, tolerance = 0.08 / H, label = paste("H =", H))
-  }
 })

@@ -25,3 +25,6 @@ matlab/private/*.mex*
 rpkg/src/*.o
 rpkg/src/*.so
 pypkg/build/
+
+# MATLAB editor autosaves
+*.asv
