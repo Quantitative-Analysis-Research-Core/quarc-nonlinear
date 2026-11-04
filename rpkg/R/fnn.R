@@ -1,27 +1,3 @@
-#' Delay embedding with arbitrary lags
-#'
-#' @param z Numeric vector.
-#' @param v Lags, or, with `w`, the number of lags.
-#' @param w Spacing between lags: when given, the lags are `0:(v-1) * w`.
-#' @return A matrix with one row per lag, in increasing lag order, and one
-#'   column per embedded time. Row `i` is `z` delayed by the `i`-th smallest
-#'   lag, so the lag-0 row holds the latest sample of each vector. This is the
-#'   transpose of [psr()]'s layout, as in MATLAB.
-#' @export
-embed <- function(z, v = c(0, 1, 2), w = NULL) {
-  if (!is.null(w)) v <- seq(0, w * (v - 1), by = w)
-  z <- as.numeric(z)
-  lags <- sort(v)
-  dim <- length(lags)
-  n <- length(z)
-  if (n < lags[dim]) stop("Vector is too small to be embedded with the given lags", call. = FALSE)
-  m <- n - (lags[dim] - lags[1])
-  t <- (1:m) + lags[dim]
-  x <- matrix(0, dim, m)
-  for (i in seq_len(dim)) x[i, ] <- z[t - lags[i]]
-  x
-}
-
 #' False nearest neighbours
 #'
 #' Kennel, Brown and Abarbanel (1992). For each dimension up to `maxdim`, the
@@ -195,36 +171,4 @@ kd_overlap <- function(yq, m_search, st) {
     }
   }
   TRUE
-}
-
-#' Phase space reconstruction by time-delay embedding
-#'
-#' Builds the delay-coordinate matrix of a time series. A matrix input is
-#' embedded column by column, so each delay block holds every input channel.
-#'
-#' @param x Numeric vector, or a matrix with one channel per column.
-#' @param delay Embedding delay in samples, positive integer.
-#' @param dim Embedding dimension, positive integer.
-#' @return A matrix with `N - (dim - 1) * delay` rows and `dim * ncol(x)`
-#'   columns. Columns `1:ncol(x)` are the undelayed channels.
-#' @examples
-#' x <- sin(seq(0, 20 * pi, length.out = 2000))
-#' Y <- psr(x, delay = 25, dim = 3)
-#' dim(Y)
-#' @export
-psr <- function(x, delay, dim) {
-  x <- as.matrix(x)
-  N <- nrow(x)
-  D <- ncol(x)
-  M <- N - (dim - 1) * delay
-  if (M < 1) {
-    stop(sprintf("Series of %d samples is too short for dim = %d at delay = %d.",
-                 N, dim, delay), call. = FALSE)
-  }
-  out <- matrix(0, M, dim * D)
-  for (i in seq_len(dim)) {
-    rows <- (1 + (i - 1) * delay):(N - (dim - i) * delay)
-    out[, (1:D) + D * (i - 1)] <- x[rows, , drop = FALSE]
-  }
-  out
 }
