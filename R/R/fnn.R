@@ -23,22 +23,11 @@ fnn <- function(x, delay, maxdim, Rtol, Atol, speed) {
   x <- as.numeric(x)
   n <- length(x) - delay * maxdim
   RA <- stats::sd(x)
-  z <- x[1:n]
-  y <- NULL
   dim <- NULL
   dE <- numeric(maxdim)
   for (j in seq_len(maxdim)) {
-    y <- cbind(y, z)
-    z <- x[(1 + delay * j):(n + delay * j)]
-    L <- logical(n)
-    tree <- kd_part(unname(y), z, 512)
-    for (i in seq_len(n)) {
-      nb <- kd_nearest(tree, y[i, ], 2)
-      distance <- nb$pqz[1] - nb$pqz[2]
-      if (abs(distance) > nb$pqd[2] * Rtol) L[i] <- TRUE
-      if (sqrt(nb$pqd[2]^2 + distance^2) / RA > Atol) L[i] <- TRUE
-    }
-    dE[j] <- sum(L) / n
+    dE[j] <- if (n >= 2) .fnn_core(x, delay, j, n, Rtol, Atol, RA)
+             else fnn_false_fraction_r(x, delay, j, n, Rtol, Atol, RA)
     if (speed == 1) {
       if (dE[j] <= 0) { dim <- j; break }
       if (j >= 3 && (dE[j - 2] > dE[j - 1] && dE[j - 1] < dE[j])) { dim <- j - 1; break }
@@ -56,6 +45,24 @@ fnn <- function(x, delay, maxdim, Rtol, Atol, speed) {
     message("no dimension found, dim set to maxdim")
   }
   list(dim = dim, dE = dE)
+}
+
+# The R code for one dimension's false-neighbour fraction, kept as the
+# readable reference for the compiled kernel (cpp/src/fnn.cpp), which ports
+# the same k-d tree step for step; the tests check that the two agree.
+fnn_false_fraction_r <- function(x, delay, j, n, Rtol, Atol, RA) {
+  y <- sapply(0:(j - 1), function(c) x[(1:n) + delay * c])
+  y <- matrix(y, n, j)
+  z <- x[(1:n) + delay * j]
+  L <- logical(n)
+  tree <- kd_part(y, z, 512)
+  for (i in seq_len(n)) {
+    nb <- kd_nearest(tree, y[i, ], 2)
+    distance <- nb$pqz[1] - nb$pqz[2]
+    if (abs(distance) > nb$pqd[2] * Rtol) L[i] <- TRUE
+    if (sqrt(nb$pqd[2]^2 + distance^2) / RA > Atol) L[i] <- TRUE
+  }
+  sum(L) / n
 }
 
 # Build the k-d tree: points are reordered in place so each node owns a

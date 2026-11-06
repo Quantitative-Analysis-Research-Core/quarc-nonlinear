@@ -5,3 +5,23 @@
     .Call(`_quarcnonlinear_ent_samp_core`, x, dim, radius)
 }
 
+.line_hist_core <- function(a, theiler, cross) {
+    .Call(`_quarcnonlinear_line_hist_core`, a, theiler, cross)
+}
+
+.corr_dim_range_core <- function(x, dim, delay) {
+    .Call(`_quarcnonlinear_corr_dim_range_core`, x, dim, delay)
+}
+
+.corr_dim_counts_core <- function(x, dim, delay, edges) {
+    .Call(`_quarcnonlinear_corr_dim_counts_core`, x, dim, delay, edges)
+}
+
+.fnn_core <- function(x, delay, j, n, rtol, atol, ra) {
+    .Call(`_quarcnonlinear_fnn_core`, x, delay, j, n, rtol, atol, ra)
+}
+
+.lye_r_core <- function(Y, theiler) {
+    .Call(`_quarcnonlinear_lye_r_core`, Y, theiler)
+}
+
