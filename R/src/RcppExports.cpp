@@ -23,9 +23,83 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// line_hist_core
+Rcpp::List line_hist_core(Rcpp::NumericMatrix a, double theiler, bool cross);
+RcppExport SEXP _quarcnonlinear_line_hist_core(SEXP aSEXP, SEXP theilerSEXP, SEXP crossSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type theiler(theilerSEXP);
+    Rcpp::traits::input_parameter< bool >::type cross(crossSEXP);
+    rcpp_result_gen = Rcpp::wrap(line_hist_core(a, theiler, cross));
+    return rcpp_result_gen;
+END_RCPP
+}
+// corr_dim_range_core
+Rcpp::NumericVector corr_dim_range_core(Rcpp::NumericVector x, int dim, double delay);
+RcppExport SEXP _quarcnonlinear_corr_dim_range_core(SEXP xSEXP, SEXP dimSEXP, SEXP delaySEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type dim(dimSEXP);
+    Rcpp::traits::input_parameter< double >::type delay(delaySEXP);
+    rcpp_result_gen = Rcpp::wrap(corr_dim_range_core(x, dim, delay));
+    return rcpp_result_gen;
+END_RCPP
+}
+// corr_dim_counts_core
+Rcpp::NumericVector corr_dim_counts_core(Rcpp::NumericVector x, int dim, double delay, Rcpp::NumericVector edges);
+RcppExport SEXP _quarcnonlinear_corr_dim_counts_core(SEXP xSEXP, SEXP dimSEXP, SEXP delaySEXP, SEXP edgesSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type dim(dimSEXP);
+    Rcpp::traits::input_parameter< double >::type delay(delaySEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type edges(edgesSEXP);
+    rcpp_result_gen = Rcpp::wrap(corr_dim_counts_core(x, dim, delay, edges));
+    return rcpp_result_gen;
+END_RCPP
+}
+// fnn_core
+double fnn_core(Rcpp::NumericVector x, double delay, double j, double n, double rtol, double atol, double ra);
+RcppExport SEXP _quarcnonlinear_fnn_core(SEXP xSEXP, SEXP delaySEXP, SEXP jSEXP, SEXP nSEXP, SEXP rtolSEXP, SEXP atolSEXP, SEXP raSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type delay(delaySEXP);
+    Rcpp::traits::input_parameter< double >::type j(jSEXP);
+    Rcpp::traits::input_parameter< double >::type n(nSEXP);
+    Rcpp::traits::input_parameter< double >::type rtol(rtolSEXP);
+    Rcpp::traits::input_parameter< double >::type atol(atolSEXP);
+    Rcpp::traits::input_parameter< double >::type ra(raSEXP);
+    rcpp_result_gen = Rcpp::wrap(fnn_core(x, delay, j, n, rtol, atol, ra));
+    return rcpp_result_gen;
+END_RCPP
+}
+// lye_r_core
+Rcpp::List lye_r_core(Rcpp::NumericMatrix Y, double theiler);
+RcppExport SEXP _quarcnonlinear_lye_r_core(SEXP YSEXP, SEXP theilerSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< double >::type theiler(theilerSEXP);
+    rcpp_result_gen = Rcpp::wrap(lye_r_core(Y, theiler));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_quarcnonlinear_ent_samp_core", (DL_FUNC) &_quarcnonlinear_ent_samp_core, 3},
+    {"_quarcnonlinear_line_hist_core", (DL_FUNC) &_quarcnonlinear_line_hist_core, 3},
+    {"_quarcnonlinear_corr_dim_range_core", (DL_FUNC) &_quarcnonlinear_corr_dim_range_core, 3},
+    {"_quarcnonlinear_corr_dim_counts_core", (DL_FUNC) &_quarcnonlinear_corr_dim_counts_core, 4},
+    {"_quarcnonlinear_fnn_core", (DL_FUNC) &_quarcnonlinear_fnn_core, 7},
+    {"_quarcnonlinear_lye_r_core", (DL_FUNC) &_quarcnonlinear_lye_r_core, 2},
     {NULL, NULL, 0}
 };
 

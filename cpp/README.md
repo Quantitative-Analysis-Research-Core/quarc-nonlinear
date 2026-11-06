@@ -18,6 +18,6 @@ R and Python build from their own directories, so each holds a copy of this
 folder. Edit here, then run `tools/sync_core.sh`; both test suites fail if a
 copy is stale.
 
-Kernels so far: `ent_samp`, `line_hist`, `corr_dim`, `fnn`, `lye_r` (MATLAB); `ent_samp` (R, Python).
+Kernels: `ent_samp`, `line_hist`, `corr_dim`, `fnn`, `lye_r`, in all three languages.
 
 `QUARC_NO_MEX=1` makes MATLAB run its own code; `tests/matlab/testCore.m` compares the two.
