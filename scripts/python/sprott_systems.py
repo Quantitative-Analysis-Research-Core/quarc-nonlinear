@@ -2,7 +2,7 @@
 
 WHY A PORT. The reference corpus recomputes every exponent under one method, and
 the dysts vector fields live in Python. Rather than move 126 dysts systems into
-MATLAB -- which python/export_dysts.py rejected, because a mistyped coefficient
+MATLAB -- which scripts/python/export_dysts.py rejected, because a mistyped coefficient
 still produces a plausible chaotic series -- the 62 Sprott systems come here, so
 a single engine covers both catalogues.
 

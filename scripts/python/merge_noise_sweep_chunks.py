@@ -12,7 +12,7 @@ The chunks are the same schema as quarctest.noise_sweep returns, so the merged
 table is what a single call over all 126 systems would have produced.
 
 Usage:
-    python/merge_noise_sweep_chunks.py [--allow-partial]
+    scripts/python/merge_noise_sweep_chunks.py [--allow-partial]
 """
 
 from __future__ import annotations
@@ -25,7 +25,7 @@ import os
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(HERE))
 CHUNKS = os.path.join(ROOT, "tests", "reports", "noise_sweep_rqa")
 OUT = os.path.join(ROOT, "tests", "reports", "noise_sweep_rqa.csv")
 MANIFEST = os.path.join(ROOT, "tests", "reports", "dysts", "manifest.json")

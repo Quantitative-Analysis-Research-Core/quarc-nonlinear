@@ -35,8 +35,8 @@ for stage in fast curves evolve full dysts noise noiserqa; do
 done
 
 echo "$(stamp) start post-processing"
-python3 python/merge_noise_sweep_chunks.py || { echo "$(stamp) FAILED merge"; exit 1; }
-$python python/rescore_ratios.py || { echo "$(stamp) FAILED rescore"; exit 1; }
-Rscript R/make_figures.R || { echo "$(stamp) FAILED figures"; exit 1; }
+python3 scripts/python/merge_noise_sweep_chunks.py || { echo "$(stamp) FAILED merge"; exit 1; }
+$python scripts/python/rescore_ratios.py || { echo "$(stamp) FAILED rescore"; exit 1; }
+Rscript scripts/R/make_figures.R || { echo "$(stamp) FAILED figures"; exit 1; }
 $quarto render docs/lab-report/lyapunov_estimators_lab_report.qmd || { echo "$(stamp) FAILED render"; exit 1; }
 echo "$(stamp) ALL DONE"

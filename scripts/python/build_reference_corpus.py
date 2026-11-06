@@ -12,7 +12,7 @@ by one of those numbers, so estimator error and reference error are currently
 added together with no way to tell them apart.
 
 This script recomputes every exponent under one method -- Sprott's, from
-python/lyap_spectrum.py -- from initial conditions and control parameters that
+scripts/python/lyap_spectrum.py -- from initial conditions and control parameters that
 are recorded in the output rather than implied. Where the two catalogues hold
 the same system under different parameters, both parameterizations are built as
 separate entries, so the disagreement becomes a measured quantity instead of an
@@ -37,8 +37,8 @@ with Sprott's published 0.0643, and a gate that trusted the book would have
 rejected the right answer.
 
 Usage:
-    python/build_reference_corpus.py --out tests/reports/reference_spectra.json
-    python/build_reference_corpus.py --quick --only lorenz,Thomas
+    scripts/python/build_reference_corpus.py --out tests/reports/reference_spectra.json
+    scripts/python/build_reference_corpus.py --quick --only lorenz,Thomas
 """
 
 from __future__ import annotations

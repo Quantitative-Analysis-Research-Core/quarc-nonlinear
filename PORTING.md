@@ -95,7 +95,7 @@ or three depending on the data.
 - **MATLAB** — reference implementation, active.
 - **Python** — port exists in the deprecated NONAN repository, has known
   defects, not moved here. Needs rework rather than a move.
-- **R** — complete for the current library, in `rpkg/` (package
+- **R** — complete for the current library, in `R/` (package
   `quarcnonlinear`), plain R with no compiled code yet. Every deterministic
   function matches MATLAB to rounding on the shared fixtures; random ones
   (surrogates, `fgn_sim`) are tested by contract. Not ported: `rqa_plot`
@@ -120,5 +120,5 @@ or three depending on the data.
   of MATLAB's solvers, so `chaos_library` flows take the same steps and
   agree to rounding over short horizons. On a chaotic attractor any
   difference grows exponentially; long trajectories will not agree.
-- Tests: `cd rpkg && Rscript -e 'devtools::test()'`. The agreement tests read
+- Tests: `cd R && Rscript -e 'devtools::test()'`. The agreement tests read
   `tests/fixtures/` from the repository and skip when it is not there.

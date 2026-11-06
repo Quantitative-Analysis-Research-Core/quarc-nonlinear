@@ -13,11 +13,11 @@ test_that("compiled ent_samp agrees with the R reference code", {
   }
 })
 
-test_that("rpkg/src carries an up-to-date copy of cpp/", {
+test_that("R/src carries an up-to-date copy of cpp/", {
   skip_without_fixtures()
   core <- file.path(dirname(dirname(fixture_dir())), "cpp")
   skip_if(!dir.exists(core), "cpp/ not found (not in the repository)")
-  src <- file.path(dirname(dirname(fixture_dir())), "rpkg", "src")
+  src <- file.path(dirname(dirname(fixture_dir())), "R", "src")
   for (f in list.files(file.path(core, "src"), pattern = "\\.cpp$")) {
     expect_identical(readLines(file.path(src, paste0("core_", f))),
                      readLines(file.path(core, "src", f)), label = f)

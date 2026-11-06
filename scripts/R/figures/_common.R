@@ -1,5 +1,5 @@
-# _common.R — shared setup for per-figure scripts in R/figures/ (house style).
-# Sourced by the master R/make_figures.R before each fig_*.R, and auto-sourced when a figure
+# _common.R — shared setup for per-figure scripts in scripts/R/figures/ (house style).
+# Sourced by the master scripts/R/make_figures.R before each fig_*.R, and auto-sourced when a figure
 # script is run standalone.
 #
 # Two deviations from the standard layout, both structural. There is no results/ directory:
@@ -11,8 +11,8 @@ suppressPackageStartupMessages({ library(ggplot2) })
 if (!exists("repo")) {
   .args <- commandArgs(FALSE)
   .f <- sub("--file=", "", grep("--file=", .args, value = TRUE)[1])
-  .here <- if (length(.f) && !is.na(.f)) dirname(normalizePath(.f)) else normalizePath("R/figures")
-  repo <- normalizePath(file.path(.here, "..", ".."))
+  .here <- if (length(.f) && !is.na(.f)) dirname(normalizePath(.f)) else normalizePath("scripts/R/figures")
+  repo <- normalizePath(file.path(.here, "..", "..", ".."))
 }
 res <- function(f) file.path(repo, "tests", "reports", f)
 fig <- function(f) {

@@ -258,9 +258,9 @@ twf <- qf("rqa_maxL_tw"); twr <- qr("rqa_maxL_tw")
 ```
 
 ```{r onemethod}
-# The recomputed reference corpus (python/build_reference_corpus.py): every
+# The recomputed reference corpus (scripts/python/build_reference_corpus.py): every
 # system in both catalogues under one method, with the three internal checks
-# and the published value it replaces. Bands match python/audit_corpus.py.
+# and the published value it replaces. Bands match scripts/python/audit_corpus.py.
 cor <- jsonlite::fromJSON(rp("reference_spectra.json"))$systems
 cor$sem1 <- vapply(cor$sem, function(s) if (length(s)) s[[1]] else NA_real_, numeric(1))
 cor$key  <- paste(cor$source, tolower(cor$name), sep = "/")
@@ -322,7 +322,7 @@ same_par <- c("lorenz", "rossler", "chen", "rabinovich_fabrikant", "burke_shaw",
 sh_same  <- shared[shared$system %in% same_par, ]
 
 # Every committed ratio re-divided by the recomputed reference
-# (python/rescore_ratios.py). The estimates are unchanged.
+# (scripts/python/rescore_ratios.py). The estimates are unchanged.
 rs <- read.csv(rp("reference_rescoring.csv"), stringsAsFactors = FALSE)
 rs$icDependent <- rs$icDependent %in% c("True", TRUE)
 rs$inCorpus    <- rs$inCorpus    %in% c("True", TRUE)
@@ -679,9 +679,9 @@ ptab(tab, c(18, 16, 14, 14, 14, 16), c("l", "l", "r", "r", "r", "r"))
 
 The published exponents disagree by a median of `r pct(median(abs(shared$before - 1)))`; for `r sh$system[1]` the dysts value is `r f2(sh$before[1], 1)` times Sprott's. Under one method, every system whose control parameters match in both catalogues agrees to within `r pct(max(abs(sh_same$after - 1)))`. The rest differ because the parameters differ — Sprott's Thomas uses $b = 0.18$ against a smaller dysts value, his Hadley $a = 0.25, F = 8$ against dysts' $a = 0.2, F = 9$ — which is why the corpus records both parameterisations rather than choosing one.
 
-**The method.** `python/lyap_spectrum.py` implements Sprott's own procedure from chapter 5 of @sprott2003: a fiducial trajectory advanced alongside $k$ perturbed copies, modified Gram–Schmidt orthonormalisation of the separation vectors at each renormalisation, and the log of each vector's growth accumulated into the corresponding exponent. No Jacobian is needed, so one engine covers Sprott's 62 hand-written vector fields and the dysts catalogue alike. The 62 Sprott systems were ported to Python for the purpose and read line by line against the printed appendix. Every entry records the initial condition, control parameters, integration step and horizon it was computed from.
+**The method.** `scripts/python/lyap_spectrum.py` implements Sprott's own procedure from chapter 5 of @sprott2003: a fiducial trajectory advanced alongside $k$ perturbed copies, modified Gram–Schmidt orthonormalisation of the separation vectors at each renormalisation, and the log of each vector's growth accumulated into the corresponding exponent. No Jacobian is needed, so one engine covers Sprott's 62 hand-written vector fields and the dysts catalogue alike. The 62 Sprott systems were ported to Python for the purpose and read line by line against the printed appendix. Every entry records the initial condition, control parameters, integration step and horizon it was computed from.
 
-**How an entry is judged.** Three checks travel with every spectrum, none of which consults a published number: the sum of the exponents against the time-averaged divergence of the vector field, read straight off $f$ by central differences; the exponent that theory requires to be exactly zero for an autonomous flow; and the standard error across independent ensemble members. The trace identity turned out to do double duty — integration error breaks it as surely as a faulty Gram–Schmidt does, which is how the integration step was calibrated per system rather than assumed. The corpus holds `r n_cor` systems (`r n_cor_sp` Sprott, `r n_cor_dy` dysts), of which `r n_clean` pass all three checks; the rest are named with their reasons by `python/audit_corpus.py`. `r n_dy_out` dysts systems whose vector fields could not be vectorised without guessing at their calling convention are left out rather than risked: a wrong vector field produces a perfectly plausible exponent, which is the failure this corpus exists to remove. A further `r n_notchaotic` entries are kept but marked not chaotic at their recorded initial condition — the exponent is essentially zero there, so a ratio against it is noise — and excluded from the summaries below along with the IC-dependent ones.
+**How an entry is judged.** Three checks travel with every spectrum, none of which consults a published number: the sum of the exponents against the time-averaged divergence of the vector field, read straight off $f$ by central differences; the exponent that theory requires to be exactly zero for an autonomous flow; and the standard error across independent ensemble members. The trace identity turned out to do double duty — integration error breaks it as surely as a faulty Gram–Schmidt does, which is how the integration step was calibrated per system rather than assumed. The corpus holds `r n_cor` systems (`r n_cor_sp` Sprott, `r n_cor_dy` dysts), of which `r n_clean` pass all three checks; the rest are named with their reasons by `scripts/python/audit_corpus.py`. `r n_dy_out` dysts systems whose vector fields could not be vectorised without guessing at their calling convention are left out rather than risked: a wrong vector field produces a perfectly plausible exponent, which is the failure this corpus exists to remove. A further `r n_notchaotic` entries are kept but marked not chaotic at their recorded initial condition — the exponent is essentially zero there, so a ratio against it is noise — and excluded from the summaries below along with the IC-dependent ones.
 
 **Against Sprott's appendix.** The recomputed values reproduce the printed appendix to a median absolute error of `r formatC(sp_mederr, format = "e", digits = 1)`: `r sp_w15` of `r sp_n` usable systems within $1.5 \times 10^{-4}$ of the published value, `r sp_w2e3` within $2 \times 10^{-3}$, and every closed-form case at machine precision. That agreement is what licenses the corpus as a reference. Three systems resist it, and each was resolved differently:
 
@@ -691,7 +691,7 @@ The published exponents disagree by a median of `r pct(median(abs(shared$before 
 
 **Conservative systems carry a warning rather than a number.** A dissipative system draws every trajectory onto one attractor, so its exponent belongs to the system. A conservative one does not: its state space is a patchwork of chaotic regions and regular islands that a trajectory never crosses between, so the exponent belongs to the starting point. Hénon–Heiles gave 0.0042 and 0.0449 in this work under nothing more than a different integration step, because the step moved the trajectory into a different region. Both are correct measurements of different things. The `r n_icdep` such entries — Sprott's conservative maps and flows, and dysts' Hamiltonian systems — are flagged `icDependent` in the corpus and excluded from the summaries below. Arnold's cat map is deliberately not among them: it is conservative but uniformly hyperbolic, and the recomputation reproduces its closed form to $3 \times 10^{-9}$.
 
-**What it does to the results.** Because the estimates do not depend on the reference, every ratio in this report can be re-divided by the recomputed reference without re-running the battery (`python/rescore_ratios.py`). @tbl-rescore does that for the dissipative systems the corpus covers.
+**What it does to the results.** Because the estimates do not depend on the reference, every ratio in this report can be re-divided by the recomputed reference without re-running the battery (`scripts/python/rescore_ratios.py`). @tbl-rescore does that for the dissipative systems the corpus covers.
 
 ```{r tbl-rescore}
 #| tbl-cap: "Median estimate ÷ reference across dissipative systems, with the published reference and with the recomputed one. The estimates are identical in both columns; only the denominator changes."
@@ -773,7 +773,7 @@ The embedding parameters were measured as outcomes rather than assumed. The AMI 
 
 ## The RQA family under the same noise {#sec-noise-rqa}
 
-The sweep above left the recurrence-quantification metrics out, pending a fix to how diagonal lines were counted (`line_hist` counted a line once per point rather than once per line). With that fix in, the same design was run over the RQA family: the same `r n_nq` systems, the same R = `r R_nq`, the same six levels and the same two arms, so that the two families are compared on identical noise draws. The RQA battery is far more expensive than the Lyapunov one — about 100 s per 16 000-sample series, dominated by the recurrence matrix — and the pass took 58 h on 32 workers, run as 21 restartable chunks of six systems and reassembled by `python/merge_noise_sweep_chunks.py`, which refuses to write unless every manifest system is present exactly once.
+The sweep above left the recurrence-quantification metrics out, pending a fix to how diagonal lines were counted (`line_hist` counted a line once per point rather than once per line). With that fix in, the same design was run over the RQA family: the same `r n_nq` systems, the same R = `r R_nq`, the same six levels and the same two arms, so that the two families are compared on identical noise draws. The RQA battery is far more expensive than the Lyapunov one — about 100 s per 16 000-sample series, dominated by the recurrence matrix — and the pass took 58 h on 32 workers, run as 21 restartable chunks of six systems and reassembled by `scripts/python/merge_noise_sweep_chunks.py`, which refuses to write unless every manifest system is present exactly once.
 
 **No reference, so each system is its own control.** Unlike $\lambda_1$, the RQA metrics have no published value to score against, and their scales differ by orders of magnitude across systems (determinism runs 60 to 100, maximal line length from tens to thousands of samples). The quantity reported is therefore each system's value at a noise level divided by **its own clean value** at the same realization: how far noise moves the measurement from what the same series gave without it. Every system starts at 1 by construction. `r n_nq_rqa` of the `r n_nq` systems contribute; the RQA battery returns nothing at all for `r if (n_nq_drop == 1) "PanXuZhou" else paste(n_nq_drop, "systems")`, whose radius never reaches the target recurrence rate on any realization — clean or noisy — so there is no clean value to divide by.
 
@@ -870,10 +870,10 @@ matlab -batch "addpath('tests/matlab'); \
 T = quarctest.evolve_sweep();
 [S, per] = quarctest.noise_sweep(R=25);                     % Family="lyapunov" (default)
 [S, per] = quarctest.noise_sweep(R=25, Family="rqa");       % run in chunks; see tests/README.md
-python python/merge_noise_sweep_chunks.py                   % assemble the RQA chunks
+python scripts/python/merge_noise_sweep_chunks.py                   % assemble the RQA chunks
 
 # Figures and this report
-Rscript R/make_figures.R
+Rscript scripts/R/make_figures.R
 quarto render docs/lab-report/lyapunov_estimators_lab_report.qmd
 ```
 

@@ -6,7 +6,7 @@ function [S, per] = characterize_series(opts)
 %
 %   Same battery, same policies, same output schema as quarctest.characterize.
 %   The difference is where the series come from: characterize integrates each
-%   system itself, this reads ensembles written by python/export_dysts.py.
+%   system itself, this reads ensembles written by scripts/python/export_dysts.py.
 %
 %   WHY A SECOND ENTRY POINT. The dysts vector fields are Python, and the
 %   published exponents this suite compares against were computed by that same
