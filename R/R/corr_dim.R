@@ -21,19 +21,10 @@ corr_dim <- function(x, delay, dim) {
   x <- as.numeric(x)
   bins <- 200
   n <- length(x) - (dim - 1) * delay
-  y <- embed(x, dim, delay)
   k <- dim * delay
-  pair_dist <- function(i) {
-    j <- (i + k + 1):n
-    sqrt(colSums((y[, j, drop = FALSE] - y[, i])^2))
-  }
-  eps1 <- 0
-  eps2 <- Inf
-  for (i in seq_len(n - k - 1)) {
-    d <- pair_dist(i)
-    eps1 <- max(max(d), eps1)
-    eps2 <- min(min(d), eps2)
-  }
+  r <- .corr_dim_range_core(x, dim, delay)
+  eps2 <- r[1]
+  eps1 <- r[2]
   if (eps2 == 0) eps2 <- .Machine$double.eps
   lo <- log(eps2)
   hi <- log(eps1)
@@ -41,15 +32,7 @@ corr_dim <- function(x, delay, dim) {
   e[bins] <- hi
   epsilon <- exp(1)^e
   epsilon[c(1, bins)] <- c(eps2, eps1)   # exact end radii; see the MATLAB note
-  CI <- numeric(bins)
-  for (i in seq_len(n - k - 1)) {
-    d <- pair_dist(i)
-    # histc: edges[b] <= d < edges[b+1]; the last bin counts d == edges[end].
-    b <- findInterval(d, epsilon)
-    b[d == epsilon[bins]] <- bins
-    b <- b[b >= 1 & (b < bins | d == epsilon[bins])]
-    CI <- CI + tabulate(b, bins)
-  }
+  CI <- .corr_dim_counts_core(x, dim, delay, epsilon)
   CI <- log(cumsum(CI) / ((n - k)^2))
   CI <- CI + log(n - k - 1)
   epsilon <- log(epsilon)
@@ -72,4 +55,39 @@ corr_dim <- function(x, delay, dim) {
   list(CoD = cf[1],
        extra = list(logEps = epsilon, logC = CI, idx = idx, slope = cf[1], intercept = cf[2],
                     r2 = r2, bounds = bounds))
+}
+
+# The R code for the pair loops, kept as the readable reference for the
+# compiled kernels (cpp/src/corr_dim.cpp); the tests check that they agree.
+# With epsilon NULL, returns c(min, max) of the pair distances; otherwise
+# their histc counts against epsilon.
+corr_dim_pairs_r <- function(x, dim, delay, epsilon = NULL) {
+  n <- length(x) - (dim - 1) * delay
+  y <- embed(x, dim, delay)
+  k <- dim * delay
+  pair_dist <- function(i) {
+    j <- (i + k + 1):n
+    sqrt(colSums((y[, j, drop = FALSE] - y[, i])^2))
+  }
+  if (is.null(epsilon)) {
+    eps1 <- 0
+    eps2 <- Inf
+    for (i in seq_len(n - k - 1)) {
+      d <- pair_dist(i)
+      eps1 <- max(max(d), eps1)
+      eps2 <- min(min(d), eps2)
+    }
+    return(c(eps2, eps1))
+  }
+  bins <- length(epsilon)
+  CI <- numeric(bins)
+  for (i in seq_len(n - k - 1)) {
+    d <- pair_dist(i)
+    # histc: edges[b] <= d < edges[b+1]; the last bin counts d == edges[end].
+    b <- findInterval(d, epsilon)
+    b[d == epsilon[bins]] <- bins
+    b <- b[b >= 1 & (b < bins | d == epsilon[bins])]
+    CI <- CI + tabulate(b, bins)
+  }
+  CI
 }
