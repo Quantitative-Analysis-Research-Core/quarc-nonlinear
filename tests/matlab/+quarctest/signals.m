@@ -185,7 +185,7 @@ switch lower(kind)
 
     case 'withzero'
         % A sine sampled so that t=0 gives an exact 0.0. This is the class of
-        % series that silently breaks python/emd.py's extr().
+        % series that silently breaks scripts/python/emd.py's extr().
         y = sin(2*pi*(0:n-1)' / 32) + 0.3*sin(2*pi*(0:n-1)' / 7);
         y(1) = 0.0;
 

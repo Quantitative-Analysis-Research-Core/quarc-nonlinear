@@ -20,7 +20,7 @@ offsets, so a short file yields plausible numbers from the wrong part of the
 array instead of an error.
 
 Usage:
-    python/rebuild_manifest.py --dir tests/reports/dysts --R 100 --N 16000 \
+    scripts/python/rebuild_manifest.py --dir tests/reports/dysts --R 100 --N 16000 \
         --log ~/dysts_export.log
 """
 

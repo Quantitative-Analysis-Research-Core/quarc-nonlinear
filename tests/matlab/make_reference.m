@@ -4,7 +4,7 @@ function make_reference()
 %   matlab -batch "addpath('tests/matlab'); make_reference"
 %
 %   Writes tests/fixtures/matlab_reference.json, which IS COMMITTED. The
-%   R suite (rpkg/tests) compares against this file, so cross-language equivalence is
+%   R suite (R/tests) compares against this file, so cross-language equivalence is
 %   checked in CI without needing a MATLAB licence on the runner.
 %
 %   Regenerate deliberately, never as part of a test run: if a test could
@@ -42,7 +42,7 @@ ref.ent_samp.ar1_phi70_512 = ent_samp(y, 2, 0.2);
 y = readmatrix(fullfile(fx, 'lorenz_2048.csv'));
 ref.ami_thomas.lorenz_2048 = localFirstMinAmi(y);
 
-% ---- References for the R port (rpkg/). Each records the full output, not
+% ---- References for the R port (R/). Each records the full output, not
 % just a summary, so a port that agrees on the summary by accident still fails.
 
 short = {'ar1_phi70_512', 'henon_512', 'pseudoperiodic_300'};

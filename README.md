@@ -71,11 +71,11 @@ Every function documents its arguments and returns in its own help text
 
 ## R
 
-An R port of the whole library is in `rpkg/`. Every function is checked
+An R port of the whole library is in `R/`. Every function is checked
 against MATLAB's answers on shared fixtures; see `PORTING.md`.
 
 ```r
-devtools::install("rpkg")
+devtools::install("R")
 library(quarcnonlinear)
 ```
 

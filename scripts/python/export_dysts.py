@@ -31,7 +31,7 @@ Excluded: the six delay-differential systems, which need a history function
 rather than an initial condition and do not fit this protocol.
 
 Usage:
-    python/export_dysts.py --out tests/reports/dysts --R 100 --N 16000
+    scripts/python/export_dysts.py --out tests/reports/dysts --R 100 --N 16000
 
 N is the ceiling for every downstream experiment: truncating a stored series is
 free, lengthening one means regenerating the whole export. It is set high for

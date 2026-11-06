@@ -15,8 +15,8 @@ recomputed spectra against the values they replace turns that from a worry into
 a number, per system and per catalogue.
 
 Usage:
-    python/audit_corpus.py                      # audit + comparison
-    python/audit_corpus.py --json summary.json  # also write the summary
+    scripts/python/audit_corpus.py                      # audit + comparison
+    scripts/python/audit_corpus.py --json summary.json  # also write the summary
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ import sys
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(HERE))
 
 # Bands for the internal checks. The trace tolerance is relative to the
 # divergence, because a system whose volumes contract at 14 per unit time

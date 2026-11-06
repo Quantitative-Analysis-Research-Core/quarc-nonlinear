@@ -5,7 +5,7 @@ One implementation of the slow kernels, called from all three packages:
 | Package | Wrapper | Build |
 |---|---|---|
 | MATLAB | `matlab/mex/quarc_*.cpp` (MEX) | `addpath matlab/mex; build_mex` |
-| R | `rpkg/src/rcpp_*.cpp` (Rcpp) | `devtools::install("rpkg")` |
+| R | `R/src/rcpp_*.cpp` (Rcpp) | `devtools::install("R")` |
 | Python | `pypkg/src/bindings.cpp` (nanobind) | `pip install ./pypkg` |
 
 Rules: plain C++17, built with `-ffp-contract=off` (no fused multiply-add, so
