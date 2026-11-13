@@ -32,6 +32,29 @@ lye_r <- function(x, fs, delay, dim, theiler = NULL, slope = NULL, MeanPeriod = 
     Y <- psr(x, delay, dim)
   }
   M <- nrow(Y)
+  core <- .lye_r_core(Y, theiler)
+  out <- cbind(seq_len(M), core$nn, core$avg)
+  AveLnDiv <- core$avg[seq_len(core$count)]
+  dimnames(out) <- NULL
+  if (is.null(slope)) return(out)
+
+  time <- (0:(length(AveLnDiv) - 1)) / fs / MeanPeriod
+  short <- c(if (slope[1] == 0) 1 else round(slope[1] * MeanPeriod * fs),
+             round(slope[2] * MeanPeriod * fs))
+  long <- c(round(slope[3] * MeanPeriod * fs), round(slope[4] * MeanPeriod * fs))
+  fit_slope <- function(r) {
+    if (r[2] > length(AveLnDiv)) return(NaN)
+    idx <- r[1]:r[2]
+    unname(stats::lm.fit(cbind(time[idx], 1), AveLnDiv[idx])$coefficients[1])
+  }
+  list(LyES = fit_slope(short), LyEL = fit_slope(long), out = out)
+}
+
+# The R code for the two loops, kept as the readable reference for the
+# compiled kernel (cpp/src/lye_r.cpp); the tests check that the two agree.
+# Returns out (index, neighbour, mean log divergence) and AveLnDiv.
+lye_r_divergence_r <- function(Y, theiler) {
+  M <- nrow(Y)
   IND2 <- integer(M)
   for (i in seq_len(M)) {
     d <- sqrt(rowSums((Y - matrix(Y[i, ], M, ncol(Y), byrow = TRUE))^2))
@@ -57,16 +80,5 @@ lye_r <- function(x, fs, delay, dim, theiler = NULL, slope = NULL, MeanPeriod = 
   # MATLAB grows AveLnDiv only up to the last step with a pair.
   AveLnDiv <- AveLnDiv[seq_len(max(c(0, which(ok))))]
   dimnames(out) <- NULL
-  if (is.null(slope)) return(out)
-
-  time <- (0:(length(AveLnDiv) - 1)) / fs / MeanPeriod
-  short <- c(if (slope[1] == 0) 1 else round(slope[1] * MeanPeriod * fs),
-             round(slope[2] * MeanPeriod * fs))
-  long <- c(round(slope[3] * MeanPeriod * fs), round(slope[4] * MeanPeriod * fs))
-  fit_slope <- function(r) {
-    if (r[2] > length(AveLnDiv)) return(NaN)
-    idx <- r[1]:r[2]
-    unname(stats::lm.fit(cbind(time[idx], 1), AveLnDiv[idx])$coefficients[1])
-  }
-  list(LyES = fit_slope(short), LyEL = fit_slope(long), out = out)
+  list(out = out, AveLnDiv = AveLnDiv)
 }

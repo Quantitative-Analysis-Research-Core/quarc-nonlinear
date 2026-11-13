@@ -25,6 +25,25 @@ line_hist <- function(x, a, radius, type, theiler = 0) {
     A <- a[[1]]
   }
   n <- nrow(A)
+  lines <- if (nrow(A) == ncol(A)) .line_hist_core(A, theiler, isCross)
+           else line_hist_lines_r(A, theiler, isCross)
+  diag_hist <- lines$diag
+  vertical_hist <- lines$vert
+  if (!isCross) {
+    band <- sum(diag_k(A, 0))
+    for (k in seq_len(theiler)) band <- band + sum(diag_k(A, k)) + sum(diag_k(A, -k))
+    excluded <- n + 2 * sum(n - seq_len(theiler))
+    recurrence <- 100 * (sum(A) - band) / (n^2 - excluded)
+  } else {
+    recurrence <- 100 * sum(A) / n^2
+  }
+  list(recurrence = recurrence, diag_hist = diag_hist, vertical_hist = vertical_hist, a = A)
+}
+
+# The R code for the line counts, kept as the readable reference for the
+# compiled kernel (cpp/src/line_hist.cpp); the tests check that the two agree.
+line_hist_lines_r <- function(A, theiler, isCross) {
+  n <- nrow(A)
   runs <- function(v) {
     r <- rle(v)
     r$lengths[r$values == 1]
@@ -41,15 +60,7 @@ line_hist <- function(x, a, radius, type, theiler = 0) {
     if (theiler > 0) v[max(1, j - theiler):min(n, j + theiler)] <- 0
     vertical_hist <- c(vertical_hist, runs(v))
   }
-  if (!isCross) {
-    band <- sum(diag_k(A, 0))
-    for (k in seq_len(theiler)) band <- band + sum(diag_k(A, k)) + sum(diag_k(A, -k))
-    excluded <- n + 2 * sum(n - seq_len(theiler))
-    recurrence <- 100 * (sum(A) - band) / (n^2 - excluded)
-  } else {
-    recurrence <- 100 * sum(A) / n^2
-  }
-  list(recurrence = recurrence, diag_hist = diag_hist, vertical_hist = vertical_hist, a = A)
+  list(diag = diag_hist, vert = vertical_hist)
 }
 
 # MATLAB's diag(A, k): k > 0 above the main diagonal.
