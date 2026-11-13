@@ -138,7 +138,7 @@ Generate the ensembles first — this is simulation only, no metrics:
 
 ```bash
 python3.12 -m venv /tmp/dystsenv && /tmp/dystsenv/bin/pip install dysts
-/tmp/dystsenv/bin/python python/export_dysts.py \
+/tmp/dystsenv/bin/python scripts/python/export_dysts.py \
     --out tests/reports/dysts --R 100 --N 16000 --workers 30
 ```
 
@@ -437,7 +437,7 @@ recurrence matrix, and a per-system `parfor` left most of the pool idle in
 each system's tail; `noise_sweep` now pools every (system, realization) pair
 into one `parfor`, which is why the committed function differs from the one the
 Lyapunov pass ran under, and why the chunk driver rather than a per-system
-checkpoint is where restartability lives. `python/merge_noise_sweep_chunks.py`
+checkpoint is where restartability lives. `scripts/python/merge_noise_sweep_chunks.py`
 assembles the chunks and refuses to write unless every manifest system is
 present exactly once.
 

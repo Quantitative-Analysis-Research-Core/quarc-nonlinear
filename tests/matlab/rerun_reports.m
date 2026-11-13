@@ -24,7 +24,7 @@ function rerun_reports(stage)
 %   system's position within the call, so its stages reproduce the original
 %   call pattern exactly. The Lyapunov pass is one call, as committed; the
 %   RQA pass keeps the original chunks (manifest systems in alphabetical
-%   order, six per chunk), merged by python/merge_noise_sweep_chunks.py, as
+%   order, six per chunk), merged by scripts/python/merge_noise_sweep_chunks.py, as
 %   in the 28-30 September run.
 
 % Copyright (c) 2021-2026 Quantitative Analysis Research Core,

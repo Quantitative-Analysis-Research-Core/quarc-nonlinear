@@ -10,7 +10,7 @@ import quarcnonlinear as qn
 
 REPO = Path(__file__).resolve().parents[2]
 FIX = REPO / "tests" / "fixtures"
-TOL = 1e-10  # as rpkg's tests: summation order passes, a defect does not
+TOL = 1e-10  # as the R package's tests: summation order passes, a defect does not
 
 needs_fixtures = pytest.mark.skipif(not (FIX / "matlab_reference.json").exists(),
                                     reason="shared fixtures not found (not in the repository)")

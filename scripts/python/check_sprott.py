@@ -6,15 +6,15 @@ published at; until that holds, a disagreement between our exponent and Sprott's
 cannot be attributed to his method rather than to our port.
 
 Two things are being tested at once and they are not separable by design: the
-engine (python/lyap_spectrum.py) and the transcription of the 62 vector fields
-(python/sprott_systems.py). A mistyped coefficient and a broken integrator both
+engine (scripts/python/lyap_spectrum.py) and the transcription of the 62 vector fields
+(scripts/python/sprott_systems.py). A mistyped coefficient and a broken integrator both
 show up here as a missed exponent, which is the point -- the check is sensitive
 to either.
 
 Usage:
-    python/check_sprott.py                  # quick pass, catches gross errors
-    python/check_sprott.py --precision      # long pass, the real gate
-    python/check_sprott.py --only lorenz,henon
+    scripts/python/check_sprott.py                  # quick pass, catches gross errors
+    scripts/python/check_sprott.py --precision      # long pass, the real gate
+    scripts/python/check_sprott.py --only lorenz,henon
 """
 
 from __future__ import annotations

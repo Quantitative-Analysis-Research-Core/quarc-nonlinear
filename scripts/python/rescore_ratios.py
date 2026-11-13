@@ -16,7 +16,7 @@ is lambda1. Correlation dimension keeps its published D2, which the corpus does
 not recompute.
 
 Usage:
-    python/rescore_ratios.py
+    scripts/python/rescore_ratios.py
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ import os
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
+ROOT = os.path.dirname(os.path.dirname(HERE))
 REPORTS = os.path.join(ROOT, "tests", "reports")
 
 LYAP_METRICS = ("lyap_wolf", "lyap_ros")

@@ -13,10 +13,10 @@ function ref = reference_spectra(path)
 %   WHY THIS EXISTS. The two catalogues the battery is scored against carried
 %   exponents from two different procedures -- Sprott's trajectory separation
 %   and dysts' continuous QR -- and on the 13 systems both hold, those disagree
-%   by a median of 22%. python/build_reference_corpus.py recomputes every
+%   by a median of 22%. scripts/python/build_reference_corpus.py recomputes every
 %   system under one method; this reads the result so the MATLAB side can
 %   score against it. See the corpus file's own provenance fields and
-%   python/lyap_spectrum.py for the method.
+%   scripts/python/lyap_spectrum.py for the method.
 %
 %   Names are lower-cased on both sides of the join: the Sprott catalogue and
 %   the corpus use snake_case, the dysts manifest and the corpus use CamelCase,
@@ -40,7 +40,7 @@ end
 if ~isfile(path)
     error('quarctest:referenceSpectra:noCorpus', ...
         ['No reference corpus at %s. Build one with\n' ...
-         '    python/build_reference_corpus.py --out tests/reports/reference_spectra.json'], ...
+         '    scripts/python/build_reference_corpus.py --out tests/reports/reference_spectra.json'], ...
         path);
 end
 
