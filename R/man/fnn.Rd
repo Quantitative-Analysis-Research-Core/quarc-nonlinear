@@ -4,7 +4,7 @@
 \alias{fnn}
 \title{False nearest neighbours}
 \usage{
-fnn(x, delay, maxdim, Rtol, Atol, speed)
+fnn(x, delay, maxdim, Rtol, Atol, speed, thresh = NULL)
 }
 \arguments{
 \item{x}{Numeric vector.}
@@ -19,6 +19,14 @@ fnn(x, delay, maxdim, Rtol, Atol, speed)
 
 \item{speed}{`1` stops at the first dimension meeting the criteria; `0`
 computes every dimension first, then chooses.}
+
+\item{thresh}{Optional. If given, `dim` is the first dimension whose
+fraction of false neighbours is at or below `thresh` (e.g. 0.01), in
+place of the default rules; `maxdim` if none reaches it. The default
+rules (zero, a local minimum, or a change of at most 0.001) suit curves
+that fall to zero; where the `Atol` criterion leaves a slowly fading
+tail of a few percent (e.g. Thomas' attractor) they can stop almost
+anywhere, and a threshold gives a stable answer.}
 }
 \value{
 A list with `dim`, the selected embedding dimension, and `dE`,
