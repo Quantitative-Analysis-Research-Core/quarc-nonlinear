@@ -5,12 +5,12 @@ build-backend = "scikit_build_core.build"
 [project]
 name = "quarcnonlinear"
 version = "0.0.0.dev0"
-description = "Python bindings to the QUARC Nonlinear C++ core"
+description = "QUARC Nonlinear: nonlinear time-series analysis (Python port of the MATLAB library)"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 authors = [{ name = "Aaron D. Likens", email = "alikens@unomaha.edu" }]
-dependencies = ["numpy"]
+dependencies = ["numpy", "scipy"]
 
 [project.optional-dependencies]
 test = ["pytest"]
