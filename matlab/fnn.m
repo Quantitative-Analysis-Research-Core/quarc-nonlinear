@@ -1,5 +1,5 @@
-function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed)
-% [FN,dim] = fnn(x,delay,maxdim,Rtol,Atol)
+function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed,thresh)
+% [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed,thresh)
 %   x - column oriented time series
 %   delay - time delay
 %   maxdim - maximum embedding dimension
@@ -7,10 +7,18 @@ function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed)
 %   Atol - threshold for teh second criterion
 %   speed - a 0 for the code to calculate to the maxdim or a 1 for the code
 %           to finish once a minimum is found
+%   thresh - optional. If given, dim is the first dimension whose fraction
+%           of false neighbours is at or below thresh (e.g. 0.01), and the
+%           default rules below are not used. If none reaches it, dim =
+%           maxdim. Default [] (off).
 % Remarks
 % - This code determines the embedding dimension for a time series using
 %   the false nearest neighbors method.
 % - Recommended values are Rtol=15 and Atol=2;
+% - The default stopping rule (zero, a local minimum, or a change of at most
+%   0.001) suits curves that fall to zero. Where the Atol criterion leaves a
+%   slowly fading tail of a few percent (e.g. Thomas' attractor), that rule
+%   can stop almost anywhere; a threshold gives a stable answer there.
 % - Reference:   "Determining embedding dimension for phase-space
 %                 reconstruction using a geometrical construction",
 %                 M. B. Kennel, R. Brown, and H.D.I. Abarbanel,
@@ -55,6 +63,12 @@ function [dim, dE] = fnn(x,delay,maxdim,Rtol,Atol,speed)
 % Center for Human Movement Variability, University of Nebraska at Omaha.
 % MIT licence. See LICENSE.txt.
 %% Begin algorithm
+if nargin < 7
+    thresh = [];
+end
+if ~isempty(thresh) && ~(isscalar(thresh) && isreal(thresh) && thresh >= 0 && thresh <= 1)
+    error('fnn:badThresh', 'thresh must be a fraction between 0 and 1.');
+end
 
 n=length(x)-delay*maxdim;  % # of x points to be used
 RA=std(x); % the nominal "radius" of the attractor
@@ -119,7 +133,14 @@ for j = 1:maxdim
         dE(j) = sum(L)/n; % was FN=[FN sum(L)/n]
     end
     
-    if speed==1
+    if ~isempty(thresh)
+        if isempty(dim) && dE(j) <= thresh
+            dim = j;
+            if speed==1
+                break
+            end
+        end
+    elseif speed==1
         % Stops calculation if %FNN=0
         if (dE(j)<=0)
             dim=j;
@@ -139,7 +160,7 @@ for j = 1:maxdim
     
 end
 
-if speed==0
+if speed==0 && isempty(thresh)
     for i = 2:length(dE)-1
         % Looks for 0 percentage or minimum.
         if (dE(i)<=0)||((dE(i-1)>dE(i)&&(dE(i)< dE(i+1))))

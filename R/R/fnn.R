@@ -12,6 +12,13 @@
 #' @param Atol Attractor-size threshold. Typically 2.
 #' @param speed `1` stops at the first dimension meeting the criteria; `0`
 #'   computes every dimension first, then chooses.
+#' @param thresh Optional. If given, `dim` is the first dimension whose
+#'   fraction of false neighbours is at or below `thresh` (e.g. 0.01), in
+#'   place of the default rules; `maxdim` if none reaches it. The default
+#'   rules (zero, a local minimum, or a change of at most 0.001) suit curves
+#'   that fall to zero; where the `Atol` criterion leaves a slowly fading
+#'   tail of a few percent (e.g. Thomas' attractor) they can stop almost
+#'   anywhere, and a threshold gives a stable answer.
 #' @return A list with `dim`, the selected embedding dimension, and `dE`,
 #'   the fraction of false neighbours at each dimension `1:maxdim` (zero
 #'   beyond the stopping dimension when `speed = 1`).
@@ -19,7 +26,10 @@
 #'   Determining embedding dimension for phase-space reconstruction using a
 #'   geometrical construction. Physical Review A, 45(6), 3403-3411.
 #' @export
-fnn <- function(x, delay, maxdim, Rtol, Atol, speed) {
+fnn <- function(x, delay, maxdim, Rtol, Atol, speed, thresh = NULL) {
+  if (!is.null(thresh) && !(length(thresh) == 1 && is.numeric(thresh) && thresh >= 0 && thresh <= 1)) {
+    stop("thresh must be a fraction between 0 and 1.", call. = FALSE)
+  }
   x <- as.numeric(x)
   n <- length(x) - delay * maxdim
   RA <- stats::sd(x)
@@ -28,13 +38,18 @@ fnn <- function(x, delay, maxdim, Rtol, Atol, speed) {
   for (j in seq_len(maxdim)) {
     dE[j] <- if (n >= 2) .fnn_core(x, delay, j, n, Rtol, Atol, RA)
              else fnn_false_fraction_r(x, delay, j, n, Rtol, Atol, RA)
-    if (speed == 1) {
+    if (!is.null(thresh)) {
+      if (is.null(dim) && dE[j] <= thresh) {
+        dim <- j
+        if (speed == 1) break
+      }
+    } else if (speed == 1) {
       if (dE[j] <= 0) { dim <- j; break }
       if (j >= 3 && (dE[j - 2] > dE[j - 1] && dE[j - 1] < dE[j])) { dim <- j - 1; break }
       if (j >= 2 && abs(dE[j] - dE[j - 1]) <= 0.001) { dim <- j; break }
     }
   }
-  if (speed == 0 && length(dE) >= 3) {
+  if (speed == 0 && is.null(thresh) && length(dE) >= 3) {
     for (i in 2:(length(dE) - 1)) {
       if (dE[i] <= 0 || (dE[i - 1] > dE[i] && dE[i] < dE[i + 1])) { dim <- i; break }
       if (dE[i - 1] - dE[i] <= 0.001) { dim <- i - 1; break }
