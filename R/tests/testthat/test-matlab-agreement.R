@@ -310,12 +310,6 @@ test_that("rel_phase_disc matches MATLAB: DRP, frequency ratios, coupling", {
                 ratio1 = list(sin(2 * pi * tt / 40), sin(2 * pi * tt / 40 + 0.8 + 0.6 * sin(2 * pi * tt / 500))))
   for (s in names(cases)) {
     r <- ref[[s]]
-    if (!is.null(r$error)) {
-      # MATLAB cannot tabulate this case; the port must refuse it too.
-      expect_error(rel_phase_disc(cases[[s]][[1]], cases[[s]][[2]]), "same number of rows",
-                   label = s)
-      next
-    }
     out <- rel_phase_disc(cases[[s]][[1]], cases[[s]][[2]])
     for (f in c("t", "n", "T", "DRP")) expect_equal(out$DRP[[f]], as.numeric(r[[f]]), tolerance = TOL, label = paste(s, f))
     for (f in c("Ratio", "Occurances", "Percentage_of_Total")) {

@@ -5,11 +5,11 @@
 #' means (and, for GMSE, variances), and sample entropy is computed in
 #' several ways.
 #'
-#' Two details follow the MATLAB implementation exactly and may be worth
-#' revisiting there: GMSE uses `radius` as an absolute tolerance on the
-#' coarse-grained variances, not scaled by any SD; and the fuzzy entropy
-#' scales the already-scaled tolerance `radius * sd(x)` again by the SD of
-#' the coarse-grained series.
+#' MSE, CMSE, RCMSE and MSFE use the tolerance `radius * sd(x)` at every
+#' scale. GMSE coarse-grains by variance, so its tolerance is `radius` times
+#' the SD of the scale-4 variance series, again fixed across scales (the
+#' default of PhysioNet's gmse; Costa and Goldberger 2015). `GMSE[1]` is
+#' `NaN`: the variance of a single sample is undefined.
 #'
 #' @param x Numeric vector.
 #' @param scale Largest scale.
@@ -20,11 +20,17 @@
 #' @references Wu, S.-D., Wu, C.-W., Lin, S.-G., Lee, K.-Y. and Peng, C.-K.
 #'   (2014). Analysis of complex time series using refined composite
 #'   multiscale entropy. Physics Letters A, 378(20), 1369-1374.
+#'
+#'   Costa, M. D. and Goldberger, A. L. (2015). Generalized multiscale
+#'   entropy analysis: application to quantifying the complex volatility of
+#'   human heartbeat time series. Entropy, 17(3), 1197-1203.
 #' @export
 ent_ms_plus <- function(x, scale, dim, radius) {
   x <- as.numeric(x)
   R <- radius * stats::sd(x)
   N <- length(x)
+  nw4 <- floor(N / 4)
+  Rg <- radius * stats::sd(vapply(seq_len(nw4), function(j) stats::var(x[(4 * j - 3):(4 * j)]), numeric(1)))
   RCMSE <- CMSE <- MSE <- MSFE <- GMSE <- numeric(scale)
   for (i in seq_len(scale)) {
     nj <- floor(N / i)
@@ -39,7 +45,7 @@ ent_ms_plus <- function(x, scale, dim, radius) {
       out
     }
     o2 <- win_stat(function(w) if (length(w) > 1) stats::var(w) else 0)
-    GMSE[i] <- ms_samp_ent(o2[1, ], dim, radius)$SE
+    GMSE[i] <- if (i == 1) NaN else ms_samp_ent(o2[1, ], dim, Rg)$SE
     y <- win_stat(function(w) sum(w) / i)
     row1 <- y[1, !is.nan(y[1, ])]
     MSE[i] <- ms_samp_ent(row1, dim, R)$SE
@@ -77,11 +83,11 @@ ms_samp_ent <- function(data, m, r) {
   list(SE = -log((sum(Am) / n) / (sum(Bm) / n)), sum_nm = sum_nm, sum_nm1 = sum_nm1)
 }
 
-# Fuzzy entropy (Chen et al. 2007), as ent_ms_plus computes it.
+# Fuzzy entropy (Chen et al. 2007), as ent_ms_plus computes it. r is in the
+# units of the series.
 ms_fuzzy_ent <- function(series, dim, r, n) {
   N <- length(series)
   phi <- numeric(2)
-  r <- r * stats::sd(series)
   for (j in 1:2) {
     m <- dim + j - 1
     nP <- N - m + 1

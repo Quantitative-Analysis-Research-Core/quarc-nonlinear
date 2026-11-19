@@ -26,14 +26,18 @@ means (and, for GMSE, variances), and sample entropy is computed in
 several ways.
 }
 \details{
-Two details follow the MATLAB implementation exactly and may be worth
-revisiting there: GMSE uses `radius` as an absolute tolerance on the
-coarse-grained variances, not scaled by any SD; and the fuzzy entropy
-scales the already-scaled tolerance `radius * sd(x)` again by the SD of
-the coarse-grained series.
+MSE, CMSE, RCMSE and MSFE use the tolerance `radius * sd(x)` at every
+scale. GMSE coarse-grains by variance, so its tolerance is `radius` times
+the SD of the scale-4 variance series, again fixed across scales (the
+default of PhysioNet's gmse; Costa and Goldberger 2015). `GMSE[1]` is
+`NaN`: the variance of a single sample is undefined.
 }
 \references{
 Wu, S.-D., Wu, C.-W., Lin, S.-G., Lee, K.-Y. and Peng, C.-K.
   (2014). Analysis of complex time series using refined composite
   multiscale entropy. Physics Letters A, 378(20), 1369-1374.
+
+  Costa, M. D. and Goldberger, A. L. (2015). Generalized multiscale
+  entropy analysis: application to quantifying the complex volatility of
+  human heartbeat time series. Entropy, 17(3), 1197-1203.
 }
