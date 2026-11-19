@@ -48,48 +48,24 @@ set(gca,'XLim',[0 length(x)]);
 set(gca,'YLim',[mean(x)-0.5*std(x) max(x)]);
 scatter(S1_events,x(S1_events),'k','filled');
 %% DRP start:
-%Compute tiR(p)
-clc; i = 2; back = 0;
-for i1 = 1:length(S2_events)
-    if S2_events(i1) < S1_events(1)
-        back = back+1;
-    elseif S2_events(i1) < S1_events(i)
-        tiRp(i1-back) = S1_events(i) - S2_events(i1);
-    else
-        if i < length(S1_events)
-            i = i+1;
-            tiRp(i1-back) = S1_events(i) - S2_events(i1);
-        end
-    end
+% One row per y event j that lies in a complete x cycle and has a next y
+% event: t is the time from it to the next x event, T is the y period
+% starting at it, and n counts the y events still to come in the same x
+% cycle (0 for the cycle's last). y events before the first x event, or
+% from the last x event on, have no complete cycle and are left out.
+S1_events = S1_events(:); S2_events = S2_events(:);
+use = find(S2_events(1:end-1) >= S1_events(1) & S2_events(1:end-1) < S1_events(end));
+t = zeros(numel(use),1); T = t; n = t; cyc = t;
+for k = 1:numel(use)
+    j = use(k);
+    cyc(k) = find(S1_events <= S2_events(j), 1, 'last');
+    t(k) = S1_events(cyc(k)+1) - S2_events(j);
+    T(k) = S2_events(j+1) - S2_events(j);
 end
-%Compute Ti
-Ti = diff(S2_events);
-%Find n's
-for i = 1:length(S1_events) - 1
-    holder = 0;
-    for f = 1:length(S2_events)-1
-        if S2_events(f) >= S1_events(i) && S2_events(f) < S1_events(i+1)
-            holder = holder + 1;
-        end
-    end
-    N(i,1) = holder-1;
+for k = 1:numel(use)
+    n(k) = sum(cyc(k+1:end) == cyc(k));
 end
-%Discrete relative phase calculation
-i = 1;
-L = min(length(tiRp),length(Ti));
-for i1 = 1:L
-    DRP(i1,1) = tiRp(i1)/Ti(i1)*360;
-    t(i1,1) = tiRp(i1);
-    T(i1,1) = Ti(i1);
-    i = i+1;
-end
-i = 1;
-for k = 1:length(N)
-    for i1 = 0:N(k)
-        n(i,1) = N(k) - i1;
-        i = i+1;
-    end
-end
+DRP = t ./ T * 360;
 Raw = table(t,n,T,DRP);
 subplot(3,2,3:4); plot(DRP,'k-o'); hold on;
 maxDRP = round(max(DRP)/360)+1;

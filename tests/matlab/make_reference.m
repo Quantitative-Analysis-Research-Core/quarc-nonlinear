@@ -216,9 +216,8 @@ end
 % ---- Discrete relative phase (opens figures; output tables only).
 if exist('findpeaks', 'file')
     tt = (0:1999)';
-    % 'ratio1' has y leading x, which rel_phase_disc cannot tabulate (its
-    % event counts come out one apart); it is recorded as an error so a port
-    % is held to failing the same way.
+    % 'ratio1' has y's first peak before x's, which rel_phase_disc used to
+    % misalign (and fail on); it is kept as a regression case.
     drpCases = {'ratio2', sin(2*pi*tt/50), sin(2*pi*tt/25 + 0.4*sin(2*pi*tt/300)); ...
                 'ratio1_lag', sin(2*pi*tt/40), sin(2*pi*tt/40 - 0.8 + 0.6*sin(2*pi*tt/500)); ...
                 'ratio1', sin(2*pi*tt/40), sin(2*pi*tt/40 + 0.8 + 0.6*sin(2*pi*tt/500))};

@@ -23,6 +23,12 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, scale, dim, radius )
 % - The Complexity Index (CI) is not calculated by this code. Because the scales
 %   are incremented by 1 the C is the summation of all the elements in each
 %   array. For example the CI of MSE would be sum(MSE).
+% - MSE, CMSE, RCMSE and MSFE use the tolerance radius*std(x) at every
+%   scale. GMSE coarse-grains by variance, whose amplitude differs from the
+%   series', so its tolerance is radius times the SD of the scale-4 variance
+%   series, again fixed across scales (the default of PhysioNet's gmse;
+%   Costa & Goldberger 2015, Entropy 17, 1197-1203). GMSE(1) is NaN: the
+%   variance of a single sample is undefined.
 % 20170828 Created by Will Denton, bmchnonan@unomaha.edu
 % 20201001 Modified by Ben Senderling, bmchnonan@unomaha.edu
 %          - Modifed to calculate all scales in this single code instead of
@@ -36,6 +42,7 @@ function [ RCMSE, CMSE, MSE, MSFE, GMSE ] = ent_ms_plus( x, scale, dim, radius )
 
 R = radius*std(x);
 N = length(x);
+Rg = radius*std(gmse_coarse(x, 4));
 
 for i=1:scale
     
@@ -50,7 +57,11 @@ for i=1:scale
             end
         end
     end
-    GMSE(i,1) = Samp_Ent(o2(1,:),dim,radius);
+    if i == 1
+        GMSE(i,1) = NaN;
+    else
+        GMSE(i,1) = Samp_Ent(o2(1,:),dim,Rg);
+    end
     
     %Coarse-graining for MSE and derivatives
     y_tau_kj = zeros(length(1:i),length(1:N/i));
@@ -82,6 +93,15 @@ for i=1:scale
     n_m_ktau = 1/i*sum(nm);
     RCMSE(i,1) = -log(n_m1_ktau/n_m_ktau);
     
+end
+end
+
+function v = gmse_coarse(x, s)
+% Variances of consecutive non-overlapping windows of length s.
+nw = floor(length(x)/s);
+v = zeros(1, nw);
+for j = 1:nw
+    v(j) = var(x((j-1)*s+1:j*s));
 end
 end
 
@@ -144,7 +164,8 @@ followed.
 INPUT:
         series: the time series.
         dim: the embedding dimesion employed in the SampEn algorithm.
-        r: the width of the fuzzy exponential function.
+        r: the width of the fuzzy exponential function, in the units of
+           the series (ent_ms_plus passes radius*std(x)).
         n: the step of the fuzzy exponential function.
 
 OUTPUT:
@@ -173,8 +194,6 @@ assert(control,'The user must introduce a step for the fuzzy exponential functio
 % series = (series-mean(series))/std(series);
 N = length(series);
 phi = zeros(1,2);
-% Value of 'r' in case of not normalized time series:
-r = r*std(series);
 
 for j = 1:2
     m = dim+j-1; % 'm' is the embbeding dimension used each iteration

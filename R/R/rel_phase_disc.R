@@ -26,33 +26,16 @@ rel_phase_disc <- function(x, y, S1_events = NULL, S2_events = NULL) {
   }
   mround <- function(v) sign(v) * floor(abs(v) + 0.5)
 
-  i <- 2
-  back <- 0
-  tiRp <- numeric(0)
-  for (i1 in seq_along(S2)) {
-    if (S2[i1] < S1[1]) {
-      back <- back + 1
-    } else if (S2[i1] < S1[i]) {
-      tiRp <- put(tiRp, i1 - back, S1[i] - S2[i1])
-    } else if (i < length(S1)) {
-      i <- i + 1
-      tiRp <- put(tiRp, i1 - back, S1[i] - S2[i1])
-    }
-  }
-  Ti <- diff(S2)
-  N <- vapply(seq_len(length(S1) - 1), function(k) {
-    f <- S2[seq_len(length(S2) - 1)]
-    sum(f >= S1[k] & f < S1[k + 1]) - 1
-  }, numeric(1))
-  L <- min(length(tiRp), length(Ti))
-  DRP <- tiRp[seq_len(L)] / Ti[seq_len(L)] * 360
-  tcol <- tiRp[seq_len(L)]
-  Tcol <- Ti[seq_len(L)]
-  n <- unlist(lapply(N, function(Nk) if (Nk >= 0) Nk - (0:Nk) else numeric(0)))
-  if (length(n) != L) {
-    stop(sprintf("All table variables must have the same number of rows (n has %d, DRP %d).",
-                 length(n), L), call. = FALSE)
-  }
+  # One row per y event j that lies in a complete x cycle and has a next y
+  # event: t is the time from it to the next x event, T is the y period
+  # starting at it, and n counts the y events still to come in the same x
+  # cycle (0 for the cycle's last).
+  use <- which(S2[-length(S2)] >= S1[1] & S2[-length(S2)] < S1[length(S1)])
+  cyc <- vapply(use, function(j) max(which(S1 <= S2[j])), numeric(1))
+  tcol <- S1[cyc + 1] - S2[use]
+  Tcol <- S2[use + 1] - S2[use]
+  n <- vapply(seq_along(use), function(k) sum(cyc[-seq_len(k)] == cyc[k]), numeric(1))
+  DRP <- tcol / Tcol * 360
   Raw <- data.frame(t = tcol, n = n, T = Tcol, DRP = DRP)
   maxDRP <- mround(max(DRP) / 360) + 1
 
