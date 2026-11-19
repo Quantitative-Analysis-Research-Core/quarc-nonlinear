@@ -19,11 +19,11 @@
 #'   data sets. Physica D, 65(1-2), 117-134.
 #' @export
 lye_r <- function(x, fs, delay, dim, theiler = NULL, slope = NULL, MeanPeriod = NULL) {
-  if (is.null(theiler)) theiler <- round(delay * 0.8)
+  if (is.null(theiler)) theiler <- mround(delay * 0.8)
   if (length(theiler) != 1 || !is.finite(theiler) || theiler < 0) {
     stop("TheilerWindow must be a non-negative finite scalar, in samples.", call. = FALSE)
   }
-  theiler <- round(theiler)
+  theiler <- mround(theiler)
   x <- as.matrix(x)
   if (ncol(x) > nrow(x)) x <- t(x)
   if (ncol(x) > 1) {
@@ -39,9 +39,9 @@ lye_r <- function(x, fs, delay, dim, theiler = NULL, slope = NULL, MeanPeriod = 
   if (is.null(slope)) return(out)
 
   time <- (0:(length(AveLnDiv) - 1)) / fs / MeanPeriod
-  short <- c(if (slope[1] == 0) 1 else round(slope[1] * MeanPeriod * fs),
-             round(slope[2] * MeanPeriod * fs))
-  long <- c(round(slope[3] * MeanPeriod * fs), round(slope[4] * MeanPeriod * fs))
+  short <- c(if (slope[1] == 0) 1 else mround(slope[1] * MeanPeriod * fs),
+             mround(slope[2] * MeanPeriod * fs))
+  long <- c(mround(slope[3] * MeanPeriod * fs), mround(slope[4] * MeanPeriod * fs))
   fit_slope <- function(r) {
     if (r[2] > length(AveLnDiv)) return(NaN)
     idx <- r[1]:r[2]

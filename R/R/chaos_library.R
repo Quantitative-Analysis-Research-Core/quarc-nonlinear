@@ -56,7 +56,7 @@ chaos_library <- function(S, t, IC, p) {
 }
 
 map_length <- function(t) {
-  n <- if (length(t) == 1) round(t) else length(t)
+  n <- if (length(t) == 1) mround(t) else length(t)
   if (n < 1) stop("t must ask for at least one data point.", call. = FALSE)
   n
 }
