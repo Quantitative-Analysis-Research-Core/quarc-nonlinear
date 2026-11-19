@@ -132,6 +132,21 @@ test_that("fnn agrees with a brute-force false-neighbour count across leaves", {
   expect_equal(suppressMessages(fnn(w, 1, 4, 15, 2, 0))$dE, brute(w, 1, 4, 15, 2), tolerance = 1e-12)
 })
 
+test_that("fnn's thresh picks the first dimension at or below it", {
+  set.seed(12)
+  x <- sin(1:1500 / 6) + 0.4 * sin(1:1500 / 2.3) + 0.05 * rnorm(1500)
+  dE <- suppressMessages(fnn(x, 6, 6, 15, 2, 0))$dE
+  for (t in c(0.5, 0.1, 0.01)) {
+    want <- which(dE <= t)[1]
+    if (is.na(want)) want <- 6
+    expect_equal(suppressMessages(fnn(x, 6, 6, 15, 2, 0, thresh = t))$dim, want, label = paste("speed 0", t))
+    expect_equal(suppressMessages(fnn(x, 6, 6, 15, 2, 1, thresh = t))$dim, want, label = paste("speed 1", t))
+  }
+  want0 <- if (any(dE <= 0)) which(dE <= 0)[1] else 6
+  expect_equal(suppressMessages(fnn(x, 6, 6, 15, 2, 0, thresh = 0))$dim, want0)
+  expect_error(fnn(x, 6, 6, 15, 2, 0, thresh = 2), "between 0 and 1")
+})
+
 test_that("ami_histogram accepts bin edges", {
   set.seed(3)
   x <- cumsum(rnorm(800))

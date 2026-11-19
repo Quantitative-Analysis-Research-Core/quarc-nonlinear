@@ -29,6 +29,28 @@ x = quarctest.signals('henon', 400);
 tc.verifyEqual(dE, localBruteForce(x, 1, 4, 15, 2), 'AbsTol', 1e-12);
 end
 
+function testThresholdPicksFirstDimensionBelowIt(tc)
+% thresh replaces the default rules: dim is the first dimension at or below
+% it, the same with speed 0 or 1, and maxdim if none reaches it.
+x = quarctest.signals('lorenz', 1500);
+[~, dE] = fnn(x, 8, 6, 15, 2, 0);
+for t = [0.5 0.1 0.01]
+    want = find(dE <= t, 1);
+    if isempty(want), want = 6; end
+    [~, d0] = evalc('fnn(x, 8, 6, 15, 2, 0, t)');
+    [~, d1] = evalc('fnn(x, 8, 6, 15, 2, 1, t)');
+    tc.verifyEqual(d0, want, sprintf('thresh %g, speed 0', t));
+    tc.verifyEqual(d1, want, sprintf('thresh %g, speed 1', t));
+end
+want = find(dE <= 0, 1);
+if isempty(want), want = 6; end
+[~, d] = evalc('fnn(x, 8, 6, 15, 2, 0, 0)');
+tc.verifyEqual(d, want, 'thresh 0');
+tc.verifyError(@() fnn(x, 8, 6, 15, 2, 0, -0.1), 'fnn:badThresh');
+tc.verifyError(@() fnn(x, 8, 6, 15, 2, 0, 2), 'fnn:badThresh');
+tc.verifyError(@() fnn(x, 8, 6, 15, 2, 0, [0.1 0.2]), 'fnn:badThresh');
+end
+
 function dE = localBruteForce(x, delay, maxdim, Rtol, Atol)
 n = numel(x) - delay*maxdim;
 RA = std(x);

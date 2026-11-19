@@ -67,6 +67,20 @@ def test_fnn_matches_matlab():
 
 
 @needs_fixtures
+def test_fnn_threshold_picks_first_dimension_at_or_below_it():
+    x = fixture("henon_512")
+    with _quiet():
+        _, dE = qn.fnn(x, 1, 6, 15, 2, 0)
+        for t in (0.5, 0.1, 0.01):
+            hits = np.flatnonzero(dE <= t)
+            want = hits[0] + 1 if hits.size else 6
+            assert qn.fnn(x, 1, 6, 15, 2, 0, thresh=t)[0] == want, t
+            assert qn.fnn(x, 1, 6, 15, 2, 1, thresh=t)[0] == want, t
+    with pytest.raises(ValueError):
+        qn.fnn(x, 1, 6, thresh=2)
+
+
+@needs_fixtures
 def test_corr_dim_matches_matlab():
     for name, r in ref()["corr_dim"].items():
         cod, extra = qn.corr_dim(fixture(name), r["delay"], r["dim"])
