@@ -35,7 +35,7 @@ lyapunov <- function(x, fs, algorithm = "rosenstein", delay = 1, dim = 3, theile
                      "delay) to match the delay used to build the phase space."), call. = FALSE)
     }
   }
-  if (is.null(theiler)) theiler <- round(delay * 0.8)
+  if (is.null(theiler)) theiler <- mround(delay * 0.8)
   algorithm <- tolower(algorithm)
   extra <- list(phaseSpace = Y, algorithm = algorithm, units = "nats per unit time", fs = fs,
                 theilerWindow = theiler, tau = delay, dim = ncol(Y))
@@ -105,7 +105,7 @@ saturation_index <- function(d) {
   span <- max(d) - min(d)
   if (span <= 0) return(n)
   tol <- 0.01 * span
-  look <- max(3, round(0.02 * n))
+  look <- max(3, mround(0.02 * n))
   runmax <- d[1]
   if (n - look >= 2) {
     for (i in 2:(n - look)) {

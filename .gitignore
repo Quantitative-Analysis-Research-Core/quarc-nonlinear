@@ -28,3 +28,5 @@ pypkg/build/
 
 # MATLAB editor autosaves
 *.asv
+# compiled core copied next to the sources for PYTHONPATH=pypkg/src testing
+pypkg/src/quarcnonlinear/*.so

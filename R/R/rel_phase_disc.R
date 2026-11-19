@@ -24,7 +24,6 @@ rel_phase_disc <- function(x, y, S1_events = NULL, S2_events = NULL) {
     v[i] <- val
     v
   }
-  mround <- function(v) sign(v) * floor(abs(v) + 0.5)
 
   # One row per y event j that lies in a complete x cycle and has a next y
   # event: t is the time from it to the next x event, T is the y period

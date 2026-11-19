@@ -159,3 +159,13 @@ test_that("ami_histogram accepts bin edges", {
   expect_error(ami(x, 30, bins = q[-1]), "do not span")
   expect_error(ami(x, 30, bins = c(1, 1, 2)), "strictly increasing")
 })
+
+test_that("hilbert handles lengths 1 and 2 as MATLAB does", {
+  # The analytic signal of a length-1 or length-2 series has no imaginary
+  # part (only the DC and Nyquist bins exist); at length 3 it does.
+  expect_equal(hilbert(5), complex(real = 5, imaginary = 0))
+  expect_equal(hilbert(c(1, 2)), complex(real = c(1, 2), imaginary = c(0, 0)))
+  h3 <- hilbert(c(1, 2, 4))
+  expect_equal(Re(h3), c(1, 2, 4))
+  expect_equal(Im(h3), c(2, -3, 1) / sqrt(3), tolerance = 1e-12)  # MATLAB hilbert([1 2 4])
+})

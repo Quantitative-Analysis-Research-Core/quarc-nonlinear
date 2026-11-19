@@ -93,11 +93,15 @@ or three depending on the data.
 ## Status
 
 - **MATLAB** — reference implementation, active.
-- **Python** — `pypkg/` (package `quarcnonlinear`), built on the C++ core:
-  `ent_samp`, `fnn`, `corr_dim`, `lye_r`, `line_hist` and `psr`, each
-  matching MATLAB to rounding on the shared fixtures. The rest of the
-  library is not ported yet. The older port in the deprecated NONAN
-  repository has known defects and is not moved here.
+- **Python** — complete for the current library, in `pypkg/` (package
+  `quarcnonlinear`): the same 39 functions as R. `ent_samp`, `fnn`,
+  `corr_dim`, `lye_r` and `line_hist` run on the C++ core. Every
+  deterministic function matches MATLAB to rounding on the shared fixtures;
+  random ones (surrogates, `fgn_sim`) take an `rng` argument and are tested
+  by contract. Results use 0-based indices. Not ported: plotting, and the
+  legacy `ami_stergiou`/`ami_thomas` (superseded by `ami`). The older port
+  in the deprecated NONAN repository has known defects and is not moved
+  here.
 - **R** — complete for the current library, in `R/` (package
   `quarcnonlinear`). `ent_samp`, `fnn`, `corr_dim`, `lye_r` and `line_hist`
   run on the C++ core; the R code each replaced stays as the reference the
